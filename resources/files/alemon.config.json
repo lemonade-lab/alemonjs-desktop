@@ -1,0 +1,27 @@
+{
+  // 启动
+  "pm2": {
+    // 内置的 lvyjs
+    "script": "bin/lvyjs.js",
+    // 启动参数
+    "args": ["dev", "--alemonjs", "--login", "gui"],
+    // 环境
+    "env": {
+      // 开发模式
+      "NODE_ENV": "development"
+    }
+  },
+  // kook 平台
+  "kook": {
+    "token": ""
+  },
+  // 依赖包
+  "pkg": {
+    "@alemonjs/kook": "^0.0.2"
+  },
+  // 客户端
+  "gui": {
+    // 端口
+    "port": 9601
+  }
+}

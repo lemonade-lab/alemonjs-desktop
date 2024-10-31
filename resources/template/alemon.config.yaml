@@ -1,0 +1,15 @@
+pm2:
+  script: bin/lvyjs.js
+  args:
+    - dev
+    - --alemonjs
+    - --login
+    - gui
+  env:
+    NODE_ENV: development
+kook:
+  token: ''
+pkg:
+  '@alemonjs/kook': ^0.0.2
+gui:
+  port: 9601
