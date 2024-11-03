@@ -11,5 +11,5 @@ export default OnResponse(
     Send(msg)
   },
   'message.create',
-  /^(#|\/)?hello$/
+  /^(#|\/)?(hello|你好)$/
 )

@@ -1,4 +1,1 @@
-[
-  { "bot": false, "value": { "t": "text", "d": "/hello" }, "createAt": "2024-10-29 12:06:44" },
-  { "bot": true, "value": { "t": "text", "d": "hello word" }, "createAt": "2024-10-29 12:06:44" }
-]
+[{bot:false,value:{t:'text',d:'/你好'},createAt:'2024-11-03 17:33:04'},{bot:true,value:{t:'text',d:'hello word'},createAt:'2024-11-03 17:33:04'}]

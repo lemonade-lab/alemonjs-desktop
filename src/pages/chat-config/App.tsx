@@ -41,22 +41,23 @@ export default () => {
     configRef.current = config
   }, [config])
   return (
-    <section className="bg-white h-full flex flex-col">
+    <section className="bg-white relative h-full flex flex-col">
       <Header>
         <div className="flex-1  drag-area flex justify-center items-center"></div>
       </Header>
-      <section className="flex-1  relative px-2 py-1 flex flex-col   bg-zinc-50">
-        <FloatingMenu
-          list={[
-            {
-              title: '返回',
-              onClick: () => {
-                navigate('/chat')
-              }
-            }
-          ]}
-        />
 
+      <FloatingMenu
+        list={[
+          {
+            title: '返回',
+            onClick: () => {
+              navigate('/chat')
+            }
+          }
+        ]}
+      />
+
+      <section className="flex-1   px-2 py-1 flex flex-col   bg-zinc-50">
         <div className="bg-slate-200 flex flex-col px-2 py-4 rounded-md gap-2">
           <div className="flex px-2 gap-2  py-1 bg-blue-300  rounded-md">
             <div className=" ">HTTP地址</div>

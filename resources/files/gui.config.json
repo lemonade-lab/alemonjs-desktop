@@ -1,17 +1,1 @@
-{
-  "wsUri": "ws://localhost:9601",
-  "httpUri": "http://localhost:9601",
-  "event": {
-    "Platform": "",
-    "GuildId": "",
-    "ChannelId": "",
-    "IsMaster": true,
-    "UserId": "",
-    "UserName": "",
-    "UserAvatar": "",
-    "MsgId": "",
-    "OpenID": "",
-    "CreateAt": 0,
-    "value": null
-  }
-}
+{wsUri:'ws://localhost:9601',httpUri:'http://localhost:9601',event:{Platform:'',GuildId:'',ChannelId:'',IsMaster:true,UserId:'',UserName:'',UserAvatar:'',MsgId:'',OpenID:'',CreateAt:0,value:null}}

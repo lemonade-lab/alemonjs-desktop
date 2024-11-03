@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs'
+import { readdirSync, readFileSync, rmdirSync, statSync, unlinkSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { resourcesPath } from './static'
 /**

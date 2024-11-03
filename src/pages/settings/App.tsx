@@ -1,4 +1,5 @@
 import Header from '../Header'
+import JSON5 from 'json5'
 export default () => {
   return (
     <section className="bg-white h-full flex flex-col">
@@ -16,25 +17,42 @@ export default () => {
             <div className="px-2 py-1 text-xl">聊天数据</div>
             <div className=" w-full flex flex-col gap-2 bg-white px-2 py-3 rounded-md">
               <div className="flex">
-                <div className="flex-1">文本</div>
-                <div className="cursor-pointer border px-2 rounded-md bg-blue-300 text-white hover:bg-blue-400">
+                <div className="flex-1">记录（删除所有图文数据）</div>
+                <div
+                  onClick={() => {
+                    window.app.writeResourcesFilesTestMessageJson(JSON5.stringify([])).then(res => {
+                      if (res) {
+                        alert('清理成功')
+                      } else {
+                        alert('清理失败')
+                      }
+                    })
+                  }}
+                  className="cursor-pointer border px-2 rounded-md bg-blue-300 text-white hover:bg-blue-400"
+                >
                   清理
                 </div>
               </div>
               <div className="flex">
-                <div className="flex-1">图片</div>
-                <div className="cursor-pointer border px-2 rounded-md bg-blue-300 text-white hover:bg-blue-400">
+                <div className="flex-1">图片（清理本机中存在的图片）</div>
+                <div
+                  onClick={() => {
+                    window.app.rmTemplateFiles().then(res => {
+                      alert('清理成功')
+                    })
+                  }}
+                  className="cursor-pointer border px-2 rounded-md bg-blue-300 text-white hover:bg-blue-400"
+                >
                   清理
                 </div>
               </div>
             </div>
           </section>
-
           <section>
             <div className="px-2 py-1 text-xl">本机数据</div>
             <div className=" w-full flex flex-col gap-2 bg-white px-2 py-3 rounded-md">
               <div className="flex">
-                <div className="flex-1">所有</div>
+                <div className="flex-1">所有（待更新。。。。）</div>
                 <div className="cursor-pointer border px-2 rounded-md bg-blue-300 text-white hover:bg-blue-400">
                   清理
                 </div>

@@ -6,10 +6,12 @@ import Docs from '@src/pages/docs/App'
 import Setting from '@src/pages/settings/App'
 import img_logo from '@src/assets/logo.jpg'
 import ChatConfig from '@src/pages/chat-config/App'
+import Code from '@src/pages/code/App'
 import {
   AboutIcon,
   AppsIcon,
   ChatbotIcon,
+  CodeIcon,
   GlobeIcon,
   MenuIcon,
   SettingIcon
@@ -27,6 +29,10 @@ export default () => {
     {
       Icon: <ChatbotIcon />,
       onclick: () => navigate('/chat')
+    },
+    {
+      Icon: <CodeIcon />,
+      onclick: () => navigate('/code')
     },
     {
       Icon: <GlobeIcon />,
@@ -106,6 +112,7 @@ export default () => {
       <article className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/code" element={<Code />} />
           <Route path="/about" element={<About />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/docs" element={<Docs />} />

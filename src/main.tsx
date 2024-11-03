@@ -31,6 +31,7 @@ declare global {
       writeResourcesFilesTestMessageJson: (data: string) => Promise<boolean>
       readResourcesFilesGuiConfigJson: () => Promise<string>
       writeResourcesFilesGuiConfigJson: (data: string) => Promise<boolean>
+      rmTemplateFiles: () => Promise<void>
     }
     controller: {
       minimize: () => Promise<void>

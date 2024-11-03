@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { SendIcon } from '../Icons'
 import moment from 'moment'
 import img_logo from '@src/assets/logo.jpg'
@@ -128,12 +128,19 @@ export default () => {
     }
   }, [])
 
+  const MessageWindowRef = useRef<HTMLElement>(null)
+
   // 变动时自动清理
   useEffect(() => {
     // 清空
     setValue('')
     // save
     window.app.writeResourcesFilesTestMessageJson(JSON5.stringify(message))
+
+    if (MessageWindowRef.current) {
+      // 滚动到底部
+      MessageWindowRef.current.scrollTo(0, MessageWindowRef.current.scrollHeight)
+    }
   }, [message])
 
   /**
@@ -179,32 +186,36 @@ export default () => {
           </div>
         </div>
       </Header>
-      <section className="flex-1 relative px-3 py-2 overflow-y-auto flex gap-1 flex-col webkit bg-slate-50 bg-opacity-50">
-        <FloatingMenu
-          list={[
-            {
-              title: '连接',
-              onClick: onClickConnect
-            },
-            {
-              title: '断开',
-              onClick: onClickclose
-            },
-            {
-              title: '配置',
-              onClick: () => {
-                navigate('/chat-config')
-              }
-            },
-            {
-              title: '消息',
-              onClick: () => {
-                navigate('/chat-message-config')
-              }
-            }
-          ]}
-        />
 
+      <FloatingMenu
+        list={[
+          {
+            title: '连接',
+            onClick: onClickConnect
+          },
+          {
+            title: '断开',
+            onClick: onClickclose
+          },
+          {
+            title: '配置',
+            onClick: () => {
+              navigate('/chat-config')
+            }
+          },
+          {
+            title: '消息',
+            onClick: () => {
+              navigate('/chat-message-config')
+            }
+          }
+        ]}
+      />
+
+      <section
+        ref={MessageWindowRef}
+        className="flex-1  px-3 py-2 overflow-y-auto flex gap-1 flex-col webkit bg-slate-50 bg-opacity-50"
+      >
         {message.map((item, index) => (
           <div key={index} className="flex  gap-4 bg-opacity-70 mr-auto ">
             <img
@@ -214,7 +225,13 @@ export default () => {
               alt="Avatar"
             />
             <div className="rounded-md relative p-1 m-auto bg-slate-200">
-              {item.value.t == 'text' && <span>{item.value.d}</span>}
+              {item.value.t == 'text' &&
+                item.value.d.split('\n').map((line: string, index: number) => (
+                  <Fragment key={index}>
+                    {line}
+                    {index < item.value.d.split('\n').length - 1 && <br />}
+                  </Fragment>
+                ))}
               {item.value.t == 'image' && (
                 <img
                   className="max-w-[20rem] xl:max-w-[25rem]"

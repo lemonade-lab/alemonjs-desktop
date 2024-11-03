@@ -21,7 +21,8 @@ contextBridge.exposeInMainWorld('app', {
     ipcRenderer.invoke('write-resources-files-test-message-json', data),
   readResourcesFilesGuiConfigJson: () => ipcRenderer.invoke('read-resources-files-gui-config-json'),
   writeResourcesFilesGuiConfigJson: (data: string) =>
-    ipcRenderer.invoke('write-resources-files-gui-config-json', data)
+    ipcRenderer.invoke('write-resources-files-gui-config-json', data),
+  rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir')
 })
 
 contextBridge.exposeInMainWorld('controller', {
