@@ -13,11 +13,13 @@ import {
   ChatbotIcon,
   CodeIcon,
   GlobeIcon,
+  HelpIcon,
   MenuIcon,
+  RefreshIcon,
   SettingIcon
 } from '@src/pages/Icons'
 import ChatMessageConfig from '@src/pages/chat-message-config/App'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default () => {
   const navigate = useNavigate()
@@ -41,9 +43,28 @@ export default () => {
   ]
   const [isOpen, setIsOpen] = useState(false)
   const toggleMenu = () => setIsOpen(!isOpen)
+
+  const menuRef = useRef<HTMLElement>(null)
+  // 处理点击外部关闭菜单
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && event.target && !menuRef.current.contains(event.target as any)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
-    <main className="flex flex-row h-full">
-      <section className="flex flex-col w-[4.3rem] bg-gradient-to-tl from-sky-900 to-indigo-900 relative">
+    <main className="flex  flex-row h-full">
+      <section
+        ref={menuRef}
+        className="flex flex-col w-[4.3rem] bg-gradient-to-tl from-sky-900 to-indigo-900 relative"
+      >
         {window.versions.platform != 'win32' && <section className="h-6" />}
         <section className="flex justify-center py-1 relative cursor-pointer">
           <img
@@ -56,7 +77,7 @@ export default () => {
           {Apps.map((Item, index) => (
             <div
               key={index}
-              className="my-2 cursor-pointer shadow-content bg-white bg-opacity-90 p-1 rounded-md"
+              className="my-2 cursor-pointer shadow-content bg-white bg-opacity-90 p-1 rounded-md background-white"
               onClick={Item.onclick}
             >
               {Item.Icon}
@@ -69,20 +90,20 @@ export default () => {
             <MenuIcon />
           </div>
           {isOpen && (
-            <div className="absolute left-[4.3rem] bottom-4 mt-2 w-48 bg-gradient-to-tl from-sky-300 to-indigo-200 border border-gray-200 rounded shadow-centent z-10">
+            <div className="absolute left-[4.3rem] bottom-4 mt-2 w-48 bg-gradient-to-r from-blue-100 via-blue-300 to-blue-300 border border-gray-200 rounded shadow-centent z-10">
               <ul className="p-1 text-sm">
                 <li
                   className="px-2 hover:bg-gray-50 flex  items-center rounded-md cursor-pointer "
                   onClick={() => window.controller.update()}
                 >
-                  <div>
-                    <AboutIcon width="20" />
+                  <div className=" ">
+                    <RefreshIcon width="20" />
                   </div>
                   <div className="ml-2">检查更新</div>
                 </li>
                 <li className="px-2 hover:bg-gray-50 flex  items-center rounded-md cursor-pointer ">
-                  <div>
-                    <AboutIcon width="20" />
+                  <div className=" fill-white">
+                    <HelpIcon width="20" />
                   </div>
                   <div className="ml-2">帮助</div>
                 </li>
@@ -90,7 +111,7 @@ export default () => {
                   className="px-2 hover:bg-gray-50 flex  items-center rounded-md cursor-pointer "
                   onClick={() => navigate('/setting')}
                 >
-                  <div>
+                  <div className="">
                     <SettingIcon width="20" />
                   </div>
                   <div className="ml-2">设置</div>
@@ -99,7 +120,7 @@ export default () => {
                   className="px-2 hover:bg-gray-50 flex  items-center rounded-md cursor-pointer "
                   onClick={() => navigate('/about')}
                 >
-                  <div>
+                  <div className="">
                     <AboutIcon width="20" />
                   </div>
                   <div className="ml-2">关于</div>

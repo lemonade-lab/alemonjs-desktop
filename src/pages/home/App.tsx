@@ -85,13 +85,13 @@ export default () => {
         <div className="flex-1  drag-area flex justify-center items-center"></div>
       </Header>
 
-      <section className="flex-1 gap-4 flex flex-col px-2 overflow-y-auto webkit py-2 ">
-        <section className="px-2 border rounded-md">
-          <div className="m-auto flex gap-4 py-1 items-center">
+      <section className="flex-1 gap-1 flex flex-col px-2 overflow-y-auto webkit py-2 ">
+        <section className="px-2 border rounded-md bg-slate-600 text-white">
+          <div className="m-auto flex gap-4 py-1 items-center ">
             <div className=" py-1 px-4 rounded-md">机器状态 : {status ? '已启动' : '未启动'}</div>
             {status ? (
               <button
-                className="border py-1 px-2 rounded-md bg-blue-500 hover:bg-blue-400"
+                className="border px-2 rounded-md  hover:bg-blue-400"
                 onClick={() => {
                   // 点击关闭
                   window.app.botClose()
@@ -101,10 +101,7 @@ export default () => {
                 <span className="text-white">关闭</span>
               </button>
             ) : (
-              <button
-                className="border py-1 px-2 rounded-md bg-blue-500 hover:bg-blue-400"
-                onClick={onClickStart}
-              >
+              <button className="border px-2 rounded-md  hover:bg-blue-400" onClick={onClickStart}>
                 <span className="text-white">启动</span>
               </button>
             )}
@@ -113,8 +110,8 @@ export default () => {
         </section>
         <div className="flex-1 flex gap-2">
           <section className="flex-1 flex flex-col ">
-            <div className="flex justify-between items-center min-h-10 bg-slate-300 px-4 rounded-t-md">
-              <div>alemon.config.json</div>
+            <div className="flex justify-between items-center min-h-10 bg-slate-800 bg-opacity-80 text-white px-4 rounded-t-md">
+              <div>运行配置</div>
               <div className="">
                 {configText.init != configText.value && (
                   <>
@@ -183,6 +180,7 @@ export default () => {
                 }}
               />
             </div>
+            <div className="flex justify-between items-center min-h-3 bg-slate-800 bg-opacity-80 text-white px-4 rounded-b-md"></div>
           </section>
         </div>
       </section>

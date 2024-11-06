@@ -3,6 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Noto Serif SC';
+  src: url('./assets/front/NotoSerifSC-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 html,
 body {
   margin: 0;
@@ -23,9 +30,17 @@ body {
   cursor: move;
 }
 
+// 增加字体
+div,
+section,
+span {
+  font-family: "Noto Serif SC", serif;
+}
+
 * {
   // 消除所有可文本可选
   user-select: none;
+
   // 消除所有滚动条
   &::-webkit-scrollbar {
     width: 0;
@@ -72,4 +87,9 @@ body {
     width: 0;
     height: 0;
   }
+}
+
+
+.background-white {
+  background: white;
 }

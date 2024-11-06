@@ -6,13 +6,13 @@ export default () => {
       <Header>
         <div className="flex-1  drag-area flex justify-center items-center"></div>
       </Header>
-      <section className="flex-1 px-2 py-1 flex  items-center ">
-        <section className="w-28 bg-blue-100 bg-opacity-90 h-full rounded-l-md p-2">
+      <section className="flex-1 mx-2 my-2 shadow-centent border rounded-md flex  items-center ">
+        <section className="w-28 bg-blue-300 to-blue-200 h-full rounded-l-md p-2">
           <div className="bg-slate-50 rounded-md px-2 py-1 hover:bg-slate-100 cursor-pointer">
             通用
           </div>
         </section>
-        <section className="flex-1 bg-blue-200 bg-opacity-70 h-full rounded-r-md p-2 ">
+        <section className="flex-1 bg-gradient-to-r from-blue-100 via-blue-300 to-blue-300  h-full rounded-r-md p-2 ">
           <section>
             <div className="px-2 py-1 text-xl">聊天数据</div>
             <div className=" w-full flex flex-col gap-2 bg-white px-2 py-3 rounded-md">
@@ -33,6 +33,7 @@ export default () => {
                   清理
                 </div>
               </div>
+              <div className="border"></div>
               <div className="flex">
                 <div className="flex-1">图片（清理本机中存在的图片）</div>
                 <div

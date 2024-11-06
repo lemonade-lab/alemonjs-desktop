@@ -7,36 +7,51 @@ export default () => {
   //
   const navigate = useNavigate()
   //
-  const [config, setConfig] = useState({
+  const namesMap: {
+    [key: string]: string
+  } = {
+    httpUri: 'HTTP 地址',
+    wsUri: 'WS 地址'
+  }
+  //
+  const [config, setConfig] = useState<{
+    [key: string]: string
+  }>({
     httpUri: '',
     wsUri: ''
   })
+  //
+  const configRef = useRef(config)
   //
   const save = () => {
     window.app.readResourcesFilesGuiConfigJson().then(res => {
       const data = JSON5.parse(res)
       data.httpUri = configRef.current.httpUri
       data.wsUri = configRef.current.wsUri
-      window.app.writeResourcesFilesGuiConfigJson(JSON5.stringify(data))
+      if (data.httpUri != '' && data.wsUri != '') {
+        window.app.writeResourcesFilesGuiConfigJson(JSON5.stringify(data))
+      }
     })
   }
   //
   const init = () => {
     window.app.readResourcesFilesGuiConfigJson().then(res => {
       const data = JSON5.parse(res)
-      setConfig({
+      const config = {
         httpUri: data.httpUri,
         wsUri: data.wsUri
-      })
+      }
+      configRef.current = config
+      setConfig(config)
     })
   }
+  //
   useEffect(() => {
     init()
     return () => {
       save()
     }
   }, [])
-  const configRef = useRef(config)
   useEffect(() => {
     configRef.current = config
   }, [config])
@@ -45,7 +60,6 @@ export default () => {
       <Header>
         <div className="flex-1  drag-area flex justify-center items-center"></div>
       </Header>
-
       <FloatingMenu
         list={[
           {
@@ -56,38 +70,29 @@ export default () => {
           }
         ]}
       />
-
-      <section className="flex-1   px-2 py-1 flex flex-col   bg-zinc-50">
-        <div className="bg-slate-200 flex flex-col px-2 py-4 rounded-md gap-2">
-          <div className="flex px-2 gap-2  py-1 bg-blue-300  rounded-md">
-            <div className=" ">HTTP地址</div>
+      <section className="flex-1  p-2 flex flex-col items-center bg-zinc-50 gap-1">
+        {Object.entries(config).map(([key], index) => (
+          <div
+            key={index}
+            className="flex px-2 gap-2 py-1 bg-blue-300 w-full
+           rounded-md"
+          >
+            <div className="w-72">
+              <span>{namesMap[key]}</span>
+            </div>
             <input
-              className="px-2 rounded-md outline-none"
-              value={config.httpUri}
+              value={configRef.current[key]}
+              className="px-2 rounded-md outline-none w-full"
               onChange={e => {
-                setConfig({
-                  ...config,
-                  httpUri: e.target.value
+                console.log(`${key}: ${e.target.value}`)
+                useState({
+                  ...configRef.current,
+                  [key]: e.target.value
                 })
               }}
-              placeholder="请输入请求地址"
             />
           </div>
-          <div className="flex  gap-2 px-2 py-1 bg-blue-300 rounded-md">
-            <div className="">WS地址</div>
-            <input
-              className="px-2 rounded-md outline-none "
-              value={config.wsUri}
-              onChange={e => {
-                setConfig({
-                  ...config,
-                  wsUri: e.target.value
-                })
-              }}
-              placeholder="请输入链接地址"
-            />
-          </div>
-        </div>
+        ))}
       </section>
     </section>
   )

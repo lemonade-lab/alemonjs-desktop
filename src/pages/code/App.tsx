@@ -22,15 +22,15 @@ export default () => {
     )
   }, [])
   return (
-    <section className="bg-white h-full flex flex-col">
+    <section className=" h-full flex flex-col">
       <Header>
         <div className="flex-1  drag-area flex justify-center items-center"></div>
       </Header>
       <section className="flex-1 flex flex-col overflow-y-auto webkit ">
         <div className="flex-1 flex">
           <section className="flex-1 flex flex-col ">
-            <div className="flex justify-between items-center min-h-10 bg-slate-300 px-4">
-              <div>src/apps/hello/res.ts</div>
+            <div className="flex justify-between items-center min-h-10 bg-slate-800 bg-opacity-80 text-white px-4">
+              <div>{'src>apps>hello>res.ts'}</div>
               <div className="">
                 {codeText.init != codeText.value && (
                   <>
@@ -98,6 +98,7 @@ export default () => {
                 }}
               />
             </div>
+            <div className="flex justify-between items-center min-h-3 bg-slate-800 bg-opacity-80 text-white px-4 rounded-b-md"></div>
           </section>
         </div>
       </section>
