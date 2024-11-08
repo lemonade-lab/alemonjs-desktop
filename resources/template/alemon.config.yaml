@@ -7,9 +7,11 @@ pm2:
     - gui
   env:
     NODE_ENV: development
-kook:
-  token: ''
 pkg:
-  '@alemonjs/kook': ^0.0.2
+  "@alemonjs/kook": ^0.0.3
+  "@alemonjs/gui": ^0.0.3
+  alemonjs: ^2.0.0-rc.44
+kook:
+  token: ""
 gui:
   port: 9601

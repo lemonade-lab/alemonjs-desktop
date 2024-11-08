@@ -12,6 +12,9 @@ contextBridge.exposeInMainWorld('app', {
     ipcRenderer.invoke('read-resources-files-alemon-config-json'),
   writeResourcesAlemonConfigJson: (data: string) =>
     ipcRenderer.invoke('write-resources-files-alemon-config-json', data),
+  readResourcesFilesEventJson: () => ipcRenderer.invoke('read-resources-files-event-json'),
+  writeResourcesFilesEventJson: (data: string) =>
+    ipcRenderer.invoke('write-resources-files-event-json', data),
   readResourcesTmSrcHelloResTs: () => ipcRenderer.invoke('read-resources-tm-src-hello-res-ts'),
   writeResourcesTmSrcHelloResTs: (data: string) =>
     ipcRenderer.invoke('write-resources-tm-src-hello-res-ts', data),

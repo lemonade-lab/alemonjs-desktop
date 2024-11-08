@@ -71,7 +71,7 @@ export default () => {
         ]}
       />
       <section className="flex-1  p-2 flex flex-col items-center bg-zinc-50 gap-1">
-        {Object.entries(config).map(([key], index) => (
+        {Object.entries(configRef.current).map(([key], index) => (
           <div
             key={index}
             className="flex px-2 gap-2 py-1 bg-blue-300 w-full
@@ -81,12 +81,11 @@ export default () => {
               <span>{namesMap[key]}</span>
             </div>
             <input
-              value={configRef.current[key]}
+              value={config[key]}
               className="px-2 rounded-md outline-none w-full"
               onChange={e => {
-                console.log(`${key}: ${e.target.value}`)
-                useState({
-                  ...configRef.current,
+                setConfig({
+                  ...config,
                   [key]: e.target.value
                 })
               }}

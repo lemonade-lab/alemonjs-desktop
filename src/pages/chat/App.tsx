@@ -12,8 +12,6 @@ import FloatingMenu from '@src/FloatingMenu'
 export default () => {
   const navigate = useNavigate()
 
-  const [isOpen, setIsOpen] = useState(false)
-  const toggleMenu = () => setIsOpen(!isOpen)
   const [status, setStatus] = useState<'open' | 'close'>('close')
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const [message, setMessage] = useState<
@@ -30,6 +28,19 @@ export default () => {
     wsUri: '',
     httpUri: ''
   })
+
+  const [event, setEvent] = useState({
+    Platform: '',
+    GuildId: '',
+    ChannelId: '',
+    IsMaster: 0,
+    UserId: '',
+    UserName: '',
+    UserAvatar: '',
+    MsgId: '',
+    OpenID: ''
+  })
+
   const [value, setValue] = useState('')
   // static
   const map = {
@@ -57,7 +68,7 @@ export default () => {
       const event = JSON.parse(db.data)
       console.log('event', event)
       if (event.t == 'send_message') {
-        const txt = event.d.find((item: any) => item.t == 'text')
+        const txt = event.d.MsgBody.find((item: any) => item.t == 'text')
         if (txt) {
           // 使用函数式更新
           setMessage(prevMessages =>
@@ -73,7 +84,7 @@ export default () => {
             ])
           )
         }
-        const img = event.d.find((item: any) => item.t == 'image')
+        const img = event.d.MsgBody.find((item: any) => item.t == 'image')
         if (img) {
           console.log('img.d', img.d)
           setMessage(prevMessages =>
@@ -115,6 +126,12 @@ export default () => {
     window.app.readResourcesFilesTestMessageJson().then(res => {
       const data = JSON5.parse(res)
       setMessage(data)
+    })
+
+    window.app.readResourcesFilesEventJson().then(res => {
+      const data = JSON5.parse(res)
+      console.log('data', data)
+      setEvent(data['message.create'])
     })
 
     window.app.readResourcesFilesGuiConfigJson().then(res => {
@@ -167,12 +184,15 @@ export default () => {
       socket.send(
         JSON.stringify({
           t: 'send_message',
-          d: [
-            {
-              t: 'text',
-              d: msg
-            }
-          ]
+          d: {
+            ...event,
+            MsgBody: [
+              {
+                t: 'text',
+                d: msg
+              }
+            ]
+          }
         })
       )
     }

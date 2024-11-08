@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@alemonjs/gui@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmmirror.com/@alemonjs/gui/-/gui-0.0.2.tgz#361d504ff833a70c5d63d3b5734e75028c93059a"
-  integrity sha512-jmKvHz3qCoKozSHWFogqbzVflHoxkMm+8WdVfCGn2VPWSav9FpONrB2tNRrNqebcsvz/xatRVO2aal+PDClBhQ==
+"@alemonjs/gui@^0.0.3":
+  version "0.0.3"
+  resolved "http://registry.npm.baidu-int.com/@alemonjs%2fgui/-/gui-0.0.3.tgz#a6d715da0d7423cd160c1e08fbe9b1b920dd1a19"
+  integrity sha512-s3ApQ2TGPgYjVyHgU0w3P+HOGMUZ/RqfX9tAPU92EoRwHj0BhDcM/oMo2UHZaA4skxLN6S745qaQAUsGCbhjUQ==
   dependencies:
     koa "^2.15.3"
     koa-mount "^4.0.0"
     koa-static "^5.0.0"
     ws "^8.18.0"
 
-"@alemonjs/kook@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmmirror.com/@alemonjs/kook/-/kook-0.0.2.tgz#c2378720782663e64a236825be56f315a1051635"
-  integrity sha512-cvbHxb1yK2yhHgyPv7aDZ7wW+5yWYHP/w7KOnsgeZ+r7774WaGyLwMr98JGB9YSlEKv0lyZZWF6WBXu2BrPYew==
+"@alemonjs/kook@^0.0.3":
+  version "0.0.3"
+  resolved "http://registry.npm.baidu-int.com/@alemonjs%2fkook/-/kook-0.0.3.tgz#388095389bbaa4c461553c0d5baf3cb17a86ea66"
+  integrity sha512-aiBBgSzLqJxWSunSfkwwRtlVmv8IN4+Hbrp5H6PXn3tCMjEy39zKaOVYRas4hpOzVKDlxCRefADByoE2q5IOHg==
   dependencies:
-    chat-space "^0.0.3"
+    chat-space "^0.0.6"
 
 "@alloc/quick-lru@^5.2.0":
   version "5.2.0"
@@ -1104,10 +1104,10 @@ aggregate-error@^4.0.1:
     clean-stack "^4.0.0"
     indent-string "^5.0.0"
 
-alemonjs@2.0.0-rc.42:
-  version "2.0.0-rc.42"
-  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.42.tgz#eae035776def3ae31eecd89358413235c8dae6fe"
-  integrity sha512-Fkuq/vlM6zpKjNEhGGDKVXu2YNUXcYD5sDvZrJ8Ph+EgL2j/OEIdO43Oto3y7lAHZxZuVvjer4cwsLHgGAj+7w==
+alemonjs@^2.0.0-rc.44:
+  version "2.0.0-rc.44"
+  resolved "http://registry.npm.baidu-int.com/alemonjs/-/alemonjs-2.0.0-rc.44.tgz#f8795c7b7e252e08f9214de7e108a7638f834e6e"
+  integrity sha512-0wkPVg15nVbjkRcKkhPTcfo0iR8uwqrcjWhY8WwT3DsfDzTaMaT5nacayITjicAjRQIDO+hpOsXeXia/jQjBsA==
   dependencies:
     chalk "^5.3.0"
     ioredis "^5.4.1"
@@ -1511,10 +1511,10 @@ charm@~0.1.1:
   resolved "https://registry.npmmirror.com/charm/-/charm-0.1.2.tgz#06c21eed1a1b06aeb67553cdc53e23274bac2296"
   integrity sha512-syedaZ9cPe7r3hoQA9twWYKu5AIyCswN5+szkmPBe9ccdLrj4bYaCnLVPTLd2kgVRc7+zoX4tyPgRnFKCj5YjQ==
 
-chat-space@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmmirror.com/chat-space/-/chat-space-0.0.3.tgz#1f31149ab62ad4fe8168052d0f9b6758d48aebe3"
-  integrity sha512-74AlDuUryCN/Qi+GOc6xT9j69uJtaPGzE7Y3tkujVqsWV2HfRRnDmzzuwqm/xZCWdctlrdJj7tZsTvQvJ5KVPw==
+chat-space@^0.0.6:
+  version "0.0.6"
+  resolved "http://registry.npm.baidu-int.com/chat-space/-/chat-space-0.0.6.tgz#85d8b4ac689c692202babb794f3fabd2f0b8eb44"
+  integrity sha512-qqkBPhGK5foPS3Aa1zLHig9Fu5CDZiEZ1BLJnmsZCQJjfWNufL3alIm1TWzHqal2ICKr6XC85FQmdKbx7Kqp6w==
   dependencies:
     axios "^1.4.0"
     file-type "^18.5.0"
@@ -5735,7 +5735,16 @@ strict-uri-encode@^2.0.0:
   resolved "https://registry.npmmirror.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
   integrity sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -5760,7 +5769,14 @@ string_decoder@^1.1.1:
   dependencies:
     safe-buffer "~5.2.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -6215,7 +6231,7 @@ which@^5.0.0:
   dependencies:
     isexe "^3.1.1"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npmmirror.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -6228,6 +6244,15 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmmirror.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmmirror.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"

@@ -11,13 +11,15 @@
       "NODE_ENV": "development"
     }
   },
+  // 依赖包
+  "pkg": {
+    "@alemonjs/kook": "^0.0.3",
+    "@alemonjs/gui": "^0.0.3",
+    "alemonjs": "^2.0.0-rc.44"
+  },
   // kook 平台
   "kook": {
     "token": ""
-  },
-  // 依赖包
-  "pkg": {
-    "@alemonjs/kook": "^0.0.2"
   },
   // 客户端
   "gui": {

@@ -1,22 +1,37 @@
 import FloatingMenu from '@src/FloatingMenu'
 import Header from '../Header'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import JSON5 from 'json5'
+
+type EventType = {
+  [key: string]: any
+  Platform: string
+  GuildId: string
+  ChannelId: string
+  IsMaster: number
+  UserId: string
+  UserName: string
+  UserAvatar: string
+  MsgId: string
+  OpenID: string
+}
+
 export default () => {
   const navigate = useNavigate()
-  const [data, setData] = useState({
+  //
+  const [event, setEvent] = useState<EventType>({
     Platform: '',
     GuildId: '',
     ChannelId: '',
-    IsMaster: true,
+    IsMaster: 0,
     UserId: '',
     UserName: '',
     UserAvatar: '',
     MsgId: '',
-    OpenID: '',
-    CreateAt: 0,
-    value: null
+    OpenID: ''
   })
+  //
   const namesMap: {
     [key: string]: any
   } = {
@@ -28,10 +43,47 @@ export default () => {
     UserName: '用户名',
     UserAvatar: '用户头像',
     MsgId: '消息编号',
-    OpenID: '对话编号',
-    CreateAt: '时间戳',
-    value: '原型消息'
+    OpenID: '对话编号'
   }
+
+  const configRef = useRef<EventType>(event)
+
+  // 保存
+  const save = () => {
+    window.app.readResourcesFilesEventJson().then(res => {
+      const data = JSON5.parse(res)
+      const NewData = {
+        ...data,
+        'message.create': configRef.current
+      }
+      console.log('NewData', NewData)
+      window.app.writeResourcesFilesEventJson(JSON5.stringify(NewData))
+    })
+  }
+
+  // 初始化
+  const init = () => {
+    window.app.readResourcesFilesEventJson().then(res => {
+      const data = JSON5.parse(res)
+      const config = data['message.create']
+      configRef.current = config
+      setEvent(config)
+    })
+  }
+
+  //
+  useEffect(() => {
+    init()
+    return () => {
+      save()
+    }
+  }, [])
+
+  //
+  useEffect(() => {
+    configRef.current = event
+  }, [event])
+
   return (
     <section className="bg-white relative h-full flex flex-col">
       <Header>
@@ -48,7 +100,7 @@ export default () => {
         ]}
       />
       <section className="flex-1  p-2 flex flex-col items-center bg-zinc-50 gap-1">
-        {Object.entries(data).map(([key], index) => (
+        {Object.entries(configRef.current).map(([key], index) => (
           <div
             key={index}
             className="flex px-2 gap-2 py-1 bg-blue-300 w-full
@@ -58,13 +110,14 @@ export default () => {
               <span>{namesMap[key]}</span> <span>{key}</span>
             </div>
             <input
+              value={event[key]}
               className="px-2 rounded-md outline-none w-full"
               onChange={e => {
-                console.log(`${key}: ${e.target.value}`)
-                // useState({
-                //   ...data,
-                //   [key]: e.target.value
-                // })
+                console.log('e.target.value', e.target.value)
+                setEvent({
+                  ...event,
+                  [key]: e.target.value
+                })
               }}
             />
           </div>

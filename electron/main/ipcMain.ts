@@ -122,6 +122,22 @@ ipcMain.handle('write-resources-files-test-message-json', (_, res) => {
   }
 })
 
+ipcMain.handle('read-resources-files-event-json', () => {
+  return readResourcesFileSync(['files', 'event.json'])
+})
+
+ipcMain.handle('write-resources-files-event-json', (_, res) => {
+  try {
+    // 确保格式正确
+    JSON5.parse(res)
+    writeResourcesFileSync(['files', 'event.json'], res)
+    return true
+  } catch (err) {
+    logger.error('write resources error:', err)
+    return false
+  }
+})
+
 ipcMain.handle('read-resources-files-gui-config-json', () => {
   return readResourcesFileSync(['files', 'gui.config.json'])
 })
