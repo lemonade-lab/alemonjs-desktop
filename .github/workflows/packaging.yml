@@ -41,12 +41,12 @@ jobs:
         run: |
           sh .github/script/build.sh
 
-      # - name: 安装 rsync
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install rsync -y
-      #     rsync --version
+      - name: 安装 rsync
+        run: |
+          sudo apt-get update
+          sudo apt-get install rsync -y
+          rsync --version
 
-      # - name: 推送到服务器
-      #   run: |
-      #     rsync -avz --delete ./release/ ${{ secrets.SSH_SERVER_USER }}@${{ secrets.SSH_SERVER_IP_CONFIG }}:/usr/local/nginx/desktop/release
+      - name: 推送到服务器
+        run: |
+          rsync -avz --delete ./release/ ${{ secrets.SSH_SERVER_USER }}@${{ secrets.SSH_SERVER_IP_CONFIG }}:/usr/local/nginx/desktop/release

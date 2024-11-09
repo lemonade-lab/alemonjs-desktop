@@ -11,3 +11,5 @@ yarn install --ignore-engines
 yarn icons
 # 打包
 yarn build --mac --win --linux
+# delete unpacked
+sudo rm -rf release/*-unpacked release/mac release/mac-arm64
