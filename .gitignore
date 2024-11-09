@@ -58,6 +58,6 @@ pnpm-lock.yaml
 /playwright-report/
 /playwright/.cache/
 
+/build
 /icons
-
 /rust

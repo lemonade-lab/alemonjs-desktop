@@ -1,1 +1,1 @@
-{wsUri:'ws://localhost:9601',httpUri:'http://localhost:9601'}
+{ "wsUri": "ws://localhost:9601", "httpUri": "http://localhost:9601" }

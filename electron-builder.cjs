@@ -6,68 +6,54 @@
  */
 module.exports = {
   appId: 'com.alemonjs.desktop',
-  productName: 'AlemonJS', // 你的应用程序名称
+  productName: 'AlemonJS',
   asar: true,
   electronDownload: {
-    mirror: 'https://npmmirror.com/mirrors/electron/' // electron下载地址
+    mirror: 'https://npmmirror.com/mirrors/electron/'
   },
   directories: {
-    output: 'release/${version}-' + Date.now()
+    output: 'release'
   },
-  // dist-electron --  dscltop
-  // disc   -- web
-  // npm  -- yarn
   files: ['dist-electron', 'dist', 'icons'],
   mac: {
     icon: './icons/icon.icns',
-    artifactName: '${productName}-${version}.${ext}',
-    target: ['dmg'],
-    // 更新地址
-    publish: {
-      provider: 'generic',
-      url: 'https://alemonjs.com/desktop/update/version/mac'
-    }
+    target: [
+      {
+        target: 'dmg',
+        arch: ['x64', 'arm64']
+      }
+    ],
+    artifactName: '${productName}-${version}-${arch}.${ext}'
   },
   linux: {
     icon: './icons/512x512.png',
+
     target: [
       {
-        // AppImage格式
         target: 'AppImage',
-        arch: ['x64']
+        arch: ['x64', 'arm64']
       },
       {
-        // Debian包
         target: 'deb',
-        arch: ['x64']
+        arch: ['x64', 'arm64']
       }
     ],
-    artifactName: '${productName}-${version}.${ext}',
-    publish: {
-      provider: 'generic',
-      url: 'https://alemonjs.com/desktop/update/version/linux'
-    }
+    category: 'Utility',
+    artifactName: '${productName}-${version}-${arch}.${ext}'
   },
   win: {
     icon: './icons/icon.ico',
-    // 压缩 快速打包 测试用
-    // compression:'store',
     target: [
       {
         target: 'nsis',
-        arch: ['x64']
+        arch: ['x64', 'arm64']
       },
       {
         target: '7z',
-        arch: ['x64']
+        arch: ['x64', 'arm64']
       }
     ],
-    artifactName: '${productName}-${version}.${ext}',
-    // 更新地址
-    publish: {
-      provider: 'generic',
-      url: 'https://alemonjs.com/desktop/update/version/win'
-    }
+    artifactName: '${productName}-${version}-${arch}.${ext}'
   },
   nsis: {
     oneClick: false, // 是否一键安装
@@ -93,9 +79,10 @@ module.exports = {
     // license: './LICENSE.txt', // 许可证 需要gb2312格式
     // include: './alemon.nsh'
   },
-  // 额外的资源文件
-  // 用于放置模版
-  // 在打包后的resources目录下
+  publish: {
+    provider: 'generic',
+    url: 'https://alemonjs.com/desktop/release'
+  },
   extraResources: [
     {
       from: 'resources/files',
