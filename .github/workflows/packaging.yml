@@ -43,8 +43,8 @@ jobs:
 
       - name: 安装 rsync
         run: |
-          sudo apt-get update
-          sudo apt-get install rsync -y
+          brew update
+          brew install rsync
           rsync --version
 
       - name: 推送到服务器
