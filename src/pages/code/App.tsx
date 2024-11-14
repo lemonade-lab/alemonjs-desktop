@@ -5,6 +5,7 @@ import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/theme-solarized_dark'
 import 'ace-builds/src-noconflict/ext-language_tools'
 import Header from '../Header'
+
 /**
  * 无法正常关闭 机器人
  */
@@ -14,23 +15,19 @@ export default () => {
     value: ``
   })
   useEffect(() => {
-    window.app.readResourcesTmSrcHelloResTs().then(res =>
-      setCodeText({
-        init: res,
-        value: res
-      })
-    )
+    window.app.readResourcesTmSrcHelloResTs().then(res => setCodeText({ init: res, value: res }))
   }, [])
   return (
-    <section className=" h-full flex flex-col">
+    <section className="h-full flex flex-col">
       <Header>
-        <div className="flex-1  drag-area flex justify-center items-center"></div>
+        <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
+
       <section className="flex-1 flex flex-col overflow-y-auto webkit ">
         <div className="flex-1 flex">
           <section className="flex-1 flex flex-col ">
             <div className="flex justify-between items-center min-h-10 bg-slate-800 bg-opacity-80 text-white px-4">
-              <div>{'src>apps>hello>res.ts'}</div>
+              <div>{['src', 'apps', 'hello', 'res.ts'].join(' > ')}</div>
               <div className="">
                 {codeText.init != codeText.value && (
                   <>
@@ -70,6 +67,7 @@ export default () => {
                 )}
               </div>
             </div>
+
             <div className="flex-1 flex w-full">
               <AceEditor
                 mode="typescript"
@@ -98,6 +96,7 @@ export default () => {
                 }}
               />
             </div>
+
             <div className="flex justify-between items-center min-h-3 bg-slate-800 bg-opacity-80 text-white px-4 rounded-b-md"></div>
           </section>
         </div>

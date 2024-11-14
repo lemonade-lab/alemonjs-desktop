@@ -7,6 +7,7 @@ import Setting from '@src/pages/settings/App' // 设置页面
 import img_logo from '@src/assets/logo.jpg' // logo图片
 import ChatConfig from '@src/pages/chat-config/App' // 聊天配置页面
 import Code from '@src/pages/code/App' // 代码页面
+import Start from '@src/pages/start/App' // 开始页面
 import ChatMessageConfig from '@src/pages/chat-message-config/App' // 聊天消息配置页面
 
 import {
@@ -18,7 +19,8 @@ import {
   HelpIcon,
   MenuIcon,
   RefreshIcon,
-  SettingIcon
+  SettingIcon,
+  StartIcon
 } from '@src/pages/Icons'
 import { useEffect, useRef, useState } from 'react'
 
@@ -28,7 +30,8 @@ export default () => {
     { Icon: <AppsIcon />, path: '/' },
     { Icon: <ChatbotIcon />, path: '/chat' },
     { Icon: <CodeIcon />, path: '/code' },
-    { Icon: <GlobeIcon />, path: '/docs' }
+    { Icon: <GlobeIcon />, path: '/docs' },
+    { Icon: <StartIcon />, path: '/start' }
   ]
   const [isOpen, setIsOpen] = useState(false)
   const toggleMenu = () => setIsOpen(!isOpen)
@@ -59,7 +62,7 @@ export default () => {
     <main className="flex flex-row h-full">
       <section
         ref={menuRef}
-        className="flex flex-col w-[5rem] bg-gradient-to-tl from-sky-900 to-indigo-900 relative pt-2"
+        className="flex flex-col w-[4.125rem] bg-gradient-to-tl from-sky-900 to-indigo-900 relative pt-2"
       >
         {window.versions.platform != 'win32' && <section className="h-6" />}
         <section className="flex justify-center py-1 relative cursor-pointer">
@@ -84,9 +87,10 @@ export default () => {
 
         <div className="flex-1 drag-area"></div>
         <section className="py-2 flex items-center flex-col relative">
-          <div className="rounded-md w-10 my-2 cursor-pointer" onClick={toggleMenu}>
+          <div className="rounded-md w-8 my-2 cursor-pointer" onClick={toggleMenu}>
             <MenuIcon />
           </div>
+
           {isOpen && (
             <div className="absolute left-[4.3rem] bottom-4 mt-2 w-48 bg-gradient-to-r from-blue-100 via-blue-300 to-blue-300 border border-gray-200 rounded shadow-centent z-10">
               <ul className="p-1 text-sm">
@@ -136,6 +140,7 @@ export default () => {
           <Route path="/about" element={<About />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/start" element={<Start />} />
           <Route path="/setting" element={<Setting />} />
           <Route path="/chat-config" element={<ChatConfig />} />
           <Route path="/chat-message-config" element={<ChatMessageConfig />} />
