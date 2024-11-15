@@ -8,7 +8,7 @@ export default () => {
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
 
-      <section className="flex-1 mx-2 my-2 shadow-centent border rounded-md flex  items-center ">
+      <section className="flex-1 mx-2 my-2 shadow-content border rounded-md flex  items-center ">
         <section className="w-28 bg-blue-300 to-blue-200 h-full rounded-l-md p-2">
           <div className="bg-slate-50 rounded-md px-2 py-1 hover:bg-slate-100 cursor-pointer text-sm">
             通用

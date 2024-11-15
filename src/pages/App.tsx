@@ -92,7 +92,7 @@ export default () => {
           </div>
 
           {isOpen && (
-            <div className="absolute left-[4.3rem] bottom-4 mt-2 w-48 bg-gradient-to-r from-blue-100 via-blue-300 to-blue-300 border border-gray-200 rounded shadow-centent z-10">
+            <div className="absolute left-[4.3rem] bottom-4 mt-2 w-48 bg-gradient-to-r from-blue-100 via-blue-300 to-blue-300 border border-gray-200 rounded shadow-content z-10">
               <ul className="p-1 text-sm">
                 <li
                   className="px-2 hover:bg-gray-50 flex items-center rounded-md cursor-pointer "

@@ -165,7 +165,6 @@ export default () => {
    * @param msg
    */
   const sendMessage = (msg: string) => {
-    //
     if (status == 'close') return
 
     if (socket && msg != '') {
@@ -197,6 +196,7 @@ export default () => {
       )
     }
   }
+
   return (
     <section className="bg-white relative h-full flex flex-col">
       <Header>
@@ -209,26 +209,10 @@ export default () => {
 
       <FloatingMenu
         list={[
-          {
-            title: '连接',
-            onClick: onClickConnect
-          },
-          {
-            title: '断开',
-            onClick: onClickclose
-          },
-          {
-            title: '配置',
-            onClick: () => {
-              navigate('/chat-config')
-            }
-          },
-          {
-            title: '消息',
-            onClick: () => {
-              navigate('/chat-message-config')
-            }
-          }
+          { title: '连接', onClick: onClickConnect },
+          { title: '断开', onClick: onClickclose },
+          { title: '配置', onClick: () => navigate('/chat-config') },
+          { title: '消息', onClick: () => navigate('/chat-message-config') }
         ]}
       />
 
@@ -241,9 +225,9 @@ export default () => {
             <img
               className="size-[3rem] rounded-full border"
               src={item.bot ? BOT_URI : USER_URI}
-              // src=""
               alt="Avatar"
             />
+
             <div className="rounded-md relative p-1 m-auto bg-slate-200">
               {item.value.t == 'text' &&
                 item.value.d.split('\n').map((line: string, index: number) => (
@@ -268,6 +252,7 @@ export default () => {
           </div>
         ))}
       </section>
+
       <section className="w-full flex flex-row justify-center p-1 bg-gradient-to-tl from-sky-300 to-indigo-200 bg-opacity-50">
         <input
           type="text"
@@ -277,8 +262,9 @@ export default () => {
           placeholder="输入内容..."
           onKeyDown={event => event.key === 'Enter' && sendMessage(value)}
         />
+
         <div
-          className="shadow-centent mx-2 cursor-pointer px-2 rounded-md  border-0"
+          className="shadow-content mx-2 px-2 cursor-pointer rounded-md text-white flex items-center justify-center"
           onClick={() => sendMessage(value)}
         >
           <SendIcon />
