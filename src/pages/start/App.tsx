@@ -4,6 +4,8 @@ import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/theme-solarized_dark'
 import 'ace-builds/src-noconflict/ext-language_tools'
 import user_avatar from '@src/assets/user.jpg' // logo图片
+// import update_story from '@src/assets/images/updateStory.png'
+import './start.scss'
 import { StartLearn } from '@src/pages/Icons'
 import Header from '../Header'
 
@@ -13,11 +15,11 @@ const { PetalIcon, RobotIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, S
 export default () => {
   const [activeIndex, setActiveIndex] = useState('home')
   const navList = [
-    { Icon: <HomeIcon />, name: 'home' },
-    { Icon: <FireworksIcon />, name: 'fireworks' },
-    { Icon: <ContactIcon />, name: 'contact' },
-    { Icon: <PizzaIcon />, name: 'pizza' },
-    { Icon: <SettingIcon />, name: 'setting' }
+    { Icon: <HomeIcon width="24" height="24" />, name: 'home' },
+    { Icon: <FireworksIcon width="20" height="20" />, name: 'fireworks' },
+    { Icon: <ContactIcon width="20" height="20" />, name: 'contact' },
+    { Icon: <PizzaIcon width="20" height="20" />, name: 'pizza' },
+    { Icon: <SettingIcon width="20" height="20" />, name: 'setting' }
   ]
 
   return (
@@ -26,15 +28,15 @@ export default () => {
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
 
-      <section className="flex-1 flex flex-col overflow-y-auto webkit p-4 px-8 bg-[#fef6ea]">
+      <section className="flex-1 flex flex-col overflow-y-auto webkit p-4 px-8 bg-[#fef6ea] ALemonJS-start">
         <div className="flex justify-between py-2 items-center">
           <div className="flex items-center gap-2">
-            <PetalIcon />
-            <span className="text-2xl font-bold">A LemonJS</span>
+            <PetalIcon width="34" height="44" />
+            <span className="text-2xl font-bold font-[AlimamaShuHeiTi]">A LemonJS</span>
           </div>
           <div className="text-base flex items-center gap-2">
-            <span>Antony DQ</span>
-            <img src={user_avatar} alt="avatar" className="w-8 h-8 rounded-full" />
+            <span className="font-[AlibabaPuHuiTi]">Antony DQ</span>
+            <img src={user_avatar} alt="avatar" className="w-10 h-10 rounded-full" />
           </div>
         </div>
 
@@ -53,15 +55,20 @@ export default () => {
               </button>
             </div>
 
-            <div className="mt-8 grid grid-cols-4 gap-4 flex-1">
-              <div className="row-span-2 col-span-1 bg-[#e59f30] rounded-2xl p-4 shadow-[#de853c]">
-                更新事迹
+            <div
+              className="mt-8 grid grid-cols-4 gap-4 flex-1 alemonjs-container"
+              style={{ '--max-row': '2' } as React.CSSProperties}
+            >
+              <div className="row-span-2 col-span-1 update-story rounded-2xl p-4 shadow-[#B25102]">
+                <span className=" text-white update-story-text relative z-2 font-500">
+                  更新事迹
+                </span>
               </div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#de853c]">02</div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#de853c]">03</div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#de853c]">04</div>
-              <div className="col-span-2 bg-white rounded-2xl p-4 shadow-[#de853c]">05</div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#de853c]">06</div>
+              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">访问人数</div>
+              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">占用率</div>
+              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">全局搜索</div>
+              <div className="col-span-2 bg-white rounded-2xl p-4 shadow-[#B25102]">对话统计</div>
+              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">运行时间</div>
             </div>
           </div>
 
