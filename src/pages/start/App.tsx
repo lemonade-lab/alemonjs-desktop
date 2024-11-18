@@ -1,34 +1,33 @@
-import { useEffect, useState } from 'react'
-import 'ace-builds/src-noconflict/mode-json'
-import 'ace-builds/src-noconflict/mode-typescript'
-import 'ace-builds/src-noconflict/theme-solarized_dark'
-import 'ace-builds/src-noconflict/ext-language_tools'
+import { useState } from 'react'
 import user_avatar from '@src/assets/user.jpg' // logo图片
-// import update_story from '@src/assets/images/updateStory.png'
+
+import Home from './containers/Home'
+import Configuration from './containers/Configuration'
+
 import './start.scss'
-import { StartLearn } from '@src/pages/Icons'
+import { StartIcons } from '@src/pages/start/common/Icons'
 import Header from '../Header'
 
-const { PetalIcon, RobotIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, SettingIcon } =
-  StartLearn
+const { PetalIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, SettingIcon } = StartIcons
 
 export default () => {
-  const [activeIndex, setActiveIndex] = useState('home')
+  const [activeIndex, setActiveIndex] = useState('Configuration')
   const navList = [
-    { Icon: <HomeIcon width="24" height="24" />, name: 'home' },
-    { Icon: <FireworksIcon width="20" height="20" />, name: 'fireworks' },
-    { Icon: <ContactIcon width="20" height="20" />, name: 'contact' },
-    { Icon: <PizzaIcon width="20" height="20" />, name: 'pizza' },
-    { Icon: <SettingIcon width="20" height="20" />, name: 'setting' }
+    { Icon: <HomeIcon width="24" height="24" />, name: 'Home' },
+    { Icon: <FireworksIcon width="20" height="20" />, name: 'Configuration' },
+    { Icon: <ContactIcon width="20" height="20" />, name: 'Contact' },
+    { Icon: <PizzaIcon width="20" height="20" />, name: 'Pizza' },
+    { Icon: <SettingIcon width="20" height="20" />, name: 'Setting' }
   ]
 
   return (
-    <section className=" h-full flex flex-col">
+    <section className="h-full flex flex-col">
       <Header>
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
 
-      <section className="flex-1 flex flex-col overflow-y-auto webkit p-4 px-8 bg-[#fef6ea] ALemonJS-start">
+      <section className="flex-1 flex flex-col gap-8 overflow-y-auto webkit p-4 px-8 bg-[#fef6ea] ALemonJS-start">
+        {/* Logo 栏 */}
         <div className="flex justify-between py-2 items-center">
           <div className="flex items-center gap-2">
             <PetalIcon width="34" height="44" />
@@ -40,54 +39,28 @@ export default () => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col mt-8">
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center">
-              <div className="text-xl pl-2">
-                欢迎使用
-                <br />
-                跨时代的聊天平台开发框架
-              </div>
+        {activeIndex === 'Home' && <Home />}
+        {activeIndex === 'Configuration' && <Configuration />}
+        {activeIndex === 'Contact' && <>待开发</>}
+        {activeIndex === 'Pizza' && <>待开发</>}
+        {activeIndex === 'Setting' && <>待开发</>}
 
-              <button className="px-4 py-1 border border-[#de853c] text-[#de853c] rounded-full flex items-center gap-4">
-                <RobotIcon width="20" height="20" />
-                <span className="text-sm">快速继续机器人开发之旅</span>
-              </button>
-            </div>
-
-            <div
-              className="mt-8 grid grid-cols-4 gap-4 flex-1 alemonjs-container"
-              style={{ '--max-row': '2' } as React.CSSProperties}
-            >
-              <div className="row-span-2 col-span-1 update-story rounded-2xl p-4 shadow-[#B25102]">
-                <span className=" text-white update-story-text relative z-2 font-500">
-                  更新事迹
-                </span>
-              </div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">访问人数</div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">占用率</div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">全局搜索</div>
-              <div className="col-span-2 bg-white rounded-2xl p-4 shadow-[#B25102]">对话统计</div>
-              <div className="col-span-1 bg-white rounded-2xl p-4 shadow-[#B25102]">运行时间</div>
-            </div>
+        {/* 底部导航 */}
+        <section className="flex items-center justify-center mt-auto">
+          <div className="px-4 py-2 bg-white text-[#de853c] rounded-full flex gap-4">
+            {navList.map((item, index) => (
+              <span
+                key={index}
+                className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer ${
+                  item.name == activeIndex ? ' bg-[#de853c] text-white' : ' text-[#de853c]'
+                }`}
+                onClick={() => setActiveIndex(item.name)}
+              >
+                {item.Icon}
+              </span>
+            ))}
           </div>
-
-          <section className="flex items-center justify-center mt-8">
-            <div className="px-4 py-2 bg-white text-[#de853c] rounded-full flex gap-4">
-              {navList.map((item, index) => (
-                <span
-                  key={index}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer ${
-                    item.name == activeIndex ? ' bg-[#de853c] text-white' : ' text-[#de853c]'
-                  }`}
-                  onClick={() => setActiveIndex(item.name)}
-                >
-                  {item.Icon}
-                </span>
-              ))}
-            </div>
-          </section>
-        </div>
+        </section>
       </section>
     </section>
   )
