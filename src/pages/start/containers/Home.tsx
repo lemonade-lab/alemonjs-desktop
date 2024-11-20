@@ -1,4 +1,12 @@
 import { StartIcons } from '@src/pages/start/common/Icons'
+import { formatThousand, formatTime } from '@src/utils'
+import {
+  VisitChart,
+  OccupancyRate,
+  GlobalSearch,
+  DialogStatistics,
+  RunningTime
+} from '../components/VisitChart'
 const { RobotIcon } = StartIcons
 
 export default () => {
@@ -18,31 +26,76 @@ export default () => {
           </button>
         </div>
 
-        <div
-          className="mt-8 grid grid-cols-4 gap-4 flex-1 alemonjs-container"
+        <section
+          className="mt-8 grid grid-cols-4 gap-4 flex-1 alemonjs-container text-secondary wrap"
           style={{ '--max-row': '2' } as React.CSSProperties}
         >
-          <div className="row-span-2 col-span-1 update-story rounded-2xl p-4 box-card">
-            <span className="update-story-text relative z-2 font-500 card-title !text-white">
+          {/* 更新事迹 */}
+          <div className="row-span-2 col-span-1 update-story rounded-2xl box-card">
+            <h3 className="update-story-text relative z-2 font-500 card-title !text-white">
               更新事迹
-            </span>
+            </h3>
           </div>
-          <div className="col-span-1 box-card p-4">
-            <div className="card-title">访问人数</div>
+
+          {/* 访问人数 */}
+          <div className="col-span-1 box-card">
+            <h3 className="card-title">访问人数</h3>
+            <div className="flex justify-between items-center flex-1 gap-8">
+              <div className="flex flex-col gap-3">
+                <span className="text-2xl font-bold">{formatThousand(8530)}</span>
+                <span className="text-xs opacity-70">
+                  截止至{formatTime(new Date(), 'MM/DD')}访问人数
+                </span>
+              </div>
+
+              <VisitChart className="ml-auto" data={[]} />
+            </div>
           </div>
-          <div className="col-span-1 box-card p-4">
-            <div className="card-title">占用率</div>
+
+          {/* 占用率 */}
+          <div className="col-span-1 box-card">
+            <h3 className="card-title">占用率</h3>
+
+            <div className="flex justify-between items-center flex-1 gap-8 px-4">
+              <div className="flex flex-col gap-3">
+                <span className="text-2xl font-bold">
+                  86<sup className="text-sm ml-2">%</sup>
+                </span>
+                <span className="text-xs opacity-70">某某占用率</span>
+              </div>
+
+              <OccupancyRate className="ml-auto w-[168px]" data={[]} />
+            </div>
           </div>
-          <div className="col-span-1 box-card p-4">
-            <div className="card-title">全局搜索</div>
+
+          {/* 全局搜索 */}
+          <div className="col-span-1 box-card">
+            <h3 className="card-title">全局搜索</h3>
+            <GlobalSearch className="flex-1" data={[]} />
           </div>
-          <div className="col-span-2 box-card p-4">
-            <div className="card-title">对话统计</div>
+
+          {/* 对话统计 */}
+          <div className="col-span-2 box-card">
+            <h3 className="card-title">对话统计</h3>
+            <DialogStatistics className="flex-1" data={[]} />
           </div>
-          <div className="col-span-1 box-card p-4">
-            <div className="card-title">运行时间</div>
+
+          {/* 运行时间 */}
+          <div className="col-span-1 box-card">
+            <h3 className="card-title">运行时间</h3>
+
+            <div className="flex justify-between items-center flex-1 gap-8 px-4">
+              <div className="flex flex-col gap-3">
+                <span className="text-2xl font-bold">
+                  2.7 <sup className="text-xs ml-2">h</sup>
+                </span>
+                <span className="text-xs opacity-70">平均运行时间</span>
+              </div>
+
+              <RunningTime className="ml-auto" data={[]} />
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </main>
   )

@@ -11,7 +11,7 @@ import Header from '../Header'
 const { PetalIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, SettingIcon } = StartIcons
 
 export default () => {
-  const [activeIndex, setActiveIndex] = useState('Configuration')
+  const [activeIndex, setActiveIndex] = useState('Home')
   const navList = [
     { Icon: <HomeIcon width="24" height="24" />, name: 'Home' },
     { Icon: <FireworksIcon width="20" height="20" />, name: 'Configuration' },
