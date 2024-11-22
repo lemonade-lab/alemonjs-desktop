@@ -17,26 +17,26 @@ export default function Header({ children, RightSlot, LeftSlot }: HeaderProps) {
   return (
     <>
       {window.versions.platform == 'win32' && (
-        <section className="h-9 flex bg-gradient-to-tl from-sky-900 to-indigo-900">
+        <section className="h-9 flex bg-[#FEF6EA] border-b-2  border-white">
           {LeftSlot}
           {children}
-          <div className="flex px-2 h-full flex gap-3 justify-center items-center">
+          <div className="flex px-2 h-full  gap-3 justify-center items-center">
             <span
-              className="cursor-pointer hover:bg-slate-100 hover:text-slate-700 rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-slate-100  rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.minimize()}
             >
               <MinimizeIcon />
             </span>
 
             <span
-              className="cursor-pointer hover:bg-slate-100 hover:text-slate-700 rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-slate-100  rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.maximize()}
             >
               <MaximizeIcon />
             </span>
 
             <span
-              className="cursor-pointer hover:bg-red-600 hover:text-slate-700 rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-red-600  rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.close()}
             >
               <CloseIcon />
@@ -46,7 +46,7 @@ export default function Header({ children, RightSlot, LeftSlot }: HeaderProps) {
       )}
 
       {window.versions.platform != 'win32' && (
-        <section className="h-6 flex bg-gradient-to-tl from-sky-900 to-indigo-900">
+        <section className="h-6 flex bg-[#FEF6EA] border-b-2  border-white">
           {children}
           {RightSlot ?? <></>}
         </section>

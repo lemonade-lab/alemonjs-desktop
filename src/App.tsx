@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { HashRouter } from 'react-router-dom'
-import ChatBox from '@src/pages/App'
+import ChatBox from '@src/views/App'
 import Loading from '@src/pages/Loading'
 export default () => {
   return (
