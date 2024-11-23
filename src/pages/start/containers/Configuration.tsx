@@ -65,7 +65,11 @@ export default () => {
     setTreeData([...treeData])
   }
 
-  // 渲染树形结构的函数
+  /**
+   * 渲染树形结构的函数
+   * @param data
+   * @returns
+   */
   const renderTree = (data: any[]) => {
     return data.map(item => (
       <div
@@ -87,9 +91,7 @@ export default () => {
               )}
             </span>
           )}
-
           <span onDoubleClick={() => handleNodeNameChange(item.id, data)}>{item.name}</span>
-
           {/* 添加子节点 */}
           {item.id.split('-').length < 3 && (
             <span
@@ -100,7 +102,6 @@ export default () => {
             </span>
           )}
         </div>
-
         {Array.isArray(item.children) && item.children.length > 0 && (
           <div
             className="overflow-hidden grid"
@@ -127,13 +128,10 @@ export default () => {
             <CirclePlusIcon width="20" height="20" color="#B2B2B2" />
           </span>
         </div>
-
         <div className="tree-card flex-1 overflow-y-auto">{renderTree(treeData)}</div>
       </div>
-
       <div className="col-span-3 p-6 px-8 box-card">
         <div className="card-title">预设标题</div>
-
         <div className="box-card-content flex-1 bg-[#f9f9f9]"></div>
       </div>
     </main>

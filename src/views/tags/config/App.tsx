@@ -27,16 +27,24 @@ export default () => {
           name: '子节点-1',
           isExpanded: true,
           children: [
-            { id: '1-1-1', name: '新节点-1' },
-            { id: '1-1-2', name: '新节点-2' }
+            {
+              id: '1-1',
+              name: '子节点-1',
+              isExpanded: true,
+              children: []
+            }
           ]
         },
         {
           id: '1-2',
           name: '子节点-2',
           children: [
-            { id: '1-2-1', name: '新节点-3' },
-            { id: '1-2-2', name: '新节点-4' }
+            {
+              id: '1-1',
+              name: '子节点-1',
+              isExpanded: true,
+              children: []
+            }
           ]
         }
       ]
@@ -90,9 +98,7 @@ export default () => {
               )}
             </span>
           )}
-
           <span onDoubleClick={() => handleNodeNameChange(item.id, data)}>{item.name}</span>
-
           {/* 添加子节点 */}
           {item.id.split('-').length < 3 && (
             <span
@@ -103,7 +109,6 @@ export default () => {
             </span>
           )}
         </div>
-
         {Array.isArray(item.children) && item.children.length > 0 && (
           <div
             className="overflow-hidden grid"
@@ -123,12 +128,10 @@ export default () => {
 
   return (
     <main className="flex-1 flex flex-col">
-      <div className="flex flex-row  justify-end py-2">
+      <div className="flex flex-row justify-end py-2">
         <div
-          onClick={() => {
-            navigate('/configuration-code')
-          }}
-          className="py-1 px-2 border rounded-md cursor-pointer bg-zinc-300 hover:bg-opacity-80"
+          onClick={() => navigate('/config-code')}
+          className="px-2 border rounded-md cursor-pointer bg-zinc-300 hover:bg-opacity-80"
         >
           源码
         </div>
@@ -141,14 +144,23 @@ export default () => {
               <CirclePlusIcon width="20" height="20" color="#B2B2B2" />
             </span>
           </div>
-
           <div className="tree-card flex-1 overflow-y-auto">{renderTree(treeData)}</div>
         </div>
-
         <div className="col-span-3 p-6 px-8 box-card">
-          <div className="card-title">预设标题</div>
-
-          <div className="box-card-content flex-1 bg-[#f9f9f9]"></div>
+          <div className="flex justify-between">
+            <div className="card-title">输入标题</div>
+            <div className="">添加</div>
+          </div>
+          <div className="box-card-content flex-1 flex flex-col gap-4 p-1 rounded-md bg-[#f9f9f9]">
+            <div className="flex gap-4 justify-between">
+              <input className="rounded-md flex-1 px-2 py-1" placeholder="KEY"></input>
+              <input className="rounded-md flex-1 px-2 py-1" placeholder="VALUES"></input>
+            </div>
+            <div className="flex gap-4 justify-between">
+              <input className="rounded-md flex-1 px-2 py-1" placeholder="KEY"></input>
+              <input className="rounded-md flex-1 px-2 py-1" placeholder="VALUES"></input>
+            </div>
+          </div>
         </div>
       </section>
     </main>

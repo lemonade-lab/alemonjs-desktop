@@ -23,10 +23,10 @@ export const createWindow = () => {
   const screenSize = getScreenSize()
   // 创建浏览器窗口。
   win = new BrowserWindow({
-    width: parseInt((screenSize.width * 0.873).toFixed(0)),
-    height: parseInt((screenSize.height * 0.8673).toFixed(0)),
-    minWidth: parseInt((screenSize.width * 0.873).toFixed(0)),
-    minHeight: parseInt((screenSize.height * 0.8673).toFixed(0)),
+    width: parseInt((screenSize.width * 0.883).toFixed(0)),
+    height: parseInt((screenSize.height * 0.8773).toFixed(0)),
+    minWidth: parseInt((screenSize.width * 0.883).toFixed(0)),
+    minHeight: parseInt((screenSize.height * 0.8773).toFixed(0)),
     // 默认窗口标题。默认为"Electron"。
     // 如果 HTML 标签<title>是 在加载的 HTML 文件中定义loadURL()，该属性将被忽略。
     title: 'AlemonJS',

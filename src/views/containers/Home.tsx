@@ -7,9 +7,12 @@ import {
   DialogStatistics,
   RunningTime
 } from '../components/VisitChart'
+import { useNavigate } from 'react-router-dom'
 const { RobotIcon } = StartIcons
 
 export default () => {
+  // 开发之旅 跳转到 code 源码
+  const navigate = useNavigate()
   return (
     <main className="flex-1 flex flex-col">
       <div className="flex-1 flex flex-col">
@@ -17,12 +20,19 @@ export default () => {
           <div className="text-xl pl-2">
             欢迎使用
             <br />
-            跨时代的聊天平台开发框架
+            聊天平台开发框架
           </div>
 
           <button className="px-4 py-1 border border-[#de853c] text-[#de853c] rounded-full flex items-center gap-4">
             <RobotIcon width="20" height="20" />
-            <span className="text-sm">快速继续机器人开发之旅</span>
+            <span
+              className="text-sm"
+              onClick={() => {
+                navigate('/code')
+              }}
+            >
+              快速继续机器人开发之旅
+            </span>
           </button>
         </div>
 
@@ -31,10 +41,18 @@ export default () => {
           style={{ '--max-row': '2' } as React.CSSProperties}
         >
           {/* 更新事迹 */}
-          <div className="row-span-2 col-span-1 update-story rounded-2xl box-card">
-            <h3 className="update-story-text relative z-2 font-500 card-title !text-white">
-              更新事迹
-            </h3>
+          <div className="flex flex-col row-span-2 col-span-1 bg-white rounded-3xl ">
+            <div className="flex gap-4 px-6 py-4">
+              <div className="p-1 bg-yellow-500 rounded-md text-white">未启动</div>
+              <div className="flex text-white">
+                <div className="bg-blue-400 p-1 rounded-l-md cursor-pointer">启动</div>
+                <div className="bg-blue-400 p-1 cursor-pointer">重启</div>
+                <div className="bg-blue-400 p-1 rounded-r-md cursor-pointer">停止</div>
+              </div>
+            </div>
+            <div className="bg-slate-400 flex-1 text-white p-2 rounded-b-3xl">
+              <div>{'[JSDEV] 连接成功'}</div>
+            </div>
           </div>
 
           {/* 访问人数 */}
@@ -68,11 +86,8 @@ export default () => {
             </div>
           </div>
 
-          {/* 全局搜索 */}
-          <div className="col-span-1 box-card">
-            <h3 className="card-title">全局搜索</h3>
-            <GlobalSearch className="flex-1" data={[]} />
-          </div>
+          {/* 其他 */}
+          <div className="col-span-1 box-card"></div>
 
           {/* 对话统计 */}
           <div className="col-span-2 box-card">
