@@ -22,21 +22,21 @@ export default function Header({ children, RightSlot, LeftSlot }: HeaderProps) {
           {children}
           <div className="flex px-2 h-full  gap-3 justify-center items-center">
             <span
-              className="cursor-pointer hover:bg-slate-100  rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-slate-100  rounded-md p-1 text-[#606266] hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.minimize()}
             >
               <MinimizeIcon />
             </span>
 
             <span
-              className="cursor-pointer hover:bg-slate-100  rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-slate-100  rounded-md p-1 text-[#606266] hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.maximize()}
             >
               <MaximizeIcon />
             </span>
 
             <span
-              className="cursor-pointer hover:bg-red-600  rounded-md p-1 text-white hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-red-600 hover:text-white  rounded-md p-1 text-[#606266] hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.close()}
             >
               <CloseIcon />

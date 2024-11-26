@@ -5,8 +5,14 @@
 
 @font-face {
   font-family: 'Noto Serif SC';
-  src: url('./assets/front/NotoSerifSC-VariableFont_wght.ttf') format('truetype');
+  src: url('./assets/fonts/NotoSerifSC-VariableFont_wght.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Alibaba PuHuiTi 2.0';
+  src: url('./assets/fonts/AlibabaPuHuiTi2.0-Regular.ttf') format('truetype');
   font-style: normal;
 }
 
@@ -35,6 +41,11 @@ div,
 section,
 span {
   font-family: 'Noto Serif SC', serif;
+}
+
+// 清除默认样式
+input {
+  outline: none;
 }
 
 * {

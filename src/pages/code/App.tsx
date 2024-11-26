@@ -19,9 +19,9 @@ export default () => {
   }, [])
   return (
     <section className="h-full flex flex-col">
-      <Header>
+      {/* <Header>
         <div className="flex-1 drag-area flex justify-center items-center"></div>
-      </Header>
+      </Header> */}
 
       <section className="flex-1 flex flex-col overflow-y-auto webkit ">
         <div className="flex-1 flex">

@@ -6,6 +6,7 @@ import Home from './containers/Home'
 import './start.scss'
 import { StartIcons } from '@src/pages/start/common/Icons'
 import Header from '@src/pages/Header'
+import Tool from '@src/views/common/Tool'
 
 import { Route, Routes, useNavigate } from 'react-router-dom'
 
@@ -16,7 +17,6 @@ import Setting from '@src/pages/settings/App' // 设置页面
 import img_logo from '@src/assets/logo.jpg' // logo图片
 import ChatConfig from '@src/pages/chat-config/App' // 聊天配置页面
 import Code from '@src/pages/code/App' // 代码页面
-import Start from '@src/pages/start/App' // 开始页面
 
 import ChatMessageConfig from '@src/pages/chat-message-config/App' // 聊天消息配置页面
 
@@ -26,6 +26,7 @@ import ConfigurationCode from '@src/views/tags/config-code/App' // 首页
 const { PetalIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, SettingIcon } = StartIcons
 
 export default () => {
+  const navigate = useNavigate()
   const [activeIndex, setActiveIndex] = useState('/')
   const navList = [
     { Icon: <HomeIcon width="24" height="24" />, path: '/' },
@@ -33,23 +34,22 @@ export default () => {
     { Icon: <ContactIcon width="20" height="20" />, path: '/chat' },
     { Icon: <PizzaIcon width="20" height="20" />, path: '/code' }
   ]
-  const navigate = useNavigate()
+
   return (
     <section className="h-full flex flex-col">
       <Header>
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
+
       <section className="flex-1 flex flex-col gap-6 overflow-y-auto webkit p-4 px-8 bg-[#fef6ea] ALemonJS-start">
-        {
-          // Logo 栏
-        }
+        {/* Logo 栏 */}
         <div className="flex justify-between py-2 items-center">
           <div className="flex items-center gap-2">
             <PetalIcon width="34" height="44" />
             <span className="text-2xl font-bold font-[AlimamaShuHeiTi]">A LemonJS</span>
           </div>
           <div className="text-base flex items-center gap-2">
-            <span className="font-[AlibabaPuHuiTi]">设置</span>
+            <span className="font-[AlibabaPuHuiTi2.0]">设置</span>
             <div className="cursor-pointer" onClick={() => navigate('/setting')}>
               <SettingIcon width="30" height="30" />
             </div>
@@ -70,31 +70,33 @@ export default () => {
           <Route path="/setting" element={<Setting />} />
         </Routes>
 
-        {
-          //底部导航
-        }
-        <section className="flex items-center justify-center mt-auto">
-          <div className="px-4 py-2 bg-white text-[#de853c] rounded-full flex gap-4">
-            {navList.map((item, index) => (
-              <span
-                key={index}
-                className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer ${
-                  item.path == activeIndex ? ' bg-[#de853c] text-white' : ' text-[#de853c]'
-                }`}
-                onClick={() => {
-                  setActiveIndex(item.path)
-                  navigate(item.path)
-                }}
-              >
-                {item.Icon}
-              </span>
-            ))}
+        {/* 底部导航 */}
+        <section className="grid grid-cols-3 items-center">
+          <div className="col-span-1 flex items-center">
+            {activeIndex === '/config' && <Tool />}
           </div>
-        </section>
 
-        {
-          //
-        }
+          <div className="col-span-1 flex justify-center items-center">
+            <div className="px-4 py-2 bg-white text-[#de853c] rounded-full flex gap-4">
+              {navList.map((item, index) => (
+                <span
+                  key={index}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer ${
+                    item.path == activeIndex ? ' bg-[#de853c] text-white' : ' text-[#de853c]'
+                  }`}
+                  onClick={() => {
+                    setActiveIndex(item.path)
+                    navigate(item.path)
+                  }}
+                >
+                  {item.Icon}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 row-span-1"></div>
+        </section>
       </section>
     </section>
   )

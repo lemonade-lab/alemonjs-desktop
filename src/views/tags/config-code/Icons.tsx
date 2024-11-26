@@ -473,7 +473,7 @@ export const CirclePlusIcon = ({ width, height, color }: IconProps = {}) => {
   )
 }
 
-export const CircleArrowsDownIcon = ({ width, height, color }: IconProps = {}) => {
+export const ArrowsDownIcon = ({ width, height, color }: IconProps = {}) => {
   return (
     <svg
       viewBox="0 0 1024 1024"
@@ -493,7 +493,7 @@ export const CircleArrowsDownIcon = ({ width, height, color }: IconProps = {}) =
   )
 }
 
-export const CircleArrowsUpIcon = ({ width, height, color }: IconProps = {}) => {
+export const ArrowsRightIcon = ({ width, height, color }: IconProps = {}) => {
   return (
     <svg
       viewBox="0 0 1024 1024"
