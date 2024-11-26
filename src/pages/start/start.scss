@@ -37,7 +37,7 @@
     max-height: calc(var(--max-row) * 15rem);
 
     .update-story {
-      background: url('@src/assets/images/updateStory.png') no-repeat center center / 100% 100% !important;
+      background: url('@src/assets/images/controlContainer.png') no-repeat center center / 100% 100% !important;
 
       .update-story-text::after {
         content: 'Update story';

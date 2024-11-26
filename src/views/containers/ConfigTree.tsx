@@ -25,7 +25,7 @@ export default () => {
             {
               id: '1-1-1',
               name: '三级预留位置',
-              isExpanded: true,
+              isExpanded: false,
               children: []
             }
           ]

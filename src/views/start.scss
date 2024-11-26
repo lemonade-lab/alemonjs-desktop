@@ -12,6 +12,13 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
     color: var(--base-text-secondary);
   }
 
+  .vertical-line {
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    background: rgba(243, 109, 0, 0.4);
+  }
+
   * {
     font-family: $base-font-family;
   }
@@ -19,15 +26,12 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
   .box-card {
     border-radius: 23px;
     padding: 1.5rem;
-
-    &:not(.update-story) {
-      background: rgba(255, 255, 255, 0.42);
-      box-shadow: 0px 0px 8.7px rgba(56, 56, 56, 0.11);
-      backdrop-filter: blur(2px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    background: rgba(255, 255, 255, 0.42);
+    box-shadow: 0px 0px 8.7px rgba(56, 56, 56, 0.11);
+    backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .card-title {
       font-style: normal;
@@ -43,20 +47,24 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
     grid-template-rows: repeat(var(--max-row), 1fr);
     max-height: calc(var(--max-row) * 15rem);
 
-    .update-story {
-      background: url('/assets/images/updateStory.png') no-repeat center center / 100% 100% !important;
+    .control-container {
+      backdrop-filter: blur(2px);
+      background: url('@src/assets/images/controlContainer.png') no-repeat;
+      background-size: 100% calc(100% + 0.875rem);
+      background-position: center;
 
-      .update-story-text::after {
-        content: 'Update story';
-        position: absolute;
-        top: -0.5rem;
-        left: 4.25rem;
-        width: max-content;
-        font-size: 1.5rem;
-        z-index: 1;
-        opacity: 0.15;
-        font-weight: 700;
-        font-family: 'Alimama ShuHeiTi';
+      .card-title {
+        font-style: normal;
+        font-weight: 250;
+        font-size: 1rem;
+        line-height: 1.75rem;
+        color: #fff;
+        padding: 0.875rem 1.875rem 0;
+      }
+
+      .control-container_body {
+        margin-top: 4.75rem;
+        padding: 0.875rem 1rem 0;
       }
     }
   }

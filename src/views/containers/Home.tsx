@@ -8,6 +8,7 @@ import {
   RunningTime
 } from '../components/VisitChart'
 import { useNavigate } from 'react-router-dom'
+import ControlText from './ControlText'
 const { RobotIcon } = StartIcons
 
 export default () => {
@@ -40,19 +41,9 @@ export default () => {
           className="mt-8 grid grid-cols-4 gap-4 flex-1 alemonjs-container text-secondary wrap"
           style={{ '--max-row': '2' } as React.CSSProperties}
         >
-          {/* 更新事迹 */}
-          <div className="flex flex-col row-span-2 col-span-1 bg-white rounded-3xl ">
-            <div className="flex gap-4 px-6 py-4">
-              <div className="p-1 bg-yellow-500 rounded-md text-white">未启动</div>
-              <div className="flex text-white">
-                <div className="bg-blue-400 p-1 rounded-l-md cursor-pointer">启动</div>
-                <div className="bg-blue-400 p-1 cursor-pointer">重启</div>
-                <div className="bg-blue-400 p-1 rounded-r-md cursor-pointer">停止</div>
-              </div>
-            </div>
-            <div className="bg-slate-400 flex-1 text-white p-2 rounded-b-3xl">
-              <div>{'[JSDEV] 连接成功'}</div>
-            </div>
+          {/* 控制面板 */}
+          <div className="row-span-2 col-span-1 control-container">
+            <ControlText />
           </div>
 
           {/* 访问人数 */}
