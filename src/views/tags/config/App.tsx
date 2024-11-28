@@ -6,14 +6,11 @@ export default () => {
   const navigate = useNavigate()
 
   return (
-    <main className="flex-1 flex flex-col">
+    <main className="flex-1 flex flex-col pt-4">
       <div className="flex flex-row justify-end pb-2">
-        <div
-          onClick={() => navigate('/config-code')}
-          className="px-2 border rounded-md cursor-pointer bg-zinc-300 hover:bg-opacity-80"
-        >
-          源码
-        </div>
+        <button onClick={() => navigate('/config-code')} className="px-2 btn-code">
+          <span>源码</span>
+        </button>
       </div>
 
       <section className="flex-1 grid grid-cols-4 gap-4">

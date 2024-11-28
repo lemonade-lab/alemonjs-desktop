@@ -199,13 +199,13 @@ export default () => {
 
   return (
     <section className="bg-white relative h-full flex flex-col">
-      <Header>
+      {/*    <Header>
         <div className="flex-1  drag-area flex justify-center items-center">
           <div className="text-white">
             {config.wsUri} {map[status]}
           </div>
         </div>
-      </Header>
+      </Header> */}
 
       <FloatingMenu
         list={[

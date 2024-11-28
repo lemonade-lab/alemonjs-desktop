@@ -4,9 +4,9 @@ import JSON5 from 'json5'
 export default () => {
   return (
     <section className="bg-white h-full flex flex-col">
-      <Header>
+      {/* <Header>
         <div className="flex-1 drag-area flex justify-center items-center"></div>
-      </Header>
+      </Header> */}
 
       <section className="flex-1 mx-2 my-2 shadow-content border rounded-md flex  items-center ">
         <section className="w-28 bg-blue-300 to-blue-200 h-full rounded-l-md p-2">

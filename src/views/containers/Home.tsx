@@ -15,7 +15,7 @@ export default () => {
   // 开发之旅 跳转到 code 源码
   const navigate = useNavigate()
   return (
-    <main className="flex-1 flex flex-col">
+    <main className="flex-1 flex flex-col pt-5">
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-xl pl-2">

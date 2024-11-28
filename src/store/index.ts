@@ -1,13 +1,13 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import storage from 'redux-persist/lib/storage'
-import { persistReducer } from 'redux-persist'
+import { configureStore } from '@reduxjs/toolkit'
+import notificationReducer from './notificationSlice'
 
-const reducers = combineReducers({
-  // login:
+const store = configureStore({
+  reducer: {
+    notification: notificationReducer
+  }
 })
 
-const persistConfig = { key: 'alemonjs', storage, blacklist: ['update'] }
-const persistedReducer = persistReducer(persistConfig, reducers)
+// Define the RootState type
+export type RootState = ReturnType<typeof store.getState>
 
-// Store
-export const store = configureStore({ reducer: persistedReducer })
+export default store

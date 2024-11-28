@@ -45,7 +45,7 @@ export default () => {
 
       <div className="flex-1 flex flex-col gap-4 mt-3">
         {preferences.map((item, index) => (
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center" key={index}>
             <span className="text-sm text-[--primary-color]">{index + 1}</span>
 
             <div className="preference-content flex-1 flex items-center">

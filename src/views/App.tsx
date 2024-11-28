@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import user_avatar from '@src/assets/user.jpg' // logo图片
 
 import Home from './containers/Home'
@@ -8,7 +8,7 @@ import { StartIcons } from '@src/pages/start/common/Icons'
 import Header from '@src/pages/Header'
 import Tool from '@src/views/common/Tool'
 
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
 
 import About from '@src/pages/about/App' // 关于页面
 import Chat from '@src/pages/chat/App' // 聊天页面
@@ -22,18 +22,44 @@ import ChatMessageConfig from '@src/pages/chat-message-config/App' // 聊天消�
 
 import Configuration from '@src/views/tags/config/App'
 import ConfigurationCode from '@src/views/tags/config-code/App' // 首页
+import Notification from '@src/common/Notification'
+import { useDispatch, useSelector } from 'react-redux'
+import { hideNotification } from '../store/notificationSlice'
+import { RootState } from '@src/store/index'
 
 const { PetalIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, SettingIcon } = StartIcons
 
 export default () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [activeIndex, setActiveIndex] = useState('/')
   const navList = [
     { Icon: <HomeIcon width="24" height="24" />, path: '/' },
     { Icon: <FireworksIcon width="20" height="20" />, path: '/config' },
     { Icon: <ContactIcon width="20" height="20" />, path: '/chat' },
-    { Icon: <PizzaIcon width="20" height="20" />, path: '/code' }
+    { Icon: <PizzaIcon width="20" height="20" />, path: '/code', includes: ['/config-code'] }
   ]
+
+  useEffect(() => {
+    // 检测当前的路径是否 等于 navList 的 path 或 includes 中，并返回当前的 path
+    const { path = '/' } =
+      navList.find(
+        item => item.path === location.pathname || item.includes?.includes(location.pathname)
+      ) || {}
+    setActiveIndex(path)
+  }, [location.pathname])
+
+  const dispatch = useDispatch()
+  const notification = useSelector((state: RootState) => state.notification)
+
+  useEffect(() => {
+    if (notification.visible) {
+      const timer = setTimeout(() => {
+        dispatch(hideNotification())
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [notification.visible, dispatch])
 
   return (
     <section className="h-full flex flex-col">
@@ -41,10 +67,10 @@ export default () => {
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
 
-      <section className="flex-1 flex flex-col gap-6 overflow-y-auto webkit p-4 px-8 bg-[#fef6ea] ALemonJS-start">
+      <section className="flex-1 flex flex-col gap-1 overflow-y-auto webkit p-4 px-8 bg-[#fef6ea] ALemonJS-start">
         {/* Logo 栏 */}
         <div className="flex justify-between py-2 items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <PetalIcon width="34" height="44" />
             <span className="text-2xl font-bold font-[AlimamaShuHeiTi]">A LemonJS</span>
           </div>
@@ -98,6 +124,12 @@ export default () => {
           <div className="flex items-center gap-2 row-span-1"></div>
         </section>
       </section>
+
+      <Notification
+        message={notification.message}
+        visible={notification.visible}
+        onClose={() => dispatch(hideNotification())}
+      />
     </section>
   )
 }
