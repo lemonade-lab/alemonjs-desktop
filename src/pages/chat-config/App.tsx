@@ -56,10 +56,7 @@ export default () => {
     configRef.current = config
   }, [config])
   return (
-    <section className="bg-white relative h-full flex flex-col">
-      <Header>
-        <div className="flex-1  drag-area flex justify-center items-center"></div>
-      </Header>
+    <section className=" relative h-full flex flex-col border rounded-md">
       <FloatingMenu
         list={[
           {
@@ -70,11 +67,11 @@ export default () => {
           }
         ]}
       />
-      <section className="flex-1  p-2 flex flex-col items-center bg-zinc-50 gap-1">
+      <section className="flex-1  p-2 flex flex-col items-center  gap-1">
         {Object.entries(configRef.current).map(([key], index) => (
           <div
             key={index}
-            className="flex px-2 gap-2 py-1 bg-blue-300 w-full
+            className="flex px-2 gap-2 py-1  w-full
            rounded-md"
           >
             <div className="w-72">
@@ -82,7 +79,7 @@ export default () => {
             </div>
             <input
               value={config[key]}
-              className="px-2 rounded-md outline-none w-full"
+              className="px-2 rounded-md border outline-none w-full"
               onChange={e => {
                 setConfig({
                   ...config,

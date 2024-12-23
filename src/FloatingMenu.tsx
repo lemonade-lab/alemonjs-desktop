@@ -6,7 +6,7 @@ type FloatingMenuProps = {
 }
 export default ({ list }: FloatingMenuProps) => {
   return (
-    <div className=" absolute right-0 px-2 py-1  top-12 bg-slate-700 bg-opacity-80 rounded-l-md">
+    <div className=" absolute right-0 px-2 py-1  top-12 bg-slate-400  rounded-l-md">
       {list.map((item, index) => (
         <div
           key={index}

@@ -198,15 +198,7 @@ export default () => {
   }
 
   return (
-    <section className="bg-white relative h-full flex flex-col">
-      {/*    <Header>
-        <div className="flex-1  drag-area flex justify-center items-center">
-          <div className="text-white">
-            {config.wsUri} {map[status]}
-          </div>
-        </div>
-      </Header> */}
-
+    <section className="relative h-full flex flex-col border rounded-md">
       <FloatingMenu
         list={[
           { title: '连接', onClick: onClickConnect },
@@ -218,7 +210,7 @@ export default () => {
 
       <section
         ref={MessageWindowRef}
-        className="flex-1  px-3 py-2 overflow-y-auto flex gap-1 flex-col webkit bg-slate-50 bg-opacity-50"
+        className="flex-1  px-3 py-2 overflow-y-auto flex gap-1 flex-col webkit  bg-opacity-50"
       >
         {message.map((item, index) => (
           <div key={index} className="flex  gap-4 bg-opacity-70 mr-auto ">
@@ -228,7 +220,7 @@ export default () => {
               alt="Avatar"
             />
 
-            <div className="rounded-md relative p-1 m-auto bg-slate-200">
+            <div className="rounded-md relative p-1 m-auto bg-slate-100">
               {item.value.t == 'text' &&
                 item.value.d.split('\n').map((line: string, index: number) => (
                   <Fragment key={index}>
@@ -253,7 +245,7 @@ export default () => {
         ))}
       </section>
 
-      <section className="w-full flex flex-row justify-center p-1 bg-gradient-to-tl from-sky-300 to-indigo-200 bg-opacity-50">
+      <section className="w-full flex flex-row justify-center p-1 ">
         <input
           type="text"
           className="rounded-md w-full h-8 px-2 outline-none"
