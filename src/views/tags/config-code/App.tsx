@@ -83,44 +83,13 @@ export default () => {
   const navigate = useNavigate()
 
   return (
-    <section className="bg-white h-full flex flex-col">
-      <Header>
-        <div className="flex-1  drag-area flex justify-center items-center"></div>
-      </Header>
-
+    <section className="h-full flex flex-col">
       <section className="flex-1 flex gap-1 flex-col overflow-y-auto webkit  rounded-md ">
-        <section className="flex justify-between">
-          <div className=""></div>
-          <div
-            className="px-2 bg-slate-400 rounded-md cursor-pointer text-white"
-            onClick={() => navigate('/config')}
-          >
-            界面
-          </div>
+        <section className="flex lex-row justify-end">
+          <button onClick={() => navigate('/config')} className="px-2 btn-code">
+            <span>界面</span>
+          </button>
         </section>
-
-        {/* <section className="px-2 border rounded-md bg-slate-600 text-white">
-          <div className="m-auto flex gap-4 py-1 items-center ">
-            <div className=" py-1 px-4 rounded-md">机器状态 : {status ? '已启动' : '未启动'}</div>
-            {status ? (
-              <button
-                className="border px-2 rounded-md  hover:bg-blue-400"
-                onClick={() => {
-                  // 点击关闭
-                  window.app.botClose()
-                  setStatus(false)
-                }}
-              >
-                <span className="text-white">关闭</span>
-              </button>
-            ) : (
-              <button className="border px-2 rounded-md  hover:bg-blue-400" onClick={onClickStart}>
-                <span className="text-white">启动</span>
-              </button>
-            )}
-            {!nodeStatus && <div>依赖未加载。。。</div>}
-          </div>
-        </section> */}
         <div className="flex-1 flex gap-2">
           <section className="flex-1 flex flex-col ">
             <div className="flex justify-between items-center min-h-10 bg-slate-800 bg-opacity-80 text-white px-4 rounded-t-md">

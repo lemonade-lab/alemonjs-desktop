@@ -15,7 +15,7 @@ export default () => {
   // 开发之旅 跳转到 code 源码
   const navigate = useNavigate()
   return (
-    <main className="flex-1 flex flex-col pt-5">
+    <main className="flex-1 flex flex-col ">
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-xl pl-2">
@@ -38,7 +38,7 @@ export default () => {
         </div>
 
         <section
-          className="mt-8 grid grid-cols-4 gap-4 flex-1 alemonjs-container text-secondary wrap"
+          className="grid grid-cols-4 gap-2 flex-1 alemonjs-container text-secondary wrap py-2"
           style={{ '--max-row': '2' } as React.CSSProperties}
         >
           {/* 控制面板 */}

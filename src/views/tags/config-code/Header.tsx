@@ -44,13 +44,6 @@ export default function Header({ children, RightSlot, LeftSlot }: HeaderProps) {
           </div>
         </section>
       )}
-
-      {window.versions.platform != 'win32' && (
-        <section className="h-6 flex bg-[#FEF6EA] border-b-2  border-white">
-          {children}
-          {RightSlot ?? <></>}
-        </section>
-      )}
     </>
   )
 }

@@ -80,15 +80,15 @@ input {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(95, 200, 248, 0.6);
+    background-color: rgba(234, 245, 249, 0.549);
     border-radius: 4px;
 
     &:hover {
-      background-color: rgba(95, 200, 248, 0.8);
+      background-color: rgba(234, 245, 249, 0.796);
     }
 
     &:active {
-      background-color: rgba(95, 200, 248, 1);
+      background-color: rgba(234, 245, 249, 0.732);
     }
   }
 }

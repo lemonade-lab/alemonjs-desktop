@@ -57,7 +57,7 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
 
   .box-card {
     border-radius: 23px;
-    padding: 1.5rem;
+    padding: 0.8rem;
     background: rgba(255, 255, 255, 0.42);
     box-shadow: 0px 0px 8.7px rgba(56, 56, 56, 0.11);
     backdrop-filter: blur(2px);
@@ -81,7 +81,7 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
 
     .control-container {
       backdrop-filter: blur(2px);
-      background: url('@src/assets/images/controlContainer.png') no-repeat;
+      // background: url('@src/assets/images/controlContainer.png') no-repeat;
       background-size: 100% calc(100% + 0.875rem);
       background-position: center;
 
@@ -92,11 +92,6 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
         line-height: 1.75rem;
         color: #fff;
         padding: 0.875rem 1.875rem 0;
-      }
-
-      .control-container_body {
-        margin-top: 4.75rem;
-        padding: 0.875rem 1rem 0;
       }
     }
   }
