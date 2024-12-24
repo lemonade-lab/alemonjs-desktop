@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Home from './containers/Home'
-import './start.scss'
 
 import { StartIcons } from '@src/pages/start/common/Icons'
 import Header from '@src/pages/Header'
@@ -27,24 +26,15 @@ export default () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeIndex, setActiveIndex] = useState('/')
+  const dispatch = useDispatch()
+  const notification = useSelector((state: RootState) => state.notification)
+
   const navList = [
     { Icon: <HomeIcon width="20" height="20" />, path: '/' },
     { Icon: <FireworksIcon width="20" height="20" />, path: '/config' },
     { Icon: <ContactIcon width="20" height="20" />, path: '/chat' },
     { Icon: <PizzaIcon width="20" height="20" />, path: '/code', includes: ['/config-code'] }
   ]
-
-  useEffect(() => {
-    // 检测当前的路径是否 等于 navList 的 path 或 includes 中，并返回当前的 path
-    const { path = '/' } =
-      navList.find(
-        item => item.path === location.pathname || item.includes?.includes(location.pathname)
-      ) || {}
-    setActiveIndex(path)
-  }, [location.pathname])
-
-  const dispatch = useDispatch()
-  const notification = useSelector((state: RootState) => state.notification)
 
   useEffect(() => {
     if (notification.visible) {
@@ -55,16 +45,29 @@ export default () => {
     }
   }, [notification.visible, dispatch])
 
+  useEffect(() => {
+    const { path = '/' } =
+      navList.find(
+        item => item.path === location.pathname || item.includes?.includes(location.pathname)
+      ) || {}
+    setActiveIndex(path)
+  }, [location.pathname])
+
   return (
     <section className="h-full flex flex-col">
       <Header>
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
-      <section className="flex-1 flex flex-col overflow-y-auto webkit px-4 bg-[#fef6ea] ALemonJS-start">
+      <Notification
+        message={notification.message}
+        visible={notification.visible}
+        onClose={() => dispatch(hideNotification())}
+      />
+      <section className="flex-1 flex flex-col overflow-y-auto webkit px-4 bg-[#fef6ea]">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <PetalIcon width="28" />
-            <span className="text-2xl font-bold font-[AlimamaShuHeiTi]">AlemonJS</span>
+            <span className="text-2xl font-bold ">AlemonJS</span>
           </div>
           <div className="text-base flex items-center gap-2">
             <span className="font-[AlibabaPuHuiTi2.0]">设置</span>
@@ -73,7 +76,6 @@ export default () => {
             </div>
           </div>
         </div>
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/config" element={<Configuration />} />
@@ -85,9 +87,7 @@ export default () => {
           <Route path="/chat-message-config" element={<ChatMessageConfig />} />
           <Route path="/setting" element={<Setting />} />
         </Routes>
-
-        {/* 底部导航 */}
-        <section className="grid grid-cols-3 items-center py-4">
+        <section className="grid grid-cols-3 items-center py-2">
           <div className="col-span-1 flex items-center">
             {activeIndex === '/config' && <Tool />}
           </div>
@@ -113,11 +113,6 @@ export default () => {
           <div className="flex items-center gap-2 row-span-1"></div>
         </section>
       </section>
-      <Notification
-        message={notification.message}
-        visible={notification.visible}
-        onClose={() => dispatch(hideNotification())}
-      />
     </section>
   )
 }

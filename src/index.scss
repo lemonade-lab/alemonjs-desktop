@@ -1,12 +1,5 @@
 @import '@src/assets/css/root.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/**
-#de853c 
-
-*/
+@import '@src/assets/css/tailwind.css';
 
 @font-face {
   font-family: 'Noto Serif SC';
@@ -23,16 +16,7 @@
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
   font-family: var(--font-family) !important;
-}
-
-#root {
-  height: 100%;
-  width: 100%;
 }
 
 // 可拖拽区域
@@ -96,19 +80,4 @@ input {
       background-color: rgba(234, 245, 249, 0.732);
     }
   }
-}
-
-.webkit-none {
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-}
-
-.background-white {
-  background: white;
-}
-
-.card-item + .card-item {
-  border-top: 1px solid #e0e0e0;
 }

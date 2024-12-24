@@ -18,7 +18,7 @@ export default () => {
   ])
 
   return (
-    <div className="flex-1  bg-[#ffffff6b] shadow-content   p-2  rounded-3xl ">
+    <div className="flex-1  bg-[#ffffff6b] shadow-content   p-2  rounded-xl ">
       <div className="flex text-[--primary-color]">
         <div className="w-28">HEADER</div>
         <div className="flex gap-1 flex-row flex-1">

@@ -32,7 +32,7 @@ export default () => {
   }
 
   return (
-    <div className="col-span-3 p-6 px-8 box-card">
+    <div className="col-span-3 px-8 box-card bg-[#ffffff6b] rounded-xl shadow-content p-2">
       <div className="flex justify-between">
         <div className="card-title">预设标题</div>
         <div

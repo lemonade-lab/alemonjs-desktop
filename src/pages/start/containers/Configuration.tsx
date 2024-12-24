@@ -121,7 +121,7 @@ export default () => {
 
   return (
     <main className="flex-1 grid grid-cols-4 gap-4">
-      <div className="col-span-1 p-6 px-4 box-card flex flex-col gap-4">
+      <div className="col-span-1 px-4 box-card   shadow-content   flex flex-col gap-4 bg-[#ffffff6b] rounded-xl shadow-content p-2">
         <div className="card-title flex justify-between items-center">
           <span>配置树</span>
           <span className="cursor-pointer" onClick={() => handleAddNode('', treeData)}>

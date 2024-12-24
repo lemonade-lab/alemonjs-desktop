@@ -2,12 +2,12 @@
   "name": "alemonb",
   "type": "module",
   "dependencies": {
-    "@alemonjs/gui": "^0.2.0",
-    "alemonjs": "^2.0.0-rc.70"
+    "@alemonjs/gui": "^0.2.1",
+    "alemonjs": "^2.0.0-rc.73"
   },
   "devDependencies": {
     "jsxp": "1.0.8",
-    "lvyjs": "^0.1.0",
+    "lvyjs": "^0.2.14",
     "npm": "^10.9.0",
     "pm2": "^5.3.0"
   }

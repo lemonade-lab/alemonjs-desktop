@@ -222,7 +222,7 @@ export default () => {
   }
 
   return (
-    <div className="col-span-1 p-6 px-4 box-card flex flex-col gap-2 relative">
+    <div className="col-span-1  px-4 box-card flex flex-col gap-2 relative bg-[#ffffff6b] rounded-xl shadow-content p-2">
       <div className="card-title flex justify-between items-center">
         <span>配置树</span>
         <span

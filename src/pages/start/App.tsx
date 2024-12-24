@@ -4,7 +4,6 @@ import user_avatar from '@src/assets/user.jpg' // logo图片
 import Home from './containers/Home'
 import Configuration from './containers/Configuration'
 
-import './start.scss'
 import { StartIcons } from '@src/pages/start/common/Icons'
 import Header from '../Header'
 

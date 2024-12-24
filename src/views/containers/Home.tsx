@@ -1,18 +1,10 @@
 import { StartIcons } from '@src/pages/start/common/Icons'
 import { formatThousand, formatTime } from '@src/utils'
-import {
-  VisitChart,
-  OccupancyRate,
-  GlobalSearch,
-  DialogStatistics,
-  RunningTime
-} from '../components/VisitChart'
+import { VisitChart, OccupancyRate, DialogStatistics, RunningTime } from '../components/VisitChart'
 import { useNavigate } from 'react-router-dom'
 import ControlText from './ControlText'
 const { RobotIcon } = StartIcons
-
 export default () => {
-  // 开发之旅 跳转到 code 源码
   const navigate = useNavigate()
   return (
     <main className="flex-1 flex flex-col ">
@@ -23,7 +15,6 @@ export default () => {
             <br />
             聊天平台开发框架
           </div>
-
           <button className="px-4 py-1 border border-[#de853c] text-[#de853c] rounded-full flex items-center gap-4">
             <RobotIcon width="20" height="20" />
             <span
@@ -36,7 +27,6 @@ export default () => {
             </span>
           </button>
         </div>
-
         <section
           className="grid grid-cols-4 gap-2 flex-1 alemonjs-container text-secondary wrap py-2"
           style={{ '--max-row': '2' } as React.CSSProperties}
@@ -47,7 +37,7 @@ export default () => {
           </div>
 
           {/* 访问人数 */}
-          <div className="col-span-1 box-card">
+          <div className="col-span-1  bg-[#ffffff6b] rounded-xl shadow-content p-2">
             <h3 className="card-title">访问人数</h3>
             <div className="flex justify-between items-center flex-1 gap-8">
               <div className="flex flex-col gap-3">
@@ -62,9 +52,8 @@ export default () => {
           </div>
 
           {/* 占用率 */}
-          <div className="col-span-1 box-card">
+          <div className="col-span-1  bg-[#ffffff6b] rounded-xl shadow-content p-2">
             <h3 className="card-title">占用率</h3>
-
             <div className="flex justify-between items-center flex-1 gap-8 px-4">
               <div className="flex flex-col gap-3">
                 <span className="text-2xl font-bold">
@@ -72,24 +61,22 @@ export default () => {
                 </span>
                 <span className="text-xs opacity-70">某某占用率</span>
               </div>
-
               <OccupancyRate className="ml-auto w-[168px]" data={[]} />
             </div>
           </div>
 
           {/* 其他 */}
-          <div className="col-span-1 box-card"></div>
+          <div className="col-span-1  bg-[#ffffff6b] rounded-xl shadow-content p-2"></div>
 
           {/* 对话统计 */}
-          <div className="col-span-2 box-card">
+          <div className="col-span-2  bg-[#ffffff6b] rounded-xl shadow-content p-2">
             <h3 className="card-title">对话统计</h3>
             <DialogStatistics className="flex-1" data={[]} />
           </div>
 
           {/* 运行时间 */}
-          <div className="col-span-1 box-card">
+          <div className="col-span-1  bg-[#ffffff6b] rounded-xl shadow-content p-2">
             <h3 className="card-title">运行时间</h3>
-
             <div className="flex justify-between items-center flex-1 gap-8 px-4">
               <div className="flex flex-col gap-3">
                 <span className="text-2xl font-bold">
@@ -97,7 +84,6 @@ export default () => {
                 </span>
                 <span className="text-xs opacity-70">平均运行时间</span>
               </div>
-
               <RunningTime className="ml-auto" data={[]} />
             </div>
           </div>

@@ -56,7 +56,7 @@ export default () => {
     configRef.current = config
   }, [config])
   return (
-    <section className=" relative h-full flex flex-col bg-[#ffffff6b] shadow-content rounded-3xl">
+    <section className=" relative h-full flex flex-col bg-[#ffffff6b] shadow-content rounded-xl">
       <FloatingMenu
         list={[
           {

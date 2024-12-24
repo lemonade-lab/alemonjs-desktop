@@ -198,7 +198,7 @@ export default () => {
   }
 
   return (
-    <section className="relative h-full flex flex-col   bg-[#ffffff6b] shadow-content rounded-3xl">
+    <section className="relative h-full flex flex-row    shadow-content rounded-xl ">
       <FloatingMenu
         list={[
           { title: '连接', onClick: onClickConnect },
@@ -207,61 +207,79 @@ export default () => {
           { title: '消息', onClick: () => navigate('/chat-message-config') }
         ]}
       />
-
-      <section
-        ref={MessageWindowRef}
-        className="flex-1  px-3 py-2 overflow-y-auto flex gap-1 flex-col webkit  bg-opacity-50"
-      >
-        {message.map((item, index) => (
-          <div key={index} className="flex  gap-4 bg-opacity-70 mr-auto ">
-            <img
-              className="size-[3rem] rounded-full border"
-              src={item.bot ? BOT_URI : USER_URI}
-              alt="Avatar"
-            />
-
-            <div className="rounded-md relative p-1 m-auto bg-slate-100">
-              {item.value.t == 'text' &&
-                item.value.d.split('\n').map((line: string, index: number) => (
-                  <Fragment key={index}>
-                    {line}
-                    {index < item.value.d.split('\n').length - 1 && <br />}
-                  </Fragment>
-                ))}
-              {item.value.t == 'image' && (
-                <img
-                  className="max-w-[20rem] xl:max-w-[25rem]"
-                  src={
-                    /^\/file/.test(item.value.d) ? `${config.httpUri}${item.value.d}` : item.value.d
-                  }
-                ></img>
-              )}
-
-              <span className="absolute bottom-0 text-[0.5rem] whitespace-nowrap">
-                {item.createAt}
-              </span>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <section className="w-full flex flex-row justify-center p-1 ">
-        <input
-          type="text"
-          className="rounded-md w-full h-8 px-2 outline-none"
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          placeholder="输入内容..."
-          onKeyDown={event => event.key === 'Enter' && sendMessage(value)}
-        />
-
-        <div
-          className="shadow-content mx-2 px-2 cursor-pointer rounded-md text-white flex items-center justify-center"
-          onClick={() => sendMessage(value)}
-        >
-          <SendIcon />
+      <div className="w-52 bg-white rounded-l-xl ">
+        <div className="bg-[#f0f0f0] flex gap-2 flex-row px-2 py-1">
+          <div>群聊</div>
+          <div>私聊</div>
         </div>
-      </section>
+        <div className="flex flex-row gap-3 px-2 py-1  hover:bg-gray-100 cursor-pointer">
+          <div className="flex items-center">
+            <img className="size-[2.5rem] rounded-full border" src={BOT_URI} alt="Avatar" />
+          </div>
+          <div className="flex flex-col">
+            <div>柠檬冲水</div>
+            <div className="text-sm">xxxxxxxx</div>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col  rounded-r-xl bg-[#ffffff6b]">
+        <section
+          ref={MessageWindowRef}
+          className="flex-1  px-3 py-2 overflow-y-auto flex gap-1 flex-col webkit  bg-opacity-50"
+        >
+          {message.map((item, index) => (
+            <div key={index} className="flex  gap-4 bg-opacity-70 mr-auto ">
+              <img
+                className="size-[3rem] rounded-full border"
+                src={item.bot ? BOT_URI : USER_URI}
+                alt="Avatar"
+              />
+
+              <div className="rounded-md relative p-1 m-auto bg-slate-100">
+                {item.value.t == 'text' &&
+                  item.value.d.split('\n').map((line: string, index: number) => (
+                    <Fragment key={index}>
+                      {line}
+                      {index < item.value.d.split('\n').length - 1 && <br />}
+                    </Fragment>
+                  ))}
+                {item.value.t == 'image' && (
+                  <img
+                    className="max-w-[20rem] xl:max-w-[25rem]"
+                    src={
+                      /^\/file/.test(item.value.d)
+                        ? `${config.httpUri}${item.value.d}`
+                        : item.value.d
+                    }
+                  ></img>
+                )}
+
+                <span className="absolute bottom-0 text-[0.5rem] whitespace-nowrap">
+                  {item.createAt}
+                </span>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section className="w-full flex flex-row justify-center p-1 ">
+          <input
+            type="text"
+            className="rounded-md w-full h-8 px-2 outline-none shadow"
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            placeholder="输入内容..."
+            onKeyDown={event => event.key === 'Enter' && sendMessage(value)}
+          />
+
+          <div
+            className="shadow mx-2 px-2 cursor-pointer rounded-md  flex items-center justify-center"
+            onClick={() => sendMessage(value)}
+          >
+            <SendIcon />
+          </div>
+        </section>
+      </div>
     </section>
   )
 }

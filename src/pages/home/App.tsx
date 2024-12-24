@@ -154,14 +154,6 @@ export default () => {
             <div className="flex-1 flex w-full">
               <AceEditor
                 mode="json"
-                theme="solarized_dark"
-                fontSize={14}
-                width="100%"
-                height="100%"
-                lineHeight={24}
-                showPrintMargin={true}
-                showGutter={true}
-                highlightActiveLine={true}
                 onChange={newValue => {
                   setConfigText(prev => ({
                     ...prev,
@@ -170,14 +162,6 @@ export default () => {
                 }}
                 value={configText.value}
                 name="json_editor"
-                editorProps={{ $blockScrolling: true }}
-                setOptions={{
-                  enableBasicAutocompletion: true,
-                  enableLiveAutocompletion: true,
-                  enableSnippets: true,
-                  showLineNumbers: true,
-                  tabSize: 2
-                }}
               />
             </div>
             <div className="flex justify-between items-center min-h-3 bg-slate-800 bg-opacity-80 text-white px-4 rounded-b-md"></div>

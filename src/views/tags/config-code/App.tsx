@@ -85,7 +85,7 @@ export default () => {
   return (
     <section className="h-full flex flex-col">
       <section className="h-full flex flex-col">
-        <section className="flex-1 flex flex-col shadow-content rounded-3xl bg-[#ffffff6b]">
+        <section className="flex-1 flex flex-col shadow-content rounded-xl bg-[#ffffff6b]">
           {
             //
           }
@@ -144,16 +144,11 @@ export default () => {
           <div className="flex-1 flex w-full">
             <AceEditor
               mode="typescript"
-              // theme="solarized_dark"
               style={{
                 backgroundColor: '#ffffff6b',
                 width: '100%',
                 height: '100%'
               }}
-              fontSize={14}
-              showPrintMargin={true}
-              showGutter={true}
-              highlightActiveLine={true}
               onChange={newValue => {
                 setConfigText(prev => ({
                   ...prev,
@@ -162,14 +157,6 @@ export default () => {
               }}
               value={configText.value}
               name="typescript_editor"
-              editorProps={{ $blockScrolling: true }}
-              setOptions={{
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                enableSnippets: true,
-                showLineNumbers: true,
-                tabSize: 2
-              }}
             />
           </div>
           <div className="flex justify-between items-center min-h-6"></div>

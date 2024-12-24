@@ -1,7 +1,7 @@
 import JSON5 from 'json5'
 export default () => {
   return (
-    <section className=" h-full flex flex-col bg-[#ffffff6b] shadow-content rounded-3xl">
+    <section className=" h-full flex flex-col bg-[#ffffff6b] shadow-content rounded-xl">
       <section className="flex-1 flex  items-center ">
         <section className="w-28  h-full  p-2   ">
           {['通用', '关于'].map((item, index) => {
