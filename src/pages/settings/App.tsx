@@ -1,12 +1,21 @@
 import JSON5 from 'json5'
 export default () => {
   return (
-    <section className=" h-full flex flex-col ">
-      <section className="flex-1 shadow-content  flex  items-center ">
-        <section className="w-28  h-full  p-2 border ">
-          <div className="px-2 py-1 hcursor-pointer text-sm">通用</div>
+    <section className=" h-full flex flex-col bg-[#ffffff6b] shadow-content rounded-3xl">
+      <section className="flex-1 flex  items-center ">
+        <section className="w-28  h-full  p-2   ">
+          {['通用', '关于'].map((item, index) => {
+            return (
+              <div
+                key={index}
+                className="px-2 py-1 hcursor-pointer text-sm hover:bg-gray-100 rounded-md cursor-pointer"
+              >
+                {item}
+              </div>
+            )
+          })}
         </section>
-        <section className="flex-1 bg-gradient-to-r  h-full  p-2 border ">
+        <section className="flex-1 bg-gradient-to-r  h-full  p-2   ">
           <div className="px-2 py-1">聊天数据</div>
           <div className="w-full flex flex-col gap-2  px-2 py-3   border rounded-md ">
             <div className="flex">

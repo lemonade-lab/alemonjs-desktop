@@ -49,7 +49,6 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
   }
 
   .vertical-line {
-    display: inline-block;
     width: 100%;
     height: 1px;
     background: rgba(243, 109, 0, 0.4);
@@ -58,7 +57,7 @@ $base-font-family: 'Alibaba PuHuiTi 2.0', sans-serif;
   .box-card {
     border-radius: 23px;
     padding: 0.8rem;
-    background: rgba(255, 255, 255, 0.42);
+    background: #ffffff6b;
     box-shadow: 0px 0px 8.7px rgba(56, 56, 56, 0.11);
     backdrop-filter: blur(2px);
     display: flex;

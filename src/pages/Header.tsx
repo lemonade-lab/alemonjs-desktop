@@ -36,7 +36,7 @@ export default function Header({ children, RightSlot, LeftSlot }: HeaderProps) {
             </span>
 
             <span
-              className="cursor-pointer hover:bg-red-600 hover:text-white  rounded-md p-1 text-[#606266] hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer hover:bg-red-600 hover:text-white  rounded-md p-1 text-[#606266]  transition-all duration-300"
               onClick={() => window.controller.close()}
             >
               <CloseIcon />
