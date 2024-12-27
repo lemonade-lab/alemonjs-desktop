@@ -2,7 +2,7 @@ import { StartIcons } from '@src/views/common/Icons'
 import { formatThousand, formatTime } from '@src/utils'
 import { VisitChart, OccupancyRate, DialogStatistics, RunningTime } from '../components/VisitChart'
 import { useNavigate } from 'react-router-dom'
-import ControlText from './ControlText'
+import BotController from './BotController'
 const { RobotIcon } = StartIcons
 export default () => {
   const navigate = useNavigate()
@@ -33,7 +33,7 @@ export default () => {
         >
           {/* 控制面板 */}
           <div className="row-span-2 col-span-1 control-container">
-            <ControlText />
+            <BotController />
           </div>
 
           {/* 访问人数 */}

@@ -129,10 +129,7 @@ export default () => {
                   </button>
                 </>
               )}
-              <button
-                onClick={() => navigate('/config')}
-                className="px-2 btn-code border py-1 rounded-md bg-blue-500 hover:bg-blue-400"
-              >
+              <button onClick={() => navigate('/config')}>
                 <span>界面</span>
               </button>
             </div>

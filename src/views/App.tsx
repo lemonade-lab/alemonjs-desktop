@@ -8,15 +8,14 @@ import { StartIcons } from '@src/views/common/Icons'
 import Header from '@src/views/common/Header'
 import Tool from '@src/views/common/Tool'
 import Configuration from '@src/views/tags/config/App'
-import ConfigurationCode from '@src/views/tags/config-code/App'
-import HomeApp from '@src/views/home/App'
+import ConfigurationCode from '@src/views/tags/ConfigCode/App'
 
 import Notification from '@src/common/Notification'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideNotification } from '@src/store/notificationSlice'
 import { RootState } from '@src/store/index'
 import classNames from 'classnames'
-const { PetalIcon, HomeIcon, FireworksIcon, ContactIcon, PizzaIcon, SettingIcon } = StartIcons
+const { PetalIcon, HomeIcon, FireworksIcon, SettingIcon } = StartIcons
 
 export default () => {
   const navigate = useNavigate()
@@ -27,8 +26,7 @@ export default () => {
 
   const navList = [
     { Icon: <HomeIcon width="20" height="20" />, path: '/' },
-    { Icon: <FireworksIcon width="20" height="20" />, path: '/config' },
-    { Icon: <PizzaIcon width="20" height="20" />, path: '/home' }
+    { Icon: <FireworksIcon width="20" height="20" />, path: '/config' }
   ]
 
   useEffect(() => {
@@ -58,7 +56,7 @@ export default () => {
         visible={notification.visible}
         onClose={() => dispatch(hideNotification())}
       />
-      <section className="flex-1 flex flex-col overflow-y-auto webkit px-4 bg-[#fef6ea]">
+      <section className="flex-1 flex flex-col overflow-y-auto  px-4 bg-[#fef6ea]">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <PetalIcon width="28" />
@@ -77,7 +75,6 @@ export default () => {
           <Route path="/config-code" element={<ConfigurationCode />} />
           <Route path="/about" element={<About />} />
           <Route path="/setting" element={<Setting />} />
-          <Route path="/home" element={<HomeApp />} />
         </Routes>
         <section className="grid grid-cols-3 items-center py-2">
           <div className="col-span-1 flex items-center">
