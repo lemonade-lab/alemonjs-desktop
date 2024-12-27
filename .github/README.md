@@ -51,7 +51,7 @@ yarn add @alemonjs/gui
 选择登录gui
 
 ```sh
-npx lvyjs --alemonjs --login gui
+node index.js gui
 ```
 
 > 切记先关闭客户端内制的测试机器人

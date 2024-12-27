@@ -1,8 +1,6 @@
 pm2:
-  script: bin/lvyjs.js
+  script: node index.js
   args:
-    - dev
-    - --alemonjs
     - --login
     - gui
   env:

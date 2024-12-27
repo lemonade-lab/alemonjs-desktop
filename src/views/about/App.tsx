@@ -1,13 +1,12 @@
 import img_logo from '@src/assets/logo.jpg'
 import { useEffect, useState } from 'react'
-import Header from '../Header'
+import Header from '@src/views/common/Header'
 export default () => {
   const [version, setVersion] = useState({
     node: '16.14.0',
     electron: '17.0.1',
     chrome: '100.0.4896.127'
   })
-
   useEffect(() => {
     setVersion({
       chrome: window.versions.chrome,
@@ -15,7 +14,6 @@ export default () => {
       node: window.versions.node
     })
   }, [])
-
   return (
     <section className="bg-white h-full flex flex-col">
       <Header>

@@ -1,4 +1,4 @@
-import { StartIcons } from '@src/pages/start/common/Icons'
+import { StartIcons } from '@src/views/common/Icons'
 import { formatThousand, formatTime } from '@src/utils'
 import { VisitChart, OccupancyRate, DialogStatistics, RunningTime } from '../components/VisitChart'
 import { useNavigate } from 'react-router-dom'
@@ -20,10 +20,10 @@ export default () => {
             <span
               className="text-sm"
               onClick={() => {
-                navigate('/code')
+                navigate('/config')
               }}
             >
-              快速继续机器人开发之旅
+              编辑配置
             </span>
           </button>
         </div>

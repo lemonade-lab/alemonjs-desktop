@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react'
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
 import Home from './containers/Home'
 
-import { StartIcons } from '@src/pages/start/common/Icons'
-import Header from '@src/pages/Header'
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
-import About from '@src/pages/about/App' // 关于页面
-import Chat from '@src/pages/chat/App' // 聊天页面
-import Setting from '@src/pages/settings/App' // 设置页面
-import ChatConfig from '@src/pages/chat-config/App' // 聊天配置页面
-import Code from '@src/pages/code/App' // 代码页面
-import ChatMessageConfig from '@src/pages/chat-message-config/App' // 聊天消息配置页面
-
+import About from '@src/views/about/App'
+import Setting from '@src/views/settings/App'
+import { StartIcons } from '@src/views/common/Icons'
+import Header from '@src/views/common/Header'
 import Tool from '@src/views/common/Tool'
 import Configuration from '@src/views/tags/config/App'
-import ConfigurationCode from '@src/views/tags/config-code/App' // 首页
+import ConfigurationCode from '@src/views/tags/config-code/App'
+import HomeApp from '@src/views/home/App'
 
 import Notification from '@src/common/Notification'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,8 +28,7 @@ export default () => {
   const navList = [
     { Icon: <HomeIcon width="20" height="20" />, path: '/' },
     { Icon: <FireworksIcon width="20" height="20" />, path: '/config' },
-    { Icon: <ContactIcon width="20" height="20" />, path: '/chat' },
-    { Icon: <PizzaIcon width="20" height="20" />, path: '/code', includes: ['/config-code'] }
+    { Icon: <PizzaIcon width="20" height="20" />, path: '/home' }
   ]
 
   useEffect(() => {
@@ -80,12 +75,9 @@ export default () => {
           <Route path="/" element={<Home />} />
           <Route path="/config" element={<Configuration />} />
           <Route path="/config-code" element={<ConfigurationCode />} />
-          <Route path="/code" element={<Code />} />
           <Route path="/about" element={<About />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/chat-config" element={<ChatConfig />} />
-          <Route path="/chat-message-config" element={<ChatMessageConfig />} />
           <Route path="/setting" element={<Setting />} />
+          <Route path="/home" element={<HomeApp />} />
         </Routes>
         <section className="grid grid-cols-3 items-center py-2">
           <div className="col-span-1 flex items-center">

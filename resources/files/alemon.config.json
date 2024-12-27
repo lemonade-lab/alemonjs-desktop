@@ -1,10 +1,10 @@
 {
   // 启动
   "pm2": {
-    // 内置的 lvyjs
-    "script": "bin/lvyjs.js",
+    // 内置的 index.js 启动脚本
+    "script": "node index.js",
     // 启动参数
-    "args": ["dev", "--alemonjs", "--login", "gui"],
+    "args": ["--login", "gui"],
     // 环境
     "env": {
       // 开发模式

@@ -4,7 +4,6 @@ import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/theme-solarized_dark'
 import 'ace-builds/src-noconflict/ext-language_tools'
-import Header from './Header'
 import { useNavigate } from 'react-router-dom'
 
 /**

@@ -1,5 +1,5 @@
 import { PropsWithChildren, ReactNode } from 'react'
-import { CloseIcon, MaximizeIcon, MinimizeIcon } from './Icons'
+import { CloseIcon, MaximizeIcon, MinimizeIcon } from '@src/views/common/Icons'
 
 type HeaderProps = PropsWithChildren<{
   LeftSlot?: ReactNode

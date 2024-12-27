@@ -1,6 +1,6 @@
-import { ArrowsDownIcon, CirclePlusIcon } from '@src/pages/Icons'
+import { ArrowsDownIcon, CirclePlusIcon } from '@src/views/common/Icons'
 import { useState, useEffect, useRef } from 'react'
-import ContextMenu from './ContextMenu'
+import ContextMenu from '@src/views/containers/ContextMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from '@src/store/notificationSlice' // 导入显示通知的 action
 import { RootState } from '@src/store/index' // Import the RootState type

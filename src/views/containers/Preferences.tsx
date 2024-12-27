@@ -1,4 +1,4 @@
-import { CirclePlusIcon } from '@src/pages/Icons'
+import { CirclePlusIcon } from '@src/views/common/Icons'
 import { useState } from 'react'
 
 type PreferencesType = {

@@ -4,7 +4,7 @@ import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/theme-solarized_dark'
 import 'ace-builds/src-noconflict/ext-language_tools'
-import Header from '../Header'
+import Header from '@src/views/common/Header'
 
 /**
  * 无法正常关闭 机器人
