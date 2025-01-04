@@ -8,23 +8,6 @@ contextBridge.exposeInMainWorld('app', {
   botRun: () => ipcRenderer.invoke('bot-run'),
   botClose: () => ipcRenderer.invoke('bot-close'),
   botIsRunning: () => ipcRenderer.invoke('bot-is-running'),
-  readResourcesFilesAlemonConfigJson: () =>
-    ipcRenderer.invoke('read-resources-files-alemon-config-json'),
-  writeResourcesAlemonConfigJson: (data: string) =>
-    ipcRenderer.invoke('write-resources-files-alemon-config-json', data),
-  readResourcesFilesEventJson: () => ipcRenderer.invoke('read-resources-files-event-json'),
-  writeResourcesFilesEventJson: (data: string) =>
-    ipcRenderer.invoke('write-resources-files-event-json', data),
-  readResourcesTmSrcHelloResTs: () => ipcRenderer.invoke('read-resources-tm-src-hello-res-ts'),
-  writeResourcesTmSrcHelloResTs: (data: string) =>
-    ipcRenderer.invoke('write-resources-tm-src-hello-res-ts', data),
-  readResourcesFilesTestMessageJson: () =>
-    ipcRenderer.invoke('read-resources-files-test-message-json'),
-  writeResourcesFilesTestMessageJson: (data: string) =>
-    ipcRenderer.invoke('write-resources-files-test-message-json', data),
-  readResourcesFilesGuiConfigJson: () => ipcRenderer.invoke('read-resources-files-gui-config-json'),
-  writeResourcesFilesGuiConfigJson: (data: string) =>
-    ipcRenderer.invoke('write-resources-files-gui-config-json', data),
   rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir')
 })
 

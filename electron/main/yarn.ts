@@ -3,6 +3,10 @@ import { join } from 'node:path'
 import logger from 'electron-log'
 import { templatePath } from '../core/static'
 
+/**
+ * @description yarn 管理
+ */
+
 const d = new Map()
 
 /**

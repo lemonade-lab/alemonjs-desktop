@@ -1,5 +1,8 @@
-import JSON5 from 'json5'
+import { showNotification } from '@src/store/notificationSlice'
+import { useDispatch } from 'react-redux'
+
 export default () => {
+  const dispatch = useDispatch()
   return (
     <section className=" h-full flex flex-col bg-[#ffffff6b] shadow-content rounded-xl">
       <section className="flex-1 flex  items-center ">
@@ -21,14 +24,9 @@ export default () => {
             <div className="flex">
               <span className="flex-1 text-sm">记录（删除所有图文数据）</span>
               <button
-                onClick={() => {
-                  window.app.writeResourcesFilesTestMessageJson(JSON5.stringify([])).then(res => {
-                    if (res) {
-                      alert('清理成功')
-                    } else {
-                      alert('清理失败')
-                    }
-                  })
+                onClick={e => {
+                  e.stopPropagation()
+                  dispatch(showNotification('待更新...'))
                 }}
                 className="cursor-pointer  px-2  border rounded-md  "
               >
@@ -38,10 +36,9 @@ export default () => {
             <div className="flex">
               <span className="flex-1 text-sm">图片（清理本机中存在的图片）</span>
               <button
-                onClick={() => {
-                  window.app.rmTemplateFiles().then(res => {
-                    alert('清理成功')
-                  })
+                onClick={e => {
+                  e.stopPropagation()
+                  dispatch(showNotification('待更新...'))
                 }}
                 className="cursor-pointer  px-2  ext-slate-600  border rounded-md "
               >
@@ -53,7 +50,16 @@ export default () => {
           <div className="w-full flex flex-col gap-2  px-2 py-3  border">
             <div className="flex">
               <span className="flex-1 text-sm">所有（待更新。。。。）</span>
-              <button className="cursor-pointer  px-2  border rounded-md ">清理</button>
+              <button
+                className="cursor-pointer  px-2  border rounded-md "
+                onClick={e => {
+                  // 阻止冒泡
+                  e.stopPropagation()
+                  dispatch(showNotification('待更新...'))
+                }}
+              >
+                清理
+              </button>
             </div>
           </div>
         </section>

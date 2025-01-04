@@ -1,6 +1,6 @@
-import { ArrowsDownIcon, CirclePlusIcon } from '@src/views/common/Icons'
+import { ArrowsDownIcon, CirclePlusIcon } from '@src/common/Icons'
 import { useState, useEffect, useRef } from 'react'
-import ContextMenu from '@src/views/containers/ContextMenu'
+import ContextMenu from '@src/views/Home/ContextMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from '@src/store/notificationSlice' // 导入显示通知的 action
 import { RootState } from '@src/store/index' // Import the RootState type
@@ -224,7 +224,7 @@ export default () => {
   return (
     <div className="col-span-1  px-4 box-card flex flex-col gap-2 relative bg-[#ffffff6b] rounded-xl shadow-content p-2">
       <div className="card-title flex justify-between items-center">
-        <span>配置树</span>
+        <span className="text-xl">配置树</span>
         <span
           className="cursor-pointer hover:text-[--primary-color] text-[#B2B2B2]"
           onClick={handleAddNode}

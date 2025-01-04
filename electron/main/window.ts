@@ -21,6 +21,7 @@ const indexHtml = join(process.env.DIST, 'index.html')
 export const createWindow = () => {
   // 获取屏幕尺寸
   const screenSize = getScreenSize()
+  console.log('screenSize', screenSize)
   // 创建浏览器窗口。
   win = new BrowserWindow({
     width: parseInt((screenSize.width * 0.75).toFixed(0)),

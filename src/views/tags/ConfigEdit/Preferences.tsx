@@ -1,4 +1,4 @@
-import { CirclePlusIcon } from '@src/views/common/Icons'
+import { CirclePlusIcon } from '@src/common/Icons'
 import { useState } from 'react'
 
 type PreferencesType = {
@@ -48,25 +48,25 @@ export default () => {
           <div className="flex gap-4 items-center" key={index}>
             <span className="text-sm text-[--primary-color]">{index + 1}</span>
 
-            <div className="preference-content flex-1 flex items-center">
+            <div className="preference-content flex-1 gap-2 flex items-center">
               <label className="preference-label" htmlFor={`key-${index}`}>
                 Key
               </label>
               <input
                 id={`key-${index}`}
-                className="text-sm px-2 py-1 w-full preference-input"
+                className="text-sm px-4 py-2 w-full preference-input rounded-full"
                 value={item.key}
                 onChange={e => handleChangePreference(index, e.target.value, item.value)}
               />
             </div>
 
-            <div className="preference-content flex-1 flex items-center">
+            <div className="preference-content gap-2 flex-1 flex items-center">
               <label className="preference-label" htmlFor={`value-${index}`}>
-                V
+                Value
               </label>
               <input
                 id={`value-${index}`}
-                className="text-sm px-2 py-1 w-full preference-input"
+                className="text-sm px-4 py-2 w-full preference-input rounded-full"
                 value={item.value}
                 onChange={e => handleChangePreference(index, item.key, e.target.value)}
               />

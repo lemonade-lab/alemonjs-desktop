@@ -1,7 +1,7 @@
-import ConfigTree from '@src/views/containers/ConfigTree'
-import Preferences from '@src/views/containers/Preferences'
+import ConfigTree from '@src/views/tags/ConfigEdit/ConfigTree'
+import Preferences from '@src/views/tags/ConfigEdit/Preferences'
 import { useNavigate } from 'react-router-dom'
-export default () => {
+export default function ConfigEdit() {
   const navigate = useNavigate()
   return (
     <main className="flex-1 flex flex-col gap-2">

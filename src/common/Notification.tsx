@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { CloseIcon } from './Icons'
 
 interface NotificationProps {
   message: string
@@ -37,7 +38,7 @@ const Notification: React.FC<NotificationProps> = ({ message, visible, onClose }
           onClick={onClose}
           className="text-[#c0c4cc] hover:text-[--primary-color] cursor-pointer"
         >
-          x
+          <CloseIcon />
         </span>
       </div>
 

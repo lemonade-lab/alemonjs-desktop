@@ -1,86 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/theme-solarized_dark'
 import 'ace-builds/src-noconflict/ext-language_tools'
-import { useNavigate } from 'react-router-dom'
-
-/**
- * 无法正常关闭 机器人
- */
-export default () => {
-  //
-  const [status, setStatus] = useState<boolean>(false)
-  const [nodeStatus, setNodeStatus] = useState(false)
-  //
+export default function ConfigCode() {
+  const navigate = useNavigate()
   const [configText, setConfigText] = useState({
     init: ``,
     value: ``
   })
-
-  //
-  useEffect(() => {
-    // 询问机器人状态
-    window.app.botIsRunning().then(res => {
-      console.log('机器人是否在运行：', status, res)
-      setStatus(res)
-    })
-    window.app.isTemplateExists().then(res => {
-      console.log('模板是否存在：', status, res)
-      setNodeStatus(res)
-    })
-
-    window.app.readResourcesFilesAlemonConfigJson().then(res =>
-      setConfigText({
-        init: res,
-        value: res
-      })
-    )
-  }, [])
-
-  /**
-   *
-   */
-  const onClickRun = () => {
-    window.app.botRun()
-    setTimeout(() => {
-      window.app.botIsRunning().then(res => setStatus(res))
-    }, 500)
-  }
-
-  /**
-   *
-   * @returns
-   */
-  const onClickStart = async () => {
-    if (nodeStatus) {
-      if (!status) onClickRun()
-      return
-    }
-    // 开始加载
-    const t = await window.app.yarnInstall()
-    if (!t) {
-      alert('依赖加载中')
-    } else {
-      // 定时询问
-      alert('未加载依赖,开始加载依赖...')
-      const func = () => {
-        window.app.isTemplateExists().then(res => {
-          if (res) {
-            alert('依赖加载完成...')
-            setNodeStatus(res)
-          } else {
-            setTimeout(func, 1000)
-          }
-        })
-      }
-      setTimeout(func, 1000)
-    }
-  }
-
-  const navigate = useNavigate()
-
   return (
     <section className="h-full flex flex-col">
       <section className="h-full flex flex-col">
@@ -112,16 +42,7 @@ export default () => {
                     <span
                       className="text-white"
                       onClick={() => {
-                        window.app.writeResourcesAlemonConfigJson(configText.value).then(res => {
-                          if (res) {
-                            setConfigText(prev => ({
-                              init: prev.value,
-                              value: prev.value
-                            }))
-                          } else {
-                            alert('保存失败')
-                          }
-                        })
+                        //
                       }}
                     >
                       保存

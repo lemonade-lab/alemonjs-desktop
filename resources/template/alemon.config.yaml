@@ -1,12 +1,11 @@
+# 进程管理工具
 pm2:
-  script: node index.js
-  args:
-    - --login
-    - gui
-  env:
-    NODE_ENV: development
-pkg:
-  '@alemonjs/gui': ^0.2.0
-  alemonjs: ^2.0.0-rc.70
+  apps:
+    - name: 'gui'
+      # 使用 npx tsx 运行
+      script: 'npx tsx ./index.js --login gui'
+      env:
+        NODE_ENV: 'production'
+# 测试环境端口
 gui:
-  port: 9601
+  port: 17127

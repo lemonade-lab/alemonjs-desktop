@@ -1,34 +1,34 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 type MenuItem = {
   label: string
   onClick: () => void
 }
 
-type ContextMenuProps = {
+export default function ContextMenu({
+  items,
+  position,
+  visible,
+  onClose
+}: {
   items: MenuItem[]
   position: { x: number; y: number }
   visible: boolean
   onClose: () => void
-}
-
-const ContextMenu: React.FC<ContextMenuProps> = ({ items, position, visible, onClose }) => {
+}) {
   if (!visible) return null
-
   useEffect(() => {
     const handleDocumentClick = (e: MouseEvent) => {
       if (!document.querySelector('.context-menu')?.contains(e.target as Node)) {
         onClose()
       }
     }
-
     document.addEventListener('click', handleDocumentClick)
     return () => document.removeEventListener('click', handleDocumentClick)
   }, [onClose])
-
   return (
     <div
-      className="context-menu absolute bg-white border border-gray-300 rounded shadow-lg"
+      className="context-menu absolute bg-white  border-gray-300 rounded shadow-lg"
       style={{ top: position.y, left: position.x }}
       onMouseLeave={onClose} // 鼠标离开时隐藏菜单
     >
@@ -49,5 +49,3 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ items, position, visible, onC
     </div>
   )
 }
-
-export default ContextMenu

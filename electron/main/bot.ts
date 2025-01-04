@@ -6,6 +6,10 @@ import { fork } from 'child_process'
 import logger from 'electron-log'
 
 /**
+ * @description bot 管理
+ */
+
+/**
  *
  * @returns
  */
@@ -40,7 +44,7 @@ export const isBotRunning = () => {
       resolve(false)
       return
     }
-    logger.log('询问状态')
+    // logger.log('询问状态')
     //
     const MyJS = join(templatePath, 'bin', 'pm2.cjs')
     const child = fork(MyJS, ['--pm2-status'], {
@@ -50,10 +54,10 @@ export const isBotRunning = () => {
 
     // 监听来自子进程的消息
     child.on('message', (message: any) => {
-      logger.log('来自子进程的消息:', message)
+      // logger.log('来自子进程的消息:', message)
       // 根据子进程的消息决定是否解析
       if (message.status === 'running') {
-        logger.info('Bot running')
+        // logger.info('Bot running')
         resolve(message.data)
         return
       }
@@ -72,7 +76,7 @@ export const isBotRunning = () => {
       if (code !== 0) {
         logger.error(`子进程退出，错误代码: ${code}`)
       } else {
-        logger.info('子进程正常结束')
+        // logger.info('子进程正常结束')
       }
     })
   })

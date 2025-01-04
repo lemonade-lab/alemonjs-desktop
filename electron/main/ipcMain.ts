@@ -31,127 +31,22 @@ ipcMain.handle('get-template-exists', () => {
 
 // 加载依赖
 ipcMain.handle('yarn-install', () => yarnInstall())
-
 ipcMain.handle('yarn-add', () => {})
 
+// bot
 ipcMain.handle('bot-run', () => {
   botRun()
 })
-
 ipcMain.handle('bot-close', () => {
   botClose()
 })
-
 ipcMain.handle('bot-is-running', () => isBotRunning())
 
+// tools
 ipcMain.on('OPEN-DEV-TOOLS', event => {
   const window = BrowserWindow.fromWebContents(event.sender)
   // 打开开发者工具
   window?.webContents?.openDevTools()
-})
-
-ipcMain.handle('read-resources-files-alemon-config-json', () => {
-  return readResourcesFileSync(['files', 'alemon.config.json'])
-})
-
-ipcMain.handle('write-resources-files-alemon-config-json', (event, res) => {
-  try {
-    logger.log('res', res)
-    const data = JSON5.parse(res)
-    const dependencies = data?.pkg
-    logger.log('dependencies', dependencies)
-    if (dependencies) {
-      const pkgPath = join(templatePath, 'package.json')
-      const pkgJson = JSON.parse(readFileSync(pkgPath, 'utf-8'))
-      logger.log('pkgJson', pkgJson)
-      // 对比是否有修改
-      let t = false
-      for (const key in dependencies) {
-        if (pkgJson?.dependencies[key] != dependencies[key]) {
-          t = true
-          break
-        }
-      }
-      pkgJson.dependencies = dependencies
-      // 保存
-      writeFileSync(pkgPath, JSON.stringify(pkgJson, null, 2))
-      // 执行 yarn install
-      if (t) {
-        logger.log('yarn install')
-        yarnInstall()
-      }
-    }
-    writeResourcesFileSync(['files', 'alemon.config.json'], res)
-    // save yaml
-
-    writeResourcesFileSync(['template', 'alemon.config.yaml'], YAML.stringify(data))
-    return true
-  } catch (err) {
-    logger.error('write resources error:', err)
-    return false
-  }
-})
-
-ipcMain.handle('read-resources-tm-src-hello-res-ts', () => {
-  return readResourcesFileSync(['template', 'src', 'apps', 'hello', 'res.ts'])
-})
-
-ipcMain.handle('write-resources-tm-src-hello-res-ts', (_, res) => {
-  try {
-    writeResourcesFileSync(['template', 'src', 'apps', 'hello', 'res.ts'], res)
-    return true
-  } catch (err) {
-    logger.error('write resources error:', err)
-    return false
-  }
-})
-
-ipcMain.handle('read-resources-files-test-message-json', () => {
-  return readResourcesFileSync(['files', 'test.message.json'])
-})
-
-ipcMain.handle('write-resources-files-test-message-json', (_, res) => {
-  try {
-    // 确保格式正确
-    JSON5.parse(res)
-    writeResourcesFileSync(['files', 'test.message.json'], res)
-    return true
-  } catch (err) {
-    logger.error('write resources error:', err)
-    return false
-  }
-})
-
-ipcMain.handle('read-resources-files-event-json', () => {
-  return readResourcesFileSync(['files', 'event.json'])
-})
-
-ipcMain.handle('write-resources-files-event-json', (_, res) => {
-  try {
-    // 确保格式正确
-    JSON5.parse(res)
-    writeResourcesFileSync(['files', 'event.json'], res)
-    return true
-  } catch (err) {
-    logger.error('write resources error:', err)
-    return false
-  }
-})
-
-ipcMain.handle('read-resources-files-gui-config-json', () => {
-  return readResourcesFileSync(['files', 'gui.config.json'])
-})
-
-ipcMain.handle('write-resources-files-gui-config-json', (_, res) => {
-  try {
-    // 确保格式正确
-    JSON5.parse(res)
-    writeResourcesFileSync(['files', 'gui.config.json'], res)
-    return true
-  } catch (err) {
-    logger.error('write resources error:', err)
-    return false
-  }
 })
 
 // 监听最小化、最大化和关闭事件
@@ -161,7 +56,6 @@ ipcMain.on('minimize-window', event => {
     win.minimize()
   }
 })
-
 ipcMain.on('maximize-window', event => {
   const win = BrowserWindow.fromWebContents(event.sender)
   if (win) {
