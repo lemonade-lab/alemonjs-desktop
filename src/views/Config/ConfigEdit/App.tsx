@@ -1,63 +1,56 @@
-import { ArrowsDownIcon, CirclePlusIcon } from '@src/common/Icons'
-import { useState, useEffect, useRef } from 'react'
-import ContextMenu from '@src/views/Home/ContextMenu'
 import { useDispatch, useSelector } from 'react-redux'
-import { showNotification } from '@src/store/notificationSlice' // 导入显示通知的 action
-import { RootState } from '@src/store/index' // Import the RootState type
-import Notification from '@src/common/Notification' // 导入 Notification 组件
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+//
+import { showNotification } from '@src/store/notificationSlice'
+import { RootState } from '@src/store/index'
+//
+import { CirclePlusIcon } from '@src/common/Icons'
+import Notification from '@src/common/Notification'
+//
+import ContextMenu from '@src/views/Home/ContextMenu'
+import { TreeDataType, TreeItem } from '@src/views/Config/ConfigEdit/TreeItem'
 
-// 定义树形数据结构
-type TreeDataType = {
-  id: string
-  name: string
-  children?: TreeDataType[]
-  isExpanded?: boolean
-}
+import YAML from 'js-yaml'
 
-export default () => {
-  // 初始化树形数据
-  const [treeData, setTreeData] = useState<TreeDataType[]>([
-    {
-      id: '1',
-      name: '一级预留位置',
-      isExpanded: true,
-      children: [
-        {
-          id: '1-1',
-          name: '二级预留位置',
-          isExpanded: false,
-          children: [
-            {
-              id: '1-1-1',
-              name: '三级预留位置',
-              isExpanded: false,
-              children: [
-                {
-                  id: '1-1-1-1',
-                  name: '四级预留位置',
-                  isExpanded: false,
-                  children: []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: '1-2',
-          name: '二级预留位置',
-          isExpanded: true,
-          children: [
-            {
-              id: '1-2-1',
-              name: '三级预留位置',
-              isExpanded: false,
-              children: []
-            }
-          ]
-        }
-      ]
+const getTreeData = (yamlString: string): TreeDataType[] => {
+  const result = YAML.load(yamlString) as { [key: string]: any }
+  let id = 0
+  const traverse = (node: any): TreeDataType[] => {
+    const data: TreeDataType[] = [] // 每次递归调用时创建新的数组
+    for (const key in node) {
+      const newId = `${key}-${id++}` // 生成唯一ID
+      const newNode: TreeDataType = {
+        id: newId,
+        name: key,
+        isExpanded: false,
+        children: []
+      }
+      // 如果当前节点是对象，则继续遍历其子节点
+      if (typeof node[key] === 'object' && node[key] !== null) {
+        newNode.children = traverse(node[key]) // 递归调用并赋值
+      }
+      data.push(newNode) // 将新节点添加到当前数组
     }
-  ])
+    return data // 返回当前节点的数组
+  }
+  const treeData = traverse(result) // 开始遍历
+  console.log('data', treeData) // 输出最终的树数据
+  return treeData // 返回最终的树结构
+}
+/**
+ *
+ * @returns
+ */
+export default function ConfigTree() {
+  const navigate = useNavigate()
+
+  const [treeData, setTreeData] = useState<TreeDataType[]>([])
+  useEffect(() => {
+    window.app.botConfigRead().then(data => {
+      setTreeData(getTreeData(data))
+    })
+  }, [])
 
   const [menuVisible, setMenuVisible] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
@@ -174,66 +167,41 @@ export default () => {
     setTreeData([...treeData])
   }
 
-  // 渲染树形结构的函数
-  const renderTree = (data: any[]) => {
-    return data.map(item => (
-      <div
-        key={item.id}
-        className={`overflow-hidden mt-3 ${item.id.split('-').length > 1 ? 'ml-4' : ''}`}
-        onContextMenu={e => handleContextMenu(e, item)}
-      >
-        <div className={`flex items-center gap-2}`}>
-          {/* 左侧图标 */}
-          {Array.isArray(item.children) && item.children.length > 0 && (
-            <span
-              className={`text-[--font-primary] cursor-pointer ${item.isExpanded ? '' : 'rotate-[-90deg]'} transition-all duration-300`}
-              onClick={() => handleToggleExpand(item.id, item)}
-            >
-              <ArrowsDownIcon
-                width="12"
-                height="12"
-                color={item.isExpanded ? 'var(--primary-color)' : '#575B66'}
-              />
-            </span>
-          )}
-
-          {/* 节点名称 */}
-          <span
-            className={`ml-3 ${item.isExpanded ? 'text-[--primary-color]' : ''}`}
-            onDoubleClick={() => handleNodeNameChange(item.id, item)}
-          >
-            {item.name}
-          </span>
-        </div>
-
-        {Array.isArray(item.children) && item.children.length > 0 && (
-          <div
-            className="overflow-hidden grid"
-            style={{
-              transition: 'all 0.5s ease-in-out',
-              gridTemplateRows: item.isExpanded ? '1fr' : '0fr'
-            }}
-          >
-            <div className="overflow-hidden">{renderTree(item.children)}</div>
-          </div>
-        )}
-      </div>
-    ))
-  }
-
   return (
     <div className="col-span-1  px-4 box-card flex flex-col gap-2 relative bg-[#ffffff6b] rounded-xl shadow-content p-2">
       <div className="card-title flex justify-between items-center">
-        <span className="text-xl">配置树</span>
-        <span
-          className="cursor-pointer hover:text-[--primary-color] text-[#B2B2B2]"
-          onClick={handleAddNode}
-        >
-          <CirclePlusIcon width="20" height="20" />
-        </span>
+        <div className="text-xl">配置树</div>
+        <div className="flex gap-2 justify-center items-center">
+          <div
+            className="  cursor-pointer "
+            onClick={() => {
+              navigate('/config-code')
+            }}
+          >
+            Code
+          </div>
+          <div>
+            <span
+              className="cursor-pointer hover:text-[--primary-color] text-[#B2B2B2]"
+              onClick={handleAddNode}
+            >
+              <CirclePlusIcon width="20" height="20" />
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">{renderTree(treeData)}</div>
+      <div className="flex-1 overflow-y-auto">
+        {treeData.map(item => (
+          <TreeItem
+            key={item.id}
+            item={item}
+            handleContextMenu={handleContextMenu}
+            handleToggleExpand={handleToggleExpand}
+            handleNodeNameChange={handleNodeNameChange}
+          />
+        ))}
+      </div>
 
       {/* 自定义右键菜单 */}
       <ContextMenu

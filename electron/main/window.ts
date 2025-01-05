@@ -1,7 +1,7 @@
 import './env'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
-import './ipcMain'
+import './ipc/main'
 
 // 获取屏幕尺寸
 const getScreenSize = (): Electron.Size => {

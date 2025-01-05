@@ -3,6 +3,11 @@ import { autoUpdater } from 'electron-updater'
 import Store from 'electron-store'
 import { debounce } from 'lodash'
 import { promisify } from 'util'
+
+/**
+ * @description 检查更新脚本
+ */
+
 const sleep = promisify(setTimeout)
 
 const store = new Store()

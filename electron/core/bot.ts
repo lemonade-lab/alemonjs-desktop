@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { yarnRun } from './yarn'
-import { corePath, templatePath } from '../core/static'
+import { corePath, templatePath } from './static'
 import { join } from 'path'
 import { fork } from 'child_process'
 import logger from 'electron-log'

@@ -1,6 +1,10 @@
 import { Menu, Tray, app, shell } from 'electron'
 import { createLogoImageFromPath } from './icons'
 
+/**
+ * @description 拓展菜单
+ */
+
 const BASE_URL = 'https://alemonjs.com'
 
 // 创建图标菜单

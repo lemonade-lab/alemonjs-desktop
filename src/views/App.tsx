@@ -10,8 +10,8 @@ import { RootState } from '@src/store/index'
 import Home from '@src/views/Home/App'
 
 import Setting from '@src/views/settings/App'
-import Configuration from '@src/views/tags/ConfigEdit/App'
-import ConfigurationCode from '@src/views/tags/ConfigCode/App'
+import Configuration from '@src/views/Config/App'
+import ConfigurationCode from '@src/views/Config/ConfigCode/App'
 
 import { hideNotification } from '@src/store/notificationSlice'
 import { setStatus } from '@src/store/bot'

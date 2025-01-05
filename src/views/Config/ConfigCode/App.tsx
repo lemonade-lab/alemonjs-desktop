@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-json'
@@ -8,9 +8,20 @@ import 'ace-builds/src-noconflict/ext-language_tools'
 export default function ConfigCode() {
   const navigate = useNavigate()
   const [configText, setConfigText] = useState({
-    init: ``,
-    value: ``
+    initValue: ``,
+    inputValue: ``
   })
+
+  useEffect(() => {
+    window.app.botConfigRead().then(data => {
+      // console.log('data', data)
+      setConfigText({
+        initValue: data,
+        inputValue: data
+      })
+    })
+  }, [])
+
   return (
     <section className="h-full flex flex-col">
       <section className="h-full flex flex-col">
@@ -23,15 +34,15 @@ export default function ConfigCode() {
               <div>运行配置</div>
             </div>
             <div className="flex  gap-4 items-center">
-              {configText.init != configText.value && (
+              {configText.initValue != configText.inputValue && (
                 <>
                   <button className="border py-1 px-2 rounded-md bg-red-500 hover:bg-red-400">
                     <span
                       className="text-white"
                       onClick={() => {
                         setConfigText(prev => ({
-                          init: prev.init,
-                          value: prev.init
+                          initValue: prev.initValue,
+                          inputValue: prev.initValue
                         }))
                       }}
                     >
@@ -72,7 +83,7 @@ export default function ConfigCode() {
                   value: newValue
                 }))
               }}
-              value={configText.value}
+              value={configText.inputValue}
               name="typescript_editor"
             />
           </div>

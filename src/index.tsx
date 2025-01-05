@@ -17,6 +17,8 @@ declare global {
       botRun: () => Promise<void>
       botClose: () => Promise<void>
       botIsRunning: () => Promise<boolean>
+      botConfigRead: () => Promise<string>
+      botConfigWrite: (data: string) => Promise<boolean>
     }
     controller: {
       minimize: () => Promise<void>

@@ -1,5 +1,9 @@
 import { globalShortcut, webContents } from 'electron'
 
+/**
+ * #description 快捷键映射
+ */
+
 interface ShortcutMap {
   [key: string]: string
 }

@@ -1,5 +1,5 @@
 import './env'
-import './ipcMain'
+import './ipc/main'
 import { app } from 'electron'
 import { createShortcut } from '../core/shortcut'
 import { createTray } from '../core/tray'

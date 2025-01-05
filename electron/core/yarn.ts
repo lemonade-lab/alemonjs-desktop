@@ -1,7 +1,7 @@
 import { fork } from 'child_process'
 import { join } from 'node:path'
 import logger from 'electron-log'
-import { templatePath } from '../core/static'
+import { templatePath } from './static'
 
 /**
  * @description yarn 管理
