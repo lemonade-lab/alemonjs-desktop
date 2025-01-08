@@ -61,9 +61,9 @@ export default function ConfigCode() {
                   </button>
                 </>
               )}
-              <button onClick={() => navigate('/config')}>
+              {/* <button onClick={() => navigate('/config')}>
                 <span>界面</span>
-              </button>
+              </button> */}
             </div>
           </div>
           {

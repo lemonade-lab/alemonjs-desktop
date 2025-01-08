@@ -3,23 +3,20 @@ declare global {
   interface Window {
     app: {
       getAppPath: () => Promise<string>
-      isTemplateExists: () => Promise<boolean>
-      /**
-       * yarn
-       * @returns
-       */
-      yarnInstall: () => Promise<boolean>
-      yarnAdd: (name: string) => Promise<void>
-      /**
-       * bot
-       * @returns
-       */
-      botRun: () => Promise<void>
+      botRun: (args: string) => Promise<void>
       botClose: () => Promise<void>
-      botIsRunning: () => Promise<boolean>
-      botStdout: (callback: (message: string) => void) => void
+      botStatus: () => Promise<boolean>
+      onBotStdout: (callback: (message: string) => void) => void
+      onBotStatus: (callback: (status: number) => void) => void
       botConfigRead: () => Promise<string>
       botConfigWrite: (data: string) => Promise<boolean>
+    }
+    yarn: {
+      install: () => Promise<boolean>
+      add: (name: string) => Promise<void>
+      onInstallStatus: (callback: (value: number) => void) => void
+      onAddStatus: (callback: (value: number) => void) => void
+      status: (name: 'yarnInstall' | 'yarnAdd') => Promise<boolean>
     }
     controller: {
       minimize: () => Promise<void>

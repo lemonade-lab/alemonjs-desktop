@@ -2,7 +2,6 @@ import { templatePath } from './static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
-import { ipcMain } from 'electron'
 
 /**
  * @description bot 管理
@@ -26,37 +25,47 @@ let child: ChildProcess | null = null
  *
  * @returns
  */
-export const botRun = async (webContents: Electron.WebContents) => {
+export const botRun = async (webContents: Electron.WebContents, args: string[]) => {
   if (child && child.connected) {
     logger.info('Bot is running')
     return
   }
+
   const MyJS = join(templatePath, 'index.js')
-  child = fork(MyJS, ['--login', 'gui'], {
+  child = fork(MyJS, args, {
     cwd: templatePath,
     stdio: 'pipe' // 确保使用管道来捕获输出
   })
+
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
     // 发消息给渲染进程
-    webContents.send('bot-stdout', data.toString()),
-      logger.info(`Yarn install output: ${data.toString()}`)
+    webContents.send('bot-stdout', data.toString())
+    logger.info(`Yarn install output: ${data.toString()}`)
   })
+
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
+    webContents.send('bot-stdout', data.toString())
     logger.error(`Yarn install error: ${data.toString()}`)
   })
+
   // 监听子进程退出
   child.on('exit', code => {
+    // 退出了。
+    webContents.send('bot-status', 0)
     logger.info(`Yarn add process exited with code ${code}`)
   })
+
+  // 运行成功
+  webContents.send('bot-status', 1)
 }
 
 /**
  *
  * @returns
  */
-export const isBotRunning = () => {
+export const botStatus = () => {
   if (child && child.connected) {
     logger.info('Bot is running')
     return true

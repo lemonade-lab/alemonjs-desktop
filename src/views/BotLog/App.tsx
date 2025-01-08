@@ -1,51 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@src/store/index'
-import { showNotification } from '@src/store/notificationSlice'
-
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-
+import { useBotController } from '@src/hook/bot'
 /**
  * @description 机器人控制器
  */
 export default function BotLog() {
-  const bot = useSelector((state: RootState) => state.bot)
-  const dispatch = useDispatch()
+  const { onClickStart, onClickClose, onClickYarnInstall, bot, state, platforms } =
+    useBotController()
   const [message, setMessage] = useState<string[]>([])
-
-  /**
-   * @returns
-   */
-  const onClickStart = _.throttle(() => {
-    if (!bot.nodeModulesStatus) return
-    if (!bot.runStatus) {
-      dispatch(showNotification('开始运行机器人...'))
-      window.app.botRun()
-      return
-    } else {
-      dispatch(showNotification('机器人已经启动'))
-    }
-  }, 500)
-
-  /**
-   * @returns
-   */
-  const onClickClose = _.throttle(() => {
-    if (!bot.runStatus) return
-    window.app.botClose()
-  }, 500)
-
-  /**
-   * @returns
-   */
-  const onClickYarnInstall = _.throttle(() => {
-    if (bot.nodeModulesStatus) return
-    dispatch(showNotification('开始加载依赖...'))
-    window.app.yarnInstall()
-  }, 500)
-
+  const [platform, setPlatform] = state
   useEffect(() => {
-    window.app.botStdout((message: string) => {
+    window.app.onBotStdout((message: string) => {
       setMessage(prev => {
         if (prev.length > 10) {
           return prev.slice(1).concat(message)
@@ -54,14 +19,24 @@ export default function BotLog() {
       })
     })
   }, [])
-
   return (
     <main className="flex-1 flex flex-col ">
       <div className="flex-1 flex flex-col">
         <section className="bg-[#ffffff6b] rounded-xl shadow-content p-2 ">
           <div className="m-auto flex gap-4 py-1 items-center ">
-            <div className=" py-1 px-4 rounded-md">
-              机器状态 : {bot.runStatus ? '已启动' : '未启动'}
+            <div className="flex-1 flex gap-2 items-center  rounded-md">
+              <div>
+                <select
+                  defaultValue={platform}
+                  onChange={e => setPlatform(e.target.value as any)}
+                  className="bg-transparent"
+                >
+                  {platforms.map((item, index) => (
+                    <option key={index}>{item}</option>
+                  ))}
+                </select>
+              </div>
+              <div>{bot.runStatus ? '已启动' : '未启动'}</div>
             </div>
 
             {bot.nodeModulesStatus ? (

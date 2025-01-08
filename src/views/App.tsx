@@ -30,7 +30,7 @@ export default () => {
 
   const navList = [
     { Icon: <HomeIcon width="20" height="20" />, path: '/' },
-    { Icon: <FireworksIcon width="20" height="20" />, path: '/config' },
+    { Icon: <FireworksIcon width="20" height="20" />, path: '/config-code' },
     { Icon: <FireworksIcon width="20" height="20" />, path: '/bot-log' }
   ]
 
@@ -39,26 +39,45 @@ export default () => {
    * 状态不一致的时候更改。
    */
   useEffect(() => {
-    const timer = setInterval(() => {
-      window.app.isTemplateExists().then(res =>
-        dispatch(
-          setStatus({
-            nodeModulesStatus: res
-          })
-        )
-      )
-      window.app.botIsRunning().then(res =>
+    // 获取 bot 状态
+    window.app
+      .botStatus()
+      .then(res =>
         dispatch(
           setStatus({
             runStatus: res
           })
         )
       )
-    }, 1000)
+      .catch(err => {
+        console.error(err)
+      })
 
-    return () => {
-      clearInterval(timer)
-    }
+    // 监听 bot 状态
+    window.app.onBotStatus((value: number) => {
+      console.log('bot-status', value)
+      dispatch(
+        setStatus({
+          runStatus: value == 0 ? false : true
+        })
+      )
+    })
+
+    // 立即加载依赖
+    window.yarn.install().catch(err => {
+      console.error(err)
+    })
+
+    // 监听依赖安装状态
+    window.yarn.onInstallStatus((value: number) => {
+      dispatch(
+        setStatus({
+          nodeModulesStatus: value == 0 ? false : true
+        })
+      )
+    })
+
+    //
   }, [])
 
   // 通知 5 秒后消失
@@ -92,7 +111,7 @@ export default () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/bot-log" element={<BotLog />} />
-          <Route path="/config" element={<Configuration />} />
+          {/* <Route path="/config" element={<Configuration />} /> */}
           <Route path="/config-code" element={<ConfigurationCode />} />
           <Route path="/setting" element={<Setting />} />
         </Routes>

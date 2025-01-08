@@ -1,3 +1,4 @@
+# 阅读 https://alemonjs.com/ 了解更多配置信息
 # 测试环境端口
 gui:
   port: 17127

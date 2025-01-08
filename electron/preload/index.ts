@@ -1,23 +1,34 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
+type callback = (value: number) => void
+
 contextBridge.exposeInMainWorld('app', {
   // resources path
   getAppPath: () => ipcRenderer.invoke('get-app-path'),
-  // yarn
-  yarnInstall: () => ipcRenderer.invoke('yarn-install'),
-  yarnAdd: (data: string) => ipcRenderer.invoke('yarn-add', data),
   // bot
-  botRun: () => ipcRenderer.invoke('bot-run'),
+  botRun: (data: string) => ipcRenderer.invoke('bot-run', data),
   botClose: () => ipcRenderer.invoke('bot-close'),
-  botStdout: (callback: (message: string) => void) =>
+  botStatus: () => ipcRenderer.invoke('bot-status'),
+  onBotStdout: (callback: callback) =>
     ipcRenderer.on('bot-stdout', (_event, value) => callback(value)),
-  botIsRunning: () => ipcRenderer.invoke('bot-is-running'),
-  // Template
-  isTemplateExists: () => ipcRenderer.invoke('get-template-exists'),
+  onBotStatus: (callback: callback) =>
+    ipcRenderer.on('bot-status', (_event, value) => callback(value)),
+  // Template files
   rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir'),
   // bot config
   botConfigRead: () => ipcRenderer.invoke('bot-config-read'),
   botConfigWrite: () => ipcRenderer.invoke('bot-config-write')
+})
+
+contextBridge.exposeInMainWorld('yarn', {
+  // yarn
+  install: () => ipcRenderer.invoke('yarn-install'),
+  add: (data: string) => ipcRenderer.invoke('yarn-add', data),
+  onInstallStatus: (callback: callback) =>
+    ipcRenderer.on('yarn-install-status', (_event, value) => callback(value)),
+  onAddStatus: (callback: callback) =>
+    ipcRenderer.on('yarn-add-status', (_event, value) => callback(value)),
+  status: (data: 'yarnInstall' | 'yarnAdd') => ipcRenderer.invoke('yarn-status', data)
 })
 
 // 控制 electron

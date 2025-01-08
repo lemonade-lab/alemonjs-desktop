@@ -7,68 +7,65 @@ import { templatePath } from './static'
  * @description yarn 管理
  */
 
-const d = new Map()
+const yarnMap = new Map()
+
+const keys = {
+  yarnInstall: 'yarnInstall',
+  yarnAdd: 'yarnAdd'
+}
 
 /**
  * yarn 安装依赖
- * @param dir 路径
- * @returns 子进程实例
+ * @param webContents
+ * @returns
  */
-export const yarnInstall = () => {
+export const yarnInstall = (webContents: Electron.WebContents) => {
+  const KEY = keys.yarnInstall
   return new Promise(resolve => {
-    const KEY = 'yarn:install'
-    if (d.has(KEY)) {
+    if (yarnMap.has(KEY)) {
       // 执行中...
       resolve(false)
+      return
     }
+    logger.info('yarn install start', KEY)
+
+    yarnMap.set(KEY, 1)
+
     const MyJS = join(templatePath, 'bin', 'yarn.cjs')
     const child = fork(MyJS, ['install', '--ignore-warnings'], {
-      execArgv: [],
-      // 运行目录
       cwd: templatePath,
       stdio: 'pipe' // 确保使用管道来捕获输出
     })
     // 监听子进程的标准输出
     child.stdout?.on('data', data => {
+      // 发消息给渲染进程
+      webContents.send('bot-stdout', data.toString())
       logger.info(`Yarn install output: ${data.toString()}`)
     })
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
+      webContents.send('bot-stdout', data.toString())
       logger.error(`Yarn install error: ${data.toString()}`)
     })
     // 监听子进程退出
     child.on('exit', code => {
       logger.info(`Yarn add process exited with code ${code}`)
-      // 结束
-      d.delete(KEY)
-    })
-    d.set(KEY, true)
-    resolve(true)
-  })
-}
 
-/**
- *
- * @param args
- */
-export const yarnRun = (args: string[]) => {
-  const MyJS = join(templatePath, 'bin', 'yarn.cjs')
-  const child = fork(MyJS, [...args], {
-    // 运行目录
-    cwd: templatePath,
-    stdio: 'pipe' // 确保使用管道来捕获输出
-  })
-  // 监听子进程的标准输出
-  child.stdout?.on('data', data => {
-    logger.info(`Yarn install output: ${data.toString()}`)
-  })
-  // 监听子进程的错误输出
-  child.stderr?.on('data', data => {
-    logger.error(`Yarn install error: ${data.toString()}`)
-  })
-  // 监听子进程退出
-  child.on('exit', code => {
-    logger.info(`Yarn add process exited with code ${code}`)
+      // 结束
+      yarnMap.delete(KEY)
+
+      // 确保安装成功
+      if (code == 0) {
+        webContents.send('yarn-install-status', 1)
+      } else {
+        webContents.send('yarn-install-status', 0)
+      }
+      //
+    })
+
+    //
+    resolve(true)
+    return
   })
 }
 
@@ -78,23 +75,56 @@ export const yarnRun = (args: string[]) => {
  * @param packageName 包名
  * @returns 子进程实例
  */
-export const yarnAdd = (packageName: string) => {
-  const MyJS = join(templatePath, 'bin', 'yarn.cjs')
-  const child = fork(MyJS, ['add', packageName, '--ignore-warnings'], {
-    // 运行目录
-    cwd: templatePath,
-    stdio: 'pipe' // 确保使用管道来捕获输出
+export const yarnAdd = (webContents: Electron.WebContents, value: string) => {
+  const KEY = keys.yarnAdd
+  return new Promise(resolve => {
+    if (yarnMap.has(KEY)) {
+      // 执行中...
+      resolve(false)
+      return
+    }
+    logger.info('yarn add start', KEY)
+    yarnMap.set(KEY, 1)
+
+    const MyJS = join(templatePath, 'bin', 'yarn.cjs')
+    const child = fork(MyJS, ['add', value, '-W'], {
+      cwd: templatePath,
+      stdio: 'pipe' // 确保使用管道来捕获输出
+    })
+    // 监听子进程的标准输出
+    child.stdout?.on('data', data => {
+      // 发消息给渲染进程
+      webContents.send('bot-stdout', data.toString())
+      logger.info(`Yarn add output: ${data.toString()}`)
+    })
+    // 监听子进程的错误输出
+    child.stderr?.on('data', data => {
+      webContents.send('bot-stdout', data.toString())
+      logger.error(`Yarn add error: ${data.toString()}`)
+    })
+    // 监听子进程退出
+    child.on('exit', code => {
+      logger.info(`Yarn add process exited with code ${code}`)
+      // 结束
+      yarnMap.delete(KEY)
+      // 确保安装成功
+      if (code == 0) {
+        webContents.send('yarn-add-status', 1)
+      } else {
+        webContents.send('yarn-add-status', 0)
+      }
+      //
+    })
+    resolve(true)
+    return
   })
-  // 监听子进程的标准输出
-  child.stdout?.on('data', data => {
-    logger.info(`Yarn install output: ${data.toString()}`)
-  })
-  // 监听子进程的错误输出
-  child.stderr?.on('data', data => {
-    logger.error(`Yarn install error: ${data.toString()}`)
-  })
-  // 监听子进程退出
-  child.on('exit', code => {
-    logger.info(`Yarn add process exited with code ${code}`)
-  })
+}
+
+/**
+ *
+ * @returns
+ */
+export const yarnStatus = (key: keyof typeof keys) => {
+  console.log('yarnMap.has(key)', key, yarnMap.has(key))
+  return yarnMap.has(key)
 }
