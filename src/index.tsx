@@ -17,6 +17,7 @@ declare global {
       botRun: () => Promise<void>
       botClose: () => Promise<void>
       botIsRunning: () => Promise<boolean>
+      botStdout: (callback: (message: string) => void) => void
       botConfigRead: () => Promise<string>
       botConfigWrite: (data: string) => Promise<boolean>
     }

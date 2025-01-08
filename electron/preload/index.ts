@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld('app', {
   // bot
   botRun: () => ipcRenderer.invoke('bot-run'),
   botClose: () => ipcRenderer.invoke('bot-close'),
+  botStdout: (callback: (message: string) => void) =>
+    ipcRenderer.on('bot-stdout', (_event, value) => callback(value)),
   botIsRunning: () => ipcRenderer.invoke('bot-is-running'),
   // Template
   isTemplateExists: () => ipcRenderer.invoke('get-template-exists'),

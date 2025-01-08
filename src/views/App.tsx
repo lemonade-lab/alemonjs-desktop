@@ -18,6 +18,7 @@ import { setStatus } from '@src/store/bot'
 
 import { BottomBar } from '@src/views/BottomBar'
 import { Title } from '@src/views/Title'
+import BotLog from './BotLog/App'
 
 export default () => {
   const navigate = useNavigate()
@@ -29,7 +30,8 @@ export default () => {
 
   const navList = [
     { Icon: <HomeIcon width="20" height="20" />, path: '/' },
-    { Icon: <FireworksIcon width="20" height="20" />, path: '/config' }
+    { Icon: <FireworksIcon width="20" height="20" />, path: '/config' },
+    { Icon: <FireworksIcon width="20" height="20" />, path: '/bot-log' }
   ]
 
   /**
@@ -53,6 +55,7 @@ export default () => {
         )
       )
     }, 1000)
+
     return () => {
       clearInterval(timer)
     }
@@ -88,6 +91,7 @@ export default () => {
         <Title onClickTitle={() => navigate('/')} onclickIcon={() => navigate('/setting')} />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/bot-log" element={<BotLog />} />
           <Route path="/config" element={<Configuration />} />
           <Route path="/config-code" element={<ConfigurationCode />} />
           <Route path="/setting" element={<Setting />} />

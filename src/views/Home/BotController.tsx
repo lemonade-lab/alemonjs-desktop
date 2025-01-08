@@ -41,6 +41,7 @@ export default function BotController() {
     dispatch(showNotification('开始加载依赖...'))
     window.app.yarnInstall()
   }, 500)
+
   return (
     <section className="bg-[#ffffff6b] rounded-xl shadow-content p-2 ">
       <div className="m-auto flex gap-4 py-1 items-center ">
