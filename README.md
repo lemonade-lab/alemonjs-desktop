@@ -12,7 +12,7 @@ git clone --depth==1 https://github.com/lemonade-lab/alemonjs-desktop.git
 
 ```sh
 # 使用 nvm切换版本
-nvm use
+nvm use 22
 # 安装 yarn
 npm install yarn@1.19.1 -g
 # 安装所有依赖
@@ -31,30 +31,6 @@ yarn icons
 # 打包
 yarn build
 ```
-
-### 体验客户端
-
-打开客户端 > 启动
-
-选择聊天窗口(会提示已连接)
-
-输入/hello
-
-### 连接测试客户端
-
-开发项目中增加gui平台支持
-
-```sh
-yarn add @alemonjs/gui
-```
-
-选择登录gui
-
-```sh
-node index.js gui
-```
-
-> 切记先关闭客户端内制的测试机器人
 
 ### Community
 
