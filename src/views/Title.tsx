@@ -1,5 +1,6 @@
-import { StartIcons } from '@src/common/Icons'
-const { PetalIcon, SettingIcon } = StartIcons
+import { SettingIcon } from '@src/common/Icons'
+import { PetalIcon } from '@src/common/MenuIcons'
+
 /**
  * @param param0
  * @returns
@@ -12,7 +13,7 @@ export const Title = ({
   onclickIcon: () => void
 }) => {
   return (
-    <div className="flex justify-between items-center">
+    <nav className="flex px-4 justify-between items-center  bg-[var(--secondary-bg-front)]">
       <div className="flex items-center gap-2 cursor-pointer" onClick={() => onClickTitle()}>
         <PetalIcon width="28" />
         <span className="text-2xl font-bold ">AlemonJS</span>
@@ -26,6 +27,6 @@ export const Title = ({
           <SettingIcon width="28" height="28" />
         </div>
       </div>
-    </div>
+    </nav>
   )
 }

@@ -1,17 +1,17 @@
-@import '@src/assets/css/root.css';
-@import '@src/assets/css/tailwind.css';
+@import './assets/css/root.css';
+@import './assets/css/tailwind.css';
 @import url('./assets/css/scrollbar.scss');
 
 @font-face {
   font-family: 'Noto Serif SC';
-  src: url('@src/assets/fonts/NotoSerifSC-VariableFont_wght.ttf') format('truetype');
+  src: url('./assets/fonts/NotoSerifSC-VariableFont_wght.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Alibaba PuHuiTi 2.0';
-  src: url('@src/assets/fonts/AlibabaPuHuiTi2.0-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/AlibabaPuHuiTi2.0-Regular.ttf') format('truetype');
   font-style: normal;
 }
 
@@ -33,7 +33,8 @@ span {
   font-family: 'Noto Serif SC', serif;
 }
 
-// 清除默认样式
+// 清除tailwindcss带来的默认样式
+select,
 input {
   outline: none;
 }

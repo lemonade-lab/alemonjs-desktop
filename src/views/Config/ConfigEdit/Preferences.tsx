@@ -32,11 +32,11 @@ export default () => {
   }
 
   return (
-    <div className="col-span-3 px-8 box-card bg-[#ffffff6b] rounded-xl shadow-content p-2">
+    <div className="col-span-3 px-8 box-card bg-[var(--primary-bg-front)] rounded-xl shadow-content p-2">
       <div className="flex justify-between">
         <div className="card-title">预设标题</div>
         <div
-          className="cursor-pointer hover:text-[--primary-color] text-[#B2B2B2]"
+          className="cursor-pointer hover:text-[--primary-color] text-[var(--code-text)]"
           onClick={handleAddPreference}
         >
           <CirclePlusIcon width="20" height="20" />
@@ -54,7 +54,7 @@ export default () => {
               </label>
               <input
                 id={`key-${index}`}
-                className="text-sm px-4 py-2 w-full preference-input rounded-full"
+                className="text-sm px-4 py-2  preference-input rounded-full"
                 value={item.key}
                 onChange={e => handleChangePreference(index, e.target.value, item.value)}
               />
@@ -66,7 +66,7 @@ export default () => {
               </label>
               <input
                 id={`value-${index}`}
-                className="text-sm px-4 py-2 w-full preference-input rounded-full"
+                className="text-sm px-4 py-2  preference-input rounded-full"
                 value={item.value}
                 onChange={e => handleChangePreference(index, item.key, e.target.value)}
               />

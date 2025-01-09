@@ -168,59 +168,61 @@ export default function ConfigTree() {
   }
 
   return (
-    <div className="col-span-1  px-4 box-card flex flex-col gap-2 relative bg-[#ffffff6b] rounded-xl shadow-content p-2">
-      <div className="card-title flex justify-between items-center">
-        <div className="text-xl">配置树</div>
-        <div className="flex gap-2 justify-center items-center">
-          <div
-            className="  cursor-pointer "
-            onClick={() => {
-              navigate('/config-code')
-            }}
-          >
-            Code
-          </div>
-          <div>
-            <span
-              className="cursor-pointer hover:text-[--primary-color] text-[#B2B2B2]"
-              onClick={handleAddNode}
+    <main className="flex-1 flex flex-col px-4 bg-[var(--secondary-bg-front)]">
+      <div className="col-span-1  px-4 box-card flex flex-col gap-2 relative bg-[var(--primary-bg-front)] rounded-xl shadow-content p-2">
+        <div className="card-title flex justify-between items-center">
+          <div className="text-xl">配置树</div>
+          <div className="flex gap-2 justify-center items-center">
+            <div
+              className="  cursor-pointer "
+              onClick={() => {
+                navigate('/config-code')
+              }}
             >
-              <CirclePlusIcon width="20" height="20" />
-            </span>
+              Code
+            </div>
+            <div>
+              <span
+                className="cursor-pointer hover:text-[--primary-color] text-[var(--code-text)]"
+                onClick={handleAddNode}
+              >
+                <CirclePlusIcon width="20" height="20" />
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex-1 overflow-y-auto">
-        {treeData.map(item => (
-          <TreeItem
-            key={item.id}
-            item={item}
-            handleContextMenu={handleContextMenu}
-            handleToggleExpand={handleToggleExpand}
-            handleNodeNameChange={handleNodeNameChange}
-          />
-        ))}
-      </div>
+        <div className="flex-1 overflow-y-auto">
+          {treeData.map(item => (
+            <TreeItem
+              key={item.id}
+              item={item}
+              handleContextMenu={handleContextMenu}
+              handleToggleExpand={handleToggleExpand}
+              handleNodeNameChange={handleNodeNameChange}
+            />
+          ))}
+        </div>
 
-      {/* 自定义右键菜单 */}
-      <ContextMenu
-        items={[
-          { label: '添加节点', onClick: handleAddNode },
-          { label: '修改节点', onClick: handleEditNode },
-          { label: '删除节点', onClick: handleDeleteNode }
-        ]}
-        position={menuPosition}
-        visible={menuVisible}
-        onClose={hideMenu}
-      />
+        {/* 自定义右键菜单 */}
+        <ContextMenu
+          items={[
+            { label: '添加节点', onClick: handleAddNode },
+            { label: '修改节点', onClick: handleEditNode },
+            { label: '删除节点', onClick: handleDeleteNode }
+          ]}
+          position={menuPosition}
+          visible={menuVisible}
+          onClose={hideMenu}
+        />
 
-      {/* 通知组件 */}
-      <Notification
-        message={notification.message}
-        visible={notification.visible}
-        onClose={() => dispatch(showNotification(''))}
-      />
-    </div>
+        {/* 通知组件 */}
+        <Notification
+          message={notification.message}
+          visible={notification.visible}
+          onClose={() => dispatch(showNotification(''))}
+        />
+      </div>{' '}
+    </main>
   )
 }

@@ -2,15 +2,10 @@ import { useState, useEffect } from 'react'
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Notification from '@src/common/Notification'
-import { StartIcons } from '@src/common/Icons'
 import Header from '@src/common/Header'
-const { HomeIcon, FireworksIcon } = StartIcons
-//
 import { RootState } from '@src/store/index'
 import Home from '@src/views/Home/App'
-
 import Setting from '@src/views/settings/App'
-import Configuration from '@src/views/Config/App'
 import ConfigurationCode from '@src/views/Config/ConfigCode/App'
 
 import { hideNotification } from '@src/store/notificationSlice'
@@ -19,6 +14,7 @@ import { setStatus } from '@src/store/bot'
 import { BottomBar } from '@src/views/BottomBar'
 import { Title } from '@src/views/Title'
 import BotLog from './BotLog/App'
+import { FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
 
 export default () => {
   const navigate = useNavigate()
@@ -31,7 +27,7 @@ export default () => {
   const navList = [
     { Icon: <HomeIcon width="20" height="20" />, path: '/' },
     { Icon: <FireworksIcon width="20" height="20" />, path: '/config-code' },
-    { Icon: <FireworksIcon width="20" height="20" />, path: '/bot-log' }
+    { Icon: <PizzaIcon width="20" height="20" />, path: '/bot-log' }
   ]
 
   /**
@@ -97,7 +93,7 @@ export default () => {
   }, [location.pathname])
 
   return (
-    <section className="h-full flex flex-col">
+    <div className="flex flex-col h-screen">
       <Header>
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
@@ -106,24 +102,22 @@ export default () => {
         visible={notification.visible}
         onClose={() => dispatch(hideNotification())}
       />
-      <section className="flex-1 flex flex-col overflow-y-auto  px-4 bg-[#fef6ea]">
-        <Title onClickTitle={() => navigate('/')} onclickIcon={() => navigate('/setting')} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/bot-log" element={<BotLog />} />
-          {/* <Route path="/config" element={<Configuration />} /> */}
-          <Route path="/config-code" element={<ConfigurationCode />} />
-          <Route path="/setting" element={<Setting />} />
-        </Routes>
-        <BottomBar
-          data={navList}
-          onClickIcon={path => {
-            setActiveIndex(path)
-            navigate(path)
-          }}
-          active={activeIndex}
-        />
-      </section>
-    </section>
+      <Title onClickTitle={() => navigate('/')} onclickIcon={() => navigate('/setting')} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/bot-log" element={<BotLog />} />
+        {/* <Route path="/config" element={<Configuration />} /> */}
+        <Route path="/config-code" element={<ConfigurationCode />} />
+        <Route path="/setting" element={<Setting />} />
+      </Routes>
+      <BottomBar
+        data={navList}
+        onClickIcon={path => {
+          setActiveIndex(path)
+          navigate(path)
+        }}
+        active={activeIndex}
+      />
+    </div>
   )
 }

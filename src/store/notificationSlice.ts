@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface NotificationState {
+interface State {
   message: string
   visible: boolean
 }
 
-const initialState: NotificationState = {
+const initialState: State = {
   message: '',
   visible: false
 }

@@ -20,6 +20,9 @@ export const TreeItem = ({
   handleNodeNameChange
 }: {
   item: TreeDataType
+  handleContextMenu: (e: React.MouseEvent, item: TreeDataType) => void
+  handleToggleExpand: (id: string, item: TreeDataType) => void
+  handleNodeNameChange: (id: string, item: TreeDataType) => void
 }) => {
   return (
     <div

@@ -31,12 +31,12 @@ const Notification: React.FC<NotificationProps> = ({ message, visible, onClose }
   if (!visible) return null
 
   return (
-    <div className="fixed top-16 left-1/2 bg-[#f0f9eb] text-[#67c23a] px-4 py-2 rounded-lg shadow-lg z-50 transform -translate-x-1/2 min-w-[240px]">
+    <div className="fixed top-16 left-1/2 bg-[var(--notification-bg)] text-[var(--secondary-text)] px-4 py-2 rounded-lg shadow-lg z-50 transform -translate-x-1/2 min-w-[240px]">
       <div className="flex items-center gap-3">
         <span className="text-sm flex-1 break-words max-w-[420px]">{message}</span>
         <span
           onClick={onClose}
-          className="text-[#c0c4cc] hover:text-[--primary-color] cursor-pointer"
+          className="text-[var(--notification-text)] hover:text-[--primary-color] cursor-pointer"
         >
           <CloseIcon />
         </span>

@@ -2,4 +2,25 @@
   --font-family: 'Roboto', 'Noto Sans SC', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --code-font: 'Fira Code', 'Roboto', 'Noto Sans SC', Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
+
+  /* color */
+  --primaty-bg: #f9f9f9;
+
+  --secondary-bg: #de853c;
+
+  --primary-bg-front: #ffffff6b;
+
+  /* FEF6EA */
+  --secondary-bg-front: #fef6ea;
+
+  --primary-text: #606266;
+
+  /* 67c23a */
+  --secondary-text: #67c23a;
+
+  --notification-bg: #f0f9eb;
+
+  --notification-text: #c0c4cc;
+
+  --code-text: #b2b2b2;
 }

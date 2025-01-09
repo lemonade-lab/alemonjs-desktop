@@ -3,7 +3,6 @@ import { RootState } from '@src/store/index'
 import { showNotification } from '@src/store/notificationSlice'
 import _ from 'lodash'
 import { useState } from 'react'
-import { number } from 'echarts'
 export const useBotController = () => {
   const bot = useSelector((state: RootState) => state.bot)
   const platforms = [
