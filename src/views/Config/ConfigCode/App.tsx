@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import AceEditor from 'react-ace'
-import 'ace-builds/src-noconflict/mode-json'
-import 'ace-builds/src-noconflict/mode-typescript'
-import 'ace-builds/src-noconflict/theme-solarized_dark'
-import 'ace-builds/src-noconflict/ext-language_tools'
+
+import { UnControlled as CodeMirror } from 'react-codemirror2'
+
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/lib/codemirror.js'
+import 'codemirror/mode/yaml/yaml'
+
 export default function ConfigCode() {
   const [value, setValue] = useState('')
   const [initValue, setInitValue] = useState('')
@@ -53,18 +55,20 @@ export default function ConfigCode() {
           </div>
         </div>
         <div className="flex-1 flex flex-col">
-          <AceEditor
-            mode="typescript"
-            style={{
-              backgroundColor: 'var(--primary-bg-front)',
-              width: '100%',
-              height: '100%'
-            }}
-            onChange={newValue => {
-              setValue(newValue)
-            }}
+          <CodeMirror
             value={value}
-            name="typescript_editor"
+            className="w-full h-full"
+            options={{
+              mode: 'text/x-yaml',
+              lineNumbers: true
+            }}
+            onBeforeChange={(editor, data, value) => {
+              console.log('onBeforeChange fresh')
+              console.log(JSON.stringify(data))
+            }}
+            onChange={(editor, data, value) => {
+              setValue(value)
+            }}
           />
         </div>
         <div className="flex justify-between items-center min-h-6"></div>
