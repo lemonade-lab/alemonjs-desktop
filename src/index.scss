@@ -20,12 +20,6 @@ body {
   font-family: var(--font-family) !important;
 }
 
-// 可拖拽区域
-.drag-area {
-  -webkit-app-region: drag;
-  cursor: move;
-}
-
 // 增加字体
 div,
 section,
@@ -34,9 +28,14 @@ span {
 }
 
 // 清除tailwindcss带来的默认样式
-select,
-input {
+* {
   outline: none;
+}
+
+// 可拖拽区域
+.drag-area {
+  -webkit-app-region: drag;
+  cursor: move;
 }
 
 // 阴影
@@ -47,4 +46,8 @@ input {
 // 禁用图片的所有鼠标事件
 .pointer-events-none {
   pointer-events: none;
+}
+
+.CodeMirror.cm-s-default {
+  height: 100%;
 }

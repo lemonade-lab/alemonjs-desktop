@@ -1,28 +1,38 @@
-import { useEffect, useState } from 'react'
-
+import { useState } from 'react'
+import { useEffect } from 'react'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
+
+import { showNotification } from '@src/store/notificationSlice'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/yaml/yaml'
+import { useDispatch } from 'react-redux'
 
 export default function ConfigCode() {
   const [value, setValue] = useState('')
   const [initValue, setInitValue] = useState('')
-
+  const dispatch = useDispatch()
   useEffect(() => {
     window.app.botConfigRead().then(data => {
       setInitValue(data)
       setValue(data)
     })
   }, [])
-
+  const onClickSave = () => {
+    // 发送给electron
+    window.app.botConfigWrite(value).then(res => {
+      if (res) {
+        dispatch(showNotification('保存成功'))
+        setInitValue(value)
+      } else {
+        dispatch(showNotification('保存失败'))
+      }
+    })
+  }
   return (
     <main className="flex-1 flex flex-col px-4 bg-[var(--secondary-bg-front)] ">
       <section className="flex-1 flex flex-col shadow-content rounded-xl bg-[var(--primary-bg-front)]">
-        {
-          //
-        }
         <div className="flex justify-between items-center min-h-10  px-4">
           <div className="flex">
             <div>运行配置</div>
@@ -41,12 +51,7 @@ export default function ConfigCode() {
                   </span>
                 </button>
                 <button className="border py-1 px-2 rounded-md bg-blue-500 hover:bg-blue-400">
-                  <span
-                    className="text-white"
-                    onClick={() => {
-                      //
-                    }}
-                  >
+                  <span className="text-white" onClick={onClickSave}>
                     保存
                   </span>
                 </button>
@@ -54,17 +59,13 @@ export default function ConfigCode() {
             )}
           </div>
         </div>
-        <div className="flex-1 flex flex-col">
+        <div className="flex flex-col h-[calc(100vh-14rem)] overflow-y-auto scrollbar">
           <CodeMirror
             value={value}
-            className="w-full h-full"
+            className="flex-1 flex flex-col "
             options={{
               mode: 'text/x-yaml',
               lineNumbers: true
-            }}
-            onBeforeChange={(editor, data, value) => {
-              console.log('onBeforeChange fresh')
-              console.log(JSON.stringify(data))
             }}
             onChange={(editor, data, value) => {
               setValue(value)

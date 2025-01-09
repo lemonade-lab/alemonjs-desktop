@@ -17,7 +17,7 @@ contextBridge.exposeInMainWorld('app', {
   rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir'),
   // bot config
   botConfigRead: () => ipcRenderer.invoke('bot-config-read'),
-  botConfigWrite: () => ipcRenderer.invoke('bot-config-write')
+  botConfigWrite: (data: string) => ipcRenderer.invoke('bot-config-write', data)
 })
 
 contextBridge.exposeInMainWorld('yarn', {
