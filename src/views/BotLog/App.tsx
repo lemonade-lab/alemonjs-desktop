@@ -52,6 +52,7 @@ export default function BotLog() {
             {bot.nodeModulesStatus ? (
               bot.runStatus ? (
                 <button
+                  type="button"
                   className="border px-2 rounded-md  hover:bg-blue-200"
                   onClick={onClickClose}
                 >
@@ -59,6 +60,7 @@ export default function BotLog() {
                 </button>
               ) : (
                 <button
+                  type="button"
                   className="border px-2 rounded-md  hover:bg-blue-200"
                   onClick={onClickStart}
                 >
@@ -67,6 +69,7 @@ export default function BotLog() {
               )
             ) : (
               <button
+                type="button"
                 className="border px-2 rounded-md  hover:bg-blue-200"
                 onClick={onClickYarnInstall}
               >

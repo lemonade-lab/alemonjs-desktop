@@ -2,17 +2,17 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 
-import { showNotification } from '@src/store/notificationSlice'
-
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/yaml/yaml'
-import { useDispatch } from 'react-redux'
+import { useNotification } from '@src/context/Notification'
 
 export default function ConfigCode() {
   const [value, setValue] = useState('')
+
+  const { showNotification } = useNotification()
+
   const [initValue, setInitValue] = useState('')
-  const dispatch = useDispatch()
   useEffect(() => {
     window.app.botConfigRead().then(data => {
       setInitValue(data)
@@ -23,10 +23,10 @@ export default function ConfigCode() {
     // 发送给electron
     window.app.botConfigWrite(value).then(res => {
       if (res) {
-        dispatch(showNotification('保存成功'))
+        showNotification('保存成功')
         setInitValue(value)
       } else {
-        dispatch(showNotification('保存失败'))
+        showNotification('保存失败')
       }
     })
   }
@@ -40,7 +40,10 @@ export default function ConfigCode() {
           <div className="flex  gap-4 items-center">
             {value != initValue && (
               <>
-                <button className="border py-1 px-2 rounded-md bg-red-500 hover:bg-red-400">
+                <button
+                  type="button"
+                  className="border py-1 px-2 rounded-md bg-red-500 hover:bg-red-400"
+                >
                   <span
                     className="text-white"
                     onClick={() => {
@@ -50,7 +53,10 @@ export default function ConfigCode() {
                     放弃
                   </span>
                 </button>
-                <button className="border py-1 px-2 rounded-md bg-blue-500 hover:bg-blue-400">
+                <button
+                  type="button"
+                  className="border py-1 px-2 rounded-md bg-blue-500 hover:bg-blue-400"
+                >
                   <span className="text-white" onClick={onClickSave}>
                     保存
                   </span>

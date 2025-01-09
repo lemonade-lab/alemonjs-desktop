@@ -29,11 +29,16 @@ export default function BotController() {
         <div className="">
           {bot.nodeModulesStatus ? (
             bot.runStatus ? (
-              <button className="border px-2 rounded-md  hover:bg-blue-200" onClick={onClickClose}>
+              <button
+                type="button"
+                className="border px-2 rounded-md  hover:bg-blue-200"
+                onClick={onClickClose}
+              >
                 <span>关闭</span>
               </button>
             ) : (
               <button
+                type="button"
                 className="border px-2 rounded-md  hover:bg-blue-200"
                 onClick={() => {
                   onClickStart()
@@ -46,6 +51,7 @@ export default function BotController() {
             )
           ) : (
             <button
+              type="button"
               className="border px-2 rounded-md  hover:bg-blue-200"
               onClick={onClickYarnInstall}
             >

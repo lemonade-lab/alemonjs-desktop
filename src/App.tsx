@@ -1,9 +1,12 @@
 import { HashRouter } from 'react-router-dom'
+import { NotificationProvider } from '@src/context/Notification'
 import App from '@src/views/App'
-export default () => {
+export default function AppMain() {
   return (
-    <HashRouter>
-      <App />
-    </HashRouter>
+    <NotificationProvider>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </NotificationProvider>
   )
 }

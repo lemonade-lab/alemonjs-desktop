@@ -11,7 +11,6 @@ export const readResourcesFileSync = (path: string[]) => {
   return readFileSync(dir, 'utf-8')
 }
 /**
- *
  * @param path
  * @param data
  * @returns

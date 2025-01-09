@@ -8,7 +8,10 @@ export default () => {
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-xl pl-2">欢迎使用，通用聊天平台开发框架。</div>
-          <button className="px-4 py-1 border border-[var(--secondary-bg)] text-[var(--secondary-bg)] rounded-full flex items-center gap-4">
+          <button
+            type="button"
+            className="px-4 py-1 border border-[var(--secondary-bg)] text-[var(--secondary-bg)] rounded-full flex items-center gap-4"
+          >
             <RobotIcon width="20" height="20" />
             <span
               className="text-sm"

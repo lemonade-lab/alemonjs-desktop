@@ -36,7 +36,11 @@ contextBridge.exposeInMainWorld('controller', {
   minimize: () => ipcRenderer.send('minimize-window'),
   maximize: () => ipcRenderer.send('maximize-window'),
   close: () => ipcRenderer.send('close-window'),
-  update: () => ipcRenderer.send('update-version')
+  update: () => ipcRenderer.send('update-version'),
+  cssVariables: () => ipcRenderer.invoke('css-variables'),
+  onCSSVariables: (callback: (val: string) => void) => {
+    ipcRenderer.on('on-css-variables', (_event, value) => callback(value))
+  }
 })
 
 // 版本信息

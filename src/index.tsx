@@ -23,6 +23,8 @@ declare global {
       maximize: () => Promise<void>
       close: () => Promise<void>
       update: () => Promise<void>
+      cssVariables: () => Promise<void>
+      onCSSVariables: (callback: (value: string) => void) => void
     }
     versions: {
       chrome: string

@@ -1,71 +1,34 @@
-import { showNotification } from '@src/store/notificationSlice'
-import { useDispatch } from 'react-redux'
+// SettingApp.tsx
+import React, { useState } from 'react'
+import Tab from './Tab' // 导入 Tab 组件
+import Common from './Common' // 导入 Common 组件
+import About from './About'
 
-export default () => {
-  const dispatch = useDispatch()
+const SettingApp: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('通用') // 默认选中的标签
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+  }
+
   return (
     <main className="flex-1 flex flex-col px-4 bg-[var(--secondary-bg-front)]">
-      <section className=" h-full flex flex-col bg-[var(--primary-bg-front)] shadow-content rounded-xl">
-        <section className="flex-1 flex  items-center ">
-          <section className="w-28  h-full  p-2   ">
-            {['通用', '关于'].map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="px-2 py-1 hcursor-pointer text-sm hover:bg-gray-100 rounded-md cursor-pointer"
-                >
-                  {item}
-                </div>
-              )
-            })}
-          </section>
-          <section className="flex-1 bg-gradient-to-r  h-full  p-2   ">
-            <div className="px-2 py-1">聊天数据</div>
-            <div className=" flex flex-col gap-2  px-2 py-3   border rounded-md ">
-              <div className="flex">
-                <span className="flex-1 text-sm">记录（删除所有图文数据）</span>
-                <button
-                  onClick={e => {
-                    e.stopPropagation()
-                    dispatch(showNotification('待更新...'))
-                  }}
-                  className="cursor-pointer  px-2  border rounded-md  "
-                >
-                  清理
-                </button>
-              </div>
-              <div className="flex">
-                <span className="flex-1 text-sm">图片（清理本机中存在的图片）</span>
-                <button
-                  onClick={e => {
-                    e.stopPropagation()
-                    dispatch(showNotification('待更新...'))
-                  }}
-                  className="cursor-pointer  px-2  ext-slate-600  border rounded-md "
-                >
-                  清理
-                </button>
-              </div>
-            </div>
-            <div className="px-2 py-1 mt-4">本机数据</div>
-            <div className=" flex flex-col gap-2  px-2 py-3  border">
-              <div className="flex">
-                <span className="flex-1 text-sm">所有（待更新。。。。）</span>
-                <button
-                  className="cursor-pointer  px-2  border rounded-md "
-                  onClick={e => {
-                    // 阻止冒泡
-                    e.stopPropagation()
-                    dispatch(showNotification('待更新...'))
-                  }}
-                >
-                  清理
-                </button>
-              </div>
-            </div>
-          </section>
+      <section className="h-full flex flex-col bg-[var(--primary-bg-front)] shadow-content rounded-xl">
+        <section className="flex-1 flex">
+          <Tab
+            items={['通用', '关于']} // 传递标签项
+            activeTab={activeTab}
+            onTabChange={handleTabChange} // 传递回调函数
+          />
+          {/* 根据选中的标签渲染相应的内容 */}
+          <div className="flex-1 flex flex-col">
+            {activeTab === '通用' && <Common />}
+            {activeTab === '关于' && <About />}
+          </div>
         </section>
       </section>
     </main>
   )
 }
+
+export default SettingApp

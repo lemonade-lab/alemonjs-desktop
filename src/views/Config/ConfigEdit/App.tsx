@@ -1,17 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-//
-import { showNotification } from '@src/store/notificationSlice'
-import { RootState } from '@src/store/index'
+
 //
 import { CirclePlusIcon } from '@src/common/Icons'
-import Notification from '@src/common/Notification'
 //
 import ContextMenu from '@src/views/Home/ContextMenu'
 import { TreeDataType, TreeItem } from '@src/views/Config/ConfigEdit/TreeItem'
 
 import YAML from 'js-yaml'
+import { useNotification } from '@src/context/Notification'
 
 const getTreeData = (yamlString: string): TreeDataType[] => {
   const result = YAML.load(yamlString) as { [key: string]: any }
@@ -52,12 +49,12 @@ export default function ConfigTree() {
     })
   }, [])
 
+  const { showNotification } = useNotification()
+
   const [menuVisible, setMenuVisible] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
   const [currentItem, setCurrentItem] = useState<TreeDataType | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
-  const dispatch = useDispatch()
-  const notification = useSelector((state: RootState) => state.notification)
 
   // 右键菜单的处理函数
   const handleContextMenu = (e: React.MouseEvent, item: TreeDataType) => {
@@ -130,7 +127,7 @@ export default function ConfigTree() {
 
       const newTreeData = deleteNode(treeData, currentItem.id)
       setTreeData(newTreeData)
-      dispatch(showNotification('节点删除成功！')) // 显示通知
+      showNotification('节点删除成功！') // 显示通知
       hideMenu()
     }
   }
@@ -191,7 +188,6 @@ export default function ConfigTree() {
             </div>
           </div>
         </div>
-
         <div className="flex-1 overflow-y-auto">
           {treeData.map(item => (
             <TreeItem
@@ -203,7 +199,6 @@ export default function ConfigTree() {
             />
           ))}
         </div>
-
         {/* 自定义右键菜单 */}
         <ContextMenu
           items={[
@@ -215,14 +210,7 @@ export default function ConfigTree() {
           visible={menuVisible}
           onClose={hideMenu}
         />
-
-        {/* 通知组件 */}
-        <Notification
-          message={notification.message}
-          visible={notification.visible}
-          onClose={() => dispatch(showNotification(''))}
-        />
-      </div>{' '}
+      </div>
     </main>
   )
 }

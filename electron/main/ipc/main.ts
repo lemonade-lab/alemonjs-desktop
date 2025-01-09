@@ -3,6 +3,7 @@ import './template'
 import './window'
 import './yarn'
 import './config'
+import './css'
 import { BrowserWindow, ipcMain } from 'electron'
 import { autoUpdateApp } from '../../core/update'
 
