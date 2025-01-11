@@ -44,9 +44,13 @@ span {
 }
 
 // 禁用图片的所有鼠标事件
-.pointer-events-none {
+img {
   pointer-events: none;
 }
+
+// .pointer-events-none {
+//   pointer-events: none;
+// }
 
 .CodeMirror.cm-s-default {
   height: 100%;

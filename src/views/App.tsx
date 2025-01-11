@@ -11,7 +11,7 @@ import { setStatus } from '@src/store/bot'
 
 import { BottomBar } from '@src/views/BottomBar'
 import BotLog from './BotLog/App'
-import { FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
+import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
 
 export default () => {
   const navigate = useNavigate()
@@ -40,8 +40,16 @@ export default () => {
       }
     },
     {
-      Icon: <PizzaIcon width="20" height="20" />,
+      Icon: <ContactIcon width="20" height="20" />,
       path: '/bot-log',
+      onClick: (path: string) => {
+        setActiveIndex(path)
+        navigate(path)
+      }
+    },
+    {
+      Icon: <PizzaIcon width="20" height="20" />,
+      path: '/docs',
       onClick: (path: string) => {
         setActiveIndex(path)
         navigate(path)
@@ -127,13 +135,22 @@ export default () => {
             centerIndex={activeIndex}
             onClickSetting={() => navigate('/setting')}
           />
-          <main className="flex flex-1 p-2 bg-[var(--secondary-bg-front)]">
+          <main className="flex flex-1 bg-[var(--secondary-bg-front)]">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/bot-log" element={<BotLog />} />
               <Route path="/config-edit" element={<ConfigEdit />} />
               <Route path="/config-code" element={<ConfigCode />} />
               <Route path="/setting" element={<Setting />} />
+              <Route
+                path="/docs"
+                element={
+                  <webview
+                    src="https://alemonjs.com/"
+                    className="w-full bg-[var(--primary-bg-front)] shadow-md h-full"
+                  />
+                }
+              />
             </Routes>
           </main>
         </div>

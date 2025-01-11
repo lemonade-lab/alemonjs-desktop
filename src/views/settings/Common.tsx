@@ -7,7 +7,7 @@ const Common: React.FC = () => {
 
   return (
     <section className="flex-1 bg-gradient-to-r h-full p-2">
-      <div className="px-2 py-1">聊天数据</div>
+      {/* <div className="px-2 py-1">聊天数据</div>
       <div className="flex flex-col gap-2 px-2 py-3 border rounded-md">
         <div className="flex items-center">
           <span className="flex-1 text-sm">记录（删除所有图文数据）</span>
@@ -42,7 +42,7 @@ const Common: React.FC = () => {
             清理
           </button>
         </div>
-      </div>
+      </div> */}
     </section>
   )
 }

@@ -11,26 +11,26 @@ $scrollbar-width: thin;
 $scrollbar-color: #b5b7ba6b;
 
 .scrollbar {
+  scrollbar-width: $scrollbar-width;
+  scrollbar-color: $scrollbar-color $scrollbar-track-color;
+
+  ::-webkit-scrollbar-track {
+    background: $scrollbar-track-color;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $scrollbar-thumb-color;
+    border-radius: $scrollbar-thumb-radius;
+  }
+
   &-y,
   &-x {
-    scrollbar-width: $scrollbar-width;
-    scrollbar-color: $scrollbar-color $scrollbar-track-color;
-
     ::-webkit-scrollbar {
       @if &==&-y {
-        width: 1px; // 垂直滚动条的宽度
+        width: 1rem; // 垂直滚动条的宽度
       } @else {
-        height: 1px; // 水平滚动条的高度
+        height: 1rem; // 水平滚动条的高度
       }
-    }
-
-    ::-webkit-scrollbar-track {
-      background: $scrollbar-track-color;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: $scrollbar-thumb-color;
-      border-radius: $scrollbar-thumb-radius;
     }
   }
 }

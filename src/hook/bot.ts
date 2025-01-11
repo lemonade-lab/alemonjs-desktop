@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '@src/store/index'
 import _ from 'lodash'
 import { useState } from 'react'
@@ -17,7 +17,6 @@ export const useBotController = () => {
     'qq'
   ] as const
   const state = useState<(typeof platforms)[number]>('gui')
-  const dispatch = useDispatch()
   /**
    * @returns
    */

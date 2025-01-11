@@ -11,11 +11,11 @@ export const BottomBar = ({
   onClickSetting: () => void
 }) => {
   return (
-    <aside className="flex flex-col justify-between items-center px-2 py-4 bg-[var(--secondary-bg-front)]">
+    <aside className="flex flex-col justify-between items-center p-1 bg-[var(--secondary-bg-front)]">
       <div>
         <PetalIcon width="28" />
       </div>
-      <div className="px-2 py-1 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
+      <div className="px-1 py-8 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
         {centerList.map((item, index) => (
           <span
             key={index}
@@ -32,7 +32,7 @@ export const BottomBar = ({
           </span>
         ))}
       </div>
-      <div className="px-2 py-1 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
+      <div className="p-1 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
         <span
           className={classNames(
             'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer'

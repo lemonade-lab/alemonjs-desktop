@@ -10,7 +10,7 @@ export default function BotController() {
     useBotController()
   const [platform, setPlatform] = state
   return (
-    <section className="bg-[var(--primary-bg-front)] rounded-xl shadow-content p-2 ">
+    <section className="bg-[var(--primary-bg-front)] w-72 rounded-xl shadow-md p-2 ">
       <div className="flex gap-4 py-1 items-center ">
         <div className="flex-1 flex gap-2 items-center rounded-md">
           <div>

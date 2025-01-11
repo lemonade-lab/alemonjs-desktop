@@ -39,6 +39,7 @@ export const createWindow = () => {
     icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
     // 是否可以最小化窗口。默认为true。
     webPreferences: {
+      webviewTag: true, // 启用 webview 支持
       preload
     }
   })

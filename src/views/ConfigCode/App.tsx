@@ -34,7 +34,7 @@ export default function ConfigCode() {
   }
   return (
     <section className="flex-1 flex flex-col bg-[var(--secondary-bg-front)] ">
-      <div className="flex-1 flex flex-col shadow-content rounded-md bg-[var(--primary-bg-front)]">
+      <div className="flex-1 flex flex-col shadow-md rounded-md bg-[var(--primary-bg-front)]">
         <div className="flex justify-between items-center min-h-10 px-2">
           <div className="flex gap-2">
             <div className="px-1">运行配置</div>
@@ -75,7 +75,7 @@ export default function ConfigCode() {
             )}
           </div>
         </div>
-        <div className="flex flex-col h-[calc(100vh-6.5rem)] overflow-y-auto scrollbar">
+        <div className="flex flex-col h-[calc(100vh-7rem)] overflow-y-auto scrollbar">
           <CodeMirror
             value={value}
             className="flex-1 flex flex-col"

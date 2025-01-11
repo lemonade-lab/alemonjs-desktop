@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface State {
   runStatus: boolean
   nodeModulesStatus: boolean
+  runAt: number
 }
 
 const initialState: State = {
   runStatus: false,
-  nodeModulesStatus: false
+  nodeModulesStatus: false,
+  runAt: 0
 }
 
 const notificationSlice = createSlice({
@@ -37,9 +39,17 @@ const notificationSlice = createSlice({
           state.nodeModulesStatus = action.payload.nodeModulesStatus
         }
       }
+    },
+    /**
+     * 设置启动时间
+     * @param state
+     * @param action
+     */
+    setRunAt(state, action: PayloadAction<number>) {
+      state.runAt = action.payload
     }
   }
 })
 
-export const { setStatus } = notificationSlice.actions
+export const { setStatus, setRunAt } = notificationSlice.actions
 export default notificationSlice.reducer

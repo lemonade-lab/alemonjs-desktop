@@ -1,141 +1,117 @@
-import { useNavigate } from 'react-router-dom'
-/**
- *
- * @returns
- */
+import { set } from 'lodash'
+import { useEffect, useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
+
+import logoURL from '@src/assets/logo.jpg'
+
+const createDataURL = (html: string) => {
+  return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
+}
+
+const data = [
+  {
+    name: 'GUI',
+    event: 'open.gui',
+    url: createDataURL(`
+            <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QQ Bot</title>
+      </head>
+      <body>
+        <h1>Welcome to QQ Bot</h1>
+        <p>This is dynamically loaded HTML.</p>
+      </body>
+      </html>
+      `)
+  },
+  {
+    name: 'QQ Bot',
+    event: 'open.qq-bot',
+    url: createDataURL(`
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QQ Bot</title>
+</head>
+<body>
+  <h1>Welcome to QQ Bot</h1>
+  <p>This is dynamically loaded HTML.</p>
+</body>
+</html>
+`)
+  },
+  {
+    name: 'Discord',
+    event: 'open.discord',
+    url: createDataURL(`
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QQ Bot</title>
+</head>
+<body>
+  <h1>Welcome to QQ Bot</h1>
+  <p>This is dynamically loaded HTML.</p>
+</body>
+</html>
+`)
+  }
+]
+
 export default function ConfigEdit() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
+  const [event, setEvent] = useState('')
+  const [webviews, setWebviews] = useState(data)
+  useEffect(() => {
+    // 获取依赖信息
+    setWebviews(data)
+  }, [])
 
-  /**
-   * 从@alemonjs/gui依赖中。
-   * 读取配置树信息。
-   */
-
-  const views = [
-    {
-      name: '@alemonjs/gui',
-      from: [
-        {
-          value: '17127',
-          component: 'input',
-          placeholder: '端口',
-          type: 'text'
-        }
-      ]
-    },
-    {
-      name: '@alemonjs/qq-bot',
-      from: [
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'app_id',
-          type: 'text'
-        },
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'token',
-          type: 'text'
-        },
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'secret',
-          type: 'text'
-        },
-        {
-          value: '17157',
-          component: 'input',
-          placeholder: 'port',
-          type: 'text'
-        },
-        {
-          value: '/webhook',
-          component: 'input',
-          placeholder: 'route',
-          type: 'text'
-        },
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'ws接收地址',
-          type: 'text'
-        },
-        {
-          value: 'false',
-          component: 'input',
-          placeholder: '频道沙盒',
-          type: 'text'
-        }
-      ]
-    },
-    {
-      name: '@alemonjs/discord',
-      from: [
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'token',
-          type: 'text'
-        },
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'intent',
-          type: 'text'
-        },
-        {
-          value: '',
-          component: 'input',
-          placeholder: 'shard',
-          type: 'text'
-        }
-      ]
-    }
-  ]
+  useEffect(() => {}, [event])
 
   return (
-    <section className="flex-1 flex flex-col bg-[var(--secondary-bg-front)] ">
-      <div className="flex-1 flex flex-col shadow-content rounded-md bg-[var(--primary-bg-front)]">
-        <div className="flex justify-between items-center min-h-10 px-2">
-          <div className="flex gap-2">
-            <div className="px-1">配置图表</div>
-            <div
-              className="px-1 bg-slate-50 rounded-full border cursor-pointer"
-              onClick={() => {
-                navigate('/config-code')
-              }}
-            >
-              TABLE
-            </div>
-          </div>
-          <div className="flex  gap-4 items-center"></div>
-        </div>
-        <div className="flex flex-col gap-2 h-[calc(100vh-6rem)] overflow-y-auto scrollbar p-2">
-          {views.map((view, index) => {
-            return (
-              <div key={index} className="flex flex-col border rounded-md">
-                <div className="flex border-b py-2 px-1">
-                  <div className="px-1">{view.name}</div>
+    <section className="flex flex-col flex-1 bg-[var(--primary-bg-front)] shadow-md">
+      {/* 主内容区 */}
+      <div className="flex flex-1">
+        {/* Webview 显示区 */}
+        <div className="flex flex-col flex-1 h-[calc(100vh-6rem)]">
+          {event != '' && webviews.find(item => item.event == event) ? (
+            <webview
+              src={webviews.find(item => item.event == event)?.url}
+              className="w-full h-full"
+            />
+          ) : (
+            <div className="select-none flex-1 flex-col flex justify-center items-center">
+              <div className="flex-col flex">
+                <img src={logoURL} alt="logo" className="w-96" />
+                <div className="flex-col flex justify-center items-center">
+                  可选择左侧导航栏中的选项进行查看
                 </div>
-                <form className="flex flex-col gap-2  px-2 py-1">
-                  {view.from.map((item, index) => {
-                    return (
-                      <input
-                        key={index}
-                        type={item.type}
-                        value={item.value}
-                        placeholder={item.placeholder}
-                        className="flex-1 px-2 py-1 border rounded-md bg-[var(--primary-bg-back)]"
-                      />
-                    )
-                  })}
-                </form>
               </div>
-            )
-          })}
+            </div>
+          )}
         </div>
+        {/* 右侧导航栏 */}
+        <nav className="w-20 border-l ">
+          {webviews.map((view, index) => (
+            <div
+              key={index}
+              className={`p-2 cursor-pointer text-center hover:bg-slate-200 ${
+                view.event === event ? 'bg-slate-300 font-bold' : ''
+              }`}
+              onClick={() => setEvent(view.event)}
+            >
+              {view.name}
+            </div>
+          ))}
+        </nav>
       </div>
     </section>
   )
