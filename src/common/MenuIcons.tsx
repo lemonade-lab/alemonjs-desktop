@@ -1,7 +1,7 @@
 // 首页 整体 图标区域
 // 花瓣图标
 export const PetalIcon = (props: React.SVGProps<SVGSVGElement> = {}) => (
-  <svg width={36} height={71} viewBox="0 0 71 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width={36} height={36} viewBox="0 0 71 71" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M2.13948 62.4396C4.34 53.6375 12.0418 43.1851 15.6176 39.0591C16.1678 41.8098 18.0932 51.9871 24.4197 61.6144C29.4809 69.3162 18.8267 69.7746 12.867 69.0411C2.74462 68.381 1.49767 64.365 2.13948 62.4396Z"
       fill="#F7F7F7"

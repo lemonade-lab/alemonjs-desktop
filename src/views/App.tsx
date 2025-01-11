@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux'
 import Header from '@src/common/Header'
 import Home from '@src/views/Home/App'
 import Setting from '@src/views/settings/App'
-import ConfigurationCode from '@src/views/Config/ConfigCode/App'
+import ConfigCode from '@src/views/ConfigCode/App'
+import ConfigEdit from '@src/views/ConfigEdit/App'
 
 import { setStatus } from '@src/store/bot'
 
 import { BottomBar } from '@src/views/BottomBar'
-import { Title } from '@src/views/Title'
 import BotLog from './BotLog/App'
 import { FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
 
@@ -23,9 +23,30 @@ export default () => {
   const [loading, setLoading] = useState(false)
 
   const navList = [
-    { Icon: <HomeIcon width="20" height="20" />, path: '/' },
-    { Icon: <FireworksIcon width="20" height="20" />, path: '/config-code' },
-    { Icon: <PizzaIcon width="20" height="20" />, path: '/bot-log' }
+    {
+      Icon: <HomeIcon width="20" height="20" />,
+      path: '/',
+      onClick: (path: string) => {
+        setActiveIndex(path)
+        navigate(path)
+      }
+    },
+    {
+      Icon: <FireworksIcon width="20" height="20" />,
+      path: '/config-edit',
+      onClick: (path: string) => {
+        setActiveIndex(path)
+        navigate(path)
+      }
+    },
+    {
+      Icon: <PizzaIcon width="20" height="20" />,
+      path: '/bot-log',
+      onClick: (path: string) => {
+        setActiveIndex(path)
+        navigate(path)
+      }
+    }
   ]
 
   /**
@@ -100,24 +121,22 @@ export default () => {
         <div className="flex-1 drag-area flex justify-center items-center"></div>
       </Header>
       {loading && (
-        <>
-          <Title onClickTitle={() => navigate('/')} onclickIcon={() => navigate('/setting')} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/bot-log" element={<BotLog />} />
-            {/* <Route path="/config" element={<Configuration />} /> */}
-            <Route path="/config-code" element={<ConfigurationCode />} />
-            <Route path="/setting" element={<Setting />} />
-          </Routes>
+        <div className="flex flex-1">
           <BottomBar
-            data={navList}
-            onClickIcon={path => {
-              setActiveIndex(path)
-              navigate(path)
-            }}
-            active={activeIndex}
+            centerList={navList}
+            centerIndex={activeIndex}
+            onClickSetting={() => navigate('/setting')}
           />
-        </>
+          <main className="flex flex-1 p-2 bg-[var(--secondary-bg-front)]">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/bot-log" element={<BotLog />} />
+              <Route path="/config-edit" element={<ConfigEdit />} />
+              <Route path="/config-code" element={<ConfigCode />} />
+              <Route path="/setting" element={<Setting />} />
+            </Routes>
+          </main>
+        </div>
       )}
     </div>
   )

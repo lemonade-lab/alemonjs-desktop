@@ -9,7 +9,7 @@ interface TabProps {
 
 const Tab: React.FC<TabProps> = ({ items, activeTab, onTabChange }) => {
   return (
-    <section className="w-28 h-full p-2">
+    <section className="w-28 h-full p-2 border-l">
       {items.map(item => (
         <div
           key={item}

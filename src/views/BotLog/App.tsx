@@ -31,73 +31,66 @@ export default function BotLog() {
     })
   }, [])
   return (
-    <>
-      <section className="flex flex-col px-4 bg-[var(--secondary-bg-front)]">
-        <section className="flex flex-col  bg-[var(--primary-bg-front)] rounded-t-xl border-x border-y p-2 ">
-          <div className="flex gap-4 py-1 items-center ">
-            <div className="flex-1 flex gap-2 items-center  rounded-md">
-              <div>
-                <select
-                  defaultValue={platform}
-                  onChange={e => setPlatform(e.target.value as any)}
-                  className="bg-transparent"
-                >
-                  {platforms.map((item, index) => (
-                    <option key={index}>{item}</option>
-                  ))}
-                </select>
-              </div>
-              <div>{bot.runStatus ? '已启动' : '未启动'}</div>
+    <section className="flex flex-col flex-1 bg-[var(--primary-bg-front)] rounded-md shadow-content">
+      <div className="flex flex-col p-1  rounded-t-md border-b ">
+        <div className="flex gap-4  items-center ">
+          <div className="flex-1 flex gap-2 items-center  rounded-md">
+            <div>
+              <select
+                defaultValue={platform}
+                onChange={e => setPlatform(e.target.value as any)}
+                className="bg-transparent"
+              >
+                {platforms.map((item, index) => (
+                  <option key={index}>{item}</option>
+                ))}
+              </select>
             </div>
-            {bot.nodeModulesStatus ? (
-              bot.runStatus ? (
-                <button
-                  type="button"
-                  className="border px-2 rounded-md  hover:bg-blue-200"
-                  onClick={onClickClose}
-                >
-                  <span>关闭</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="border px-2 rounded-md  hover:bg-blue-200"
-                  onClick={onClickStart}
-                >
-                  <span>启动</span>
-                </button>
-              )
+            <div>{bot.runStatus ? '已启动' : '未启动'}</div>
+          </div>
+          {bot.nodeModulesStatus ? (
+            bot.runStatus ? (
+              <button
+                type="button"
+                className="border px-2 rounded-md  hover:bg-blue-200"
+                onClick={onClickClose}
+              >
+                <span>关闭</span>
+              </button>
             ) : (
               <button
                 type="button"
                 className="border px-2 rounded-md  hover:bg-blue-200"
-                onClick={onClickYarnInstall}
+                onClick={onClickStart}
               >
-                <span>加载</span>
+                <span>启动</span>
               </button>
-            )}
-          </div>
-        </section>
-      </section>
-      <main
-        ref={logRef}
-        className="flex-1 flex flex-col px-4 overflow-auto scrollbar bg-[var(--secondary-bg-front)] "
-      >
-        <section className="flex flex-col bg-[var(--primary-bg-front)] px-2 h-full">
-          <div className="flex-1 h-full flex flex-col overflow-hidden">
-            <div className="flex flex-col">
-              {log.message.length > 0 ? (
-                log.message.map((item, index) => <p key={index}>{item}</p>)
-              ) : (
-                <p>没有消息</p>
-              )}
+            )
+          ) : (
+            <button
+              type="button"
+              className="border px-2 rounded-md  hover:bg-blue-200"
+              onClick={onClickYarnInstall}
+            >
+              <span>加载</span>
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col p-1 ">
+        <div ref={logRef} className="flex flex-col h-[calc(100vh-6.5rem)] overflow-auto scrollbar">
+          {log.message.length > 0 ? (
+            log.message.map((item, index) => <p key={index}>{item}</p>)
+          ) : (
+            <div className="flex-1 flex justify-center items-center">
+              {/* <span>暂无日志</span> */}
+              {
+                // 加一个 logo
+              }
             </div>
-          </div>
-        </section>
-      </main>
-      <section className="flex flex-col px-4 bg-[var(--secondary-bg-front)]">
-        <section className="flex flex-col  bg-[var(--primary-bg-front)] rounded-b-xl border-x border-b py-1"></section>
-      </section>
-    </>
+          )}
+        </div>
+      </div>
+    </section>
   )
 }

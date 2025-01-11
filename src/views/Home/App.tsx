@@ -4,7 +4,7 @@ import { RobotIcon } from '@src/common/MenuIcons'
 export default () => {
   const navigate = useNavigate()
   return (
-    <main className="flex-1 flex flex-col px-4 bg-[var(--secondary-bg-front)]">
+    <section className="flex-1 flex flex-col px-4 bg-[var(--secondary-bg-front)]">
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-xl pl-2">欢迎使用，通用聊天平台开发框架。</div>
@@ -23,7 +23,7 @@ export default () => {
             </span>
           </button>
         </div>
-        <section
+        <div
           className="flex-1 alemonjs-container text-secondary wrap py-2"
           style={{ '--max-row': '2' } as React.CSSProperties}
         >
@@ -31,8 +31,8 @@ export default () => {
           <div className="row-span-2 col-span-1 control-container">
             <BotController />
           </div>
-        </section>
+        </div>
       </div>
-    </main>
+    </section>
   )
 }

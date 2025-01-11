@@ -6,8 +6,10 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/yaml/yaml'
 import { useNotification } from '@src/context/Notification'
+import { useNavigate } from 'react-router-dom'
 
 export default function ConfigCode() {
+  const navigate = useNavigate()
   const [value, setValue] = useState('')
 
   const { showNotification } = useNotification()
@@ -31,11 +33,19 @@ export default function ConfigCode() {
     })
   }
   return (
-    <main className="flex-1 flex flex-col px-4 bg-[var(--secondary-bg-front)] ">
-      <section className="flex-1 flex flex-col shadow-content rounded-xl bg-[var(--primary-bg-front)]">
-        <div className="flex justify-between items-center min-h-10  px-4">
-          <div className="flex">
-            <div>运行配置</div>
+    <section className="flex-1 flex flex-col bg-[var(--secondary-bg-front)] ">
+      <div className="flex-1 flex flex-col shadow-content rounded-md bg-[var(--primary-bg-front)]">
+        <div className="flex justify-between items-center min-h-10 px-2">
+          <div className="flex gap-2">
+            <div className="px-1">运行配置</div>
+            <div
+              className="px-1 bg-slate-50 rounded-full border cursor-pointer"
+              onClick={() => {
+                navigate('/config-edit')
+              }}
+            >
+              CODE
+            </div>
           </div>
           <div className="flex  gap-4 items-center">
             {value != initValue && (
@@ -65,10 +75,10 @@ export default function ConfigCode() {
             )}
           </div>
         </div>
-        <div className="flex flex-col h-[calc(100vh-14rem)] overflow-y-auto scrollbar">
+        <div className="flex flex-col h-[calc(100vh-6.5rem)] overflow-y-auto scrollbar">
           <CodeMirror
             value={value}
-            className="flex-1 flex flex-col "
+            className="flex-1 flex flex-col"
             options={{
               mode: 'text/x-yaml',
               lineNumbers: true
@@ -79,7 +89,7 @@ export default function ConfigCode() {
           />
         </div>
         <div className="flex justify-between items-center min-h-6"></div>
-      </section>
-    </main>
+      </div>
+    </section>
   )
 }
