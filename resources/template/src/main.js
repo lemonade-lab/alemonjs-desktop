@@ -10,6 +10,45 @@ let modules = []
 // desktop
 const desktops = []
 const commands = []
+const views = []
+
+class webView {
+  #name = null
+
+  __messages = []
+
+  constructor(name) {
+    this.#name = name
+  }
+
+  /**
+   *
+   * @param {*} callback
+   */
+  onMessage(callback) {
+    this.__messages.push(callback)
+  }
+
+  /**
+   *
+   * @param {*} html
+   */
+  loadWebView(html) {
+    // 插入脚本
+    const str = `<script>  
+        const createDesktopAPI = ()=> {
+          const expansions_name = '${this.#name}'
+          return window.appDesktopAPI.create(expansions_name)
+        }
+        window.createDesktopAPI = createDesktopAPI
+      </script>`
+    const data = html.replace('<head>', `<head> ${str}`)
+    process.send({
+      type: 'load-sidebar-webview',
+      data: data
+    })
+  }
+}
 
 const context = {
   /**
@@ -32,17 +71,6 @@ const context = {
       command: command,
       callback
     })
-  },
-  sidebar: {
-    webView: {
-      loadWebView: html => {
-        // 发送消息给主进程，立即渲染该页面。
-        process.send({
-          type: 'load-sidebar-webview',
-          data: html
-        })
-      }
-    }
   }
 }
 
@@ -57,22 +85,34 @@ const updateModules = () => {
         const createDesktop = async () => {
           try {
             const desktop = await import(`@alemonjs/${d}/desktop`)
+            // 模块名称
             desktops.push({
               // 模块名称
               name: pkg.name,
               // 模块描述
               value: desktop
             })
-            // 传入 上下文
-            desktops.forEach(desktop => {
-              desktop.value.activate(context)
-            })
-          } catch {
+            // 传入上下文
+            context._name = pkg.name
+            // 创建 webview
+            context.createSidebarWebView = context => {
+              const _name = context._name
+              const view = new webView(_name)
+              views.push({
+                name: _name,
+                value: view
+              })
+              return view
+            }
+            if (desktop.activate) {
+              await desktop.activate(context)
+            }
+          } catch (e) {
             // console.error(e)
           }
         }
         createDesktop()
-      } catch {
+      } catch (e) {
         // console.error(e)
       }
     }
@@ -116,12 +156,23 @@ export const events = {
       data: modules
     })
   },
+  // 执行命令
   'command': command => {
     // 找到命令
     const value = commands.find(c => c.command == command)
     if (value) {
       // 执行命令
       value.callback()
+    }
+  },
+  'webview-post-message': data => {
+    // 找到对应插件的webview实例。
+    const view = views.find(item => item.name == data.name)
+    if (view) {
+      // 执行回调函数。
+      view.value.__messages.forEach(callback => {
+        callback(data.value)
+      })
     }
   }
 }

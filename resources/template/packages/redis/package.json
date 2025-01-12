@@ -3,11 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "description": "Redis client for Alemon Bot Framework.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "exports": {
-    ".": "./index.js",
+    ".": "./lib/index.js",
     "./package": "./package.json",
-    "./desktop": "./main.js"
+    "./desktop": "./desktop.js"
   },
   "alemonjs": {
     "desktop": {

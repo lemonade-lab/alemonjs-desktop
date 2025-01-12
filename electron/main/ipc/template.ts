@@ -1,6 +1,5 @@
 import { ipcMain } from 'electron'
-import { resourcesPath } from 'process'
-import { corePath } from '../../core/static'
+import { corePath, resourcesPath } from '../../core/static'
 import { existsSync } from 'fs'
 import { rmTemplateDir } from '../../core/files'
 

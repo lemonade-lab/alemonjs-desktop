@@ -7,14 +7,7 @@ document.getElementById('redisForm').addEventListener('submit', async function (
     password: document.getElementById('password').value,
     db: document.getElementById('db').value
   }
-  try {
-    // Save the data to a JSON file
-    await window.saveRedisConfig(formData)
-    // Show success message
-    document.getElementById('status').textContent = 'Redis connection saved successfully!'
-  } catch (err) {
-    console.error('Error saving Redis connection:', err)
-    document.getElementById('status').textContent = 'Failed to save Redis connection.'
-    document.getElementById('status').style.color = 'red'
-  }
+  const API = createDesktopAPI()
+  API.postMessage(JSON.stringify(formData))
+  console.log('formData', formData)
 })

@@ -22,6 +22,7 @@ import WordBox from './WordBox'
 import { setModulesStatus } from '@src/store/modules'
 import { setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
+import { setPath } from '@src/store/app'
 
 export default () => {
   const navigate = useGoNavigate()
@@ -77,6 +78,11 @@ export default () => {
     // 立即加载依赖
     window.yarn.install().catch(err => {
       console.error(err)
+    })
+
+    //app dir
+    window.app.getAppPath().then(res => {
+      dispatch(setPath(res))
     })
 
     // 获取 bot 状态
@@ -174,7 +180,7 @@ export default () => {
   }, [location.pathname])
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen ">
       <Header>{loading ? <WordBox /> : <div></div>}</Header>
       {loading ? (
         <div className="flex flex-1">

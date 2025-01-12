@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import logoURL from '@src/assets/logo.jpg'
 import classNames from 'classnames'
 import { RootState } from '@src/store'
@@ -10,72 +10,92 @@ const createTextHtmlURL = (html: string) =>
 
 export default function ConfigEdit() {
   const command = useSelector((state: RootState) => state.command)
+
+  const app = useSelector((state: RootState) => state.app)
+
   const dispatch = useDispatch()
 
   const [view, setView] = useState('')
+  const viewRef = useRef<HTMLWebViewElement>(null)
 
-  // 扩展信息
   const [viewSidebars, setViewSidebars] = useState<
-    {
-      expansions_name: string
-      name: string
-      commond: string
-    }[]
+    { expansions_name: string; name: string; commond: string }[]
   >([])
+
+  useEffect(() => {
+    const postMessage = (event: any) => {
+      console.log('data', event.data)
+    }
+
+    if (view != '' && viewRef.current) {
+      viewRef.current.addEventListener('ipc-message', postMessage)
+
+      viewRef.current.addEventListener('console-message', (e: any) => {
+        // 根据消息类型进行log
+        if (e.level === 1) {
+          console.log(e.message)
+        } else if (e.level === 2) {
+          console.warn(e.message)
+        } else {
+          console.error(e.message)
+        }
+      })
+
+      const loadstart = () => {
+        console.log('loadstart')
+      }
+
+      const loadstop = () => {
+        console.log('loadstop')
+      }
+
+      viewRef.current.addEventListener('did-start-loading', loadstart)
+      viewRef.current.addEventListener('did-stop-loading', loadstop)
+    }
+  }, [view])
 
   const key = 'get-expansions'
   const key2 = 'load-sidebar-webview'
 
   useEffect(() => {
-    // 发送消息给扩展 获取扩展信息
-    window.expansions.postMessage(JSON.stringify({ type: key }))
+    if (window.expansions) {
+      window.expansions.postMessage(JSON.stringify({ type: key }))
 
-    // 监听消息
-    window.expansions.onMessage((data: string) => {
-      try {
-        const res = JSON.parse(data)
-        // 解析消息
-        if (res.type === key) {
-          if (Array.isArray(res.data)) {
-            const sidebarsItem = []
-            for (const item of res.data) {
-              const sidebars = item.alemonjs?.desktop?.sidebars
-              if (Array.isArray(sidebars)) {
-                for (const sidebar of sidebars) {
-                  sidebarsItem.push({
+      window.expansions.onMessage((data: string) => {
+        try {
+          const res = JSON.parse(data)
+          if (res.type === key) {
+            const sidebarsItem =
+              res.data?.flatMap((item: any) => {
+                return (
+                  item.alemonjs?.desktop?.sidebars?.map((sidebar: any) => ({
                     ...sidebar,
-                    // 扩展名
                     expansions_name: item.name
-                  })
-                }
-              }
-            }
+                  })) || []
+                )
+              }) || []
             setViewSidebars(sidebarsItem)
+          } else if (res.type === key2) {
+            setView(res.data)
           }
-        } else if (res.type === key2) {
-          console.log('res.data', res.data)
-
-          // 立即渲染 webview。
-          setView(res.data)
+        } catch (error) {
+          console.error('ConfigEdit 消息解析失败:', error)
         }
-      } catch {
-        console.error('ConfigEdit 解析消息失败')
-      }
-    })
+      })
+    }
   }, [])
 
   return (
-    <section className="flex flex-col flex-1  shadow-md">
-      {/* 主内容区 */}
+    <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        {/* Webview 显示区 */}
         <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
-          {view != '' ? (
+          {view ? (
             <webview
-              // nodeintegration={false}
-              nodeintegration
-              // contextIsolation={true}
-              disablewebsecurity
+              ref={viewRef}
+              nodeintegration="false"
+              disablewebsecurity="false"
+              // disablewebsecurity
+              preload={`file://${app.path}/preload/webview.js`}
               src={createTextHtmlURL(view)}
               className="w-full h-full"
             />
@@ -90,32 +110,29 @@ export default function ConfigEdit() {
             </div>
           )}
         </div>
-        {/* 右侧导航栏 */}
-        <nav className="min-w-14 border-l ">
-          {viewSidebars.map((view, index) => (
+        <nav className="min-w-14 border-l">
+          {viewSidebars.map((viewItem, index) => (
             <div
               key={index}
               onClick={() => {
-                // 设置 command
-                dispatch(setCommand(view.commond))
-
+                dispatch(setCommand(viewItem.commond))
                 window.expansions.postMessage(
                   JSON.stringify({
-                    type: `command`,
-                    data: view.commond
+                    type: 'command',
+                    data: viewItem.commond
                   })
                 )
               }}
               className={classNames(
-                'p-2 size-14 text-sm flex cursor-pointer  justify-center items-center hover:bg-slate-200',
+                'p-2 size-14 text-sm flex cursor-pointer justify-center items-center hover:bg-slate-200',
                 'border-r-2',
                 {
                   'bg-[var(--primary-bg-front)] border-r-2 border-slate-500':
-                    view.commond === command.name
+                    viewItem.commond === command.name
                 }
               )}
             >
-              {view.name}
+              {viewItem.name}
             </div>
           ))}
         </nav>
