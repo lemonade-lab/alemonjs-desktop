@@ -68,6 +68,10 @@ export default function WordBox() {
             {conmond.map((item, index) => (
               <div
                 key={index}
+                onClick={() => {
+                  // setInputValue(item.commond)
+                  // setIsDropdownOpen(false)
+                }}
                 className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-slate-100 rounded-md"
               >
                 <div>{item.name}</div>

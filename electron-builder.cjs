@@ -87,17 +87,17 @@ module.exports = {
     {
       from: 'resources/preload',
       to: 'preload',
-      filter: ['*']
+      filter: ['**/*']
     },
     {
       from: 'resources/storage',
       to: 'storage',
-      filter: ['*']
+      filter: ['**/*']
     },
     {
       from: 'resources/template',
       to: 'template',
-      filter: ['*', '!node_modules', '!log', '!logs']
+      filter: ['**/*', '!node_modules', '!log', '!logs', '!public', '!data']
     }
   ]
 }

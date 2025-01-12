@@ -1,5 +1,5 @@
 {
-  "name": "alemonjs-web",
+  "name": "@alemonjs/redis",
   "displayName": "ALemonJS web",
   "publisher": "lemonade-x",
   "description": "阿柠檬机器人可视化管理界面",
