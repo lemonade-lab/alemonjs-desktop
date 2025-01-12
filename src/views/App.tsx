@@ -154,22 +154,6 @@ export default () => {
     })
   }, [])
 
-  const command = useSelector((state: RootState) => state.command)
-  useEffect(() => {
-    // 检查是否有指令
-    if (command.name) {
-      // 发消息给扩展
-      window.expansions.postMessage(
-        JSON.stringify({
-          type: `command`,
-          data: command.name
-        })
-      )
-    }
-  }, [command])
-
-  // 监听依赖变化
-
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
 

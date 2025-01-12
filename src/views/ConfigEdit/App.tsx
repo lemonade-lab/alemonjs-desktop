@@ -91,6 +91,13 @@ export default function ConfigEdit() {
               onClick={() => {
                 // 设置 command
                 dispatch(setCommand(view.commond))
+
+                window.expansions.postMessage(
+                  JSON.stringify({
+                    type: `command`,
+                    data: view.commond
+                  })
+                )
               }}
               className={classNames(
                 'p-2 size-14 text-sm flex cursor-pointer  justify-center items-center hover:bg-slate-200',
