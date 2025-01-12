@@ -1,23 +1,31 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { load } from 'js-yaml'
 
 type callback = (value: number) => void
 
 contextBridge.exposeInMainWorld('app', {
   // resources path
   getAppPath: () => ipcRenderer.invoke('get-app-path'),
-  // bot
-  botRun: (data: string) => ipcRenderer.invoke('bot-run', data),
-  botClose: () => ipcRenderer.invoke('bot-close'),
-  botStatus: () => ipcRenderer.invoke('bot-status'),
-  onBotStdout: (callback: callback) =>
-    ipcRenderer.on('bot-stdout', (_event, value) => callback(value)),
-  onBotStatus: (callback: callback) =>
-    ipcRenderer.on('bot-status', (_event, value) => callback(value)),
   // Template files
   rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir'),
   // bot config
   botConfigRead: () => ipcRenderer.invoke('bot-config-read'),
   botConfigWrite: (data: string) => ipcRenderer.invoke('bot-config-write', data)
+})
+
+// 扩展
+contextBridge.exposeInMainWorld('expansions', {
+  // 扩展进行交互和通讯
+  load: () => ipcRenderer.invoke('expansions-load')
+})
+
+contextBridge.exposeInMainWorld('bot', {
+  run: (data: string) => ipcRenderer.invoke('bot-run', data),
+  close: () => ipcRenderer.invoke('bot-close'),
+  status: () => ipcRenderer.invoke('bot-status'),
+  onStdout: (callback: callback) =>
+    ipcRenderer.on('bot-stdout', (_event, value) => callback(value)),
+  onStatus: (callback: callback) => ipcRenderer.on('bot-status', (_event, value) => callback(value))
 })
 
 contextBridge.exposeInMainWorld('yarn', {

@@ -3,13 +3,15 @@ declare global {
   interface Window {
     app: {
       getAppPath: () => Promise<string>
-      botRun: (args: string) => Promise<void>
-      botClose: () => Promise<void>
-      botStatus: () => Promise<boolean>
-      onBotStdout: (callback: (message: string) => void) => void
-      onBotStatus: (callback: (status: number) => void) => void
       botConfigRead: () => Promise<string>
       botConfigWrite: (data: string) => Promise<boolean>
+    }
+    bot: {
+      run: (args: string) => Promise<void>
+      close: () => Promise<void>
+      status: () => Promise<boolean>
+      onStdout: (callback: (message: string) => void) => void
+      onStatus: (callback: (status: number) => void) => void
     }
     yarn: {
       install: () => Promise<boolean>

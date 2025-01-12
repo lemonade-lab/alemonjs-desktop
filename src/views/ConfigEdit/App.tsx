@@ -1,92 +1,48 @@
-import { set } from 'lodash'
 import { useEffect, useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
-
 import logoURL from '@src/assets/logo.jpg'
+import classNames from 'classnames'
+import { RootState } from '@src/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { data } from './test'
+import { setCommand } from '@src/store/command'
 
-const createDataURL = (html: string) => {
-  return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
-}
-
-const data = [
-  {
-    name: 'GUI',
-    event: 'open.gui',
-    url: createDataURL(`
-            <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>QQ Bot</title>
-      </head>
-      <body>
-        <h1>Welcome to QQ Bot</h1>
-        <p>This is dynamically loaded HTML.</p>
-      </body>
-      </html>
-      `)
-  },
-  {
-    name: 'QQ Bot',
-    event: 'open.qq-bot',
-    url: createDataURL(`
-      <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QQ Bot</title>
-</head>
-<body>
-  <h1>Welcome to QQ Bot</h1>
-  <p>This is dynamically loaded HTML.</p>
-</body>
-</html>
-`)
-  },
-  {
-    name: 'Discord',
-    event: 'open.discord',
-    url: createDataURL(`
-      <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QQ Bot</title>
-</head>
-<body>
-  <h1>Welcome to QQ Bot</h1>
-  <p>This is dynamically loaded HTML.</p>
-</body>
-</html>
-`)
-  }
-]
+const createTextHtmlURL = (html: string) =>
+  `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
 
 export default function ConfigEdit() {
-  // const navigate = useNavigate()
-  const [event, setEvent] = useState('')
+  const command = useSelector((state: RootState) => state.command)
+  const dispatch = useDispatch()
+
+  const [viewIndex, setViewIndex] = useState(-1)
   const [webviews, setWebviews] = useState(data)
+
   useEffect(() => {
-    // 获取依赖信息
+    // 获取扩展列表。
     setWebviews(data)
   }, [])
 
-  useEffect(() => {}, [event])
+  useEffect(() => {
+    // 检查是否有指令
+    if (command.name) {
+      // 查找指令对应的索引
+      const index = webviews.findIndex(view => view.event === command.name)
+      if (index === -1) {
+        // 不存在
+        return
+      }
+      // 设置索引
+      setViewIndex(index)
+    }
+  }, [command])
 
   return (
-    <section className="flex flex-col flex-1 bg-[var(--primary-bg-front)] shadow-md">
+    <section className="flex flex-col flex-1  shadow-md">
       {/* 主内容区 */}
       <div className="flex flex-1">
         {/* Webview 显示区 */}
-        <div className="flex flex-col flex-1 h-[calc(100vh-6rem)]">
-          {event != '' && webviews.find(item => item.event == event) ? (
-            <webview
-              src={webviews.find(item => item.event == event)?.url}
-              className="w-full h-full"
-            />
+        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
+          {viewIndex != -1 ? (
+            <webview src={createTextHtmlURL(webviews[viewIndex].html)} className="w-full h-full" />
           ) : (
             <div className="select-none flex-1 flex-col flex justify-center items-center">
               <div className="flex-col flex">
@@ -99,14 +55,22 @@ export default function ConfigEdit() {
           )}
         </div>
         {/* 右侧导航栏 */}
-        <nav className="w-20 border-l ">
+        <nav className="border-l ">
           {webviews.map((view, index) => (
             <div
               key={index}
-              className={`p-2 cursor-pointer text-center hover:bg-slate-200 ${
-                view.event === event ? 'bg-slate-300 font-bold' : ''
-              }`}
-              onClick={() => setEvent(view.event)}
+              onClick={() => {
+                // 设置 command
+                dispatch(setCommand(view.event))
+              }}
+              className={classNames(
+                'p-2 size-14 text-sm flex cursor-pointer  justify-center items-center hover:bg-slate-200',
+                'border-r-2',
+                {
+                  'bg-[var(--primary-bg-front)] border-r-2 border-slate-500':
+                    view.event === command.name
+                }
+              )}
             >
               {view.name}
             </div>

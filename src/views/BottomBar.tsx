@@ -1,12 +1,13 @@
 import { SettingIcon } from '@src/common/Icons'
 import { PetalIcon } from '@src/common/MenuIcons'
+import { NavigatePath } from '@src/hook/navigate'
 import classNames from 'classnames'
 export const BottomBar = ({
   centerList,
   centerIndex,
   onClickSetting
 }: {
-  centerList: { Icon: any; path: string; onClick: (path: string) => void }[]
+  centerList: { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
   centerIndex: string
   onClickSetting: () => void
 }) => {

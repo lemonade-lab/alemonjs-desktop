@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import Header from '@src/common/Header'
@@ -6,15 +6,19 @@ import Home from '@src/views/Home/App'
 import Setting from '@src/views/settings/App'
 import ConfigCode from '@src/views/ConfigCode/App'
 import ConfigEdit from '@src/views/ConfigEdit/App'
-
 import { setStatus } from '@src/store/bot'
-
 import { BottomBar } from '@src/views/BottomBar'
 import BotLog from './BotLog/App'
 import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
+import Docs from './Docs/App'
+import Loading from './Loading'
+import WordBox from './WordBox'
+import { useNotification } from '@src/context/Notification'
+import useGoNavigate, { NavigatePath } from '@src/hook/navigate'
 
 export default () => {
-  const navigate = useNavigate()
+  const navigate = useGoNavigate()
+
   const location = useLocation()
   const dispatch = useDispatch()
 
@@ -22,11 +26,17 @@ export default () => {
 
   const [loading, setLoading] = useState(false)
 
-  const navList = [
+  const { showNotification } = useNotification()
+
+  const navList: {
+    Icon: React.ReactNode
+    path: NavigatePath
+    onClick: (path: NavigatePath) => void
+  }[] = [
     {
       Icon: <HomeIcon width="20" height="20" />,
       path: '/',
-      onClick: (path: string) => {
+      onClick: path => {
         setActiveIndex(path)
         navigate(path)
       }
@@ -34,7 +44,7 @@ export default () => {
     {
       Icon: <FireworksIcon width="20" height="20" />,
       path: '/config-edit',
-      onClick: (path: string) => {
+      onClick: path => {
         setActiveIndex(path)
         navigate(path)
       }
@@ -42,7 +52,7 @@ export default () => {
     {
       Icon: <ContactIcon width="20" height="20" />,
       path: '/bot-log',
-      onClick: (path: string) => {
+      onClick: path => {
         setActiveIndex(path)
         navigate(path)
       }
@@ -50,21 +60,17 @@ export default () => {
     {
       Icon: <PizzaIcon width="20" height="20" />,
       path: '/docs',
-      onClick: (path: string) => {
+      onClick: path => {
         setActiveIndex(path)
         navigate(path)
       }
     }
   ]
 
-  /**
-   * 定期询问机器人状态。
-   * 状态不一致的时候更改。
-   */
   useEffect(() => {
     // 获取 bot 状态
-    window.app
-      .botStatus()
+    window.bot
+      .status()
       .then(res =>
         dispatch(
           setStatus({
@@ -75,22 +81,23 @@ export default () => {
       .catch(err => {
         console.error(err)
       })
+    // 立即加载依赖
+    window.yarn.install().catch(err => {
+      console.error(err)
+    })
+    // 加载css变量
+    window.controller.cssVariables()
+  }, [])
 
+  useEffect(() => {
     // 监听 bot 状态
-    window.app.onBotStatus((value: number) => {
-      console.log('bot-status', value)
+    window.bot.onStatus((value: number) => {
       dispatch(
         setStatus({
           runStatus: value == 0 ? false : true
         })
       )
     })
-
-    // 立即加载依赖
-    window.yarn.install().catch(err => {
-      console.error(err)
-    })
-
     // 监听依赖安装状态
     window.yarn.onInstallStatus((value: number) => {
       dispatch(
@@ -99,20 +106,19 @@ export default () => {
         })
       )
     })
-
-    window.controller.cssVariables()
-
+    // 监听 css 变量
     window.controller.onCSSVariables((value: string) => {
       try {
-        // 等css变量加载完毕后再加载页面
-        setLoading(true)
         const cssVariables = JSON.parse(value)
         Object.keys(cssVariables).forEach(key => {
           document.documentElement.style.setProperty(`--${key}`, cssVariables[key])
         })
+        //
+        setLoading(true)
       } catch (e) {
         console.error(e)
         // 致命错误
+        showNotification('主题解析错误')
       }
     })
   }, [])
@@ -125,10 +131,8 @@ export default () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header>
-        <div className="flex-1 drag-area flex justify-center items-center"></div>
-      </Header>
-      {loading && (
+      <Header>{loading ? <WordBox /> : <div></div>}</Header>
+      {loading ? (
         <div className="flex flex-1">
           <BottomBar
             centerList={navList}
@@ -142,18 +146,12 @@ export default () => {
               <Route path="/config-edit" element={<ConfigEdit />} />
               <Route path="/config-code" element={<ConfigCode />} />
               <Route path="/setting" element={<Setting />} />
-              <Route
-                path="/docs"
-                element={
-                  <webview
-                    src="https://alemonjs.com/"
-                    className="w-full bg-[var(--primary-bg-front)] shadow-md h-full"
-                  />
-                }
-              />
+              <Route path="/docs" element={<Docs />} />
             </Routes>
           </main>
         </div>
+      ) : (
+        <Loading />
       )}
     </div>
   )

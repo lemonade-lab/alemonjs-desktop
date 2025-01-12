@@ -2,22 +2,14 @@
   "name": "alemonb",
   "type": "module",
   "dependencies": {
-    "@alemonjs/discord": "^0.2.1",
     "@alemonjs/gui": "^0.3.0",
-    "@alemonjs/kook": "^0.2.1",
-    "@alemonjs/onebot": "^0.2.1",
-    "@alemonjs/qq": "^0.2.1",
-    "@alemonjs/qq-bot": "^0.0.7",
-    "@alemonjs/qq-group-bot": "^0.2.2",
-    "@alemonjs/qq-guild-bot": "^0.2.2",
-    "@alemonjs/telegram": "^0.2.1",
-    "@alemonjs/wechat": "^0.2.1",
     "alemonjs": "^2.0.0-rc.81"
   },
   "devDependencies": {
-    "tsx": "^4.19.2",
-    "jsxp": "1.0.8",
-    "npm": "^11.0.0",
-    "pm2": "^5.4.3"
-  }
+    "npm": "^11.0.0"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
 }

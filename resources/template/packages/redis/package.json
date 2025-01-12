@@ -1,0 +1,22 @@
+{
+  "name": "@alemonjs/redis",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Redis client for Alemon Bot Framework.",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package": "./package.json",
+    "./desktop": "./main.js"
+  },
+  "alemonjs": {
+    "desktop": {
+      "menus": [
+        {
+          "name": "Redis",
+          "commond": "open.redis"
+        }
+      ]
+    }
+  }
+}

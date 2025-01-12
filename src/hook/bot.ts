@@ -24,7 +24,7 @@ export const useBotController = () => {
     if (!bot.nodeModulesStatus) return
     if (!bot.runStatus) {
       showNotification('开始运行机器人...')
-      window.app.botRun(JSON.stringify(['--login', state[0]]))
+      window.bot.run(JSON.stringify(['--login', state[0]]))
       return
     } else {
       showNotification('机器人已经启动')
@@ -35,7 +35,7 @@ export const useBotController = () => {
    */
   const onClickClose = _.throttle(() => {
     if (!bot.runStatus) return
-    window.app.botClose()
+    window.bot.close()
   }, 500)
   /**
    * @returns
