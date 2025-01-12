@@ -74,6 +74,9 @@ const context = {
   }
 }
 
+/**
+ *
+ */
 const updateModules = () => {
   const dirs = fs.readdirSync(dir)
   for (const d of dirs) {
