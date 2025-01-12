@@ -64,6 +64,18 @@ const context = {
     // 使用 resource 协议
     return `resource://template/${path}`
   },
+  notification: message => {
+    process.send({
+      type: 'notification',
+      data: message
+    })
+  },
+  command: command => {
+    process.send({
+      type: 'command',
+      data: command
+    })
+  },
   // 上下文。
   onCommand: (command, callback) => {
     // 将命令和回调函数存储起来。

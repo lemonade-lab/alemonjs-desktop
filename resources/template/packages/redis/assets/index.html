@@ -8,17 +8,17 @@
   </head>
 
   <body>
-    <h1>Redis Connection Settings</h1>
+    <h1>Redis 配置</h1>
     <form id="redisForm">
       <label for="host">Host</label>
-      <input type="text" id="host" name="host" placeholder="e.g., 127.0.0.1" required />
+      <input type="text" id="host" name="host" placeholder="127.0.0.1" required />
       <label for="port">Port</label>
-      <input type="number" id="port" name="port" placeholder="e.g., 6379" required />
+      <input type="number" id="port" name="port" placeholder="6379" required />
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Optional" />
-      <label for="db">Database (DB Index)</label>
-      <input type="number" id="db" name="db" placeholder="e.g., 0" min="0" />
-      <button type="submit">Save Connection</button>
+      <input type="password" id="password" name="password" placeholder="" />
+      <label for="db">Database</label>
+      <input type="number" id="db" name="db" placeholder="0" min="0" />
+      <button type="submit">保存</button>
     </form>
     <script src="/index.js"></script>
   </body>

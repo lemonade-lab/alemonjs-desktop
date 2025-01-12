@@ -1,6 +1,7 @@
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
+import YAML from 'yaml'
 // 当前目录
 const __dirname = dirname(fileURLToPath(import.meta.url))
 // 被激活的时候。
@@ -10,7 +11,31 @@ export const activate = context => {
 
   // 监听 webview 的消息。
   webView.onMessage(data => {
-    console.log(data)
+    try {
+      const value = data
+      if (value.type == 'redis.from.save') {
+        const redis = value.data
+        const configDir = join(process.cwd(), 'alemon.config.yaml')
+        const config = YAML.parse(readFileSync(configDir, 'utf-8')) ?? {}
+        config.redis = {
+          host: redis.host ?? '127.0.0.1',
+          port: redis.port ?? 6379,
+          password: redis.password ?? '',
+          db: redis.db ?? 0
+        }
+        // vase
+        const yaml = YAML.stringify(config)
+        // 写入文件
+        writeFileSync(configDir, yaml, 'utf-8')
+        context.notification('保存成功～')
+      } else {
+        context.notification('保存失败～')
+        console.log('value', value)
+        console.log('type', value.type)
+      }
+    } catch (e) {
+      console.error(e)
+    }
   })
 
   // 当命令被触发的时候。

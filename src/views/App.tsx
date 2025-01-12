@@ -136,11 +136,13 @@ export default () => {
       try {
         const res = JSON.parse(data)
         if (res.type === 'notification') {
-          showNotification(res.message)
+          showNotification(res.data)
           return
         } else if (res.type === 'command') {
-          dispatch(setCommand(res.command))
+          dispatch(setCommand(res.data))
           return
+        } else if (res.type === 'get-expansions') {
+          dispatch(initPackage(res.data))
         }
       } catch {
         console.error('HomeApp 解析消息失败')
@@ -160,18 +162,6 @@ export default () => {
         })
       )
     })
-
-    // 获取扩展器列表
-    window.expansions.onMessage((data: string) => {
-      try {
-        const res = JSON.parse(data)
-        if (res.type === 'get-expansions') {
-          dispatch(initPackage(res.data))
-        }
-      } catch (error) {
-        console.error('ConfigEdit 消息解析失败:', error)
-      }
-    })
   }, [])
 
   useEffect(() => {
@@ -185,10 +175,8 @@ export default () => {
   }, [modules.nodeModulesStatus])
 
   useEffect(() => {
-    if (!expansions.runStatus) {
-      // window.expansions.run('')
-      window.expansions.postMessage(JSON.stringify({ type: 'get-expansions' }))
-    }
+    // 变化时，获取扩展器列表
+    window.expansions.postMessage(JSON.stringify({ type: 'get-expansions' }))
   }, [expansions.runStatus])
 
   // 切换路由时，更改底部导航栏的激活状态
