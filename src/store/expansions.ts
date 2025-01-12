@@ -42,7 +42,6 @@ const notificationSlice = createSlice({
     setExpansionsRunAt(state, action: PayloadAction<number>) {
       state.runAt = action.payload
     },
-
     initPackage(state, action: PayloadAction<any[]>) {
       state.package = action.payload
     },

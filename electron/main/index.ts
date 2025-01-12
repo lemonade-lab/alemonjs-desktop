@@ -12,13 +12,13 @@ app.whenReady().then(() => {
   // 创建快捷键
   createShortcut()
 
+  // 注册资源协议
+  onBeforeRequest()
+
   // 创建菜单图标
   const tray = createTray()
 
-  onBeforeRequest('')
-
   const window = createWindow()
-
   if (!window) return
 
   // 隐藏菜单栏

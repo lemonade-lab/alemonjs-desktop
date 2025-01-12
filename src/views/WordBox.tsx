@@ -1,16 +1,21 @@
 import { CloseIcon } from '@src/common/Icons'
+import { RootState } from '@src/store'
 import { useState, useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 export default function WordBox() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const dropdownRef = useRef(null)
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   // 点击外部关闭下拉菜单
   useEffect(() => {
-    const handleClickOutside = event => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false)
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current) {
+        const target = event.target as HTMLElement
+        if (!dropdownRef.current?.contains(target)) {
+          setIsDropdownOpen(false)
+        }
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -25,12 +30,31 @@ export default function WordBox() {
     setIsDropdownOpen(false)
   }
 
+  const [conmond, setCommond] = useState<
+    { expansions_name: string; name: string; commond: string }[]
+  >([])
+
+  const expansions = useSelector((state: RootState) => state.expansions)
+
+  useEffect(() => {
+    const commondItem =
+      expansions.package?.flatMap((item: any) => {
+        return (
+          item.alemonjs?.desktop?.commond?.map((sidebar: any) => ({
+            ...sidebar,
+            expansions_name: item.name
+          })) || []
+        )
+      }) || []
+    setCommond(commondItem)
+  }, [expansions.package])
+
   return (
     <div className="flex-1 flex justify-between items-center">
       {isDropdownOpen ? (
         <div
           ref={dropdownRef}
-          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-white  border-slate-300 rounded-md  shadow-md z-10"
+          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-white  border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
         >
           <input
             type="text"
@@ -40,19 +64,16 @@ export default function WordBox() {
             className="border rounded-md min-w-72 px-2 py-1"
             aria-label="Command Input"
           />
-          <div className="py-1 flex flex-col gap-2">
-            <div className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-slate-100 rounded-md">
-              <div>打开redis侧边栏</div>
-              <div className="text-slate-400">redis.open</div>
-            </div>
-            <div className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-slate-100 rounded-md">
-              <div>打开redis侧边栏</div>
-              <div className="text-slate-400">redis.open</div>
-            </div>
-            <div className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-slate-100 rounded-md">
-              <div>打开redis侧边栏</div>
-              <div className="text-slate-400">redis.open</div>
-            </div>
+          <div className="py-1 flex flex-col gap-2 ">
+            {conmond.map((item, index) => (
+              <div
+                key={index}
+                className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-slate-100 rounded-md"
+              >
+                <div>{item.name}</div>
+                <div className="text-slate-400">{item.commond}</div>
+              </div>
+            ))}
           </div>
           <div className="flex justify-end">
             <span

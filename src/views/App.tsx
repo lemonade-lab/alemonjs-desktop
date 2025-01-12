@@ -20,7 +20,7 @@ import Docs from './Docs/App'
 import Loading from './Loading'
 import WordBox from './WordBox'
 import { setModulesStatus } from '@src/store/modules'
-import { setExpansionsStatus } from '@src/store/expansions'
+import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 
@@ -31,6 +31,8 @@ export default () => {
   const [activeIndex, setActiveIndex] = useState('/')
   const [loading, setLoading] = useState(false)
   const { showNotification } = useNotification()
+  const modules = useSelector((state: RootState) => state.modules)
+  const expansions = useSelector((state: RootState) => state.expansions)
 
   const navList: {
     Icon: React.ReactNode
@@ -158,10 +160,19 @@ export default () => {
         })
       )
     })
-  }, [])
 
-  const modules = useSelector((state: RootState) => state.modules)
-  const expansions = useSelector((state: RootState) => state.expansions)
+    // 获取扩展器列表
+    window.expansions.onMessage((data: string) => {
+      try {
+        const res = JSON.parse(data)
+        if (res.type === 'get-expansions') {
+          dispatch(initPackage(res.data))
+        }
+      } catch (error) {
+        console.error('ConfigEdit 消息解析失败:', error)
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (modules.nodeModulesStatus) {
@@ -172,6 +183,13 @@ export default () => {
       }
     }
   }, [modules.nodeModulesStatus])
+
+  useEffect(() => {
+    if (!expansions.runStatus) {
+      // window.expansions.run('')
+      window.expansions.postMessage(JSON.stringify({ type: 'get-expansions' }))
+    }
+  }, [expansions.runStatus])
 
   // 切换路由时，更改底部导航栏的激活状态
   useEffect(() => {

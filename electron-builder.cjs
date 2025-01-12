@@ -85,29 +85,19 @@ module.exports = {
   },
   extraResources: [
     {
-      from: 'resources/files',
-      to: 'files',
+      from: 'resources/preload',
+      to: 'preload',
+      filter: ['*']
+    },
+    {
+      from: 'resources/storage',
+      to: 'storage',
       filter: ['*']
     },
     {
       from: 'resources/template',
       to: 'template',
-      filter: ['*', '!node_modules', '!.yarn{,/**/*}']
-    },
-    {
-      from: 'resources/template/src',
-      to: 'template/src',
-      filter: ['*']
-    },
-    {
-      from: 'resources/template/src/apps/hello',
-      to: 'template/src/apps/hello',
-      filter: ['*']
-    },
-    {
-      from: 'resources/template/bin',
-      to: 'template/bin',
-      filter: ['*']
+      filter: ['*', '!node_modules', '!log', '!logs']
     }
   ]
 }

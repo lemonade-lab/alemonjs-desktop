@@ -4,9 +4,8 @@ import { join } from 'path'
 import url from 'url'
 
 /**
- * @param {*} baseUrl
  */
-export function onBeforeRequest(baseUrl: string): void {
+export function onBeforeRequest(): void {
   // 注册 "onBeforeRequest" 事件的处理程序
   // session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
   //   const url = details.url

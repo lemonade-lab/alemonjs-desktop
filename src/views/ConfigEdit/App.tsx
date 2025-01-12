@@ -10,26 +10,42 @@ const createTextHtmlURL = (html: string) =>
 
 export default function ConfigEdit() {
   const command = useSelector((state: RootState) => state.command)
-
   const app = useSelector((state: RootState) => state.app)
-
   const dispatch = useDispatch()
-
   const [view, setView] = useState('')
+  const expansions = useSelector((state: RootState) => state.expansions)
   const viewRef = useRef<HTMLWebViewElement>(null)
-
   const [viewSidebars, setViewSidebars] = useState<
     { expansions_name: string; name: string; commond: string }[]
   >([])
 
+  const key2 = 'load-sidebar-webview'
+
   useEffect(() => {
-    const postMessage = (event: any) => {
-      console.log('data', event.data)
-    }
+    const sidebarsItem =
+      expansions.package?.flatMap((item: any) => {
+        return (
+          item.alemonjs?.desktop?.sidebars?.map((sidebar: any) => ({
+            ...sidebar,
+            expansions_name: item.name
+          })) || []
+        )
+      }) || []
+    setViewSidebars(sidebarsItem)
+    window.expansions.onMessage((data: string) => {
+      try {
+        const res = JSON.parse(data)
+        if (res.type === key2) {
+          setView(res.data)
+        }
+      } catch (error) {
+        console.error('ConfigEdit 消息解析失败:', error)
+      }
+    })
+  }, [expansions.package])
 
+  useEffect(() => {
     if (view != '' && viewRef.current) {
-      viewRef.current.addEventListener('ipc-message', postMessage)
-
       viewRef.current.addEventListener('console-message', (e: any) => {
         // 根据消息类型进行log
         if (e.level === 1) {
@@ -40,50 +56,8 @@ export default function ConfigEdit() {
           console.error(e.message)
         }
       })
-
-      const loadstart = () => {
-        console.log('loadstart')
-      }
-
-      const loadstop = () => {
-        console.log('loadstop')
-      }
-
-      viewRef.current.addEventListener('did-start-loading', loadstart)
-      viewRef.current.addEventListener('did-stop-loading', loadstop)
     }
   }, [view])
-
-  const key = 'get-expansions'
-  const key2 = 'load-sidebar-webview'
-
-  useEffect(() => {
-    if (window.expansions) {
-      window.expansions.postMessage(JSON.stringify({ type: key }))
-
-      window.expansions.onMessage((data: string) => {
-        try {
-          const res = JSON.parse(data)
-          if (res.type === key) {
-            const sidebarsItem =
-              res.data?.flatMap((item: any) => {
-                return (
-                  item.alemonjs?.desktop?.sidebars?.map((sidebar: any) => ({
-                    ...sidebar,
-                    expansions_name: item.name
-                  })) || []
-                )
-              }) || []
-            setViewSidebars(sidebarsItem)
-          } else if (res.type === key2) {
-            setView(res.data)
-          }
-        } catch (error) {
-          console.error('ConfigEdit 消息解析失败:', error)
-        }
-      })
-    }
-  }, [])
 
   return (
     <section className="flex flex-col flex-1 shadow-md">
@@ -92,9 +66,6 @@ export default function ConfigEdit() {
           {view ? (
             <webview
               ref={viewRef}
-              nodeintegration="false"
-              disablewebsecurity="false"
-              // disablewebsecurity
               preload={`file://${app.path}/preload/webview.js`}
               src={createTextHtmlURL(view)}
               className="w-full h-full"
