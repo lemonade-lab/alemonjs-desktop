@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redis Connection Form</title>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+
+  <body>
+    <h1>Redis Connection Settings</h1>
+    <form id="redisForm">
+      <label for="host">Host</label>
+      <input type="text" id="host" name="host" placeholder="e.g., 127.0.0.1" required />
+      <label for="port">Port</label>
+      <input type="number" id="port" name="port" placeholder="e.g., 6379" required />
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Optional" />
+      <label for="db">Database (DB Index)</label>
+      <input type="number" id="db" name="db" placeholder="e.g., 0" min="0" />
+      <button type="submit">Save Connection</button>
+    </form>
+    <p id="status" style="color: green; font-weight: bold"></p>
+    <script src="/index.js"></script>
+  </body>
+</html>

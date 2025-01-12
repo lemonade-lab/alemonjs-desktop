@@ -5,6 +5,7 @@ import { createShortcut } from '../core/shortcut'
 import { createTray } from '../core/tray'
 import { createWindow } from './window'
 import { autoUpdateApp } from '../core/update'
+import { onBeforeRequest } from '../core/session'
 
 // 当应用程序准备就绪时，创建主窗口
 app.whenReady().then(() => {
@@ -13,6 +14,8 @@ app.whenReady().then(() => {
 
   // 创建菜单图标
   const tray = createTray()
+
+  onBeforeRequest('')
 
   const window = createWindow()
 

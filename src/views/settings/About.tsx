@@ -16,7 +16,7 @@ const About: React.FC = () => {
   }, [])
 
   return (
-    <div className="p-4 flex-1 ">
+    <div className="p-4 flex-1 flex flex-col justify-center items-center ">
       <h2 className="text-lg font-bold mb-2">关于应用</h2>
       {versions ? (
         <ul className="list-disc pl-5">

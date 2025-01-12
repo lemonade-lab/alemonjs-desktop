@@ -5,7 +5,7 @@ import Common from './Common' // 导入 Common 组件
 import About from './About'
 
 const SettingApp: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('通用') // 默认选中的标签
+  const [activeTab, setActiveTab] = useState('关于') // 默认选中的标签
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }

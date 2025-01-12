@@ -11,17 +11,13 @@ export default () => {
           <div className="text-xl pl-2">欢迎使用，AlemonJS 机器人。</div>
           <button
             type="button"
+            onClick={() => {
+              navigate('/config-edit')
+            }}
             className="px-4 py-1 border border-[var(--secondary-bg)] text-[var(--secondary-bg)] rounded-full flex items-center gap-4"
           >
             <RobotIcon width="20" height="20" />
-            <span
-              className="text-sm"
-              onClick={() => {
-                navigate('/config-edit')
-              }}
-            >
-              扩展
-            </span>
+            <span className="text-sm">扩展</span>
           </button>
         </div>
         <div className="flex flex-wrap items-center gap-2 py-2">

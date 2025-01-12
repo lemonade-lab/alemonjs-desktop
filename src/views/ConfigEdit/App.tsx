@@ -71,7 +71,14 @@ export default function ConfigEdit() {
         {/* Webview 显示区 */}
         <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
           {view != '' ? (
-            <webview src={createTextHtmlURL(view)} className="w-full h-full" />
+            <webview
+              // nodeintegration={false}
+              nodeintegration
+              // contextIsolation={true}
+              disablewebsecurity
+              src={createTextHtmlURL(view)}
+              className="w-full h-full"
+            />
           ) : (
             <div className="select-none flex-1 flex-col flex justify-center items-center">
               <div className="flex-col flex">

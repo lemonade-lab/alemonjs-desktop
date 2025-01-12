@@ -9,14 +9,24 @@ let modules = []
 
 // desktop
 const desktops = []
-
 const commands = []
 
 const context = {
+  /**
+   * 创建扩展路径
+   * @param {*} dir
+   * @returns
+   */
+  createExtensionDir: dir => {
+    const path = dir
+      .replace(/\\/g, '/')
+      .replace(/file:\/\//, '')
+      .replace(process.cwd(), '')
+    // 使用 resource 协议
+    return `resource://template/${path}`
+  },
   // 上下文。
   onCommand: (command, callback) => {
-    // 注册命令
-    // console.log('注册命令', command)
     // 将命令和回调函数存储起来。
     commands.push({
       command: command,
@@ -57,14 +67,13 @@ const updateModules = () => {
             desktops.forEach(desktop => {
               desktop.value.activate(context)
             })
-          } catch (e) {
-            console.error(e)
+          } catch {
+            // console.error(e)
           }
         }
         createDesktop()
-      } catch (e) {
-        console.error(e)
-        continue
+      } catch {
+        // console.error(e)
       }
     }
   }
