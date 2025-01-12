@@ -2,9 +2,8 @@
   "name": "alemonjs-desktop",
   "version": "0.0.10",
   "main": "dist-electron/main/index.js",
-  "description": "Alemon Bot Framework Desktop.",
+  "description": "AlemonJS Bot Framework Desktop.",
   "license": "MIT",
-  "private": true,
   "author": {
     "name": "ningmengchongshui",
     "email": "ningmengchongshui@gmail.com"
@@ -12,13 +11,13 @@
   "scripts": {
     "dev": "vite",
     "dev-win": "chcp 65001 && vite",
+    "dev:redis": "yarn --cwd packages/redis dev",
+    "bundle": "node bundle.js",
     "build": "tsc && vite build && electron-builder --config electron-builder.cjs",
-    "icons": "electron-icon-builder --input=./src/assets/logo.jpg --output=./ --flatten",
-    "preview": "vite preview",
     "pree2e": "vite build --mode=test",
+    "e2e": "playwright test",
     "format": "prettier --write .",
     "check-format": "git diff --exit-code",
-    "e2e": "playwright test",
     "prepare": "husky"
   },
   "dependencies": {
@@ -68,6 +67,11 @@
     "vite": "^5.2.4",
     "vite-plugin-electron": "^0.28.4",
     "vite-plugin-electron-renderer": "^0.14.5",
-    "ws": "^8.18.0"
-  }
+    "ws": "^8.18.0",
+    "lerna": "^8.1.9"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
 }

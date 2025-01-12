@@ -4,7 +4,7 @@ export type WindowExpansions = {
    * @param args
    * @returns
    */
-  run: (args: string) => Promise<void>
+  run: (args: any) => Promise<void>
   /**
    * 关闭
    * @returns
@@ -30,9 +30,9 @@ export type WindowExpansions = {
   /**
    *
    */
-  onMessage: (callback: (value: string) => void) => void
+  onMessage: (callback: (value: any) => void) => void
   /**
    *
    */
-  postMessage: (value: string) => Promise<string>
+  postMessage: (value: any) => Promise<string>
 }

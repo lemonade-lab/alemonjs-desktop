@@ -13,6 +13,19 @@ const commands = []
 const views = []
 
 class webView {
+  /**
+   *  插入脚本
+   */
+  get #htmlScript() {
+    return `<script>  
+          const createDesktopAPI = ()=> {
+            const expansions_name = '${this.#name}'
+            return window.appDesktopAPI.create(expansions_name)
+          }
+          window.createDesktopAPI = createDesktopAPI
+  </script>`
+  }
+
   #name = null
 
   __messages = []
@@ -30,21 +43,32 @@ class webView {
   }
 
   /**
+   * 传入消息
+   * @param {*} data
+   */
+  postMessage(data) {
+    process.send({
+      // 丢给 on message
+      type: 'webview-on-message',
+      // 传入数据
+      data: {
+        // 模块名称
+        name: this.#name,
+        // 传入数据
+        value: data
+      }
+    })
+  }
+
+  /**
    *
    * @param {*} html
    */
   loadWebView(html) {
     // 插入脚本
-    const str = `<script>  
-        const createDesktopAPI = ()=> {
-          const expansions_name = '${this.#name}'
-          return window.appDesktopAPI.create(expansions_name)
-        }
-        window.createDesktopAPI = createDesktopAPI
-      </script>`
-    const data = html.replace('<head>', `<head> ${str}`)
+    const data = html.replace('<head>', `<head> ${this.#htmlScript}`)
     process.send({
-      type: 'load-sidebar-webview',
+      type: 'webview-sidebar-load',
       data: data
     })
   }
@@ -86,50 +110,53 @@ const context = {
   }
 }
 
-/**
- *
- */
+const addModules = name => {
+  try {
+    const pkg = require(`${name}/package`)
+    modules.push(pkg)
+    const createDesktop = async () => {
+      // 如果没有 desktop 模块，直接返回。
+      if (!pkg.exports['./desktop']) return
+      //
+      try {
+        const desktop = await import(`${name}/desktop`)
+        const _name = pkg.name
+        // 模块名称
+        desktops.push({
+          // 模块名称
+          name: _name,
+          // 模块描述
+          value: desktop
+        })
+        // 传入上下文
+        context._name = _name
+        // 创建 webview
+        context.createSidebarWebView = context => {
+          const _name = context._name
+          const view = new webView(_name)
+          views.push({
+            name: _name,
+            value: view
+          })
+          return view
+        }
+        if (desktop.activate) await desktop.activate(context)
+      } catch (e) {
+        // console.error(e)
+      }
+    }
+    createDesktop()
+  } catch (e) {
+    // console.error(e)
+  }
+}
+
 const updateModules = () => {
   const dirs = fs.readdirSync(dir)
   for (const d of dirs) {
     const stat = fs.statSync(join(dir, d))
     if (stat.isDirectory()) {
-      try {
-        const pkg = require(`@alemonjs/${d}/package`)
-        modules.push(pkg)
-        const createDesktop = async () => {
-          try {
-            const desktop = await import(`@alemonjs/${d}/desktop`)
-            // 模块名称
-            desktops.push({
-              // 模块名称
-              name: pkg.name,
-              // 模块描述
-              value: desktop
-            })
-            // 传入上下文
-            context._name = pkg.name
-            // 创建 webview
-            context.createSidebarWebView = context => {
-              const _name = context._name
-              const view = new webView(_name)
-              views.push({
-                name: _name,
-                value: view
-              })
-              return view
-            }
-            if (desktop.activate) {
-              await desktop.activate(context)
-            }
-          } catch (e) {
-            // console.error(e)
-          }
-        }
-        createDesktop()
-      } catch (e) {
-        // console.error(e)
-      }
+      addModules(`@alemonjs/${d}`)
     }
   }
 }

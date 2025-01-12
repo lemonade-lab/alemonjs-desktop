@@ -19,7 +19,7 @@ export default function ConfigEdit() {
     { expansions_name: string; name: string; commond: string }[]
   >([])
 
-  const key2 = 'load-sidebar-webview'
+  const key2 = 'webview-sidebar-load'
 
   useEffect(() => {
     const sidebarsItem =
@@ -32,11 +32,10 @@ export default function ConfigEdit() {
         )
       }) || []
     setViewSidebars(sidebarsItem)
-    window.expansions.onMessage((data: string) => {
+    window.expansions.onMessage(data => {
       try {
-        const res = JSON.parse(data)
-        if (res.type === key2) {
-          setView(res.data)
+        if (data.type === key2) {
+          setView(data.data)
         }
       } catch (error) {
         console.error('ConfigEdit 消息解析失败:', error)
@@ -87,12 +86,10 @@ export default function ConfigEdit() {
               key={index}
               onClick={() => {
                 dispatch(setCommand(viewItem.commond))
-                window.expansions.postMessage(
-                  JSON.stringify({
-                    type: 'command',
-                    data: viewItem.commond
-                  })
-                )
+                window.expansions.postMessage({
+                  type: 'command',
+                  data: viewItem.commond
+                })
               }}
               className={classNames(
                 'p-2 size-14 text-sm flex cursor-pointer justify-center items-center hover:bg-slate-200',

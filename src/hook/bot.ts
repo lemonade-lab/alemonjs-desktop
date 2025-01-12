@@ -25,7 +25,7 @@ export const useBotController = () => {
     if (!modules.nodeModulesStatus) return
     if (!bot.runStatus) {
       showNotification('开始运行机器人...')
-      window.bot.run(JSON.stringify(['--login', state[0]]))
+      window.bot.run(['--login', state[0]])
       return
     } else {
       showNotification('机器人已经启动')

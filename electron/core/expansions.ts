@@ -60,10 +60,19 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   })
 
   // 监听子进程返回的消息
-  child.on('message', message => {
+  child.on('message', (message: any) => {
     try {
-      const data = JSON.stringify(message)
-      webContents.send('expansions-message', data)
+      if (message.type === 'webview-on-message') {
+        const __name = message.data.name
+        // 是 webview的消息 要 发送给对应的 webview
+        if (webviewWindows.has(__name)) {
+          const webContents = webviewWindows.get(__name)
+          webContents?.send('webview-on-message', message.data)
+          return
+        }
+      } else {
+        webContents.send('expansions-message', message)
+      }
     } catch (e) {
       logger.error(e)
     }
@@ -73,13 +82,23 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   webContents.send('expansions-status', 1)
 }
 
+const webviewWindows = new Map<string, Electron.WebContents>()
+
 /**
  *
  * @param data
  * @returns
  */
-export const expansionsPostMessage = (data: { type: string; data: any }) => {
+export const expansionsPostMessage = (
+  webContents: Electron.WebContents,
+  data: { type: string; data: any }
+) => {
   if (child && child.connected) {
+    if (data.type === 'webview-post-message') {
+      // 是 webview的消息要保存窗口
+      const __name = data.data.name
+      webviewWindows.set(__name, webContents)
+    }
     child.send(data)
     return true
   }

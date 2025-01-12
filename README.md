@@ -4,7 +4,7 @@ https://alemonjs.com/
 
 跨平台开发的事件驱动机器人客户端
 
-### 本地打包
+### 本地
 
 ```sh
 git clone --depth==1 https://github.com/lemonade-lab/alemonjs-desktop.git
@@ -19,17 +19,23 @@ npm install yarn@1.19.1 -g
 yarn install
 ```
 
-```sh
-# 编程开发
-yarn dev # mac
-yarn dev-win # win
-```
+- 生产资源
 
 ```sh
-# 生产图标
-yarn icons
-# 打包
+yarn bundle
+```
+
+- 生产应用
+
+```sh
 yarn build
+```
+
+- 开发
+
+```sh
+yarn dev # mac
+yarn dev-win # win
 ```
 
 ### Community

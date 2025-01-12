@@ -25,9 +25,9 @@ contextBridge.exposeInMainWorld('expansions', {
   onCommand: (callback: (value: string) => void) =>
     ipcRenderer.on('expansions-command', (_event, value) => callback(value)),
   // 监听 electron 发来的 message
-  onMessage: (callback: (value: string) => void) =>
+  onMessage: (callback: (value: any) => void) =>
     ipcRenderer.on('expansions-message', (_event, value) => callback(value)),
-  postMessage: (data: string) => ipcRenderer.invoke('expansions-post-message', data)
+  postMessage: (data: any) => ipcRenderer.invoke('expansions-post-message', data)
 })
 
 contextBridge.exposeInMainWorld('bot', {
@@ -57,7 +57,7 @@ contextBridge.exposeInMainWorld('controller', {
   close: () => ipcRenderer.send('close-window'),
   update: () => ipcRenderer.send('update-version'),
   cssVariables: () => ipcRenderer.invoke('css-variables'),
-  onCSSVariables: (callback: (val: string) => void) => {
+  onCSSVariables: (callback: (val: any) => void) => {
     ipcRenderer.on('on-css-variables', (_event, value) => callback(value))
   }
 })

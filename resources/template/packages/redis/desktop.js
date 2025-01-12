@@ -13,6 +13,7 @@ export const activate = context => {
   webView.onMessage(data => {
     try {
       const value = data
+
       if (value.type == 'redis.from.save') {
         const redis = value.data
         const configDir = join(process.cwd(), 'alemon.config.yaml')
@@ -28,10 +29,18 @@ export const activate = context => {
         // 写入文件
         writeFileSync(configDir, yaml, 'utf-8')
         context.notification('保存成功～')
-      } else {
-        context.notification('保存失败～')
-        console.log('value', value)
-        console.log('type', value.type)
+      } else if (value.type == 'redis.init') {
+        const configDir = join(process.cwd(), 'alemon.config.yaml')
+        const config = YAML.parse(readFileSync(configDir, 'utf-8')) ?? {}
+        const redis = config.redis
+
+        // 发送消息
+        webView.postMessage({
+          type: 'redis.init',
+          data: redis
+        })
+
+        //
       }
     } catch (e) {
       console.error(e)
@@ -40,12 +49,12 @@ export const activate = context => {
 
   // 当命令被触发的时候。
   context.onCommand('open.redis', () => {
-    const dir = join(__dirname, 'assets', 'index.html')
+    const dir = join(__dirname, 'dist', 'index.html')
     const scriptReg = /<script.*?src="(.+?)".*?>/
     const styleReg = /<link.*?href="(.+?)".*?>/
     // 创建 webview 路径
-    const styleUri = context.createExtensionDir(join(__dirname, 'assets', 'index.css'))
-    const scriptUri = context.createExtensionDir(join(__dirname, 'assets', 'index.js'))
+    const styleUri = context.createExtensionDir(join(__dirname, 'dist', 'assets', 'index.css'))
+    const scriptUri = context.createExtensionDir(join(__dirname, 'dist', 'assets', 'index.js'))
     // 确保路径存在
     const html = readFileSync(dir, 'utf-8')
       .replace(scriptReg, `<script type="module" crossorigin src="${scriptUri}"></script>`)

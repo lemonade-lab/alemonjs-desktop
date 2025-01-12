@@ -2,6 +2,6 @@ gui:
   port: 17127
 redis:
   host: 127.0.0.1
-  port: '6379'
+  port: '6378'
   password: ''
-  db: '1'
+  db: '4'

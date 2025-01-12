@@ -9,17 +9,27 @@ import {
 // expansions
 ipcMain.handle('expansions-run', (event, data) => {
   try {
-    expansionsRun(event.sender, data ? JSON.parse(data) : [])
+    expansionsRun(event.sender, data ?? [])
   } catch (e) {
     console.error(e)
   }
 })
 ipcMain.handle('expansions-close', () => expansionsClose())
 ipcMain.handle('expansions-status', () => expansionsStatus())
+
+// expansions post message
 ipcMain.handle('expansions-post-message', (event, data) => {
   try {
-    const d = JSON.parse(data)
-    expansionsPostMessage(d)
+    expansionsPostMessage(event.sender, data)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+// webview post message
+ipcMain.handle('webview-post-message', (event, data) => {
+  try {
+    expansionsPostMessage(event.sender, data)
   } catch (e) {
     console.error(e)
   }

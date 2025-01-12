@@ -12,16 +12,20 @@ contextBridge.exposeInMainWorld('versions', {
 contextBridge.exposeInMainWorld('appDesktopAPI', {
   create: name => ({
     postMessage: data => {
-      ipcRenderer.invoke(
-        'expansions-post-message',
-        JSON.stringify({
-          type: 'webview-post-message',
-          data: {
-            name: name,
-            value: data
-          }
-        })
-      )
+      ipcRenderer.invoke('webview-post-message', {
+        type: 'webview-post-message',
+        data: {
+          name: name,
+          value: data
+        }
+      })
+    },
+    onMessage: callback => {
+      ipcRenderer.on('webview-on-message', (event, data) => {
+        if (data.name == name) {
+          callback(data.value)
+        }
+      })
     }
   })
 })

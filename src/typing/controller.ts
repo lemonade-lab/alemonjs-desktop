@@ -29,5 +29,5 @@ export type WindowController = {
    * @param callback
    * @returns
    */
-  onCSSVariables: (callback: (value: string) => void) => void
+  onCSSVariables: (callback: (value: any) => void) => void
 }

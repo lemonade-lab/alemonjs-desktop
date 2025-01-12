@@ -116,9 +116,8 @@ export default () => {
     })
 
     // 监听 css 变量
-    window.controller.onCSSVariables((value: string) => {
+    window.controller.onCSSVariables(cssVariables => {
       try {
-        const cssVariables = JSON.parse(value)
         Object.keys(cssVariables).forEach(key => {
           document.documentElement.style.setProperty(`--${key}`, cssVariables[key])
         })
@@ -132,17 +131,16 @@ export default () => {
     })
 
     // 监听消息
-    window.expansions.onMessage((data: string) => {
+    window.expansions.onMessage(data => {
       try {
-        const res = JSON.parse(data)
-        if (res.type === 'notification') {
-          showNotification(res.data)
+        if (data.type === 'notification') {
+          showNotification(data.data)
           return
-        } else if (res.type === 'command') {
-          dispatch(setCommand(res.data))
+        } else if (data.type === 'command') {
+          dispatch(setCommand(data.data))
           return
-        } else if (res.type === 'get-expansions') {
-          dispatch(initPackage(res.data))
+        } else if (data.type === 'get-expansions') {
+          dispatch(initPackage(data.data))
         }
       } catch {
         console.error('HomeApp 解析消息失败')
@@ -169,14 +167,14 @@ export default () => {
       // 查看是否启动
       if (!expansions.runStatus) {
         // 未启动
-        window.expansions.run('')
+        window.expansions.run([])
       }
     }
   }, [modules.nodeModulesStatus])
 
   useEffect(() => {
     // 变化时，获取扩展器列表
-    window.expansions.postMessage(JSON.stringify({ type: 'get-expansions' }))
+    window.expansions.postMessage({ type: 'get-expansions' })
   }, [expansions.runStatus])
 
   // 切换路由时，更改底部导航栏的激活状态

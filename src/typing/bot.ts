@@ -4,7 +4,7 @@ export type WindowBot = {
    * @param args
    * @returns
    */
-  run: (args: string) => Promise<void>
+  run: (args: any) => Promise<void>
   /**
    *  关闭
    * @returns
