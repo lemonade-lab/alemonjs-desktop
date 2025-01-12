@@ -41,20 +41,20 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
   child.stdout?.on('data', data => {
     // 发消息给渲染进程
     webContents.send('bot-stdout', data.toString())
-    logger.info(`Yarn install output: ${data.toString()}`)
+    logger.info(`bot output: ${data.toString()}`)
   })
 
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
     webContents.send('bot-stdout', data.toString())
-    logger.error(`Yarn install error: ${data.toString()}`)
+    logger.error(`bot error: ${data.toString()}`)
   })
 
   // 监听子进程退出
   child.on('exit', code => {
     // 退出了。
     webContents.send('bot-status', 0)
-    logger.info(`Yarn add process exited with code ${code}`)
+    logger.info(`bot exit ${code}`)
   })
 
   // 运行成功

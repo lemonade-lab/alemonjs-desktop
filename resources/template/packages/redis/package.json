@@ -11,7 +11,13 @@
   },
   "alemonjs": {
     "desktop": {
-      "menus": [
+      "commond": [
+        {
+          "name": "Redis",
+          "commond": "open.redis"
+        }
+      ],
+      "sidebars": [
         {
           "name": "Redis",
           "commond": "open.redis"

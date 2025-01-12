@@ -6,10 +6,10 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/yaml/yaml'
 import { useNotification } from '@src/context/Notification'
-import { useNavigate } from 'react-router-dom'
+import useGoNavigate from '@src/hook/navigate'
 
 export default function ConfigCode() {
-  const navigate = useNavigate()
+  const navigate = useGoNavigate()
   const [value, setValue] = useState('')
 
   const { showNotification } = useNotification()

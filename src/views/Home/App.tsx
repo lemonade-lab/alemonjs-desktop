@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom'
 import BotController from './BotController'
 import { RobotIcon } from '@src/common/MenuIcons'
 import OccupancyRate from '@src/common/OccupancyRate'
+import useGoNavigate from '@src/hook/navigate'
 export default () => {
-  const navigate = useNavigate()
+  const navigate = useGoNavigate()
   return (
     <section className="flex-1 flex flex-col px-4 py-2">
       <div className="flex-1 flex flex-col">
@@ -17,10 +17,10 @@ export default () => {
             <span
               className="text-sm"
               onClick={() => {
-                navigate('/config-code')
+                navigate('/config-edit')
               }}
             >
-              编辑配置
+              扩展
             </span>
           </button>
         </div>

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { init } from 'echarts'
 
 interface State {
+  runStatus: boolean
+  runAt: number
   package: {
     [key: string]: any
     name: string
@@ -9,6 +10,8 @@ interface State {
 }
 
 const initialState: State = {
+  runStatus: false,
+  runAt: 0,
   package: []
 }
 
@@ -16,6 +19,30 @@ const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
+    setExpansionsStatus(
+      state,
+      action: PayloadAction<{
+        runStatus?: boolean
+      }>
+    ) {
+      if ('runStatus' in action.payload) {
+        if (
+          typeof action.payload.runStatus == 'boolean' &&
+          action.payload.runStatus != state.runStatus
+        ) {
+          state.runStatus = action.payload.runStatus
+        }
+      }
+    },
+    /**
+     * 设置启动时间
+     * @param state
+     * @param action
+     */
+    setExpansionsRunAt(state, action: PayloadAction<number>) {
+      state.runAt = action.payload
+    },
+
     initPackage(state, action: PayloadAction<any[]>) {
       state.package = action.payload
     },
@@ -29,5 +56,6 @@ const notificationSlice = createSlice({
   }
 })
 
-export const { initPackage, addPackage, delPackage } = notificationSlice.actions
+export const { initPackage, addPackage, delPackage, setExpansionsStatus, setExpansionsRunAt } =
+  notificationSlice.actions
 export default notificationSlice.reducer

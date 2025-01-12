@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNotification } from '@src/context/Notification'
+import useGoNavigate, { NavigatePath } from '@src/hook/navigate'
+import { setBotStatus } from '@src/store/bot'
+import { setCommand } from '@src/store/command'
+
+import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
+
 import Header from '@src/common/Header'
 import Home from '@src/views/Home/App'
 import Setting from '@src/views/settings/App'
 import ConfigCode from '@src/views/ConfigCode/App'
 import ConfigEdit from '@src/views/ConfigEdit/App'
-import { setStatus } from '@src/store/bot'
 import { BottomBar } from '@src/views/BottomBar'
-import BotLog from './BotLog/App'
-import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
+import BotLog from '@src/views/BotLog/App'
+
 import Docs from './Docs/App'
 import Loading from './Loading'
 import WordBox from './WordBox'
-import { useNotification } from '@src/context/Notification'
-import useGoNavigate, { NavigatePath } from '@src/hook/navigate'
+import { setModulesStatus } from '@src/store/modules'
+import { setExpansionsStatus } from '@src/store/expansions'
+import { RootState } from '@src/store'
 
 export default () => {
   const navigate = useGoNavigate()
-
   const location = useLocation()
   const dispatch = useDispatch()
-
   const [activeIndex, setActiveIndex] = useState('/')
-
   const [loading, setLoading] = useState(false)
-
   const { showNotification } = useNotification()
 
   const navList: {
@@ -68,32 +71,29 @@ export default () => {
   ]
 
   useEffect(() => {
-    // 获取 bot 状态
-    window.bot
-      .status()
-      .then(res =>
-        dispatch(
-          setStatus({
-            runStatus: res
-          })
-        )
-      )
-      .catch(err => {
-        console.error(err)
-      })
+    // 加载css变量
+    window.controller.cssVariables()
+
     // 立即加载依赖
     window.yarn.install().catch(err => {
       console.error(err)
     })
-    // 加载css变量
-    window.controller.cssVariables()
+
+    // 获取 bot 状态
+    window.bot.status().then(res =>
+      dispatch(
+        setBotStatus({
+          runStatus: res
+        })
+      )
+    )
   }, [])
 
   useEffect(() => {
     // 监听 bot 状态
     window.bot.onStatus((value: number) => {
       dispatch(
-        setStatus({
+        setBotStatus({
           runStatus: value == 0 ? false : true
         })
       )
@@ -101,11 +101,12 @@ export default () => {
     // 监听依赖安装状态
     window.yarn.onInstallStatus((value: number) => {
       dispatch(
-        setStatus({
+        setModulesStatus({
           nodeModulesStatus: value == 0 ? false : true
         })
       )
     })
+
     // 监听 css 变量
     window.controller.onCSSVariables((value: string) => {
       try {
@@ -121,7 +122,66 @@ export default () => {
         showNotification('主题解析错误')
       }
     })
+
+    // 监听消息
+    window.expansions.onMessage((data: string) => {
+      try {
+        const res = JSON.parse(data)
+        if (res.type === 'notification') {
+          showNotification(res.message)
+          return
+        } else if (res.type === 'command') {
+          dispatch(setCommand(res.command))
+          return
+        }
+      } catch {
+        console.error('HomeApp 解析消息失败')
+      }
+    })
+
+    // 监听扩展器状态
+    window.expansions.onStatus((value: number) => {
+      if (value == 0) {
+        showNotification('扩展器已关闭')
+      } else {
+        showNotification('扩展器已启动')
+      }
+      dispatch(
+        setExpansionsStatus({
+          runStatus: value == 0 ? false : true
+        })
+      )
+    })
   }, [])
+
+  const command = useSelector((state: RootState) => state.command)
+  useEffect(() => {
+    // 检查是否有指令
+    if (command.name) {
+      // 发消息给扩展
+      window.expansions.postMessage(
+        JSON.stringify({
+          type: `command`,
+          data: command.name
+        })
+      )
+    }
+  }, [command])
+
+  // 监听依赖变化
+
+  const modules = useSelector((state: RootState) => state.modules)
+  const expansions = useSelector((state: RootState) => state.expansions)
+
+  useEffect(() => {
+    if (modules.nodeModulesStatus) {
+      // 查看是否启动
+      if (!expansions.runStatus) {
+        // 未启动
+        window.expansions.run('')
+      }
+    }
+  }, [modules.nodeModulesStatus])
 
   // 切换路由时，更改底部导航栏的激活状态
   useEffect(() => {

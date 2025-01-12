@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { load } from 'js-yaml'
 
 type callback = (value: number) => void
 
@@ -15,8 +14,20 @@ contextBridge.exposeInMainWorld('app', {
 
 // 扩展
 contextBridge.exposeInMainWorld('expansions', {
-  // 扩展进行交互和通讯
-  load: () => ipcRenderer.invoke('expansions-load')
+  run: (data: string) => ipcRenderer.invoke('expansions-run', data),
+  close: () => ipcRenderer.invoke('expansions-close'),
+  status: () => ipcRenderer.invoke('expansions-status'),
+  onStdout: (callback: callback) =>
+    ipcRenderer.on('expansions-stdout', (_event, value) => callback(value)),
+  onStatus: (callback: callback) =>
+    ipcRenderer.on('expansions-status', (_event, value) => callback(value)),
+  // 监听 electron 发来的 command
+  onCommand: (callback: (value: string) => void) =>
+    ipcRenderer.on('expansions-command', (_event, value) => callback(value)),
+  // 监听 electron 发来的 message
+  onMessage: (callback: (value: string) => void) =>
+    ipcRenderer.on('expansions-message', (_event, value) => callback(value)),
+  postMessage: (data: string) => ipcRenderer.invoke('expansions-post-message', data)
 })
 
 contextBridge.exposeInMainWorld('bot', {

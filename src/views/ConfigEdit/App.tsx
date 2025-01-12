@@ -3,7 +3,6 @@ import logoURL from '@src/assets/logo.jpg'
 import classNames from 'classnames'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { data } from './test'
 import { setCommand } from '@src/store/command'
 
 const createTextHtmlURL = (html: string) =>
@@ -13,27 +12,57 @@ export default function ConfigEdit() {
   const command = useSelector((state: RootState) => state.command)
   const dispatch = useDispatch()
 
-  const [viewIndex, setViewIndex] = useState(-1)
-  const [webviews, setWebviews] = useState(data)
+  const [view, setView] = useState('')
+
+  // 扩展信息
+  const [viewSidebars, setViewSidebars] = useState<
+    {
+      expansions_name: string
+      name: string
+      commond: string
+    }[]
+  >([])
+
+  const key = 'get-expansions'
+  const key2 = 'load-sidebar-webview'
 
   useEffect(() => {
-    // 获取扩展列表。
-    setWebviews(data)
-  }, [])
+    // 发送消息给扩展 获取扩展信息
+    window.expansions.postMessage(JSON.stringify({ type: key }))
 
-  useEffect(() => {
-    // 检查是否有指令
-    if (command.name) {
-      // 查找指令对应的索引
-      const index = webviews.findIndex(view => view.event === command.name)
-      if (index === -1) {
-        // 不存在
-        return
+    // 监听消息
+    window.expansions.onMessage((data: string) => {
+      try {
+        const res = JSON.parse(data)
+        // 解析消息
+        if (res.type === key) {
+          if (Array.isArray(res.data)) {
+            const sidebarsItem = []
+            for (const item of res.data) {
+              const sidebars = item.alemonjs?.desktop?.sidebars
+              if (Array.isArray(sidebars)) {
+                for (const sidebar of sidebars) {
+                  sidebarsItem.push({
+                    ...sidebar,
+                    // 扩展名
+                    expansions_name: item.name
+                  })
+                }
+              }
+            }
+            setViewSidebars(sidebarsItem)
+          }
+        } else if (res.type === key2) {
+          console.log('res.data', res.data)
+
+          // 立即渲染 webview。
+          setView(res.data)
+        }
+      } catch {
+        console.error('ConfigEdit 解析消息失败')
       }
-      // 设置索引
-      setViewIndex(index)
-    }
-  }, [command])
+    })
+  }, [])
 
   return (
     <section className="flex flex-col flex-1  shadow-md">
@@ -41,8 +70,8 @@ export default function ConfigEdit() {
       <div className="flex flex-1">
         {/* Webview 显示区 */}
         <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
-          {viewIndex != -1 ? (
-            <webview src={createTextHtmlURL(webviews[viewIndex].html)} className="w-full h-full" />
+          {view != '' ? (
+            <webview src={createTextHtmlURL(view)} className="w-full h-full" />
           ) : (
             <div className="select-none flex-1 flex-col flex justify-center items-center">
               <div className="flex-col flex">
@@ -55,20 +84,20 @@ export default function ConfigEdit() {
           )}
         </div>
         {/* 右侧导航栏 */}
-        <nav className="border-l ">
-          {webviews.map((view, index) => (
+        <nav className="min-w-14 border-l ">
+          {viewSidebars.map((view, index) => (
             <div
               key={index}
               onClick={() => {
                 // 设置 command
-                dispatch(setCommand(view.event))
+                dispatch(setCommand(view.commond))
               }}
               className={classNames(
                 'p-2 size-14 text-sm flex cursor-pointer  justify-center items-center hover:bg-slate-200',
                 'border-r-2',
                 {
                   'bg-[var(--primary-bg-front)] border-r-2 border-slate-500':
-                    view.event === command.name
+                    view.commond === command.name
                 }
               )}
             >

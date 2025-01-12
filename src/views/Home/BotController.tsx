@@ -1,12 +1,12 @@
 import { useBotController } from '@src/hook/bot'
-import { useNavigate } from 'react-router-dom'
+import useGoNavigate from '@src/hook/navigate'
 /**
  * @description 机器人控制器
  */
 export default function BotController() {
   // 路由跳转
-  const navigate = useNavigate()
-  const { onClickStart, onClickClose, onClickYarnInstall, bot, state, platforms } =
+  const navigate = useGoNavigate()
+  const { onClickStart, onClickClose, onClickYarnInstall, bot, modules, state, platforms } =
     useBotController()
   const [platform, setPlatform] = state
   return (
@@ -27,7 +27,7 @@ export default function BotController() {
           <div>{bot.runStatus ? '已启动' : '未启动'}</div>
         </div>
         <div className="">
-          {bot.nodeModulesStatus ? (
+          {modules.nodeModulesStatus ? (
             bot.runStatus ? (
               <button
                 type="button"

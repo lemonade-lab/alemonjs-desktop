@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useNotification } from '@src/context/Notification'
 export const useBotController = () => {
   const bot = useSelector((state: RootState) => state.bot)
+  const modules = useSelector((state: RootState) => state.modules)
   const { showNotification } = useNotification()
   const platforms = [
     'gui',
@@ -21,7 +22,7 @@ export const useBotController = () => {
    * @returns
    */
   const onClickStart = _.throttle(() => {
-    if (!bot.nodeModulesStatus) return
+    if (!modules.nodeModulesStatus) return
     if (!bot.runStatus) {
       showNotification('开始运行机器人...')
       window.bot.run(JSON.stringify(['--login', state[0]]))
@@ -48,9 +49,9 @@ export const useBotController = () => {
       showNotification('加载中...')
       return
     }
-    if (bot.nodeModulesStatus) return
+    if (modules.nodeModulesStatus) return
     showNotification('开始加载依赖...')
     window.yarn.install()
   }, 500)
-  return { onClickStart, onClickClose, onClickYarnInstall, bot, state, platforms }
+  return { onClickStart, onClickClose, onClickYarnInstall, bot, modules, state, platforms }
 }

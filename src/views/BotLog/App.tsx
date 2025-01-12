@@ -11,6 +11,7 @@ export default function BotLog() {
   const { onClickStart, onClickClose, onClickYarnInstall, bot, state, platforms } =
     useBotController()
   const log = useSelector((state: RootState) => state.log)
+  const modules = useSelector((state: RootState) => state.modules)
   const dispatch = useDispatch()
   const [platform, setPlatform] = state
 
@@ -48,7 +49,7 @@ export default function BotLog() {
             </div>
             <div>{bot.runStatus ? '已启动' : '未启动'}</div>
           </div>
-          {bot.nodeModulesStatus ? (
+          {modules.nodeModulesStatus ? (
             bot.runStatus ? (
               <button
                 type="button"

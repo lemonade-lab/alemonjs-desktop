@@ -8,7 +8,5 @@ ipcMain.handle('bot-run', (event, data) => {
     console.error(e)
   }
 })
-ipcMain.handle('bot-close', () => {
-  botClose()
-})
+ipcMain.handle('bot-close', () => botClose())
 ipcMain.handle('bot-status', () => botStatus())
