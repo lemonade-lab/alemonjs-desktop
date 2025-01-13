@@ -2,9 +2,9 @@
   "name": "alemonb",
   "type": "module",
   "dependencies": {
-    "@alemonjs/gui": "^0.3.1",
     "@alemonjs/db": "^0.0.1",
-    "alemonjs": "^2.0.0-rc.81",
+    "@alemonjs/gui": "^0.3.2",
+    "alemonjs": "^2.0.0-rc.86",
     "jsxp": "^1.1.2"
   },
   "devDependencies": {

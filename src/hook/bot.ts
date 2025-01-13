@@ -3,21 +3,42 @@ import { RootState } from '@src/store/index'
 import _ from 'lodash'
 import { useState } from 'react'
 import { useNotification } from '@src/context/Notification'
+
+const getPlatform = (packages: any[]) => {
+  const data: {
+    name: string
+    value: string
+  }[] = []
+  for (const item of packages) {
+    let platforms = []
+    const p = item?.alemonjs?.desktop?.platform
+    if (Array.isArray(p)) {
+      platforms = p
+    }
+    for (const platform of platforms) {
+      data.push({
+        name: platform.name,
+        value: platform?.value ?? item.name
+      })
+    }
+  }
+  return data
+}
+
 export const useBotController = () => {
   const bot = useSelector((state: RootState) => state.bot)
   const modules = useSelector((state: RootState) => state.modules)
   const { showNotification } = useNotification()
-  const platforms = [
-    'gui',
-    'qq-bot',
-    'kook',
-    'discord',
-    'wechat',
-    'telegram',
-    'onebot',
-    'qq'
-  ] as const
-  const state = useState<(typeof platforms)[number]>('gui')
+  const expansions = useSelector((state: RootState) => state.expansions)
+  const platforms = getPlatform(expansions.package)
+
+  //
+  const state = useState({
+    name: 'gui',
+    value: '@alemonjs/gui'
+  })
+
+  //
   /**
    * @returns
    */
@@ -25,7 +46,12 @@ export const useBotController = () => {
     if (!modules.nodeModulesStatus) return
     if (!bot.runStatus) {
       showNotification('开始运行机器人...')
-      window.bot.run(['--login', state[0]])
+      if (/@alemonjs\//.test(state[0].value)) {
+        const login = state[0].value.replace('@alemonjs/', '')
+        window.bot.run(['--login', login])
+      } else {
+        window.bot.run(['--platform', state[0].value])
+      }
       return
     } else {
       showNotification('机器人已经启动')

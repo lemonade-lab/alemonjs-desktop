@@ -1,5 +1,6 @@
 import { useBotController } from '@src/hook/bot'
 import useGoNavigate from '@src/hook/navigate'
+import { RootState } from '@src/store'
 /**
  * @description 机器人控制器
  */
@@ -15,12 +16,17 @@ export default function BotController() {
         <div className="flex-1 flex gap-2 items-center rounded-md">
           <div>
             <select
-              defaultValue={platform}
-              onChange={e => setPlatform(e.target.value as any)}
+              defaultValue={platform.name}
+              onChange={e =>
+                setPlatform({
+                  name: e.target.value,
+                  value: platforms.find(item => item.name === e.target.value)?.value || ''
+                })
+              }
               className="bg-transparent"
             >
               {platforms.map((item, index) => (
-                <option key={index}>{item}</option>
+                <option key={index}>{item.name}</option>
               ))}
             </select>
           </div>

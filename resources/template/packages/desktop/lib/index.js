@@ -156,17 +156,23 @@ const addModules = (name, callback) => {
 
 const updateModules = () => {
   const dirs = fs.readdirSync(dir)
+  const initapps = []
   for (const d of dirs) {
     const stat = fs.statSync(join(dir, d))
     if (stat.isDirectory()) {
-      addModules(`@alemonjs/${d}`)
+      initapps.push(`@alemonjs/${d}`)
     }
   }
   const value = getConfigValue()
   if (Array.isArray(value.apps)) {
     for (const app of value.apps) {
-      addModules(app)
+      initapps.push(app)
     }
+  }
+  // 去重
+  const apps = Array.from(new Set(initapps))
+  for (const app of apps) {
+    addModules(app)
   }
 }
 

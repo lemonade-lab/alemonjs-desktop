@@ -12,10 +12,10 @@
     mysql2 "^3.6.2"
     sequelize "^6.33.0"
 
-"@alemonjs/gui@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.npmmirror.com/@alemonjs/gui/-/gui-0.3.1.tgz#f93e46621568aecc328b40f37514176baa63411e"
-  integrity sha512-G0wk7fIH5ZiCpW+blnKBjYQQ2ZHXmp5xbnfKPbJ9ZCLk40NRmS/7HBVJH08X4bBDeaIWZFuTw7ZDSQy5FVLQdg==
+"@alemonjs/gui@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.npmmirror.com/@alemonjs/gui/-/gui-0.3.2.tgz#972c2859335dd9ba0b710475b3aaceedf5822d62"
+  integrity sha512-KSSA5U0kdxES8qpWwdJqqkeDKsw4wLCX2SLEc/BB8X/Tr6NoyXzczMma5dwBzVo8BbDpVkPoSUEaR9527Ri0yQ==
   dependencies:
     dayjs "^1.11.13"
     koa "^2.15.3"
@@ -574,17 +574,14 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-alemonjs@^2.0.0-rc.81:
-  version "2.0.0-rc.81"
-  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.81.tgz#8da2732ade125c13dee14716b7fca599dbbbba14"
-  integrity sha512-1V8qJV0uk1f8Euf8ThMpZu74c/sKTSEfHaTGOJGZ9DhSFHXZ1OCBsT7rIh4/hfVgaTbjeE6h2ET0KCVolQME1w==
+alemonjs@^2.0.0-rc.86:
+  version "2.0.0-rc.86"
+  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.86.tgz#620e178eb990fa8a7bea0adc2973673ffe41b3f7"
+  integrity sha512-55qLSjpR+EvFVCD3P3F6kK5DZkITUZQOGCjY/7cYKQ3hbmVBeqYnmHDBPyHWuxUtO9gtOAuil/jgrVsLvZUPyQ==
   dependencies:
     chalk "^5.3.0"
-    ioredis "^5.4.1"
     log4js "^6.9.1"
     logger "^0.0.1"
-    tsx "^4.19.1"
-    typescript "^5.5.3"
     yaml "^2.5.1"
 
 ansi-regex@^5.0.1:
@@ -3073,16 +3070,7 @@ streamx@^2.15.0, streamx@^2.21.0:
   optionalDependencies:
     bare-events "^2.2.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -3100,14 +3088,7 @@ string-width@^5.0.1, string-width@^5.1.2:
     emoji-regex "^9.2.2"
     strip-ansi "^7.0.1"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -3244,11 +3225,6 @@ type-is@^1.6.16, type-is@^1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@^5.5.3:
-  version "5.6.3"
-  resolved "https://registry.npmmirror.com/typescript/-/typescript-5.6.3.tgz#5f3449e31c9d94febb17de03cc081dd56d81db5b"
-  integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
-
 typescript@^5.6.2:
   version "5.7.3"
   resolved "https://registry.npmmirror.com/typescript/-/typescript-5.7.3.tgz#919b44a7dbb8583a9b856d162be24a54bf80073e"
@@ -3376,16 +3352,7 @@ wkx@^0.5.0:
   dependencies:
     "@types/node" "*"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.npmmirror.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmmirror.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
