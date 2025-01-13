@@ -56,6 +56,8 @@ export const createWindow = () => {
     return { action: 'deny' }
   })
 
+  // win.webContents.session.setCacheMode('force-cache');
+
   return win
 
   //

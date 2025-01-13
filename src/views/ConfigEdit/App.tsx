@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCommand } from '@src/store/command'
-import { Init } from './Init'
+import { Init } from '../Init'
 
 const createTextHtmlURL = (html: string) =>
   `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
@@ -85,15 +85,14 @@ export default function ConfigEdit() {
                 })
               }}
               className={classNames(
-                'p-2 size-14 text-sm flex cursor-pointer justify-center items-center hover:bg-slate-200',
-                'border-r-2',
+                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center hover:bg-slate-200',
                 {
-                  'bg-[var(--primary-bg-front)] border-r-2 border-slate-500':
-                    viewItem.commond === command.name
+                  'bg-[var(--primary-bg-front)] ': viewItem.commond === command.name
                 }
               )}
             >
               {viewItem.name}
+              <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
             </div>
           ))}
         </nav>

@@ -6,6 +6,7 @@ const Home = lazy(() => import('@src/views/Home/App'))
 const Setting = lazy(() => import('@src/views/Setting/App'))
 const ConfigEdit = lazy(() => import('@src/views/ConfigEdit/App'))
 const BotLog = lazy(() => import('@src/views/BotLog/App'))
+const Expansions = lazy(() => import('@src/views/Expansions/App'))
 const router = createBrowserRouter([
   {
     path: '/',
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'bot-log',
         element: <BotLog />
+      },
+      {
+        path: 'expansions',
+        element: <Expansions />
       }
     ]
   },

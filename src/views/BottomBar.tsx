@@ -2,18 +2,21 @@ import { SettingIcon } from '@src/common/Icons'
 import { PetalIcon } from '@src/common/MenuIcons'
 import { NavigatePath } from '@src/hook/navigate'
 import classNames from 'classnames'
+import { useLocation } from 'react-router-dom'
 export const BottomBar = ({
   centerList,
-  centerIndex,
+  onClickLogo,
   onClickSetting
 }: {
   centerList: { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
   centerIndex: string
   onClickSetting: () => void
+  onClickLogo: () => void
 }) => {
+  const location = useLocation()
   return (
     <aside className="flex flex-col justify-between items-center p-1 bg-[var(--secondary-bg-front)]">
-      <div>
+      <div className=" cursor-pointer" onClick={onClickLogo}>
         <PetalIcon width="28" />
       </div>
       <div className="px-1 py-8 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
@@ -23,8 +26,8 @@ export const BottomBar = ({
             className={classNames(
               'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer',
               {
-                'bg-[var(--secondary-bg)] text-white': item.path == centerIndex,
-                'hover:bg-[var(--secondary-bg-front)]': item.path != centerIndex
+                'bg-[var(--secondary-bg)] text-white': item.path == location.pathname,
+                'hover:bg-[var(--secondary-bg-front)]': item.path != location.pathname
               }
             )}
             onClick={() => item.onClick(item.path)}

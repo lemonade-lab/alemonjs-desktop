@@ -3,12 +3,14 @@ import { RootState } from '@src/store'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 export type NavigatePath =
+  | '/'
   | '/home'
   | '/bot-log'
   | '/config-edit'
   | '/docs'
   | '/config-code'
   | '/setting'
+  | '/expansions'
 export default function useGoNavigate() {
   const navigate = useNavigate()
   const modules = useSelector((state: RootState) => state.modules)

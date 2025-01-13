@@ -33,7 +33,7 @@ export default function BotLog() {
   }, [])
   return (
     <section className="flex flex-col flex-1 bg-[var(--primary-bg-front)] shadow-md">
-      <div className="select-none flex flex-col p-1  rounded-t-md border-b ">
+      <div className="flex flex-col p-1  rounded-t-md border-b ">
         <div className="flex gap-4  items-center ">
           <div className="flex-1 flex gap-2 items-center  rounded-md">
             <div>
@@ -83,12 +83,7 @@ export default function BotLog() {
           {log.message.length > 0 ? (
             log.message.map((item, index) => <p key={index}>{item}</p>)
           ) : (
-            <div className="flex-1 flex justify-center items-center">
-              {/* <span>暂无日志</span> */}
-              {
-                // 加一个 logo
-              }
-            </div>
+            <div className="flex-1 flex justify-center items-center"></div>
           )}
         </div>
       </div>

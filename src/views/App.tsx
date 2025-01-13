@@ -5,7 +5,7 @@ import { useNotification } from '@src/context/Notification'
 import useGoNavigate, { NavigatePath } from '@src/hook/navigate'
 import { setBotStatus } from '@src/store/bot'
 import { setCommand } from '@src/store/command'
-import { ContactIcon, FireworksIcon, HomeIcon } from '@src/common/MenuIcons'
+import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
 import Header from '@src/common/Header'
 import { BottomBar } from '@src/views/BottomBar'
 
@@ -16,12 +16,13 @@ import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import Loading from './Loading'
+import { set } from 'lodash'
 
 export default () => {
   const navigate = useGoNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-  const [activeIndex, setActiveIndex] = useState('')
+  const [activeIndex, setActiveIndex] = useState('/')
   const [loading, setLoading] = useState(false)
   const { showNotification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
@@ -36,30 +37,28 @@ export default () => {
       Icon: <HomeIcon width="20" height="20" />,
       path: '/home',
       onClick: path => {
-        setActiveIndex(path)
         navigate(path)
       }
     },
     {
       Icon: <ContactIcon width="20" height="20" />,
       path: '/bot-log',
-      onClick: path => {
-        setActiveIndex(path)
-        navigate(path)
-      }
+      onClick: path => navigate(path)
     },
     {
       Icon: <FireworksIcon width="20" height="20" />,
       path: '/config-edit',
-      onClick: path => {
-        setActiveIndex(path)
-        navigate(path)
-      }
+      onClick: path => navigate(path)
+    },
+    {
+      Icon: <PizzaIcon width="20" height="20" />,
+      path: '/expansions',
+      onClick: path => navigate(path)
     }
   ]
 
   useEffect(() => {
-    showNotification('正在初始化数据...')
+    // showNotification('正在初始化数据...')
 
     // 立即得到 app 路径
     window.app.getAppPath().then(res => {
@@ -162,16 +161,6 @@ export default () => {
     window.expansions.postMessage({ type: 'get-expansions' })
   }, [expansions.runStatus])
 
-  // 切换路由时，更改底部导航栏的激活状态
-  useEffect(() => {
-    const item = navList.find(item => item.path === location.pathname)
-    if (item) {
-      setActiveIndex(item.path)
-    } else {
-      setActiveIndex('')
-    }
-  }, [location.pathname])
-
   return (
     <div className="flex flex-col h-screen">
       {
@@ -183,6 +172,7 @@ export default () => {
       {loading ? (
         <div className="flex flex-1">
           <BottomBar
+            onClickLogo={() => navigate('/')}
             centerList={navList}
             centerIndex={activeIndex}
             onClickSetting={() => navigate('/setting')}

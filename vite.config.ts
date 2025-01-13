@@ -10,9 +10,7 @@ import pkg from './package.json'
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   rmSync('dist-electron', { recursive: true, force: true })
-  if (command === 'build') {
-    rmSync('release/' + pkg.version, { recursive: true, force: true })
-  }
+  if (command === 'build') rmSync('release/' + pkg.version, { recursive: true, force: true })
   return {
     resolve: {
       alias: {
@@ -72,6 +70,15 @@ export default defineConfig(({ command }) => {
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
+        }
+      },
+      commonjsOptions: {
+        transformMixedEsModules: true
+      },
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
         }
       }
     }

@@ -30,15 +30,15 @@ export default function SettingApp() {
                 setView(viewItem.value)
               }}
               className={classNames(
-                'p-2 size-14 text-sm flex cursor-pointer justify-center items-center hover:bg-slate-200',
-                'border-r-2',
+                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center hover:bg-slate-200',
                 {
-                  'bg-[var(--primary-bg-front)] border-r-2 border-slate-500':
-                    viewItem.value === index
+                  'bg-[var(--primary-bg-front)] ': viewItem.value === index
                 }
               )}
             >
               {viewItem.name}
+
+              <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
             </div>
           ))}
         </nav>

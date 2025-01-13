@@ -4,6 +4,7 @@ import { WindowBot } from './typing/bot'
 import { WindowVersions } from './typing/versions'
 import { WindowYarn } from './typing/yarn'
 import { WindowController } from './typing/controller'
+
 declare global {
   interface Window {
     /**
@@ -32,3 +33,34 @@ declare global {
     versions: WindowVersions
   }
 }
+
+/**
+ *
+ * command: list
+ * bar: left | right
+ * menu: center | button
+ *
+ * {
+ *   "menu/center":[],
+ *   "menu/button":[],
+ *   "command":[
+ *      {
+ *        name:"",
+ *        title:"",
+ *      }
+ *   ],
+ *   "bar/left":[],
+ *   "bar/right":[]
+ * }
+ *
+ *
+ * 需要明确。是哪一个。menu。
+ * // menu应该是固定的。
+ *
+ * // home:card
+ *
+ * // expasion:webview
+ *
+ * //setting:
+ *
+ */
