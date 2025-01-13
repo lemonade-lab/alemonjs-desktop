@@ -31,6 +31,8 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
     return
   }
 
+  if (webContents.isDestroyed()) return
+
   const MyJS = join(templatePath, 'desktop.js')
 
   //
@@ -41,6 +43,8 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
 
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
+    if (webContents.isDestroyed()) return
+
     // 发消息给渲染进程
     webContents.send('expansions-stdout', data.toString())
     logger.info(`expansions output: ${data.toString()}`)
@@ -48,12 +52,16 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
 
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
+    if (webContents.isDestroyed()) return
+
     webContents.send('expansions-stdout', data.toString())
     logger.error(`expansions error: ${data.toString()}`)
   })
 
   // 监听子进程退出
   child.on('exit', code => {
+    if (webContents.isDestroyed()) return
+
     // 退出了。
     webContents.send('expansions-status', 0)
     logger.info(`expansions exit ${code}`)
@@ -61,12 +69,15 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
 
   // 监听子进程返回的消息
   child.on('message', (message: any) => {
+    if (webContents.isDestroyed()) return
+
     try {
       if (message.type === 'webview-on-message') {
         const __name = message.data.name
         // 是 webview的消息 要 发送给对应的 webview
         if (webviewWindows.has(__name)) {
           const webContents = webviewWindows.get(__name)
+          if (!webContents) return
           webContents?.send('webview-on-message', message.data)
           return
         }

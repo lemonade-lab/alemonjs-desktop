@@ -13,7 +13,7 @@ const Dropdown = ({
     setIsOpen(!isOpen)
   }
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as any)) {
       setIsOpen(false)
     }
   }

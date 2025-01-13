@@ -22,6 +22,9 @@ export const createShortcut = () => {
       const allWebContents = webContents.getAllWebContents()
       // 向所有的 webContents 发送消息
       allWebContents.forEach(contents => {
+        // 如果 webContents 已经销毁，则不发送消息
+        if (contents.isDestroyed()) return
+        // 发送消息
         contents.send(ShortcutMap[key])
       })
     })

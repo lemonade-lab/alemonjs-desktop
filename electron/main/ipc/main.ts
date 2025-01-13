@@ -10,6 +10,8 @@ import { autoUpdateApp } from '../../core/update'
 // tools
 ipcMain.on('OPEN-DEV-TOOLS', event => {
   const window = BrowserWindow.fromWebContents(event.sender)
+  if (!window) return
+  if (window.isDestroyed()) return
   // 打开开发者工具
   window?.webContents?.openDevTools()
 })
@@ -17,5 +19,7 @@ ipcMain.on('OPEN-DEV-TOOLS', event => {
 // version
 ipcMain.on('update-version', (event, __) => {
   const window = BrowserWindow.fromWebContents(event.sender)
-  window && autoUpdateApp(window, true)
+  if (!window) return
+  if (window.isDestroyed()) return
+  autoUpdateApp(window, true)
 })

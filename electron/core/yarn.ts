@@ -39,12 +39,16 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
     })
     // 监听子进程的标准输出
     child.stdout?.on('data', data => {
+      if (webContents.isDestroyed()) return
+
       // 发消息给渲染进程
       webContents.send('bot-stdout', data.toString())
       logger.info(`Yarn install output: ${data.toString()}`)
     })
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
+      if (webContents.isDestroyed()) return
+
       webContents.send('bot-stdout', data.toString())
       logger.error(`Yarn install error: ${data.toString()}`)
     })
@@ -54,6 +58,8 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
 
       // 结束
       yarnMap.delete(KEY)
+
+      if (webContents.isDestroyed()) return
 
       // 确保安装成功
       if (code == 0) {
@@ -94,12 +100,16 @@ export const yarnAdd = (webContents: Electron.WebContents, value: string) => {
     })
     // 监听子进程的标准输出
     child.stdout?.on('data', data => {
+      if (webContents.isDestroyed()) return
+
       // 发消息给渲染进程
       webContents.send('bot-stdout', data.toString())
       logger.info(`Yarn add output: ${data.toString()}`)
     })
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
+      if (webContents.isDestroyed()) return
+
       webContents.send('bot-stdout', data.toString())
       logger.error(`Yarn add error: ${data.toString()}`)
     })
@@ -108,6 +118,9 @@ export const yarnAdd = (webContents: Electron.WebContents, value: string) => {
       logger.info(`Yarn add process exited with code ${code}`)
       // 结束
       yarnMap.delete(KEY)
+
+      if (webContents.isDestroyed()) return
+
       // 确保安装成功
       if (code == 0) {
         webContents.send('yarn-add-status', 1)
@@ -145,12 +158,15 @@ export const yarnLink = (webContents: Electron.WebContents, value: string) => {
     })
     // 监听子进程的标准输出
     child.stdout?.on('data', data => {
+      if (webContents.isDestroyed()) return
       // 发消息给渲染进程
       webContents.send('bot-stdout', data.toString())
       logger.info(`Yarn link output: ${data.toString()}`)
     })
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
+      if (webContents.isDestroyed()) return
+
       webContents.send('bot-stdout', data.toString())
       logger.error(`Yarn link error: ${data.toString()}`)
     })
@@ -159,6 +175,9 @@ export const yarnLink = (webContents: Electron.WebContents, value: string) => {
       logger.info(`Yarn link process exited with code ${code}`)
       // 结束
       yarnMap.delete(KEY)
+
+      if (webContents.isDestroyed()) return
+
       // 确保安装成功
       if (code == 0) {
         webContents.send('yarn-link-status', 1)

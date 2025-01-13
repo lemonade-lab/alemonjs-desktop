@@ -23,6 +23,9 @@ export function downloadUpdate() {
 }
 
 const showMessage = debounce((mainWindow, message) => {
+  if (!mainWindow) return
+  if (mainWindow.isDestroyed()) return
+
   // 增加模态 - 当前禁止切换其他窗口
   dialog.showMessageBox(mainWindow, {
     message: message
@@ -41,6 +44,9 @@ export function installUpdate() {
  * @param mainWindow
  */
 export async function autoUpdateApp(mainWindow: BrowserWindow, t = false) {
+  if (!mainWindow) return
+  if (mainWindow.isDestroyed()) return
+
   // 等待 3 秒再检查更新，确保窗口准备完成，用户进入系统
   if (!t) await sleep(3000)
 
