@@ -1,12 +1,9 @@
 import { join } from 'path'
 import fs from 'fs'
 import { createRequire } from 'module'
-import { getConfigValue } from 'alemonjs'
-import YAML from 'yaml'
+import { getConfigValue, getConfig } from 'alemonjs'
 const require = createRequire(import.meta.url)
 const dir = join(process.cwd(), 'node_modules', '@alemonjs')
-
-const dirConfig = join(process.cwd(), 'alemon.config.yaml')
 
 // 得到该目录的所有模块。
 let modules = []
@@ -85,12 +82,8 @@ const context = {
    * @returns
    */
   createExtensionDir: dir => {
-    const path = dir
-      .replace(/\\/g, '/')
-      .replace(/file:\/\//, '')
-      .replace(process.cwd(), '')
     // 使用 resource 协议
-    return `resource://template/${path}`
+    return `resource://${dir}`
   },
   notification: message => {
     process.send({
@@ -189,14 +182,15 @@ export const events = {
         data: modules
       })
       try {
-        const data = fs.readFileSync(dirConfig, 'utf-8')
-        const dv = YAML.parse(data) ?? {}
-        if (!Array.isArray(dv?.apps)) {
-          dv.apps = []
+        const config = getConfig()
+        const value = config.value ?? {}
+        if (!Array.isArray(value.apps)) {
+          value.apps = []
         }
-        dv.apps.push(name)
-        const str = YAML.stringify(dv)
-        fs.writeFileSync(dirConfig, str, 'utf-8')
+        value.apps.push(name)
+        // 给apps去重
+        value.apps = Array.from(new Set(value.apps))
+        config.saveValue(value)
       } catch (e) {
         //
       }
@@ -207,7 +201,6 @@ export const events = {
     // 清空模块列表
     modules = []
     desktops = []
-    //
     updateModules()
     // 发送模块列表
     process.send({

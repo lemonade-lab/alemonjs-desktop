@@ -1,3 +1,4 @@
+import { useNotification } from '@src/context/Notification'
 import { useEffect, useState } from 'react'
 
 // 扩展 window
@@ -17,7 +18,12 @@ export default function GithubFrom() {
   const [formData, setFormData] = useState({
     name: ''
   })
-  useEffect(() => {}, [])
+
+  const { showNotification } = useNotification()
+
+  useEffect(() => {
+    //
+  }, [])
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -26,6 +32,8 @@ export default function GithubFrom() {
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    showNotification(`待开放。。。`)
   }
   return (
     <div className="flex flex-1 items-center justify-center ">
@@ -38,7 +46,6 @@ export default function GithubFrom() {
               type="text"
               name="name"
               placeholder="https://github.com/lemonade-lab/alemonjs.git"
-              required
               value={formData.name}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"

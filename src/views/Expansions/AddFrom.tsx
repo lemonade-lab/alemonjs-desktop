@@ -27,12 +27,12 @@ export default function From() {
   // 控制提交
   const [submit, setSubmit] = useState(false)
   useEffect(() => {
-    window.yarn.onLinkStatus(value => {
+    window.yarn.onAddStatus(value => {
       setSubmit(false)
       if (value == 0) {
-        showNotification('link 失败')
+        showNotification('add 失败')
       } else {
-        showNotification('link 完成')
+        showNotification('add 完成')
         // 推送加载。
         window.expansions.postMessage({ type: 'add-expansions', data: fromNameRef.current })
       }
@@ -45,13 +45,13 @@ export default function From() {
     if (submit) return
     e.preventDefault()
     if (!fromNameValue || fromNameValue == '') return
-    window.yarn.link(fromNameValue)
+    window.yarn.add(fromNameValue)
     setSubmit(true)
   }
   return (
     <div className="flex flex-1 items-center justify-center ">
       <div className="p-8 rounded-lg bg-[var(--secondary-bg-front)] shadow-inner w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">本地扩展</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">扩展商城</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">扩展名</label>
@@ -70,7 +70,7 @@ export default function From() {
             disabled={submit}
             className="w-full bg-blue-400 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
           >
-            开始关联
+            开始安装
           </button>
         </form>
       </div>

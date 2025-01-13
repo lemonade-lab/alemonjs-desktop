@@ -5,7 +5,11 @@ import logoURL from '@src/assets/logo.jpg'
 import Dropdown from './Dropdown'
 import { debounce } from 'lodash'
 import From from './From'
+import AddFrom from './AddFrom'
 import GithubFrom from './GithubFrom'
+import { useSelector } from 'react-redux'
+import { RootState } from '@src/store'
+import { useNotification } from '@src/context/Notification'
 
 export default function Expansions() {
   //
@@ -21,36 +25,21 @@ export default function Expansions() {
 
   const [readme, setReadme] = useState('')
 
-  const extensions = [
-    {
-      name: '@alemonjs/gui',
-      description: '测试机器人'
-    },
-    {
-      name: '@alemonjs/qq',
-      description: '测试机器人'
-    },
-    {
-      name: '@alemonjs/qq-bot',
-      description: '测试机器人'
-    },
-    {
-      name: '@alemonjs/discord',
-      description: '测试机器人'
-    },
-    {
-      name: '@alemonjs/kook',
-      description: '测试机器人'
-    }
-  ]
+  const { showNotification } = useNotification()
+
+  const expansions = useSelector((state: RootState) => state.expansions)
 
   const handlePackageClick = debounce(async (packageName: string) => {
+    showNotification(`开始获取 ${packageName} 的数据。`)
     try {
       const response = await fetchPackageInfo(packageName)
       setPackageInfo(response)
       setReadme(response.readme || '没有可用的 README 信息。')
+
+      showNotification(`获取 ${packageName} 的完成。`)
     } catch (error) {
       console.error('Error fetching package information:', error)
+      showNotification(`从 npmjs 中 ${packageName} 获取失败`)
     }
   }, 500)
 
@@ -100,23 +89,28 @@ export default function Expansions() {
             </div>
           )}
           {select == 'yarn link' && <From />}
+          {select == 'yarn add' && <AddFrom />}
           {select == 'github' && <GithubFrom />}
         </div>
         <nav className="w-64 xl:w-72 border-l flex gap-1 flex-col p-2">
           <div className=" flex justify-between">
-            <div className="text-[0.7rem]">扩展商城</div>
+            {/* <div className="text-[0.7rem]">扩展商城</div> */}
+            <div className="text-[0.7rem]">扩展列表</div>
             <div className="text-[0.7rem] flex items-center justify-center ">
-              <Dropdown options={['github', 'yarn link']} onChangeOption={onChangeOption} />
+              <Dropdown
+                options={['github', 'yarn link', 'yarn add']}
+                onChangeOption={onChangeOption}
+              />
             </div>
           </div>
-          <div className="">
+          {/* <div className="">
             <input
               placeholder="在应用商店中搜索扩展"
               className="w-full px-2 py-1 text-[0.7rem] rounded-sm"
             />
-          </div>
+          </div> */}
           <div className="flex-1 flex flex-col gap-1">
-            {extensions.map((item, index) => (
+            {expansions.package.map((item, index) => (
               <div
                 key={index}
                 onClick={() => handlePackageClick(item.name)}

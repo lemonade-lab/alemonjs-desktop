@@ -1,10 +1,5 @@
 import { protocol, net, session } from 'electron'
-import { resourcesPath } from '../core/static'
-import { join } from 'path'
 import url from 'url'
-
-/**
- */
 export function onBeforeRequest(): void {
   // 注册 "onBeforeRequest" 事件的处理程序
   session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
@@ -26,10 +21,8 @@ export function onBeforeRequest(): void {
     // 继续原始请求
     callback({})
   })
-
   protocol.handle('resource', request => {
     const filePath = request.url.slice('resource://'.length)
-    const dir = join(resourcesPath, filePath)
-    return net.fetch(url.pathToFileURL(dir).toString())
+    return net.fetch(url.pathToFileURL(filePath).toString())
   })
 }
