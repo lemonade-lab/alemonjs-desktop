@@ -1,30 +1,48 @@
-// SettingApp.tsx
-import React, { useState } from 'react'
-import Tab from './Tab' // 导入 Tab 组件
-// import Common from './Common' // 导入 Common 组件
+import { useState } from 'react'
+import classNames from 'classnames'
 import About from './About'
-
-const SettingApp: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('关于') // 默认选中的标签
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab)
-  }
+export default function SettingApp() {
+  const [view, setView] = useState(0)
+  const datas = [
+    {
+      name: '关于',
+      value: 'about',
+      com: <About />
+    }
+  ]
+  const [viewSidebars, setViewSidebars] = useState<{ name: string; value: number }[]>([
+    {
+      name: '关于',
+      value: 0
+    }
+  ])
   return (
-    <section className="flex flex-1 flex-col bg-[var(--primary-bg-front)] shadow-content rounded-md">
-      <div className="flex-1 flex">
-        {/* 根据选中的标签渲染相应的内容 */}
-        <div className="flex-1 flex flex-col">
-          {/* {activeTab === '通用' && <Common />} */}
-          {activeTab === '关于' && <About />}
+    <section className="flex flex-col flex-1 shadow-md">
+      <div className="flex flex-1">
+        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
+          {datas[view].com}
         </div>
-        <Tab
-          items={['关于']} // 传递标签项
-          activeTab={activeTab}
-          onTabChange={handleTabChange} // 传递回调函数
-        />
+        <nav className="min-w-14 border-l">
+          {viewSidebars.map((viewItem, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setView(viewItem.value)
+              }}
+              className={classNames(
+                'p-2 size-14 text-sm flex cursor-pointer justify-center items-center hover:bg-slate-200',
+                'border-r-2',
+                {
+                  'bg-[var(--primary-bg-front)] border-r-2 border-slate-500':
+                    viewItem.value === index
+                }
+              )}
+            >
+              {viewItem.name}
+            </div>
+          ))}
+        </nav>
       </div>
     </section>
   )
 }
-
-export default SettingApp

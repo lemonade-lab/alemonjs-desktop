@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-
-const About: React.FC = () => {
+import { useEffect, useState } from 'react'
+import logoURL from '@src/assets/logo.jpg'
+const About = () => {
   const [versions, setVersions] = useState<{
     chrome: string
     node: string
@@ -16,20 +16,23 @@ const About: React.FC = () => {
   }, [])
 
   return (
-    <div className="p-4 flex-1 flex flex-col justify-center items-center ">
-      <h2 className="text-lg font-bold mb-2">关于应用</h2>
-      {versions ? (
-        <ul className="list-disc pl-5">
-          <li>Chrome 版本: {versions.chrome}</li>
-          <li>Node 版本: {versions.node}</li>
-          <li>Electron 版本: {versions.electron}</li>
-          <li>平台: {versions.platform}</li>
-        </ul>
-      ) : (
-        <p>加载版本信息...</p>
-      )}
+    <div className="select-none flex-1 flex-col flex justify-center items-center">
+      <div className="flex-col flex">
+        <img src={logoURL} alt="logo" className="w-96" />
+        <div>
+          {versions ? (
+            <ul className="list-disc pl-5">
+              <li>Chrome 版本: {versions.chrome}</li>
+              <li>Node 版本: {versions.node}</li>
+              <li>Electron 版本: {versions.electron}</li>
+              <li>平台: {versions.platform}</li>
+            </ul>
+          ) : (
+            <p>加载版本信息...</p>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
-
 export default About

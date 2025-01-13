@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification } from '@src/context/Notification'
 import useGoNavigate, { NavigatePath } from '@src/hook/navigate'
 import { setBotStatus } from '@src/store/bot'
 import { setCommand } from '@src/store/command'
-
-import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
-
+import { ContactIcon, FireworksIcon, HomeIcon } from '@src/common/MenuIcons'
 import Header from '@src/common/Header'
-import Home from '@src/views/Home/App'
-import Setting from '@src/views/settings/App'
-import ConfigCode from '@src/views/ConfigCode/App'
-import ConfigEdit from '@src/views/ConfigEdit/App'
 import { BottomBar } from '@src/views/BottomBar'
-import BotLog from '@src/views/BotLog/App'
 
-import Docs from './Docs/App'
+// import Docs from './Docs/App'
 import Loading from './Loading'
 import WordBox from './WordBox'
 import { setModulesStatus } from '@src/store/modules'
@@ -48,14 +41,6 @@ export default () => {
       }
     },
     {
-      Icon: <FireworksIcon width="20" height="20" />,
-      path: '/config-edit',
-      onClick: path => {
-        setActiveIndex(path)
-        navigate(path)
-      }
-    },
-    {
       Icon: <ContactIcon width="20" height="20" />,
       path: '/bot-log',
       onClick: path => {
@@ -64,8 +49,8 @@ export default () => {
       }
     },
     {
-      Icon: <PizzaIcon width="20" height="20" />,
-      path: '/docs',
+      Icon: <FireworksIcon width="20" height="20" />,
+      path: '/config-edit',
       onClick: path => {
         setActiveIndex(path)
         navigate(path)
@@ -194,14 +179,7 @@ export default () => {
             onClickSetting={() => navigate('/setting')}
           />
           <main className="flex flex-1 bg-[var(--secondary-bg-front)]">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/bot-log" element={<BotLog />} />
-              <Route path="/config-edit" element={<ConfigEdit />} />
-              <Route path="/config-code" element={<ConfigCode />} />
-              <Route path="/setting" element={<Setting />} />
-              <Route path="/docs" element={<Docs />} />
-            </Routes>
+            <Outlet />
           </main>
         </div>
       ) : (

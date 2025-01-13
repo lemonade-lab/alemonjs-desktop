@@ -54,7 +54,7 @@ export default function WordBox() {
       {isDropdownOpen ? (
         <div
           ref={dropdownRef}
-          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-white  border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
+          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--secondary-bg-front)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
         >
           <input
             type="text"
@@ -72,7 +72,7 @@ export default function WordBox() {
                   // setInputValue(item.commond)
                   // setIsDropdownOpen(false)
                 }}
-                className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-slate-100 rounded-md"
+                className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
               >
                 <div>{item.name}</div>
                 <div className="text-slate-400">{item.commond}</div>
@@ -93,7 +93,7 @@ export default function WordBox() {
           <div className="drag-area flex-1"></div>
           <div
             ref={dropdownRef}
-            className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center border-slate-400 h-5 rounded-md bg-[var(--primary-bg-front)]"
+            className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--primary-bg-front)]"
             onClick={() => setIsDropdownOpen(prev => !prev)}
             aria-expanded={isDropdownOpen}
             role="button"
