@@ -13,6 +13,7 @@
     "dev-win": "chcp 65001 && vite",
     "dev:redis": "yarn --cwd packages/redis dev",
     "bundle": "node bundle.js",
+    "build:vite": "vite build",
     "build": "tsc && vite build && electron-builder --config electron-builder.cjs",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",

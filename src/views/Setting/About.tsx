@@ -17,9 +17,9 @@ const About = () => {
 
   return (
     <div className="select-none flex-1 flex-col flex justify-center items-center">
-      <div className="flex-col flex">
+      <div className="flex-col flex  relative">
         <img src={logoURL} alt="logo" className="w-96" />
-        <div>
+        <div className="absolute bottom-0">
           {versions ? (
             <ul className="list-disc pl-5">
               <li>Chrome 版本: {versions.chrome}</li>

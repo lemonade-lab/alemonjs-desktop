@@ -2,7 +2,13 @@ import { useNotification } from '@src/context/Notification'
 import { RootState } from '@src/store'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-export type NavigatePath = '/' | '/bot-log' | '/config-edit' | '/docs' | '/config-code' | '/setting'
+export type NavigatePath =
+  | '/home'
+  | '/bot-log'
+  | '/config-edit'
+  | '/docs'
+  | '/config-code'
+  | '/setting'
 export default function useGoNavigate() {
   const navigate = useNavigate()
   const modules = useSelector((state: RootState) => state.modules)

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import logoURL from '@src/assets/logo.jpg'
 import classNames from 'classnames'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCommand } from '@src/store/command'
+import { Init } from './Init'
 
 const createTextHtmlURL = (html: string) =>
   `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
@@ -70,14 +70,7 @@ export default function ConfigEdit() {
               className="w-full h-full"
             />
           ) : (
-            <div className="select-none flex-1 flex-col flex justify-center items-center">
-              <div className="flex-col flex">
-                <img src={logoURL} alt="logo" className="w-96" />
-                <div className="flex-col flex justify-center items-center">
-                  可选择左侧导航栏中的选项进行查看
-                </div>
-              </div>
-            </div>
+            <Init />
           )}
         </div>
         <nav className="min-w-14 border-l">

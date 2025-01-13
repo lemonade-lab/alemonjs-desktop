@@ -10,18 +10,18 @@ import Header from '@src/common/Header'
 import { BottomBar } from '@src/views/BottomBar'
 
 // import Docs from './Docs/App'
-import Loading from './Loading'
 import WordBox from './WordBox'
 import { setModulesStatus } from '@src/store/modules'
 import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
+import Loading from './Loading'
 
 export default () => {
   const navigate = useGoNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-  const [activeIndex, setActiveIndex] = useState('/')
+  const [activeIndex, setActiveIndex] = useState('')
   const [loading, setLoading] = useState(false)
   const { showNotification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
@@ -34,7 +34,7 @@ export default () => {
   }[] = [
     {
       Icon: <HomeIcon width="20" height="20" />,
-      path: '/',
+      path: '/home',
       onClick: path => {
         setActiveIndex(path)
         navigate(path)
@@ -59,46 +59,15 @@ export default () => {
   ]
 
   useEffect(() => {
-    // 加载css变量
-    window.controller.cssVariables()
+    showNotification('正在初始化数据...')
 
-    // 立即加载依赖
-    window.yarn.install().catch(err => {
-      console.error(err)
-    })
-
-    //app dir
+    // 立即得到 app 路径
     window.app.getAppPath().then(res => {
       dispatch(setPath(res))
     })
 
-    // 获取 bot 状态
-    window.bot.status().then(res =>
-      dispatch(
-        setBotStatus({
-          runStatus: res
-        })
-      )
-    )
-  }, [])
-
-  useEffect(() => {
-    // 监听 bot 状态
-    window.bot.onStatus((value: number) => {
-      dispatch(
-        setBotStatus({
-          runStatus: value == 0 ? false : true
-        })
-      )
-    })
-    // 监听依赖安装状态
-    window.yarn.onInstallStatus((value: number) => {
-      dispatch(
-        setModulesStatus({
-          nodeModulesStatus: value == 0 ? false : true
-        })
-      )
-    })
+    // 加载css变量
+    window.controller.cssVariables()
 
     // 监听 css 变量
     window.controller.onCSSVariables(cssVariables => {
@@ -110,12 +79,42 @@ export default () => {
         setLoading(true)
       } catch (e) {
         console.error(e)
-        // 致命错误
-        showNotification('主题解析错误')
       }
     })
 
-    // 监听消息
+    // 立即加载依赖
+    window.yarn.install().catch(err => {
+      console.error(err)
+    })
+
+    // 监听依赖安装状态
+    window.yarn.onInstallStatus((value: number) => {
+      dispatch(
+        setModulesStatus({
+          nodeModulesStatus: value == 0 ? false : true
+        })
+      )
+    })
+
+    // 立即获取 bot 状态
+    window.bot.status().then(res =>
+      dispatch(
+        setBotStatus({
+          runStatus: res
+        })
+      )
+    )
+
+    // 监听 bot 状态
+    window.bot.onStatus((value: number) => {
+      dispatch(
+        setBotStatus({
+          runStatus: value == 0 ? false : true
+        })
+      )
+    })
+
+    // 监听expansions消息
     window.expansions.onMessage(data => {
       try {
         if (data.type === 'notification') {
@@ -132,10 +131,10 @@ export default () => {
       }
     })
 
-    // 监听扩展器状态
+    // 监听expansions状态
     window.expansions.onStatus((value: number) => {
       if (value == 0) {
-        showNotification('扩展器已关闭')
+        showNotification('扩展器已停止')
       } else {
         showNotification('扩展器已启动')
       }
@@ -148,6 +147,7 @@ export default () => {
   }, [])
 
   useEffect(() => {
+    // 依赖安装完成后，启动扩展器
     if (modules.nodeModulesStatus) {
       // 查看是否启动
       if (!expansions.runStatus) {
@@ -158,19 +158,28 @@ export default () => {
   }, [modules.nodeModulesStatus])
 
   useEffect(() => {
-    // 变化时，获取扩展器列表
+    // 获取扩展器列表
     window.expansions.postMessage({ type: 'get-expansions' })
   }, [expansions.runStatus])
 
   // 切换路由时，更改底部导航栏的激活状态
   useEffect(() => {
     const item = navList.find(item => item.path === location.pathname)
-    if (item) setActiveIndex(item.path)
+    if (item) {
+      setActiveIndex(item.path)
+    } else {
+      setActiveIndex('')
+    }
   }, [location.pathname])
 
   return (
-    <div className="flex flex-col h-screen ">
-      <Header>{loading ? <WordBox /> : <div></div>}</Header>
+    <div className="flex flex-col h-screen">
+      {
+        // 数据初始化时
+        // 不允许进行任何数据交互相关的操作
+        // loading 应该显示文字，告知目前正在进行的操作
+      }
+      <Header>{loading && <WordBox />}</Header>
       {loading ? (
         <div className="flex flex-1">
           <BottomBar

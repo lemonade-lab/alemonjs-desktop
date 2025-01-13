@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { lazy } from 'react'
 import App from '@src/views/App'
+import Main from '@src/views/MainView'
 const Home = lazy(() => import('@src/views/Home/App'))
-const Setting = lazy(() => import('@src/views/settings/App'))
+const Setting = lazy(() => import('@src/views/Setting/App'))
 const ConfigEdit = lazy(() => import('@src/views/ConfigEdit/App'))
 const BotLog = lazy(() => import('@src/views/BotLog/App'))
 const router = createBrowserRouter([
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
+        element: <Main />
+      },
+      {
+        path: 'home',
         element: <Home />
       },
       {
@@ -29,6 +34,7 @@ const router = createBrowserRouter([
     ]
   },
   {
+    // 最后要回到首页
     path: '/*',
     element: <App />
   }

@@ -1,9 +1,21 @@
 export type WindowYarn = {
   /**
+   *  状态
+   * @param name
+   * @returns
+   */
+  status: (name: 'yarnInstall' | 'yarnAdd' | 'yarnLink') => Promise<boolean>
+  /**
    * 加载
    * @returns
    */
   install: () => Promise<boolean>
+  /**
+   *  监听
+   * @param callback
+   * @returns
+   */
+  onInstallStatus: (callback: (value: number) => void) => void
   /**
    *  添加
    * @param name
@@ -15,17 +27,15 @@ export type WindowYarn = {
    * @param callback
    * @returns
    */
-  onInstallStatus: (callback: (value: number) => void) => void
+  onAddStatus: (callback: (value: number) => void) => void
+  /**
+   * 关联
+   */
+  link: () => Promise<void>
   /**
    *  监听
    * @param callback
    * @returns
    */
-  onAddStatus: (callback: (value: number) => void) => void
-  /**
-   *  状态
-   * @param name
-   * @returns
-   */
-  status: (name: 'yarnInstall' | 'yarnAdd') => Promise<boolean>
+  onLinkStatus: (callback: (value: number) => void) => void
 }

@@ -17,7 +17,7 @@ export default function Header({ children }: HeaderProps) {
   return (
     <header className="h-[1.6rem] flex justify-between  bg-[var(--secondary-bg-front)] border-b-2  border-white">
       <div className="drag-area flex-1"></div>
-      {children}
+      {children ?? <div></div>}
       {window.versions.platform == 'win32' ? (
         <div className="flex-1 flex justify-end items-center">
           <div className="flex px-2 py-[0.1rem] h-full gap-2 justify-center items-center">

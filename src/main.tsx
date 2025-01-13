@@ -10,9 +10,9 @@ import store from '@src/store/index'
 import { NotificationProvider } from '@src/context/Notification'
 import router from './route'
 import { Suspense } from 'react'
-import Loading from '@src/Loading'
+import Transition from '@src/Transition'
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Suspense fallback={<Loading />}>
+  <Suspense fallback={<Transition />}>
     <Provider store={store}>
       <NotificationProvider>
         <RouterProvider router={router} />
