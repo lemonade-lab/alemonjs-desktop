@@ -75,11 +75,11 @@ const initWindow = () => {
 
   if (!win) return
 
-  // 检查更新
-  autoUpdateApp(win)
-
   // 隐藏菜单栏
   win.setMenuBarVisibility(false)
+
+  // 检查更新
+  autoUpdateApp(win)
 
   // 等待加载完成
   const didFinishLoadHandler = () => {
@@ -112,13 +112,25 @@ app.whenReady().then(() => {
 
   // 监听点击托盘的事件
   tray.on('click', () => {
-    if (!win) return
-    if (win.isDestroyed()) return
-    if (win.isVisible()) win.show()
+    const allWindows = BrowserWindow.getAllWindows()
+    if (allWindows.length) {
+      const win = allWindows[0]
+      if (win.isDestroyed()) return
+      // if (!win.isVisible()) win.show()
+      // 最小化窗口
+      if (win.isMinimized()) {
+        // 最大化
+        win.restore()
+        win.focus()
+      } else {
+        // 最小化
+        win.minimize()
+      }
+    } else {
+      // 初始化窗口
+      initWindow()
+    }
   })
-
-  // 初始化窗口
-  initWindow()
 })
 
 // 当所有窗口都关闭后，退出应用程序
@@ -132,7 +144,7 @@ app.on('window-all-closed', () => {
 app.on('second-instance', () => {
   if (win) {
     if (win.isDestroyed()) return
-    if (!win.isVisible()) win.show()
+    // if (!win.isVisible()) win.show()
     // 如果用户尝试打开另一个窗口，则聚焦于主窗口
     if (win.isMinimized()) win.restore()
     win.focus()
@@ -143,7 +155,18 @@ app.on('second-instance', () => {
 app.on('activate', () => {
   const allWindows = BrowserWindow.getAllWindows()
   if (allWindows.length) {
-    allWindows[0].focus()
+    const win = allWindows[0]
+    if (win.isDestroyed()) return
+    // if (!win.isVisible()) win.show()
+    // 最小化窗口
+    if (win.isMinimized()) {
+      // 最大化
+      win.restore()
+      win.focus()
+    } else {
+      // 最小化
+      win.minimize()
+    }
   } else {
     // 初始化窗口
     initWindow()

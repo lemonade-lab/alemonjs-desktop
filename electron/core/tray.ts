@@ -1,11 +1,11 @@
 import { Menu, Tray, app, shell } from 'electron'
 import { createLogoImageFromPath } from './icons'
 
+const BASE_URL = 'https://alemonjs.com'
+
 /**
  * @description 拓展菜单
  */
-
-const BASE_URL = 'https://alemonjs.com'
 
 // 创建图标菜单
 export const createTray = () => {
@@ -20,7 +20,7 @@ export const createTray = () => {
     // 通过 Menu 创建菜单
     const menuConfig = Menu.buildFromTemplate([
       {
-        label: '官网',
+        label: '文档',
         click: () => {
           shell.openExternal(BASE_URL)
         }
