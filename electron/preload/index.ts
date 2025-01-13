@@ -6,10 +6,7 @@ contextBridge.exposeInMainWorld('app', {
   // resources path
   getAppPath: () => ipcRenderer.invoke('get-app-path'),
   // Template files
-  rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir'),
-  // bot config
-  botConfigRead: () => ipcRenderer.invoke('bot-config-read'),
-  botConfigWrite: (data: string) => ipcRenderer.invoke('bot-config-write', data)
+  rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files-dir')
 })
 
 // 扩展

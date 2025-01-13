@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useEffect } from 'react'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 
 import 'codemirror/lib/codemirror.css'
@@ -7,7 +6,6 @@ import 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/yaml/yaml'
 import { useNotification } from '@src/context/Notification'
 import useGoNavigate from '@src/hook/navigate'
-
 export default function ConfigCode() {
   const navigate = useGoNavigate()
   const [value, setValue] = useState('')
@@ -15,22 +13,9 @@ export default function ConfigCode() {
   const { showNotification } = useNotification()
 
   const [initValue, setInitValue] = useState('')
-  useEffect(() => {
-    window.app.botConfigRead().then(data => {
-      setInitValue(data)
-      setValue(data)
-    })
-  }, [])
+
   const onClickSave = () => {
-    // 发送给electron
-    window.app.botConfigWrite(value).then(res => {
-      if (res) {
-        showNotification('保存成功')
-        setInitValue(value)
-      } else {
-        showNotification('保存失败')
-      }
-    })
+    //
   }
   return (
     <section className="flex-1 flex flex-col bg-[var(--secondary-bg-front)] ">

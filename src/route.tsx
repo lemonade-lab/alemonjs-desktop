@@ -3,7 +3,6 @@ import { lazy } from 'react'
 import App from '@src/views/App'
 const Home = lazy(() => import('@src/views/Home/App'))
 const Setting = lazy(() => import('@src/views/settings/App'))
-const ConfigCode = lazy(() => import('@src/views/ConfigCode/App'))
 const ConfigEdit = lazy(() => import('@src/views/ConfigEdit/App'))
 const BotLog = lazy(() => import('@src/views/BotLog/App'))
 const router = createBrowserRouter([
@@ -18,10 +17,6 @@ const router = createBrowserRouter([
       {
         path: 'setting',
         element: <Setting />
-      },
-      {
-        path: 'config-code',
-        element: <ConfigCode />
       },
       {
         path: 'config-edit',
