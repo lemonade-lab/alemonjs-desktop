@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useNotification } from '@src/context/Notification'
+import { useEffect, useRef, useState } from 'react'
 
 // 扩展 window
 type API = {
@@ -14,13 +15,38 @@ declare global {
 }
 
 export default function From() {
-  const [formData, setFormData] = useState({
-    name: ''
-  })
-  useEffect(() => {}, [])
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {}
+  const [fromNameValue, setFromNameValue] = useState('')
+
+  const fromNameRef = useRef('')
+
+  useEffect(() => {
+    fromNameRef.current = fromNameValue
+  }, [fromNameValue])
+
+  const { showNotification } = useNotification()
+  // 控制提交
+  const [submit, setSubmit] = useState(false)
+  useEffect(() => {
+    window.yarn.onLinkStatus(value => {
+      setSubmit(false)
+      if (value == 0) {
+        showNotification('link 失败')
+      } else {
+        showNotification('link 完成')
+        // 推送加载。
+        window.expansions.postMessage({ type: 'add-expansions', data: fromNameRef.current })
+      }
+    })
+  }, [])
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFromNameValue(e.target.value)
+  }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (submit) return
     e.preventDefault()
+    if (!fromNameValue || fromNameValue == '') return
+    window.yarn.link(fromNameValue)
+    setSubmit(true)
   }
   return (
     <div className="flex flex-1 items-center justify-center ">
@@ -31,17 +57,18 @@ export default function From() {
             <label className="block text-sm font-medium text-gray-700">扩展名</label>
             <input
               type="text"
-              id="host"
-              name="host"
+              name="name"
               placeholder="@alemonjs/redis"
               required
-              value={formData.name}
+              value={fromNameValue}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
           <button
             type="submit"
+            // 控制提交
+            disabled={submit}
             className="w-full bg-blue-400 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
           >
             开始关联

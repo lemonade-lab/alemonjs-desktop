@@ -18,7 +18,12 @@ export default function GithubFrom() {
     name: ''
   })
   useEffect(() => {}, [])
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {}
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
   }
@@ -31,8 +36,7 @@ export default function GithubFrom() {
             <label className="block text-sm font-medium text-gray-700">地址</label>
             <input
               type="text"
-              id="host"
-              name="host"
+              name="name"
               placeholder="https://github.com/lemonade-lab/alemonjs.git"
               required
               value={formData.name}

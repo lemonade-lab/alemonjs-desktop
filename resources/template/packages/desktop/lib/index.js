@@ -1,8 +1,12 @@
 import { join } from 'path'
 import fs from 'fs'
 import { createRequire } from 'module'
+import { getConfigValue } from 'alemonjs'
+import YAML from 'yaml'
 const require = createRequire(import.meta.url)
 const dir = join(process.cwd(), 'node_modules', '@alemonjs')
+
+const dirConfig = join(process.cwd(), 'alemon.config.yaml')
 
 // 得到该目录的所有模块。
 let modules = []
@@ -110,13 +114,17 @@ const context = {
   }
 }
 
-const addModules = name => {
+const addModules = (name, callback) => {
   try {
     const pkg = require(`${name}/package`)
     modules.push(pkg)
     const createDesktop = async () => {
       // 如果没有 desktop 模块，直接返回。
-      if (!pkg.exports['./desktop']) return
+      if (!pkg.exports['./desktop']) {
+        // 执行回调函数
+        callback && callback()
+        return
+      }
       //
       try {
         const desktop = await import(`${name}/desktop`)
@@ -141,6 +149,8 @@ const addModules = name => {
           return view
         }
         if (desktop.activate) await desktop.activate(context)
+        // 执行回调函数
+        callback && callback()
       } catch (e) {
         // console.error(e)
       }
@@ -159,17 +169,36 @@ const updateModules = () => {
       addModules(`@alemonjs/${d}`)
     }
   }
+  const value = getConfigValue()
+  if (Array.isArray(value.apps)) {
+    for (const app of value.apps) {
+      addModules(app)
+    }
+  }
 }
 
 export const events = {
   // 加载指令
-  'add-extension': name => {
-    // 将结果发送回父进程
-    process.send({
-      type: 'add-extension',
-      data: {
-        name,
-        success: true
+  'add-expansions': name => {
+    console.log('add-expansions', name)
+    // 添加模块
+    addModules(name, () => {
+      // 更新模块列表
+      process.send({
+        type: 'get-expansions',
+        data: modules
+      })
+      try {
+        const data = fs.readFileSync(dirConfig, 'utf-8')
+        const dv = YAML.parse(data) ?? {}
+        if (!Array.isArray(dv?.apps)) {
+          dv.apps = []
+        }
+        dv.apps.push(name)
+        const str = YAML.stringify(dv)
+        fs.writeFileSync(dirConfig, str, 'utf-8')
+      } catch (e) {
+        //
       }
     })
   },

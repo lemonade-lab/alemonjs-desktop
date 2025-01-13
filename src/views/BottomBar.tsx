@@ -9,7 +9,6 @@ export const BottomBar = ({
   onClickSetting
 }: {
   centerList: { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
-  centerIndex: string
   onClickSetting: () => void
   onClickLogo: () => void
 }) => {

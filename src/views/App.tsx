@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification } from '@src/context/Notification'
 import useGoNavigate, { NavigatePath } from '@src/hook/navigate'
@@ -16,13 +16,10 @@ import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import Loading from './Loading'
-import { set } from 'lodash'
 
 export default () => {
   const navigate = useGoNavigate()
-  const location = useLocation()
   const dispatch = useDispatch()
-  const [activeIndex, setActiveIndex] = useState('/')
   const [loading, setLoading] = useState(false)
   const { showNotification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
@@ -174,7 +171,6 @@ export default () => {
           <BottomBar
             onClickLogo={() => navigate('/')}
             centerList={navList}
-            centerIndex={activeIndex}
             onClickSetting={() => navigate('/setting')}
           />
           <main className="flex flex-1 bg-[var(--secondary-bg-front)]">

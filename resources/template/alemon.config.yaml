@@ -1,7 +1,2 @@
 gui:
   port: 17127
-redis:
-  host: 127.0.0.1
-  port: '6378'
-  password: ''
-  db: '4'

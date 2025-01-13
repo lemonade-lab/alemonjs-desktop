@@ -3,7 +3,8 @@
   "type": "module",
   "dependencies": {
     "@alemonjs/gui": "^0.3.0",
-    "alemonjs": "^2.0.0-rc.81"
+    "alemonjs": "^2.0.0-rc.81",
+    "jsxp": "^1.1.2"
   },
   "devDependencies": {
     "npm": "^11.0.0"

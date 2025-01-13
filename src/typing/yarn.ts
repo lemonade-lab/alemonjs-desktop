@@ -31,7 +31,7 @@ export type WindowYarn = {
   /**
    * 关联
    */
-  link: () => Promise<void>
+  link: (name: string) => Promise<void>
   /**
    *  监听
    * @param callback
