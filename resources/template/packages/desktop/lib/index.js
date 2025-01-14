@@ -110,8 +110,10 @@ const context = {
 const addModules = (name, callback) => {
   try {
     const pkg = require(`${name}/package`)
+    if (!pkg) return
     modules.push(pkg)
     const createDesktop = async () => {
+      if (!pkg.exports) return
       // 如果没有 desktop 模块，直接返回。
       if (!pkg.exports['./desktop']) {
         // 执行回调函数
