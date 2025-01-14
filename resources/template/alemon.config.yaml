@@ -1,2 +1,4 @@
 gui:
   port: 17127
+apps:
+  - '@alemonjs/qq-bot'

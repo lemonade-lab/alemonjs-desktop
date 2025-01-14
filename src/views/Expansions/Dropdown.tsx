@@ -1,15 +1,18 @@
+import { MenuMoreIcon } from '@src/common/Icons'
 import React, { useState, useRef, memo } from 'react'
 
 interface DropdownProps<T> {
   options: T[]
   onChangeOption: (value: T) => void
+  Icon: React.ReactNode
 }
 
-const Dropdown = memo(<T extends string>({ options, onChangeOption }: DropdownProps<T>) => {
+const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   const toggleDropdown = () => {
+    // 禁止冒泡
     setIsOpen(prev => !prev)
   }
 
@@ -28,8 +31,14 @@ const Dropdown = memo(<T extends string>({ options, onChangeOption }: DropdownPr
 
   return (
     <div className="relative inline-block z-10" ref={dropdownRef}>
-      <button onClick={toggleDropdown} className="flex items-center px-2 justify-center">
-        ...
+      <button
+        onClick={e => {
+          e.stopPropagation()
+          toggleDropdown()
+        }}
+        className="flex items-center px-2 justify-center"
+      >
+        {Icon}
       </button>
       {isOpen && (
         <ul className="absolute bg-white bg-opacity-90 right-0 w-20 mt-2 border rounded-md shadow-md">

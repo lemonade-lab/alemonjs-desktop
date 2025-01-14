@@ -7,3 +7,4 @@ export const resourcesPath = join(app.getAppPath(), app.isPackaged ? '../' : 're
 export const templatePath = join(resourcesPath, 'template')
 export const nodeModulesPath = join(templatePath, 'node_modules')
 export const corePath = join(nodeModulesPath, 'alemonjs', 'package.json')
+export const lemoncPath = join(templatePath, 'bin', 'yarn.cjs')

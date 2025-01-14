@@ -20,7 +20,6 @@
       "@src/*": ["src/*"]
     }
   },
-  "exclude": [],
-  "include": ["src", "electron", "alemon"],
+  "include": ["src", "electron"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

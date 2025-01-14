@@ -4,6 +4,11 @@
   "version": "0.0.2",
   "description": "阿柠檬桌面交互协议",
   "main": "lib/index.js",
+  "author": {
+    "name": "ningmengchongshui",
+    "email": "ningmengchongshui@gmail.com",
+    "url": "https://github.com/ningmengchongshui"
+  },
   "exports": {
     ".": "./lib/index.js",
     "./package": "./package.json"

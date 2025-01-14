@@ -6,7 +6,8 @@
   "license": "MIT",
   "author": {
     "name": "ningmengchongshui",
-    "email": "ningmengchongshui@gmail.com"
+    "email": "ningmengchongshui@gmail.com",
+    "url": "https://github.com/ningmengchongshui"
   },
   "scripts": {
     "dev": "vite",

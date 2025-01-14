@@ -7,6 +7,7 @@ import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { PackageInfoType } from './PackageInfo'
 import { Init } from './Component'
+import { MenuMoreIcon, RefreshIcon, SettingIcon } from '@src/common/Icons'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
@@ -20,6 +21,8 @@ export default function Expansions() {
   const { showNotification } = useNotification()
   const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
+
+  //
   const handlePackageClick = debounce(async (packageName: string) => {
     const pkg = expansions.package.find(v => v.name === packageName)
     if (!pkg) {
@@ -30,6 +33,7 @@ export default function Expansions() {
     const data = {
       'name': pkg?.name || '',
       'description': pkg?.description || '',
+      'author': pkg?.author || null,
       'dist-tags': { latest: pkg?.version || '' },
       'readme': ''
     }
@@ -41,29 +45,41 @@ export default function Expansions() {
     }
     setPackageInfo(data)
   }, 500)
+
   useEffect(() => {
     if (packageInfo) setSelect('shoping')
   }, [packageInfo])
+
+  //
   const onChangeOption = (value: string) => {
     setSelect(value)
   }
+
+  const onClickRefresh = () => {
+    // 刷新列表
+    window.expansions.postMessage({ type: 'get-expansions' })
+  }
+
   return (
     <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
         <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
           {select == '' && <Init />}
           {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
-          {select == 'yarn link' && <From />}
-          {select == 'yarn add' && <AddFrom />}
-          {select == 'github' && <GithubFrom />}
+          {select == '关联' && <From />}
+          {select == '添加' && <AddFrom />}
+          {select == '仓库' && <GithubFrom />}
         </div>
-        <nav className="w-64 xl:w-72 border-l flex gap-1 flex-col p-2">
+        <nav className="w-72 xl:w-80 border-l flex gap-1 flex-col p-2">
           <div className=" flex justify-between">
-            {/* <div className="text-[0.7rem]">扩展商城</div> */}
-            <div className="text-[0.7rem]">扩展列表</div>
-            <div className="text-[0.7rem] flex items-center justify-center ">
+            <div className="">扩展列表</div>
+            <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
+              <div onClick={onClickRefresh} className=" cursor-pointer">
+                <RefreshIcon width={18} height={18} />
+              </div>
               <Dropdown
-                options={['github', 'yarn link', 'yarn add']}
+                Icon={<MenuMoreIcon width={18} height={18} />}
+                options={['仓库', '关联', '添加']}
                 onChangeOption={onChangeOption}
               />
             </div>
@@ -75,11 +91,11 @@ export default function Expansions() {
             />
           </div> */}
           <div className="flex-1 flex flex-col gap-1">
-            {expansions.package.map((item, index) => (
+            {expansions.package.map(item => (
               <div
-                key={index}
+                key={item.name}
                 onClick={() => handlePackageClick(item.name)}
-                className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center hover:bg-slate-200"
+                className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center hover:bg-gray-100"
               >
                 <div className="size-10 rounded-sm">
                   <img
@@ -89,10 +105,18 @@ export default function Expansions() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col">
-                  <div className="text-[0.9rem]">{item.name}</div>
+                  <div className="">{item.name}</div>
                   <div className="text-[0.6rem]">{item.description}</div>
                 </div>
-                <div className="absolute  bottom-1 right-1 text-[0.6rem]">设置</div>
+                <div className="absolute  bottom-1 right-1 text-[0.6rem]">
+                  <Dropdown
+                    Icon={<SettingIcon width={18} height={18} />}
+                    options={['卸载']}
+                    onChangeOption={value => {
+                      //
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
