@@ -82,8 +82,7 @@ const context = {
    * @returns
    */
   createExtensionDir: dir => {
-    if (/^file:\/\//.test(dir)) return `resource://${dir}`
-    return `resource://file://${dir}`
+    return `resource://-/${dir.replace(/^file:\/\//, '')}`
   },
   notification: message => {
     process.send({
