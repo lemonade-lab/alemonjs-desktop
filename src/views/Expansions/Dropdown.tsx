@@ -1,28 +1,31 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, memo } from 'react'
 
-const Dropdown = ({
-  options,
-  onChangeOption
-}: {
-  options: string[]
-  onChangeOption: (value: string) => void
-}) => {
+interface DropdownProps<T> {
+  options: T[]
+  onChangeOption: (value: T) => void
+}
+
+const Dropdown = memo(<T extends string>({ options, onChangeOption }: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
+
   const toggleDropdown = () => {
-    setIsOpen(!isOpen)
+    setIsOpen(prev => !prev)
   }
+
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as any)) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setIsOpen(false)
     }
   }
+
   React.useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
   return (
     <div className="relative inline-block z-10" ref={dropdownRef}>
       <button onClick={toggleDropdown} className="flex items-center px-2 justify-center">
@@ -46,6 +49,6 @@ const Dropdown = ({
       )}
     </div>
   )
-}
+})
 
 export default Dropdown

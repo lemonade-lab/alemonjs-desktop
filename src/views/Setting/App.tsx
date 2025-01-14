@@ -17,7 +17,7 @@ export default function SettingApp() {
     }
   ])
   return (
-    <section className="flex flex-col flex-1 shadow-md">
+    <section className="animate__animated animate__fadeIn flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
         <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
           {datas[view].com}

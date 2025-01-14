@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from 'react'
+import { memo, PropsWithChildren, ReactNode } from 'react'
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from '@src/common/Icons'
 
 type HeaderProps = PropsWithChildren<{
@@ -13,7 +13,7 @@ type HeaderProps = PropsWithChildren<{
  * @param param0
  * @returns
  */
-export default function Header({ children }: HeaderProps) {
+export default memo(function Header({ children }: HeaderProps) {
   return (
     <header className="h-[1.6rem] flex justify-between  bg-[var(--secondary-bg-front)] border-b-2  border-white">
       <div className="drag-area flex-1"></div>
@@ -46,4 +46,4 @@ export default function Header({ children }: HeaderProps) {
       )}
     </header>
   )
-}
+})

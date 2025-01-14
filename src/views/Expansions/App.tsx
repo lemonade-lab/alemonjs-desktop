@@ -1,23 +1,24 @@
-import { useEffect, useState } from 'react'
-import Markdown from '../Markdown'
+import { lazy, useEffect, useState } from 'react'
 import logoURL from '@src/assets/logo.jpg'
 import Dropdown from './Dropdown'
 import { debounce } from 'lodash'
-import From from './From'
-import AddFrom from './AddFrom'
-import GithubFrom from './GithubFrom'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
+import { PackageInfoType } from './PackageInfo'
+import { Init } from './Component'
+
+// 懒加载
+const PackageInfo = lazy(() => import('./PackageInfo'))
+const From = lazy(() => import('./From'))
+const AddFrom = lazy(() => import('./AddFrom'))
+const GithubFrom = lazy(() => import('./GithubFrom'))
+
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
-  const [packageInfo, setPackageInfo] = useState<{
-    'name': string
-    'description': string
-    'dist-tags': { latest: string }
-    'readme': string
-  } | null>(null)
+  const [packageInfo, setPackageInfo] = useState<PackageInfoType>(null)
   const { showNotification } = useNotification()
+  const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
   const handlePackageClick = debounce(async (packageName: string) => {
     const pkg = expansions.package.find(v => v.name === packageName)
@@ -40,7 +41,6 @@ export default function Expansions() {
     }
     setPackageInfo(data)
   }, 500)
-  const [select, setSelect] = useState('')
   useEffect(() => {
     if (packageInfo) setSelect('shoping')
   }, [packageInfo])
@@ -51,36 +51,8 @@ export default function Expansions() {
     <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
         <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
-          {select == '' && (
-            <div className="select-none flex-1 flex-col flex justify-center items-center">
-              <div className="flex-col flex-1 flex justify-center ">
-                <div className="flex-col flex justify-center items-center">选择查看扩展信息</div>
-              </div>
-            </div>
-          )}
-          {select == 'shoping' && packageInfo && (
-            <div>
-              <div className="p-2 bg-white flex items-center justify-center gap-4 border-b">
-                <div className="bg-gray-100 flex items-center justify-center">
-                  <img
-                    src={logoURL}
-                    alt={`${packageInfo.name} logo`}
-                    className="size-20 rounded-md"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col gap-1">
-                  <div className="text-xl font-bold text-gray-800">{packageInfo.name}</div>
-                  <div className="text-gray-700">{packageInfo.description}</div>
-                  <div className="text-sm">
-                    <span className="text-gray-600">版本:</span> {packageInfo['dist-tags'].latest}
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white overflow-auto scrollbar h-[calc(100vh-8.2rem)]">
-                <Markdown source={packageInfo.readme} />
-              </div>
-            </div>
-          )}
+          {select == '' && <Init />}
+          {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
           {select == 'yarn link' && <From />}
           {select == 'yarn add' && <AddFrom />}
           {select == 'github' && <GithubFrom />}

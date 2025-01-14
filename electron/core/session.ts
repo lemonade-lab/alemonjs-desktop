@@ -1,4 +1,4 @@
-import { protocol, net, session } from 'electron'
+import { protocol, net } from 'electron'
 // import { existsSync } from 'fs'
 // import { join } from 'path'
 import url from 'url'

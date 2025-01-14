@@ -2,7 +2,7 @@ import './env'
 import './ipc/main'
 import { createShortcut } from '../core/shortcut'
 import { createTray } from '../core/tray'
-import { autoUpdateApp } from '../core/update'
+// import { autoUpdateApp } from '../core/update'
 import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
@@ -43,7 +43,9 @@ export const createWindow = () => {
     icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
     // 是否可以最小化窗口。默认为true。
     webPreferences: {
-      webSecurity: false, // 禁用 Web 安全策略，允许 file:// 协议加载
+      // nodeIntegration: true,
+      contextIsolation: true,
+      // webSecurity: false, // 禁用 Web 安全策略，允许 file:// 协议加载
       webviewTag: true, // 启用 webview 支持
       preload
     }
@@ -57,17 +59,6 @@ export const createWindow = () => {
   } else {
     win.loadFile(indexHtml)
   }
-
-  // 让所有链接都通过浏览器打开，而不是通过应用程序打开
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url)
-    return { action: 'deny' }
-  })
-
-  // 在窗口被关闭时进行清理
-  win.on('closed', () => {
-    win = null
-  })
 }
 
 const initWindow = () => {
@@ -75,12 +66,6 @@ const initWindow = () => {
   createWindow()
 
   if (!win) return
-
-  // 隐藏菜单栏
-  win.setMenuBarVisibility(false)
-
-  // 检查更新
-  autoUpdateApp(win)
 
   // 等待加载完成
   const didFinishLoadHandler = () => {
@@ -95,35 +80,50 @@ const initWindow = () => {
 
   // 加载完成后显示窗口
   win.webContents.on('did-finish-load', didFinishLoadHandler)
+
+  // 隐藏菜单栏
+  win.setMenuBarVisibility(false)
+
+  // 让所有链接都通过浏览器打开，而不是通过应用程序打开
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('https:')) shell.openExternal(url)
+    return { action: 'deny' }
+  })
+
+  // 在窗口被关闭时进行清理
+  win.on('closed', () => {
+    win = null
+  })
+
+  // 仅手动检查更新
+  // autoUpdateApp(win)
 }
 
 // 当应用程序准备就绪时，创建主窗口
 app.whenReady().then(() => {
-  // 设置应用的用户模型 ID 替换为你的应用标识
-  app.setAppUserModelId('com.alemonjs.desktop')
+  // 初始化窗口
+  initWindow()
 
-  // 创建快捷键
-  createShortcut()
+  setTimeout(() => {
+    onBeforeRequest()
 
-  // 注册资源协议
-  onBeforeRequest()
+    createShortcut()
 
-  // 创建菜单图标
-  const tray = createTray()
-
-  // 监听点击托盘的事件
-  tray.on('click', () => {
-    const allWindows = BrowserWindow.getAllWindows()
-    if (allWindows.length) {
-      const win = allWindows[0]
-      if (win.isDestroyed()) return
-      // 最小化窗口
-      if (win.isMinimized()) win.restore()
-      win.focus()
-    } else {
-      // 初始化窗口
-      initWindow()
-    }
+    // 创建菜单图标
+    const tray = createTray()
+    // 监听点击托盘的事件
+    tray.on('click', () => {
+      const allWindows = BrowserWindow.getAllWindows()
+      if (allWindows.length) {
+        const win = allWindows[0]
+        if (win.isDestroyed()) return
+        if (win.isMinimized()) win.restore()
+        win.focus()
+      } else {
+        // 初始化窗口
+        initWindow()
+      }
+    })
   })
 })
 
@@ -138,7 +138,6 @@ app.on('window-all-closed', () => {
 app.on('second-instance', () => {
   if (win) {
     if (win.isDestroyed()) return
-    // if (!win.isVisible()) win.show()
     // 如果用户尝试打开另一个窗口，则聚焦于主窗口
     if (win.isMinimized()) win.restore()
     win.focus()
@@ -151,7 +150,6 @@ app.on('activate', () => {
   if (allWindows.length) {
     const win = allWindows[0]
     if (win.isDestroyed()) return
-    // 最小化窗口
     if (win.isMinimized()) win.restore()
     win.focus()
   } else {

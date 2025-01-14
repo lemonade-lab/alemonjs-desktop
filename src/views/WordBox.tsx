@@ -54,7 +54,7 @@ export default function WordBox() {
       {isDropdownOpen ? (
         <div
           ref={dropdownRef}
-          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--secondary-bg-front)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
+          className=" absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--secondary-bg-front)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
         >
           <input
             type="text"

@@ -1,3 +1,4 @@
+@import 'animate.css';
 @import './assets/css/root.css';
 @import './assets/css/tailwind.css';
 @import url('./assets/css/scrollbar.scss');
@@ -22,10 +23,10 @@ img {
   pointer-events: none;
 }
 
-// .pointer-events-none {
-//   pointer-events: none;
-// }
-
 .CodeMirror.cm-s-default {
   height: 100%;
 }
+
+// .animate__animated.animate__fadeIn {
+//   --animate-duration: 2s;
+// }

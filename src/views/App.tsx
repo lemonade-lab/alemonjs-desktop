@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification } from '@src/context/Notification'
@@ -8,16 +8,14 @@ import { setCommand } from '@src/store/command'
 import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
 import Header from '@src/common/Header'
 import { BottomBar } from '@src/views/BottomBar'
-
-// import Docs from './Docs/App'
 import WordBox from './WordBox'
 import { setModulesStatus } from '@src/store/modules'
 import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
-import Loading from './Loading'
+import MainView from './MainView'
 
-export default () => {
+export default (function App() {
   const navigate = useGoNavigate()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -55,8 +53,6 @@ export default () => {
   ]
 
   useEffect(() => {
-    // showNotification('正在初始化数据...')
-
     // 立即得到 app 路径
     window.app.getAppsPath().then(res => {
       dispatch(setPath(res))
@@ -71,8 +67,6 @@ export default () => {
         Object.keys(cssVariables).forEach(key => {
           document.documentElement.style.setProperty(`--${key}`, cssVariables[key])
         })
-        //
-        setLoading(true)
       } catch (e) {
         console.error(e)
       }
@@ -143,43 +137,45 @@ export default () => {
   }, [])
 
   useEffect(() => {
+    // 依赖状态变化时。
+    if (modules.nodeModulesStatus) {
+      setLoading(true)
+    } else {
+      setLoading(false)
+    }
     // 依赖安装完成后，启动扩展器
     if (modules.nodeModulesStatus) {
-      // 查看是否启动
-      if (!expansions.runStatus) {
-        // 未启动
-        window.expansions.run([])
-      }
+      // 启动扩展器
+      if (!expansions.runStatus) window.expansions.run([])
     }
   }, [modules.nodeModulesStatus])
 
   useEffect(() => {
-    // 获取扩展器列表
-    window.expansions.postMessage({ type: 'get-expansions' })
+    // 运行的时候才会获取扩展器
+    if (expansions.runStatus) {
+      window.expansions.postMessage({ type: 'get-expansions' })
+    }
   }, [expansions.runStatus])
 
   return (
     <div className="flex flex-col h-screen">
-      {
-        // 数据初始化时
-        // 不允许进行任何数据交互相关的操作
-        // loading 应该显示文字，告知目前正在进行的操作
-      }
       <Header>{loading && <WordBox />}</Header>
-      {loading ? (
-        <div className="flex flex-1">
-          <BottomBar
-            onClickLogo={() => navigate('/')}
-            centerList={navList}
-            onClickSetting={() => navigate('/setting')}
-          />
-          <main className="flex flex-1 bg-[var(--secondary-bg-front)]">
+      <div className="flex flex-1">
+        <BottomBar
+          onClickLogo={() => navigate('/')}
+          centerList={navList}
+          onClickSetting={() => navigate('/setting')}
+        />
+        {loading ? (
+          <main className=" flex flex-1 bg-[var(--secondary-bg-front)]">
             <Outlet />
           </main>
-        </div>
-      ) : (
-        <Loading />
-      )}
+        ) : (
+          <main className=" flex flex-1 bg-[var(--secondary-bg-front)]">
+            <MainView />
+          </main>
+        )}
+      </div>
     </div>
   )
-}
+})

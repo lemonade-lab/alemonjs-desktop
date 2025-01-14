@@ -1,10 +1,10 @@
-import BotController from './BotController'
 import { RobotIcon } from '@src/common/MenuIcons'
 import useGoNavigate from '@src/hook/navigate'
+import BotController from './BotController'
 export default () => {
   const navigate = useGoNavigate()
   return (
-    <section className="flex-1 flex flex-col px-4 py-2">
+    <section className="animate__animated animate__fadeIn flex-1 flex flex-col px-4 py-2">
       <div className="flex-1 flex flex-col">
         <div className="select-none flex justify-between items-center">
           <div className="text-xl pl-2">欢迎使用，AlemonJS 机器人。</div>

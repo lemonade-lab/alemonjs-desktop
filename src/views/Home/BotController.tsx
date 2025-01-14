@@ -1,10 +1,9 @@
 import { useBotController } from '@src/hook/bot'
 import useGoNavigate from '@src/hook/navigate'
-import { RootState } from '@src/store'
 /**
  * @description 机器人控制器
  */
-export default function BotController() {
+export default (function BotController() {
   // 路由跳转
   const navigate = useGoNavigate()
   const { onClickStart, onClickClose, onClickYarnInstall, bot, modules, state, platforms } =
@@ -68,4 +67,4 @@ export default function BotController() {
       </div>
     </section>
   )
-}
+})

@@ -6,15 +6,14 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeRaw from 'rehype-raw'
 import rehypeAttr from 'rehype-attr'
-
 /**
- *
  * @param param0
  * @returns
  */
 const Markdown = ({ source }: { source: string }) => {
   return (
     <MarkdownPreview
+      className="animate__animated animate__fadeIn"
       style={{ padding: '0.5rem', borderRadius: '0.5rem' }}
       source={source}
       components={{
