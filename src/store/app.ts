@@ -1,19 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface State {
-  path: string
+  resourcesPath: string
+  templatePath: string
+  nodeModulesPath: string
+  corePath: string
 }
 
 const initialState: State = {
-  path: ''
+  resourcesPath: '',
+  templatePath: '',
+  nodeModulesPath: '',
+  corePath: ''
 }
 
 const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
-    setPath(state, action: PayloadAction<string>) {
-      state.path = action.payload
+    setPath(state, action: PayloadAction<State>) {
+      state.resourcesPath = action.payload.resourcesPath
+      state.templatePath = action.payload.templatePath
+      state.nodeModulesPath = action.payload.nodeModulesPath
+      state.corePath = action.payload.corePath
     }
   }
 })

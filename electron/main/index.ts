@@ -43,6 +43,7 @@ export const createWindow = () => {
     icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
     // 是否可以最小化窗口。默认为true。
     webPreferences: {
+      webSecurity: false, // 禁用 Web 安全策略，允许 file:// 协议加载
       webviewTag: true, // 启用 webview 支持
       preload
     }
@@ -116,16 +117,9 @@ app.whenReady().then(() => {
     if (allWindows.length) {
       const win = allWindows[0]
       if (win.isDestroyed()) return
-      // if (!win.isVisible()) win.show()
       // 最小化窗口
-      if (win.isMinimized()) {
-        // 最大化
-        win.restore()
-        win.focus()
-      } else {
-        // 最小化
-        win.minimize()
-      }
+      if (win.isMinimized()) win.restore()
+      win.focus()
     } else {
       // 初始化窗口
       initWindow()
@@ -157,16 +151,9 @@ app.on('activate', () => {
   if (allWindows.length) {
     const win = allWindows[0]
     if (win.isDestroyed()) return
-    // if (!win.isVisible()) win.show()
     // 最小化窗口
-    if (win.isMinimized()) {
-      // 最大化
-      win.restore()
-      win.focus()
-    } else {
-      // 最小化
-      win.minimize()
-    }
+    if (win.isMinimized()) win.restore()
+    win.focus()
   } else {
     // 初始化窗口
     initWindow()

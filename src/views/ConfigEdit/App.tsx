@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCommand } from '@src/store/command'
-import { Init } from '../Init'
 
 const createTextHtmlURL = (html: string) =>
   `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
@@ -65,12 +64,20 @@ export default function ConfigEdit() {
           {view ? (
             <webview
               ref={viewRef}
-              preload={`file://${app.path}/preload/webview.js`}
+              preload={`file://${app.resourcesPath}/preload/webview.js`}
               src={createTextHtmlURL(view)}
               className="w-full h-full"
             />
           ) : (
-            <Init />
+            <div className="select-none flex-1 flex-col flex justify-center items-center">
+              <div className="flex-col flex-1 flex justify-center ">
+                <div className="flex-col flex justify-center items-center">
+                  {viewSidebars.length == 0
+                    ? '未找到相关扩展，请前往商场下载'
+                    : '可选择左侧导航栏中的选项进行查看'}
+                </div>
+              </div>
+            </div>
           )}
         </div>
         <nav className="min-w-14 border-l">

@@ -58,7 +58,7 @@ export default () => {
     // showNotification('正在初始化数据...')
 
     // 立即得到 app 路径
-    window.app.getAppPath().then(res => {
+    window.app.getAppsPath().then(res => {
       dispatch(setPath(res))
     })
 

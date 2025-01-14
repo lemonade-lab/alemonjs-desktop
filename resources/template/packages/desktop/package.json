@@ -2,7 +2,7 @@
   "name": "@alemonjs/desktop",
   "type": "module",
   "version": "0.0.1",
-  "description": "desktop client for Alemon Bot Framework.",
+  "description": "阿柠檬桌面交互协议",
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",

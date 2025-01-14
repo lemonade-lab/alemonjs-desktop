@@ -60,7 +60,7 @@ export default function WordBox() {
             type="text"
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
-            placeholder="input command 。。。"
+            placeholder="input command ..."
             className="border rounded-md min-w-72 px-2 py-1"
             aria-label="Command Input"
           />

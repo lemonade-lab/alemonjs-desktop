@@ -1,7 +1,12 @@
 import axios from 'axios'
 
 export const fetchPackageInfo = async (packageName: string) => {
-  const response = await axios.get(`https://registry.npmjs.org/${packageName}`)
+  const response = await axios.get(`https://registry.npmjs.org/${packageName}`, {
+    headers: {
+      // 'Cache-Control': 'max-age=3600'
+      // 'If-None-Match': ''
+    }
+  })
   const data = response.data
   return {
     'name': data.name,

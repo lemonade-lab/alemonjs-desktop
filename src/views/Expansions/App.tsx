@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Markdown from '../Markdown'
-import { fetchPackageInfo } from './api'
 import logoURL from '@src/assets/logo.jpg'
 import Dropdown from './Dropdown'
 import { debounce } from 'lodash'
@@ -10,50 +9,44 @@ import GithubFrom from './GithubFrom'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
-
 export default function Expansions() {
-  //
+  const app = useSelector((state: RootState) => state.app)
   const [packageInfo, setPackageInfo] = useState<{
     'name': string
     'description': string
-    'license': string
     'dist-tags': { latest: string }
-    'downloads': string
-    'time': { modified: string }
     'readme': string
   } | null>(null)
-
-  const [readme, setReadme] = useState('')
-
   const { showNotification } = useNotification()
-
   const expansions = useSelector((state: RootState) => state.expansions)
-
   const handlePackageClick = debounce(async (packageName: string) => {
-    showNotification(`开始获取 ${packageName} 的数据。`)
-    try {
-      const response = await fetchPackageInfo(packageName)
-      setPackageInfo(response)
-      setReadme(response.readme || '没有可用的 README 信息。')
-
-      showNotification(`获取 ${packageName} 的完成。`)
-    } catch (error) {
-      console.error('Error fetching package information:', error)
-      showNotification(`从 npmjs 中 ${packageName} 获取失败`)
+    const pkg = expansions.package.find(v => v.name === packageName)
+    if (!pkg) {
+      showNotification(`没有找到 ${packageName} 的数据。`)
+      return
     }
+    const dir = app.nodeModulesPath + '/' + packageName + '/README.md'
+    const data = {
+      'name': pkg?.name || '',
+      'description': pkg?.description || '',
+      'dist-tags': { latest: pkg?.version || '' },
+      'readme': ''
+    }
+    try {
+      const readme = await window.app.readFiles(dir)
+      data.readme = readme
+    } catch (err) {
+      console.error(err)
+    }
+    setPackageInfo(data)
   }, 500)
-
   const [select, setSelect] = useState('')
-
   useEffect(() => {
-    // 默认选中商店
     if (packageInfo) setSelect('shoping')
   }, [packageInfo])
-
   const onChangeOption = (value: string) => {
     setSelect(value)
   }
-
   return (
     <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
@@ -84,7 +77,7 @@ export default function Expansions() {
                 </div>
               </div>
               <div className="bg-white overflow-auto scrollbar h-[calc(100vh-8.2rem)]">
-                <Markdown source={readme} />
+                <Markdown source={packageInfo.readme} />
               </div>
             </div>
           )}
