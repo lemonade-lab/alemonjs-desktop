@@ -106,7 +106,7 @@ export default function ConfigEdit() {
               key={index}
               onClick={() => handleSidebarClick(viewItem)}
               className={classNames(
-                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center hover:bg-slate-200',
+                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  hover:bg-slate-200',
                 {
                   'bg-[var(--primary-bg-front)]': viewItem.commond === command.name
                 }

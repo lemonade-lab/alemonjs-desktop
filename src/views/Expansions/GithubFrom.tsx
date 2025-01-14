@@ -53,7 +53,7 @@ export default function GithubFrom() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-400 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
+            className="w-full bg-blue-400 text-white p-2 rounded-md duration-700 transition-all  hover:bg-blue-700 "
           >
             下载仓库
           </button>

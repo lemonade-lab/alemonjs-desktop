@@ -73,7 +73,7 @@ export default function WordBox() {
                     // setInputValue(item.commond)
                     // setIsDropdownOpen(false)
                   }}
-                  className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
+                  className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
                 >
                   <div>{item.name}</div>
                   <div className="text-slate-400">{item.commond}</div>
@@ -83,7 +83,7 @@ export default function WordBox() {
             <div className="flex justify-end">
               <span
                 onClick={onClose}
-                className="text-[var(--notification-text)] hover:text-[--primary-color] cursor-pointer"
+                className="text-[var(--notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
               >
                 <CloseIcon />
               </span>

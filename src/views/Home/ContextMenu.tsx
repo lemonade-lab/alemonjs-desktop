@@ -36,7 +36,7 @@ export default function ContextMenu({
         {items.map((item, index) => (
           <li
             key={index}
-            className="cursor-pointer hover:bg-gray-200"
+            className="cursor-pointer duration-700 transition-all  hover:bg-gray-200"
             onClick={() => {
               item.onClick()
               onClose() // 点击后隐藏菜单

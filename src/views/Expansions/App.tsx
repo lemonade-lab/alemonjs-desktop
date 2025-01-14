@@ -95,7 +95,7 @@ export default function Expansions() {
               <div
                 key={item.name}
                 onClick={() => handlePackageClick(item.name)}
-                className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center hover:bg-gray-100"
+                className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center duration-700 transition-all  hover:bg-gray-100"
               >
                 <div className="size-10 rounded-sm">
                   <img

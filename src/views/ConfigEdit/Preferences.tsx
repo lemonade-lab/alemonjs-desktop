@@ -36,7 +36,7 @@ export default () => {
       <div className="flex justify-between">
         <div className="card-title">预设标题</div>
         <div
-          className="cursor-pointer hover:text-[--primary-color] text-[var(--code-text)]"
+          className="cursor-pointer duration-700 transition-all  hover:text-[--primary-color] text-[var(--code-text)]"
           onClick={handleAddPreference}
         >
           <CirclePlusIcon width="20" height="20" />

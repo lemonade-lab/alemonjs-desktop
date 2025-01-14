@@ -58,7 +58,7 @@ export default function BotLog() {
             bot.runStatus ? (
               <button
                 type="button"
-                className="border px-2 rounded-md  hover:bg-blue-200"
+                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
                 onClick={onClickClose}
               >
                 <span>关闭</span>
@@ -66,7 +66,7 @@ export default function BotLog() {
             ) : (
               <button
                 type="button"
-                className="border px-2 rounded-md  hover:bg-blue-200"
+                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
                 onClick={onClickStart}
               >
                 <span>启动</span>
@@ -75,7 +75,7 @@ export default function BotLog() {
           ) : (
             <button
               type="button"
-              className="border px-2 rounded-md  hover:bg-blue-200"
+              className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
               onClick={onClickYarnInstall}
             >
               <span>加载</span>

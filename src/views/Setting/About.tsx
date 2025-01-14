@@ -20,9 +20,10 @@ const About = () => {
   }
 
   return (
-    <div className="select-none flex-1 flex-col flex justify-center items-center">
-      <div className="flex-col gap-2 flex-1 flex justify-center ">
-        <div className="">
+    <div className="animate__animated animate__fadeIn select-none flex-1 flex-col flex justify-center items-center">
+      <div className="flex-col gap-2 flex-1 flex justify-center py-6">
+        <div className="flex flex-col items-center  justify-center flex-1  p-6 rounded-lg shadow-inner bg-[var(--secondary-bg-front)] w-96 max-w-full">
+          <h2 className="text-2xl font-semibold mb-4">AlemonJS</h2>
           {versions ? (
             <ul className="list-disc pl-5">
               <li>Chrome 版本: {versions.chrome}</li>
@@ -33,9 +34,12 @@ const About = () => {
           ) : (
             <p>加载版本信息...</p>
           )}
-        </div>
-        <div onClick={onClickUpdate} className="flex justify-center items-center">
-          <button className="px-2 py-1 bg-blue-300 text-white rounded-md">检查更新</button>
+          <button
+            onClick={onClickUpdate}
+            className="mt-4 px-6 py-2 bg-blue-300 rounded-lg text-white duration-700 transition-all  hover:bg-blue-700 "
+          >
+            检查更新
+          </button>
         </div>
       </div>
     </div>

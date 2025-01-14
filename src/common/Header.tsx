@@ -23,19 +23,19 @@ export default memo(function Header({ children }: HeaderProps) {
           <div className="flex-1 drag-area "></div>
           <div className="flex px-2   gap-2 justify-center items-center">
             <span
-              className="cursor-pointer hover:bg-slate-300  rounded-sm px-1 text-[var(--primary-text)] hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer   hover:bg-slate-300  rounded-sm px-1 text-[var(--primary-text)]  hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.minimize()}
             >
               <MinimizeIcon />
             </span>
             <span
-              className="cursor-pointer hover:bg-slate-300  rounded-sm px-1 text-[var(--primary-text)] hover:text-gray-900 transition-all duration-300"
+              className="cursor-pointer   hover:bg-slate-300  rounded-sm px-1 text-[var(--primary-text)]  hover:text-gray-900 transition-all duration-300"
               onClick={() => window.controller.maximize()}
             >
               <MaximizeIcon />
             </span>
             <span
-              className="cursor-pointer hover:bg-red-600 hover:text-white  rounded-sm px-1 text-[var(--primary-text)]  transition-all duration-300"
+              className="cursor-pointer   hover:bg-red-600   hover:text-white  rounded-sm px-1 text-[var(--primary-text)]  transition-all duration-300"
               onClick={() => window.controller.close()}
             >
               <CloseIcon />

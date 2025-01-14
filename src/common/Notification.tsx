@@ -36,7 +36,7 @@ const Notification: React.FC<NotificationProps> = ({ message, visible, onClose }
         <span className="text-sm flex-1 break-words max-w-[420px]">{message}</span>
         <span
           onClick={onClose}
-          className="text-[var(--notification-text)] hover:text-[--primary-color] cursor-pointer"
+          className="text-[var(--notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
         >
           <CloseIcon />
         </span>

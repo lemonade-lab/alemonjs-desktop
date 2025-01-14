@@ -36,7 +36,7 @@ export default (function BotController() {
             bot.runStatus ? (
               <button
                 type="button"
-                className="border px-2 rounded-md  hover:bg-blue-200"
+                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
                 onClick={onClickClose}
               >
                 <span>关闭</span>
@@ -44,7 +44,7 @@ export default (function BotController() {
             ) : (
               <button
                 type="button"
-                className="border px-2 rounded-md  hover:bg-blue-200"
+                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
                 onClick={() => {
                   onClickStart()
                   // 跳转到控制台
@@ -57,7 +57,7 @@ export default (function BotController() {
           ) : (
             <button
               type="button"
-              className="border px-2 rounded-md  hover:bg-blue-200"
+              className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
               onClick={onClickYarnInstall}
             >
               <span>加载</span>

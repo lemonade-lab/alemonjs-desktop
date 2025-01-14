@@ -37,7 +37,7 @@ export default function ConfigCode() {
               <>
                 <button
                   type="button"
-                  className="border py-1 px-2 rounded-md bg-red-500 hover:bg-red-400"
+                  className="border py-1 px-2 rounded-md bg-red-500 duration-700 transition-all  hover:bg-red-400"
                 >
                   <span
                     className="text-white"
@@ -50,7 +50,7 @@ export default function ConfigCode() {
                 </button>
                 <button
                   type="button"
-                  className="border py-1 px-2 rounded-md bg-blue-500 hover:bg-blue-400"
+                  className="border py-1 px-2 rounded-md bg-blue-500 duration-700 transition-all  hover:bg-blue-400"
                 >
                   <span className="text-white" onClick={onClickSave}>
                     保存

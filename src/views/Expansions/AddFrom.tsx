@@ -68,7 +68,7 @@ export default function From() {
             type="submit"
             // 控制提交
             disabled={submit}
-            className="w-full bg-blue-400 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
+            className="w-full bg-blue-400 text-white p-2 rounded-md duration-700 transition-all  hover:bg-blue-700 "
           >
             开始安装
           </button>
