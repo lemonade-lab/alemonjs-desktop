@@ -82,8 +82,8 @@ const context = {
    * @returns
    */
   createExtensionDir: dir => {
-    // 使用 resource 协议
-    return `resource://${dir}`
+    if (/^file:\/\//.test(dir)) return `resource://${dir}`
+    return `resource://file://${dir}`
   },
   notification: message => {
     process.send({
@@ -190,13 +190,14 @@ export const events = {
         data: modules
       })
       try {
+        const pkg = modules.find(m => m.name == name)
+        const isPlatform = pkg?.alemonjs?.desktop?.platform
+        // 平台不添加至配置文件
+        if (isPlatform) return
         const config = getConfig()
         const value = config.value ?? {}
-        if (!Array.isArray(value.apps)) {
-          value.apps = []
-        }
+        if (!Array.isArray(value.apps)) value.apps = []
         value.apps.push(name)
-        // 给apps去重
         value.apps = Array.from(new Set(value.apps))
         config.saveValue(value)
       } catch (e) {

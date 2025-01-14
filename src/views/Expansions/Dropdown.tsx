@@ -45,7 +45,8 @@ const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: Drop
           {options.map((option, index) => (
             <li
               key={index}
-              onClick={() => {
+              onClick={e => {
+                e.stopPropagation()
                 setIsOpen(false)
                 onChangeOption(option)
               }}
