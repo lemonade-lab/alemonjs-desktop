@@ -2,7 +2,7 @@ const spawnSync = require('child_process').spawnSync
 
 const cmds = [
   ['lerna', 'run', 'build'],
-  ['electron-icon-builder', '--input=./src/assets/logo.jpg', '--output=./', '--flatten']
+  ['electron-icon-builder', '--input=./src/assets/logo_white.png', '--output=./', '--flatten']
 ]
 
 for (const cmd of cmds) {
