@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification } from '@src/context/Notification'
@@ -52,7 +52,15 @@ export default (function App() {
     }
   ]
 
+  const modulesRef = useRef(modules)
+
   useEffect(() => {
+    setTimeout(() => {
+      if (!modulesRef.current.nodeModulesStatus) {
+        showNotification('正在加载依赖，请耐心等待...')
+      }
+    }, 1600)
+
     // 立即得到 app 路径
     window.app.getAppsPath().then(res => {
       dispatch(setPath(res))
@@ -137,6 +145,7 @@ export default (function App() {
   }, [])
 
   useEffect(() => {
+    modulesRef.current = modules
     // 依赖状态变化时。
     if (modules.nodeModulesStatus) {
       setLoading(true)
