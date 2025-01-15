@@ -14,9 +14,7 @@ import logger from 'electron-log'
 export const expansionsClose = () => {
   if (child && child.connected) {
     child.kill()
-    return true
   }
-  return false
 }
 
 let child: ChildProcess | null = null
@@ -76,9 +74,9 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
         const __name = message.data.name
         // 是 webview的消息 要 发送给对应的 webview
         if (webviewWindows.has(__name)) {
-          const webContents = webviewWindows.get(__name)
-          if (!webContents) return
-          webContents?.send('webview-on-message', message.data)
+          const content = webviewWindows.get(__name)
+          if (!content) return
+          content?.send('webview-on-message', message.data)
           return
         }
       } else {

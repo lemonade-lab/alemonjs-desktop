@@ -4,7 +4,7 @@ import { useState } from 'react'
 const data = [
   {
     version: '0.0.14',
-    log: ['增加版本记录页']
+    log: ['增加版本记录页', '规范化进程通讯']
   },
   {
     version: '0.0.13',
@@ -44,16 +44,21 @@ const UpdateLog = () => {
   return (
     <div className="animate__animated animate__fadeIn select-none flex-1 flex-col flex justify-center items-center">
       <div className="flex-col gap-2 flex-1 flex justify-center py-2">
-        <div className="flex gap-4 ">
-          {data.map(item => (
+        <div className="flex ">
+          {data.map((item, index) => (
             <button
               key={item.version}
               onClick={() => handleTabClick(item.version)}
               className={classNames(
-                `duration-700 transition-all px-4 py-2 rounded-lg font-medium `,
+                `duration-700 transition-all px-4 py-2 font-medium `,
                 {
                   'text-white bg-blue-600': currentVersion === item.version,
                   'text-gray-700 bg-gray-200 hover:bg-gray-300': currentVersion !== item.version
+                },
+                {
+                  'rounded-l-lg': index === 0,
+                  'rounded-r-lg': index === data.length - 1,
+                  'border-x border-slate-600': index !== data.length - 1 && index !== 0
                 }
               )}
             >

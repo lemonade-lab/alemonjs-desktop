@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld('appDesktopAPI', {
       })
     },
     onMessage: callback => {
-      ipcRenderer.on('webview-on-message', (event, data) => {
+      ipcRenderer.on('webview-on-message', (_event, data) => {
         if (data.name == name) {
           callback(data.value)
         }

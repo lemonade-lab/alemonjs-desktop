@@ -1,5 +1,10 @@
 export type WindowExpansions = {
   /**
+   *  状态
+   * @returns
+   */
+  status: () => Promise<boolean>
+  /**
    * 运行
    * @param args
    * @returns
@@ -10,11 +15,6 @@ export type WindowExpansions = {
    * @returns
    */
   close: () => Promise<void>
-  /**
-   *  状态
-   * @returns
-   */
-  status: () => Promise<boolean>
   /**
    *  监听
    * @param callback
@@ -34,5 +34,5 @@ export type WindowExpansions = {
   /**
    *
    */
-  postMessage: (value: any) => Promise<string>
+  postMessage: (value: any) => Promise<void>
 }

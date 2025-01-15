@@ -2,7 +2,6 @@ import { templatePath } from './static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
-import { BrowserWindow } from 'electron'
 
 /**
  * @description bot 管理
@@ -15,9 +14,9 @@ import { BrowserWindow } from 'electron'
 export const botClose = () => {
   if (child && child.connected) {
     child.kill()
-    return true
+    return
   }
-  return false
+  return
 }
 
 let child: ChildProcess | null = null

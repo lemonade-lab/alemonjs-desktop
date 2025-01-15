@@ -1,5 +1,11 @@
 export type WindowBot = {
   /**
+   *  状态
+   * @returns
+   * 成功返回 true
+   */
+  status: () => Promise<boolean>
+  /**
    *  运行
    * @param args
    * @returns
@@ -8,13 +14,9 @@ export type WindowBot = {
   /**
    *  关闭
    * @returns
+   * 成功返回 true
    */
   close: () => Promise<void>
-  /**
-   *  状态
-   * @returns
-   */
-  status: () => Promise<boolean>
   /**
    *  监听
    * @param callback

@@ -1,12 +1,19 @@
 import { ipcMain } from 'electron'
 import { botClose, botRun, botStatus } from '../../core/bot'
+
+// bot 状态
+ipcMain.handle('bot-status', () => botStatus())
+
 // bot
-ipcMain.handle('bot-run', (event, data) => {
+ipcMain.on('bot-run', (event, data) => {
   try {
     botRun(event.sender, data ?? [])
   } catch (e) {
     console.error(e)
   }
 })
-ipcMain.handle('bot-close', () => botClose())
-ipcMain.handle('bot-status', () => botStatus())
+
+// 关闭 bot
+ipcMain.on('bot-close', event => {
+  botClose()
+})

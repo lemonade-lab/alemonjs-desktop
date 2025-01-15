@@ -6,16 +6,20 @@ import {
   expansionsStatus
 } from '../../core/expansions'
 
+ipcMain.handle('expansions-status', () => expansionsStatus())
+
 // expansions
-ipcMain.handle('expansions-run', (event, data) => {
+ipcMain.on('expansions-run', (event, data) => {
   try {
     expansionsRun(event.sender, data ?? [])
   } catch (e) {
     console.error(e)
   }
 })
-ipcMain.handle('expansions-close', () => expansionsClose())
-ipcMain.handle('expansions-status', () => expansionsStatus())
+
+ipcMain.on('expansions-close', () => {
+  expansionsClose()
+})
 
 // expansions post message
 ipcMain.handle('expansions-post-message', (event, data) => {

@@ -25,7 +25,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
   return new Promise(resolve => {
     if (yarnMap.has(KEY)) {
       // 执行中...
-      resolve(false)
+      resolve(0)
       return
     }
     logger.info('yarn install start', KEY)
@@ -33,10 +33,12 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
     yarnMap.set(KEY, 1)
 
     const MyJS = join(templatePath, 'bin', 'yarn.cjs')
+
     const child = fork(MyJS, ['install', '--ignore-warnings'], {
       cwd: templatePath,
       stdio: 'pipe' // 确保使用管道来捕获输出
     })
+
     // 监听子进程的标准输出
     child.stdout?.on('data', data => {
       if (webContents.isDestroyed()) return
@@ -45,6 +47,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
       webContents.send('bot-stdout', data.toString())
       logger.info(`Yarn install output: ${data.toString()}`)
     })
+
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
       if (webContents.isDestroyed()) return
@@ -52,6 +55,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
       webContents.send('bot-stdout', data.toString())
       logger.error(`Yarn install error: ${data.toString()}`)
     })
+
     // 监听子进程退出
     child.on('exit', code => {
       logger.info(`Yarn add process exited with code ${code}`)
@@ -71,7 +75,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
     })
 
     //
-    resolve(true)
+    resolve(0)
     return
   })
 }
