@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import store from '@src/store/index'
 import { NotificationProvider } from '@src/context/Notification'
+import ModalProvider from '@src/context/modal'
 import router from './route'
 import { Suspense } from 'react'
 import Transition from '@src/Transition'
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <Suspense fallback={<Transition />}>
     <Provider store={store}>
       <NotificationProvider>
-        <RouterProvider router={router} />
+        <ModalProvider>
+          <RouterProvider router={router} />
+        </ModalProvider>
       </NotificationProvider>
     </Provider>
   </Suspense>

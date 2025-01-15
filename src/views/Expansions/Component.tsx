@@ -1,5 +1,3 @@
-import Markdown from '../Markdown'
-import logoURL from '@src/assets/logo.jpg'
 export const Init = () => {
   return (
     <div className="select-none flex-1 flex-col flex justify-center items-center">

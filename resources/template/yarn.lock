@@ -12,7 +12,7 @@
     mysql2 "^3.6.2"
     sequelize "^6.33.0"
 
-"@alemonjs/gui@^0.3.2":
+"@alemonjs/gui@0.3.2":
   version "0.3.2"
   resolved "https://registry.npmmirror.com/@alemonjs/gui/-/gui-0.3.2.tgz#972c2859335dd9ba0b710475b3aaceedf5822d62"
   integrity sha512-KSSA5U0kdxES8qpWwdJqqkeDKsw4wLCX2SLEc/BB8X/Tr6NoyXzczMma5dwBzVo8BbDpVkPoSUEaR9527Ri0yQ==

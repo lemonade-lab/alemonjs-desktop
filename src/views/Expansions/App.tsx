@@ -8,6 +8,9 @@ import { useNotification } from '@src/context/Notification'
 import { PackageInfoType } from './PackageInfo'
 import { Init } from './Component'
 import { MenuMoreIcon, RefreshIcon, SettingIcon } from '@src/common/Icons'
+import Inquiry from '@src/ui/Inquiry'
+import { useModal } from '@src/hook/useModal'
+import { fetchPackageInfo } from './api'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
@@ -18,15 +21,17 @@ const GithubFrom = lazy(() => import('./GithubFrom'))
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
   const [packageInfo, setPackageInfo] = useState<PackageInfoType>(null)
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
   const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
 
-  //
+  /**
+   *
+   */
   const handlePackageClick = debounce(async (packageName: string) => {
     const pkg = expansions.package.find(v => v.name === packageName)
     if (!pkg) {
-      showNotification(`没有找到 ${packageName} 的数据。`)
+      notification(`没有找到 ${packageName} 的数据。`, 'error')
       return
     }
     const dir = app.nodeModulesPath + '/' + packageName + '/README.md'
@@ -60,12 +65,84 @@ export default function Expansions() {
     window.expansions.postMessage({ type: 'get-expansions' })
   }
 
+  const modal = useModal()
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const headleDelete = (name: (typeof expansions.package)[0]) => {
+    if (modal.isActive()) {
+      console.log('active')
+      return
+    }
+    modal.set(
+      <Inquiry
+        title="提示"
+        onClickCancel={() => {
+          // if (isSubmitting) return
+          modal.close()
+        }}
+        onClickSuccess={() => {
+          if (isSubmitting) return
+          // 卸载
+          setIsSubmitting(true)
+          console.log('卸载')
+          // 卸载
+          notification(`待更新 ...`)
+        }}
+      >
+        <div>是否确认卸载</div>
+      </Inquiry>,
+      // 强制刷新
+      true
+    )
+  }
+
+  useEffect(() => {
+    // 获取扩展列表
+  }, [])
+
+  // 控制提交
+  useEffect(() => {
+    window.yarn.onAddStatus(value => {
+      if (value == 0) {
+        notification('add 失败', 'error')
+      } else {
+        notification('add 完成')
+        if (!packageInfo) return
+        // 推送加载。
+        window.expansions.postMessage({ type: 'add-expansions', data: packageInfo.name })
+      }
+    })
+  }, [])
+
+  const onClickUpdate = async () => {
+    if (!packageInfo) return
+    // 获取最新版本
+    try {
+      const msg = await fetchPackageInfo(packageInfo.name)
+      if (msg['dist-tags']) {
+        if (packageInfo['dist-tags'].latest !== msg['dist-tags'].latest) {
+          notification(`检查到最新版本${msg['dist-tags'].latest}`, 'default')
+          window.yarn.add(`${packageInfo.name}@${msg['dist-tags'].latest}`)
+        } else {
+          notification(`当前已是最新版本`, 'default')
+        }
+      } else {
+        notification(`无法从npmjs中获取${packageInfo.name}最新版本`, 'error')
+      }
+    } catch (err) {
+      notification(`无法从npmjs中获取${packageInfo.name}最新版本`, 'error')
+      console.error(err)
+    }
+  }
+
   return (
     <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
         <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
           {select == '' && <Init />}
-          {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
+          {select == 'shoping' && packageInfo && (
+            <PackageInfo onClickUpdate={onClickUpdate} packageInfo={packageInfo} />
+          )}
           {select == '关联' && <From />}
           {select == '添加' && <AddFrom />}
           {select == '仓库' && <GithubFrom />}
@@ -113,7 +190,9 @@ export default function Expansions() {
                     Icon={<SettingIcon width={18} height={18} />}
                     options={['卸载']}
                     onChangeOption={value => {
-                      //
+                      if (value == '卸载') {
+                        headleDelete(item)
+                      }
                     }}
                   />
                 </div>

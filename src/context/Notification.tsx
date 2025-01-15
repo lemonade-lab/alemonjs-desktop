@@ -5,10 +5,11 @@ import Notification from '@src/common/Notification'
 interface NotificationState {
   message: string
   visible: boolean
+  theme: 'default' | 'error' | 'warning'
 }
 
 interface NotificationContextType {
-  showNotification: (message: string) => void
+  notification: (message: string, theme?: 'default' | 'error' | 'warning') => void
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined)
@@ -18,25 +19,27 @@ interface NotificationProviderProps {
 }
 
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
-  const [notification, setNotification] = useState<NotificationState>({
+  const [value, setValue] = useState<NotificationState>({
     message: '',
-    visible: false
+    visible: false,
+    theme: 'default'
   })
 
-  const showNotification = (message: string) => {
-    setNotification({ message, visible: true })
+  const notification = (message: string, theme: 'default' | 'error' | 'warning' = 'default') => {
+    setValue({ message, visible: true, theme })
   }
 
   const hideNotification = () => {
-    setNotification({ ...notification, visible: false })
+    setValue({ ...value, visible: false })
   }
 
   return (
-    <NotificationContext.Provider value={{ showNotification }}>
+    <NotificationContext.Provider value={{ notification }}>
       {children}
       <Notification
-        message={notification.message}
-        visible={notification.visible}
+        message={value.message}
+        visible={value.visible}
+        theme={value.theme}
         onClose={hideNotification}
       />
     </NotificationContext.Provider>

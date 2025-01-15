@@ -20,24 +20,14 @@ export type PackageInfoType = {
   'readme': string
 } | null
 
-export default memo(function PackageInfo({ packageInfo }: { packageInfo: PackageInfoType }) {
+export default memo(function PackageInfo({
+  packageInfo,
+  onClickUpdate
+}: {
+  packageInfo: PackageInfoType
+  onClickUpdate: () => void
+}) {
   if (!packageInfo) return <div></div>
-
-  const { showNotification } = useNotification()
-
-  const onClickUpdate = async () => {
-    // 获取最新版本
-    try {
-      const msg = await fetchPackageInfo(packageInfo.name)
-      if (msg.name) {
-        // add 最新版。
-        // 跳转到 from 然后输入 name
-      }
-    } catch (err) {
-      showNotification(`无法从npmjs中获取${packageInfo.name}最新版本`)
-      console.error(err)
-    }
-  }
 
   return (
     <div>

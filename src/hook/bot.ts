@@ -28,7 +28,7 @@ const getPlatform = (packages: any[]) => {
 export const useBotController = () => {
   const bot = useSelector((state: RootState) => state.bot)
   const modules = useSelector((state: RootState) => state.modules)
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
   const expansions = useSelector((state: RootState) => state.expansions)
   const platforms = getPlatform(expansions.package)
 
@@ -45,7 +45,7 @@ export const useBotController = () => {
   const onClickStart = _.throttle(() => {
     if (!modules.nodeModulesStatus) return
     if (!bot.runStatus) {
-      showNotification('开始运行机器人...')
+      notification('开始运行机器人...')
       if (/@alemonjs\//.test(state[0].value)) {
         const login = state[0].value.replace('@alemonjs/', '')
         window.bot.run(['--login', login])
@@ -54,7 +54,7 @@ export const useBotController = () => {
       }
       return
     } else {
-      showNotification('机器人已经启动')
+      notification('机器人已经启动')
     }
   }, 500)
   /**
@@ -62,6 +62,7 @@ export const useBotController = () => {
    */
   const onClickClose = _.throttle(() => {
     if (!bot.runStatus) return
+    notification('机器人已停止', 'warning')
     window.bot.close()
   }, 500)
   /**
@@ -72,11 +73,11 @@ export const useBotController = () => {
     const status = await window.yarn.status('yarnInstall')
     if (status) {
       // 执行中 。。。
-      showNotification('加载中...')
+      notification('加载中...')
       return
     }
     if (modules.nodeModulesStatus) return
-    showNotification('开始加载依赖...')
+    notification('开始加载依赖...')
     window.yarn.install()
   }, 500)
   return { onClickStart, onClickClose, onClickYarnInstall, bot, modules, state, platforms }

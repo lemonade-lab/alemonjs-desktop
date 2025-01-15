@@ -10,7 +10,7 @@ export default function ConfigCode() {
   const navigate = useGoNavigate()
   const [value, setValue] = useState('')
 
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
 
   const [initValue, setInitValue] = useState('')
 

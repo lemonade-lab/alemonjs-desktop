@@ -5,9 +5,26 @@ import { cloneRepo } from './git.js'
 import { processSend } from './send.js'
 
 export const events = {
+  'del-expansions': (name: string) => {
+    // 删除模块。
+    // 需要包模块移动到 新的目录。用来缓存。
+    // .cache-packages
+    // 找到对应的模块。
+    // 先在 node_modules 中寻找。
+    // 再去 packages 中寻找。
+    // 如果没有。就推送通知。
+  },
   // 加载指令
-  'add-expansions': name => {
+  'add-expansions': (name: string) => {
+    // 增加模块的时候。
+    // 可以先去看看 .cache-packages 是否有缓存。
+    // 如果有。可以移动到 node_modules 中。
+
+    // 移动之前，判断是否已经在 node_modules 中。
+    // 如果在，则使用 yarn install。
+
     console.log('add-expansions', name)
+
     // 添加模块
     addModules(name, () => {
       // 更新模块列表
@@ -62,7 +79,7 @@ export const events = {
       })
     }
   },
-  'git-clone': data => {
+  'git-clone': (data: string) => {
     cloneRepo(data)
   },
   'git-pull': data => {

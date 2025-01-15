@@ -19,7 +19,7 @@ export default (function App() {
   const navigate = useGoNavigate()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
 
@@ -55,9 +55,11 @@ export default (function App() {
   const modulesRef = useRef(modules)
 
   useEffect(() => {
+    console.log('App.tsx useEffect')
+
     setTimeout(() => {
       if (!modulesRef.current.nodeModulesStatus) {
-        showNotification('正在加载依赖，请耐心等待...')
+        notification('正在加载依赖，请耐心等待...')
       }
     }, 1600)
 
@@ -81,9 +83,7 @@ export default (function App() {
     })
 
     // 立即加载依赖
-    window.yarn.install().catch(err => {
-      console.error(err)
-    })
+    window.yarn.install()
 
     // 监听依赖安装状态
     window.yarn.onInstallStatus((value: number) => {
@@ -116,7 +116,7 @@ export default (function App() {
     window.expansions.onMessage(data => {
       try {
         if (data.type === 'notification') {
-          showNotification(data.data)
+          notification(data.data)
           return
         } else if (data.type === 'command') {
           // 应该修改为 command action。
@@ -134,10 +134,11 @@ export default (function App() {
 
     // 监听expansions状态
     window.expansions.onStatus((value: number) => {
+      console.log('expansions.onStatus', value)
       if (value == 0) {
-        showNotification('扩展器已停止')
+        notification('扩展器已停止', 'warning')
       } else {
-        showNotification('扩展器已启动')
+        notification('扩展器已启动')
       }
       dispatch(
         setExpansionsStatus({
@@ -148,6 +149,7 @@ export default (function App() {
   }, [])
 
   useEffect(() => {
+    // console.log('App.tsx useEffect modules.nodeModulesStatus', modules.nodeModulesStatus)
     modulesRef.current = modules
     // 依赖状态变化时。
     if (modules.nodeModulesStatus) {
@@ -157,12 +159,17 @@ export default (function App() {
     }
     // 依赖安装完成后，启动扩展器
     if (modules.nodeModulesStatus) {
+      console.log('启动。。。', modules.nodeModulesStatus, expansions.runStatus)
       // 启动扩展器
-      if (!expansions.runStatus) window.expansions.run([])
+      if (!expansions.runStatus) {
+        console.log('runStatus', expansions.runStatus)
+        window.expansions.run([])
+      }
     }
   }, [modules.nodeModulesStatus])
 
   useEffect(() => {
+    console.log('App.tsx useEffect expansions.runStatus', expansions.runStatus)
     // 运行的时候才会获取扩展器
     if (expansions.runStatus) {
       window.expansions.postMessage({ type: 'get-expansions' })

@@ -23,16 +23,16 @@ export default function From() {
     fromNameRef.current = fromNameValue
   }, [fromNameValue])
 
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
   // 控制提交
   const [submit, setSubmit] = useState(false)
   useEffect(() => {
     window.yarn.onAddStatus(value => {
       setSubmit(false)
       if (value == 0) {
-        showNotification('add 失败')
+        notification('add 失败', 'error')
       } else {
-        showNotification('add 完成')
+        notification('add 完成')
         // 推送加载。
         window.expansions.postMessage({ type: 'add-expansions', data: fromNameRef.current })
       }

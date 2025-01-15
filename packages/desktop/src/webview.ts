@@ -14,11 +14,11 @@ export class webView {
     </script>`
   }
 
-  #name = null
+  #name: string | null = null
 
   __messages: Function[] = []
 
-  constructor(name) {
+  constructor(name: string) {
     this.#name = name
   }
 

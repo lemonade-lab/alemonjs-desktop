@@ -9,7 +9,13 @@ import { context } from './context.js'
 const require = createRequire(import.meta.url)
 const dir = join(process.cwd(), 'node_modules', '@alemonjs')
 
-export const addModules = (name, callback) => {
+/**
+ *
+ * @param name
+ * @param callback
+ * @returns
+ */
+export const addModules = (name: string, callback?: Function) => {
   try {
     const pkg = require(`${name}/package`)
     if (!pkg) return
@@ -69,9 +75,12 @@ export const addModules = (name, callback) => {
   }
 }
 
+/**
+ *
+ */
 export const updateModules = () => {
   const dirs = fs.readdirSync(dir)
-  const initapps = []
+  const initapps: string[] = []
   for (const d of dirs) {
     const stat = fs.statSync(join(dir, d))
     if (stat.isDirectory()) {
@@ -79,7 +88,7 @@ export const updateModules = () => {
     }
   }
   const value = getConfigValue()
-  if (Array.isArray(value.apps)) {
+  if (value && Array.isArray(value.apps)) {
     for (const app of value.apps) {
       initapps.push(app)
     }

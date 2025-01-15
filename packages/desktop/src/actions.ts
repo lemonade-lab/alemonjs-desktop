@@ -2,9 +2,9 @@ export class Actions {
   // 一组行为，使用:分开
   #event = ''
 
-  #name = null
+  #name: string | null = null
 
-  constructor(name) {
+  constructor(name: string) {
     this.#name = name
   }
 
@@ -34,10 +34,11 @@ export class Actions {
   onClickExtension() {
     this.#event = `${this.#event}:click-Extension`
     return {
-      loadWebView: html => {
+      loadWebView: (html: string) => {
         // const view = new webView('extension')
         // view.loadWebView(html)
         // return view
+        console.log('loadWebView', html)
       }
     }
   }

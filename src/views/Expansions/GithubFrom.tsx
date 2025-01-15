@@ -22,7 +22,7 @@ export default function GithubFrom() {
     fromNameRef.current = fromNameValue
   }, [fromNameValue])
 
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
 
   // 控制提交
   const [submit, setSubmit] = useState(false)
@@ -31,13 +31,13 @@ export default function GithubFrom() {
       if (data.type == 'git-clone') {
         if (data.data == 1) {
           setSubmit(false)
-          showNotification('git clone 完成')
+          notification('git clone 完成')
           // 加载依赖
           window.yarn.install()
           // 刷新 扩展包
         } else {
           setSubmit(false)
-          showNotification('git clone 失败')
+          notification('git clone 失败', 'warning')
         }
       }
     })
@@ -57,7 +57,6 @@ export default function GithubFrom() {
     setSubmit(true)
   }
 
-  //
   return (
     <div className="flex flex-1 items-center justify-center ">
       <div className=" p-8 rounded-lg bg-[var(--secondary-bg-front)] shadow-inner w-full max-w-md">
@@ -67,12 +66,12 @@ export default function GithubFrom() {
             <label className="block text-sm font-medium text-gray-700">
               需要安装git才能进行交互,
               <span
-                className=" cursor-pointer"
+                className=" cursor-pointer text-blue-600"
                 onClick={() => {
                   window.open('https://git-scm.com/')
                 }}
               >
-                download
+                点击下载
               </span>
             </label>
             <input
@@ -86,7 +85,7 @@ export default function GithubFrom() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-400 text-white p-2 rounded-md duration-700 transition-all  hover:bg-blue-700 "
+            className="w-full bg-blue-500 text-white p-2 rounded-md duration-700 transition-all  hover:bg-blue-700 "
           >
             下载仓库
           </button>

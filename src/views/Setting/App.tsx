@@ -2,6 +2,7 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import About from './About'
 import UpdateLog from './UpdateLog'
+import Common from './Common'
 export default function SettingApp() {
   const [view, setView] = useState(0)
   const datas = [
@@ -14,6 +15,11 @@ export default function SettingApp() {
       name: '记录',
       value: 'log',
       com: <UpdateLog />
+    },
+    {
+      name: '通用',
+      value: 'common',
+      com: <Common />
     }
   ]
   return (

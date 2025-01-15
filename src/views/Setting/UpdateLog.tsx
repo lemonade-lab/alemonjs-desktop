@@ -5,11 +5,14 @@ const data = [
   {
     version: '0.0.14',
     log: [
-      '增加版本记录页',
-      '规范化进程通讯',
+      '增加版本更新记录页',
+      '优化化进程通讯',
       '优化交互效果',
       '扩展器启动控制按钮',
-      '支持加载gitub仓库'
+      '支持加载git仓库',
+      '修复刷新窗口时,机器人和扩展器状态丢失',
+      '增加警告信息通知、错误信息通知',
+      '增加按钮确认模态框'
     ]
   },
   {
@@ -50,7 +53,7 @@ const UpdateLog = () => {
   }
   return (
     <div className="animate__animated animate__fadeIn select-none flex-1 flex-col flex justify-center items-center">
-      <div className="flex-col gap-2 flex-1 flex justify-center py-2">
+      <div className="flex-col gap-1 flex-1 flex justify-center py-2">
         <div className="flex ">
           {data.map((item, index) => (
             <button

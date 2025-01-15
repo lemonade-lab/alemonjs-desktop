@@ -35,7 +35,7 @@ const About = () => {
           )}
           <button
             onClick={onClickUpdate}
-            className="mt-4 px-6 py-2 bg-blue-300 rounded-lg text-white duration-700 transition-all  hover:bg-blue-700 "
+            className="mt-4 px-6 py-2 bg-blue-500 rounded-lg text-white duration-700 transition-all  hover:bg-blue-700 "
           >
             检查更新
           </button>

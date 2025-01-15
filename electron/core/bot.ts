@@ -28,6 +28,8 @@ let child: ChildProcess | null = null
 export const botRun = async (webContents: Electron.WebContents, args: string[]) => {
   if (child && child.connected) {
     logger.info('Bot is running')
+    // 运行中
+    webContents.send('bot-status', 1)
     return
   }
 

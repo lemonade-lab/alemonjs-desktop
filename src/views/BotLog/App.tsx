@@ -27,7 +27,7 @@ export default function BotLog() {
 
   useEffect(() => {
     window.bot.onStdout((message: string) => {
-      console.log('message', message)
+      // console.log('message', message)
       dispatch(postMessage(message))
     })
   }, [])

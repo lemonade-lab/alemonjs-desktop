@@ -23,16 +23,16 @@ export default function From() {
     fromNameRef.current = fromNameValue
   }, [fromNameValue])
 
-  const { showNotification } = useNotification()
+  const { notification } = useNotification()
   // 控制提交
   const [submit, setSubmit] = useState(false)
   useEffect(() => {
     window.yarn.onLinkStatus(value => {
       setSubmit(false)
       if (value == 0) {
-        showNotification('link 失败')
+        notification('link 失败', 'warning')
       } else {
-        showNotification('link 完成')
+        notification('link 完成')
         // 推送加载。
         window.expansions.postMessage({ type: 'add-expansions', data: fromNameRef.current })
       }

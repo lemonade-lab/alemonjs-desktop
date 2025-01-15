@@ -26,6 +26,8 @@ let child: ChildProcess | null = null
 export const expansionsRun = async (webContents: Electron.WebContents, args: string[]) => {
   if (child && child.connected) {
     logger.info('expansions is running')
+
+    webContents.send('expansions-status', 1)
     return
   }
 
