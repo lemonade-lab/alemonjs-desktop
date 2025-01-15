@@ -11,16 +11,16 @@ export type NavigatePath =
   | '/config-code'
   | '/setting'
   | '/expansions'
+//
 export default function useGoNavigate() {
   const navigate = useNavigate()
   const modules = useSelector((state: RootState) => state.modules)
   const { showNotification } = useNotification()
   const navigateTo = (path: NavigatePath) => {
-    if (path == '/config-edit') {
-      if (!modules.nodeModulesStatus) {
-        showNotification('依赖未加载完成...')
-        return
-      }
+    // 加载依赖时，不允许跳转。
+    if (!modules.nodeModulesStatus) {
+      showNotification('正在加载依赖，请等待...')
+      return
     }
     navigate(path)
   }

@@ -67,7 +67,14 @@ const initWindow = () => {
 
   if (!win) return
 
-  // 等待加载完成
+  // win.once('ready-to-show', () => {
+  //   // 显示窗口
+  //   if (!win) return
+  //   if (win.isDestroyed()) return
+  //   win.show()
+  // })
+
+  // // 等待加载完成
   const didFinishLoadHandler = () => {
     if (!win) return
     if (win.isDestroyed()) return
@@ -86,7 +93,9 @@ const initWindow = () => {
 
   // 让所有链接都通过浏览器打开，而不是通过应用程序打开
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url)
+    if (/http(s)?:\/\//.test(url)) {
+      shell.openExternal(url)
+    }
     return { action: 'deny' }
   })
 

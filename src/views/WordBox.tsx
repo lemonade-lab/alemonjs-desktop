@@ -1,4 +1,4 @@
-import { CloseIcon } from '@src/common/Icons'
+import { CloseIcon, Pause, Play } from '@src/common/Icons'
 import { RootState } from '@src/store'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -7,6 +7,17 @@ export default function WordBox() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const dropdownRef = useRef<HTMLDivElement | null>(null)
+  const [conmond, setCommond] = useState<
+    { expansions_name: string; name: string; commond: string }[]
+  >([])
+  const modules = useSelector((state: RootState) => state.modules)
+  const expansions = useSelector((state: RootState) => state.expansions)
+
+  // 公共样式常量
+
+  const onClose = () => {
+    setIsDropdownOpen(false)
+  }
 
   // 点击外部关闭下拉菜单
   useEffect(() => {
@@ -24,18 +35,6 @@ export default function WordBox() {
     }
   }, [])
 
-  // 公共样式常量
-
-  const onClose = () => {
-    setIsDropdownOpen(false)
-  }
-
-  const [conmond, setCommond] = useState<
-    { expansions_name: string; name: string; commond: string }[]
-  >([])
-
-  const expansions = useSelector((state: RootState) => state.expansions)
-
   useEffect(() => {
     const commondItem =
       expansions.package?.flatMap((item: any) => {
@@ -51,7 +50,7 @@ export default function WordBox() {
 
   return (
     <div className="select-none flex-1 flex justify-between items-center">
-      <div className="flex flex-1">
+      <div className="flex flex-1 gap-2">
         {isDropdownOpen ? (
           <div
             ref={dropdownRef}
@@ -70,6 +69,8 @@ export default function WordBox() {
                 <div
                   key={index}
                   onClick={() => {
+                    // 可以任意输入。
+                    //
                     // setInputValue(item.commond)
                     // setIsDropdownOpen(false)
                   }}
@@ -101,7 +102,35 @@ export default function WordBox() {
             >
               <span className="">input command</span>
             </div>
-            <div className="drag-area flex-1"></div>
+            <div className=" flex-1 flex items-center">
+              {
+                // 当依赖加载完毕后再显示操作按钮
+              }
+              {modules.nodeModulesStatus && (
+                <div className="cursor-pointer">
+                  {expansions.runStatus ? (
+                    <div
+                      onClick={() => {
+                        console.log('expansions.close()')
+                        window.expansions.close()
+                      }}
+                    >
+                      <Pause width={20} height={20} />
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        console.log('expansions.run([])')
+                        window.expansions.run([])
+                      }}
+                    >
+                      <Play width={20} height={20} />
+                    </div>
+                  )}
+                </div>
+              )}
+              <div className="drag-area flex-1"></div>
+            </div>
           </>
         )}
       </div>

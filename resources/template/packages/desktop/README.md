@@ -15,28 +15,6 @@
     "./package": "./package.json",
     // 桌面扩展脚本
     "./desktop": "./desktop.js"
-  },
-  // config
-  "alemonjs": {
-    // 桌面
-    "desktop": {
-      // 指令输入框
-      "commond": [
-        {
-          "name": "desktop",
-          // 发送指令
-          "commond": "open.desktop"
-        }
-      ],
-      // 侧边栏
-      "sidebars": [
-        {
-          "name": "desktop",
-          // 发送指令
-          "commond": "open.desktop"
-        }
-      ]
-    }
   }
 }
 ```

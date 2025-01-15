@@ -4,7 +4,6 @@
   "dependencies": {
     "@alemonjs/gui": "^0.3.2",
     "@alemonjs/db": "^0.0.1",
-    "alemonjs": "^2.0.0-rc.86",
     "jsxp": "^1.1.2"
   },
   "devDependencies": {

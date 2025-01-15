@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import logoURL from '@src/assets/logo.jpg'
 const About = () => {
   const [versions, setVersions] = useState<{
     chrome: string

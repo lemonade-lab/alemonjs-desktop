@@ -4,7 +4,13 @@ import { useState } from 'react'
 const data = [
   {
     version: '0.0.14',
-    log: ['增加版本记录页', '规范化进程通讯']
+    log: [
+      '增加版本记录页',
+      '规范化进程通讯',
+      '优化交互效果',
+      '扩展器启动控制按钮',
+      '支持加载gitub仓库'
+    ]
   },
   {
     version: '0.0.13',
@@ -38,6 +44,7 @@ const UpdateLog = () => {
   const [logs, setLogs] = useState(data[0].log)
   const handleTabClick = (versionName: string) => {
     const selectedVersion = data.find(item => item.version === versionName)
+    if (!selectedVersion) return
     setCurrentVersion(selectedVersion.version)
     setLogs(selectedVersion.log)
   }
@@ -58,7 +65,7 @@ const UpdateLog = () => {
                 {
                   'rounded-l-lg': index === 0,
                   'rounded-r-lg': index === data.length - 1,
-                  'border-x border-slate-600': index !== data.length - 1 && index !== 0
+                  'border-x border-slate-400': index !== data.length - 1 && index !== 0
                 }
               )}
             >

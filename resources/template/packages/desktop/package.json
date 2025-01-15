@@ -1,8 +1,8 @@
 {
   "name": "@alemonjs/desktop",
   "type": "module",
-  "version": "0.0.2",
-  "description": "阿柠檬桌面交互协议",
+  "version": "0.0.3",
+  "description": "阿柠檬桌面交互脚本",
   "main": "lib/index.js",
   "author": {
     "name": "ningmengchongshui",
@@ -12,5 +12,9 @@
   "exports": {
     ".": "./lib/index.js",
     "./package": "./package.json"
+  },
+  "dependencies": {
+    "alemonjs": "^2.0.0-rc.86",
+    "simple-git": "3.27.0"
   }
 }

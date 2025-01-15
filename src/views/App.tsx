@@ -119,6 +119,9 @@ export default (function App() {
           showNotification(data.data)
           return
         } else if (data.type === 'command') {
+          // 应该修改为 command action。
+          // 定义一组actoins。
+          // 最后发送给 ui。
           dispatch(setCommand(data.data))
           return
         } else if (data.type === 'get-expansions') {
@@ -168,7 +171,7 @@ export default (function App() {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header>{loading && <WordBox />}</Header>
+      <Header>{<WordBox />}</Header>
       <div className="flex flex-1">
         <BottomBar
           onClickLogo={() => navigate('/')}

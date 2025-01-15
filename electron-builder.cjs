@@ -27,7 +27,6 @@ module.exports = {
   },
   linux: {
     icon: './icons/512x512.png',
-
     target: [
       {
         target: 'AppImage',
