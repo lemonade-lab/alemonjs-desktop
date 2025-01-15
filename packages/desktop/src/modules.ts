@@ -3,7 +3,7 @@ import fs from 'fs'
 import { createRequire } from 'module'
 import { getConfigValue } from 'alemonjs'
 import { actions, desktops, modules, views } from './storage.js'
-import { Actions } from './Actions.js'
+import { Actions } from './actions.js'
 import { webView } from './webview.js'
 import { context } from './context.js'
 const require = createRequire(import.meta.url)

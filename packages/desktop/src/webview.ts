@@ -1,3 +1,5 @@
+import { processSend } from './send'
+
 export class webView {
   /**
    *  插入脚本
@@ -14,7 +16,7 @@ export class webView {
 
   #name = null
 
-  __messages = []
+  __messages: Function[] = []
 
   constructor(name) {
     this.#name = name
@@ -24,7 +26,7 @@ export class webView {
    *
    * @param {*} callback
    */
-  onMessage(callback) {
+  onMessage(callback: Function) {
     this.__messages.push(callback)
   }
 
@@ -32,8 +34,8 @@ export class webView {
    * 传入消息
    * @param {*} data
    */
-  postMessage(data) {
-    process.send({
+  postMessage(data: any) {
+    processSend({
       // 丢给 on message
       type: 'webview-on-message',
       // 传入数据
@@ -50,10 +52,10 @@ export class webView {
    *
    * @param {*} html
    */
-  loadWebView(html) {
+  loadWebView(html: string) {
     // 插入脚本
     const data = html.replace('<head>', `<head> ${this.#htmlScript}`)
-    process.send({
+    processSend({
       type: 'webview-sidebar-load',
       data: data
     })

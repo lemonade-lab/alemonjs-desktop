@@ -1,3 +1,4 @@
+import { processSend } from './send.js'
 import { commands } from './storage.js'
 export const context = {
   /**
@@ -9,13 +10,13 @@ export const context = {
     return `resource://-/${dir.replace(/^file:\/\//, '')}`
   },
   notification: message => {
-    process.send({
+    processSend({
       type: 'notification',
       data: message
     })
   },
   command: command => {
-    process.send({
+    processSend({
       type: 'command',
       data: command
     })

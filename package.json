@@ -73,7 +73,8 @@
     "vite": "^5.2.4",
     "vite-plugin-electron": "^0.28.4",
     "vite-plugin-electron-renderer": "^0.14.5",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "lvyjs": "^0.2.14"
   },
   "private": true,
   "workspaces": [

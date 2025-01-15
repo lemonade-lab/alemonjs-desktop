@@ -1,28 +1,10 @@
-########
-## almoenjs
-########
-# test plugin data
-xiuxian-data
-xiuxian-goods
-
-# Node dependencies
-node_modules
-
-# config
-alemon.toml
-
-# dev
-dev.ts
-
 # Logs
 logs
 log
 *.log
 *.logs
 
-########
-## electron
-########
+# electron
 # Logs
 logs
 *.log

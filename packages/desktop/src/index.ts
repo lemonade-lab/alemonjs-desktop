@@ -1,31 +1,8 @@
 import { getConfig } from 'alemonjs'
 import { commands, modules, views } from './storage.js'
 import { addModules, updateModules } from './modules.js'
-import simpleGit from 'simple-git'
-/**
- *
- * @param {*} repoUrl
- */
-async function cloneRepo(repoUrl) {
-  // 得到仓库名
-  const repoName = repoUrl.split('/').pop().replace('.git', '')
-
-  const git = simpleGit()
-  const localPath = './packages/' + repoName
-  try {
-    await git.clone(repoUrl, localPath, ['--depth', '1'])
-    process.send({
-      type: 'git-clone',
-      data: 1
-    })
-  } catch (err) {
-    process.send({
-      type: 'git-clone',
-      data: 0
-    })
-    console.error('克隆仓库时出错:', err.message)
-  }
-}
+import { cloneRepo } from './git.js'
+import { processSend } from './send.js'
 
 export const events = {
   // 加载指令
@@ -34,7 +11,7 @@ export const events = {
     // 添加模块
     addModules(name, () => {
       // 更新模块列表
-      process.send({
+      processSend({
         type: 'get-expansions',
         data: modules
       })
@@ -61,7 +38,7 @@ export const events = {
       updateModules()
     }
     // 发送模块列表
-    process.send({
+    processSend({
       type: 'get-expansions',
       data: modules
     })

@@ -9,6 +9,9 @@
     "email": "ningmengchongshui@gmail.com",
     "url": "https://github.com/ningmengchongshui"
   },
+  "scripts": {
+    "build": "npx lvyjs build"
+  },
   "exports": {
     ".": "./lib/index.js",
     "./package": "./package.json"
