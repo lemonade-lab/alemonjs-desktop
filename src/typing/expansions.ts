@@ -20,12 +20,6 @@ export type WindowExpansions = {
    * @param callback
    * @returns
    */
-  onStdout: (callback: (message: string) => void) => void
-  /**
-   *  监听
-   * @param callback
-   * @returns
-   */
   onStatus: (callback: (status: number) => void) => void
   /**
    *

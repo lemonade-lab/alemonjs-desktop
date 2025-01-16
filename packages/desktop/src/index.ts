@@ -1,45 +1,59 @@
-import { getConfig } from 'alemonjs'
 import { commands, modules, views } from './storage.js'
-import { addModules, updateModules } from './modules.js'
+import { addModules, delModules, disableModules, updateModules } from './modules.js'
 import { cloneRepo } from './git.js'
 import { processSend } from './send.js'
 
 export const events = {
-  'del-expansions': (name: string) => {
-    //
+  /**
+   * 恢复扩展
+   */
+  'restore-expansions': () => {
+    updateModules()
   },
-  // 加载指令
-  'add-expansions': (name: string) => {
-    // 添加模块
-    addModules(name, () => {
+  /**
+   * 禁用扩展
+   * @param name
+   */
+  'disable-expansions': (name: string) => {
+    disableModules(name)
+  },
+  /**
+   * 删除扩展
+   * @param name
+   */
+  'del-expansions': (name: string) => {
+    delModules(name, () => {
       // 更新模块列表
       processSend({
         type: 'get-expansions',
         data: modules
       })
-      try {
-        const pkg = modules.find(m => m.name == name)
-        const isPlatform = pkg?.alemonjs?.desktop?.platform
-        // 平台不添加至配置文件
-        if (isPlatform) return
-        const config = getConfig()
-        const value = config.value ?? {}
-        if (!Array.isArray(value.apps)) value.apps = []
-        value.apps.push(name)
-        value.apps = Array.from(new Set(value.apps))
-        config.saveValue(value)
-      } catch (e) {
-        //
-      }
     })
   },
-  // 获取模块列表
+  /**
+   * 立即加载扩展
+   * @param name
+   */
+  'add-expansions': (name: string) => {
+    // 添加模块
+    addModules(name, () => {
+      // 加载完毕后，更新扩展列表
+      processSend({
+        type: 'get-expansions',
+        data: modules
+      })
+    })
+  },
+  /**
+   * 主动获取扩展列表
+   */
   'get-expansions': () => {
+    // 从未加载过模块
     if (modules.length === 0) {
-      // 重新加载模块
+      // 更新模块脚本
       updateModules()
     }
-    // 发送模块列表
+    // 更新模块列表
     processSend({
       type: 'get-expansions',
       data: modules

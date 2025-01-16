@@ -7,6 +7,9 @@ import { WindowController } from './typing/controller'
 
 declare global {
   interface Window {
+    terminal: {
+      on: (callback: (message: string) => void) => void
+    }
     /**
      * 应用程序
      */

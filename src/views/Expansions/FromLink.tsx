@@ -1,19 +1,6 @@
 import { useNotification } from '@src/context/Notification'
 import { useEffect, useRef, useState } from 'react'
 
-// 扩展 window
-type API = {
-  postMessage: (data: any) => void
-  onMessage: (callback: (data: any) => void) => void
-}
-
-declare global {
-  interface Window {
-    createDesktopAPI: () => API
-    API: API
-  }
-}
-
 export default function From() {
   const [fromNameValue, setFromNameValue] = useState('')
 
@@ -54,14 +41,16 @@ export default function From() {
         <h1 className="text-2xl font-bold mb-6 text-center">本地扩展</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">扩展名</label>
+            <label className="block py-1 text-sm font-medium text-gray-700">
+              在本地库使用yarn link后可输入package.name进行关联
+            </label>
             <input
               type="text"
               name="name"
               placeholder="@alemonjs/db"
               value={fromNameValue}
               onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+              className="mt-1 block w-full px-2 py-1  border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
           <button

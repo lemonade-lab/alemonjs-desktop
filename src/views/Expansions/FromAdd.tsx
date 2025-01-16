@@ -1,29 +1,16 @@
 import { useNotification } from '@src/context/Notification'
 import { useEffect, useRef, useState } from 'react'
 
-// 扩展 window
-type API = {
-  postMessage: (data: any) => void
-  onMessage: (callback: (data: any) => void) => void
-}
-
-declare global {
-  interface Window {
-    createDesktopAPI: () => API
-    API: API
-  }
-}
-
 export default function From() {
   const [fromNameValue, setFromNameValue] = useState('')
-
   const fromNameRef = useRef('')
+  const { notification } = useNotification()
 
+  //
   useEffect(() => {
     fromNameRef.current = fromNameValue
   }, [fromNameValue])
 
-  const { notification } = useNotification()
   // 控制提交
   const [submit, setSubmit] = useState(false)
   useEffect(() => {
@@ -38,9 +25,12 @@ export default function From() {
       }
     })
   }, [])
+
+  //
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFromNameValue(e.target.value)
   }
+  //
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (submit) return
     e.preventDefault()
@@ -51,17 +41,28 @@ export default function From() {
   return (
     <div className="flex flex-1 items-center justify-center ">
       <div className="p-8 rounded-lg bg-[var(--secondary-bg-front)] shadow-inner w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">扩展商城</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">下载扩展</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">扩展名</label>
+            <label className="block text-sm py-1 font-medium text-gray-700">
+              点击了解
+              <span
+                className="cursor-pointer text-blue-600"
+                onClick={() => {
+                  window.open('https://www.npmjs.com/search?q=alemonjs')
+                  window.open('https://alemonjs.com/docs/apps')
+                }}
+              >
+                更多扩展
+              </span>
+            </label>
             <input
               type="text"
               name="name"
               placeholder="@alemonjs/db"
               value={fromNameValue}
               onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+              className="mt-1 block w-full px-2 py-1  border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
           <button

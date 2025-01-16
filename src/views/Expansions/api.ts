@@ -23,3 +23,48 @@ export const fetchPackageInfo = async (packageName: string) => {
     'readme': response.readme || ''
   }
 }
+
+export const extractRepoInfo = (url: string) => {
+  // 正则表达式匹配各种格式的 URL
+  const regex = /(?:https?:\/\/)?(?:www\.)?(github\.com|gitlab\.com)\/([^\/]+)\/([^\/]+)(?:\.git)?$/
+  const match = url.match(regex)
+  if (match) {
+    return {
+      username: match[2],
+      repository: match[3].replace(/\.git$/, '')
+    }
+  }
+  // 如果没有匹配上，上面的方法可能不适用，尝试 SSH 格式
+  const sshRegex = /(?:git@(?:www\.)?)?(github\.com|gitlab\.com):([^\/]+)\/([^\/]+)(?:\.git)?$/
+  const sshMatch = url.match(sshRegex)
+  if (sshMatch) {
+    return {
+      username: sshMatch[2],
+      repository: sshMatch[3].replace(/\.git$/, '')
+    }
+  }
+  throw new Error('Invalid repository URL')
+}
+
+export const fetchGitHubBranches = async (username: string, repository: string) => {
+  try {
+    const response = await axios.get(
+      `https://api.github.com/repos/${username}/${repository}/branches`,
+      {
+        headers: {
+          Accept: 'application/vnd.github.v3+json'
+        }
+      }
+    )
+    return response.data as {
+      name: string
+      commit: {
+        sha: string
+        url: string
+      }
+      protected: boolean
+    }[]
+  } catch (error) {
+    console.error('Error fetching branches:', error)
+  }
+}

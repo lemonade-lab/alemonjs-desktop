@@ -15,10 +15,6 @@ contextBridge.exposeInMainWorld('expansions', {
     ipcRenderer.send('expansions-close')
   },
   // 监听
-  onStdout: (callback: callback) => {
-    ipcRenderer.on('expansions-stdout', (_event, value) => callback(value))
-  },
-  // 监听
   onStatus: (callback: callback) => {
     ipcRenderer.on('expansions-status', (_event, value) => callback(value))
   },

@@ -46,7 +46,7 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
     if (webContents.isDestroyed()) return
 
     // 发消息给渲染进程
-    webContents.send('bot-stdout', data.toString())
+    webContents.send('on-terminal', data.toString())
     logger.info(`bot output: ${data.toString()}`)
   })
 
@@ -54,7 +54,7 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
   child.stderr?.on('data', data => {
     if (webContents.isDestroyed()) return
 
-    webContents.send('bot-stdout', data.toString())
+    webContents.send('on-terminal', data.toString())
     logger.error(`bot error: ${data.toString()}`)
   })
 

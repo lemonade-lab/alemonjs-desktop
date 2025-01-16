@@ -30,7 +30,7 @@ const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: Drop
   }, [])
 
   return (
-    <div className="relative inline-block z-10" ref={dropdownRef}>
+    <div className="relative inline-block " ref={dropdownRef}>
       <button
         onClick={e => {
           e.stopPropagation()
@@ -41,7 +41,7 @@ const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: Drop
         {Icon}
       </button>
       {isOpen && (
-        <ul className="absolute bg-white bg-opacity-90 right-0 w-20 mt-2 border rounded-md shadow-md">
+        <ul className="absolute bg-white z-10 bg-opacity-90 right-0 w-20 mt-2 border rounded-md shadow-md">
           {options.map((option, index) => (
             <li
               key={index}

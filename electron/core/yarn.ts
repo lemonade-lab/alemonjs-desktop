@@ -44,7 +44,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
       if (webContents.isDestroyed()) return
 
       // 发消息给渲染进程
-      webContents.send('bot-stdout', data.toString())
+      webContents.send('on-terminal', data.toString())
       logger.info(`Yarn install output: ${data.toString()}`)
     })
 
@@ -52,7 +52,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
     child.stderr?.on('data', data => {
       if (webContents.isDestroyed()) return
 
-      webContents.send('bot-stdout', data.toString())
+      webContents.send('on-terminal', data.toString())
       logger.error(`Yarn install error: ${data.toString()}`)
     })
 
@@ -107,14 +107,14 @@ export const yarnAdd = (webContents: Electron.WebContents, value: string) => {
       if (webContents.isDestroyed()) return
 
       // 发消息给渲染进程
-      webContents.send('bot-stdout', data.toString())
+      webContents.send('on-terminal', data.toString())
       logger.info(`Yarn add output: ${data.toString()}`)
     })
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
       if (webContents.isDestroyed()) return
 
-      webContents.send('bot-stdout', data.toString())
+      webContents.send('on-terminal', data.toString())
       logger.error(`Yarn add error: ${data.toString()}`)
     })
     // 监听子进程退出
@@ -164,14 +164,14 @@ export const yarnLink = (webContents: Electron.WebContents, value: string) => {
     child.stdout?.on('data', data => {
       if (webContents.isDestroyed()) return
       // 发消息给渲染进程
-      webContents.send('bot-stdout', data.toString())
+      webContents.send('on-terminal', data.toString())
       logger.info(`Yarn link output: ${data.toString()}`)
     })
     // 监听子进程的错误输出
     child.stderr?.on('data', data => {
       if (webContents.isDestroyed()) return
 
-      webContents.send('bot-stdout', data.toString())
+      webContents.send('on-terminal', data.toString())
       logger.error(`Yarn link error: ${data.toString()}`)
     })
     // 监听子进程退出

@@ -1,9 +1,10 @@
 import _ from 'lodash'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useBotController } from '@src/hook/bot'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { postMessage } from '@src/store/log'
+import { useTerminal } from '@src/hook/terminal'
 /**
  * @description 机器人控制器
  */
@@ -15,25 +16,24 @@ export default function BotLog() {
   const dispatch = useDispatch()
   const [platform, setPlatform] = state
 
-  const logRef = useRef<HTMLDivElement>(null)
-
-  const goToBottom = _.debounce(() => {
-    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight
-  }, 500)
+  const [terminalRef, terminalInstance] = useTerminal()
 
   useEffect(() => {
-    goToBottom()
+    for (let i = 0; i < log.message.length - 1; i++) {
+      terminalInstance.current?.write(log.message[i])
+    }
+  }, [])
+
+  useEffect(() => {
+    const value = log.message[log.message.length - 1]
+    if (value) {
+      terminalInstance.current?.write(value)
+    }
   }, [log.message])
 
-  useEffect(() => {
-    window.bot.onStdout((message: string) => {
-      // console.log('message', message)
-      dispatch(postMessage(message))
-    })
-  }, [])
   return (
     <section className="animate__animated animate__fadeIn flex flex-col flex-1 bg-[var(--primary-bg-front)] shadow-md">
-      <div className="flex flex-col p-1  rounded-t-md border-b ">
+      <div className="flex flex-col p-1  bg-[#002b36] text-white rounded-t-md border-[#586e75] border-b ">
         <div className="flex gap-4  items-center ">
           <div className="flex-1 flex gap-2 items-center  rounded-md">
             <div>
@@ -59,7 +59,7 @@ export default function BotLog() {
             bot.runStatus ? (
               <button
                 type="button"
-                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+                className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
                 onClick={onClickClose}
               >
                 <span>关闭</span>
@@ -67,7 +67,7 @@ export default function BotLog() {
             ) : (
               <button
                 type="button"
-                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+                className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
                 onClick={onClickStart}
               >
                 <span>启动</span>
@@ -84,14 +84,8 @@ export default function BotLog() {
           )}
         </div>
       </div>
-      <div className="flex-1 flex flex-col p-1 ">
-        <div ref={logRef} className="flex flex-col h-[calc(100vh-6.5rem)] overflow-auto scrollbar">
-          {log.message.length > 0 ? (
-            log.message.map((item, index) => <p key={index}>{item}</p>)
-          ) : (
-            <div className="flex-1 flex justify-center items-center"></div>
-          )}
-        </div>
+      <div className="flex-1 flex flex-col">
+        <div ref={terminalRef} className="flex p-4 flex-col bg-[#002b36] h-[calc(100vh-3.8rem)]" />
       </div>
     </section>
   )

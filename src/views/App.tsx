@@ -14,6 +14,7 @@ import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import MainView from './MainView'
+import { postMessage } from '@src/store/log'
 
 export default (function App() {
   const navigate = useGoNavigate()
@@ -175,6 +176,12 @@ export default (function App() {
       window.expansions.postMessage({ type: 'get-expansions' })
     }
   }, [expansions.runStatus])
+
+  useEffect(() => {
+    window.terminal.on((message: string) => {
+      dispatch(postMessage(message))
+    })
+  }, [])
 
   return (
     <div className="flex flex-col h-screen">

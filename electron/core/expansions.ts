@@ -46,7 +46,7 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
     if (webContents.isDestroyed()) return
 
     // 发消息给渲染进程
-    webContents.send('expansions-stdout', data.toString())
+    webContents.send('on-terminal', data.toString())
     logger.info(`expansions output: ${data.toString()}`)
   })
 
@@ -54,7 +54,7 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   child.stderr?.on('data', data => {
     if (webContents.isDestroyed()) return
 
-    webContents.send('expansions-stdout', data.toString())
+    webContents.send('on-terminal', data.toString())
     logger.error(`expansions error: ${data.toString()}`)
   })
 

@@ -11,6 +11,8 @@ export async function cloneRepo(repoUrl: string) {
   const git = simpleGit()
   const localPath = './packages/' + repoName
   try {
+    // 深度
+    // 分支
     await git.clone(repoUrl, localPath, ['--depth', '1'])
     processSend({
       type: 'notification',

@@ -14,9 +14,9 @@ import { fetchPackageInfo } from './api'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
-const From = lazy(() => import('./From'))
-const AddFrom = lazy(() => import('./AddFrom'))
-const GithubFrom = lazy(() => import('./GithubFrom'))
+const LinkFrom = lazy(() => import('./FromLink'))
+const AddFrom = lazy(() => import('./FromAdd'))
+const GithubFrom = lazy(() => import('./FromGit'))
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -69,31 +69,43 @@ export default function Expansions() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const headleDelete = (name: (typeof expansions.package)[0]) => {
-    if (modal.isActive()) {
-      console.log('active')
-      return
-    }
-    modal.set(
-      <Inquiry
-        title="提示"
-        onClickCancel={() => {
-          // if (isSubmitting) return
-          modal.close()
-        }}
-        onClickSuccess={() => {
-          if (isSubmitting) return
-          // 卸载
-          setIsSubmitting(true)
-          console.log('卸载')
-          // 卸载
-          notification(`待更新 ...`)
-        }}
-      >
-        <div>是否确认卸载</div>
-      </Inquiry>,
-      // 强制刷新
-      true
-    )
+    // if (modal.isActive()) {
+    //   console.log('active')
+    //   return
+    // }
+    // modal.set(
+    //   <Inquiry
+    //     title="提示"
+    //     onClickCancel={() => {
+    //       // if (isSubmitting) return
+    //       modal.close()
+    //     }}
+    //     onClickSuccess={() => {
+    //       if (isSubmitting) return
+    //       // 卸载
+    //       setIsSubmitting(true)
+    //       console.log('卸载')
+    //       // 卸载
+    //       notification(`待更新 ...`)
+    //     }}
+    //   >
+    //     <div>是否确认卸载</div>
+    //   </Inquiry>,
+    //   // 强制刷新
+    //   true
+    // )
+
+    notification(`待更新 ...`)
+  }
+
+  // 禁用
+  const headleDisable = (name: string) => {
+    notification(`待更新 ...`)
+  }
+
+  // 恢复
+  const headleRestore = (name: string) => {
+    notification(`待更新 ...`)
   }
 
   useEffect(() => {
@@ -143,7 +155,7 @@ export default function Expansions() {
           {select == 'shoping' && packageInfo && (
             <PackageInfo onClickUpdate={onClickUpdate} packageInfo={packageInfo} />
           )}
-          {select == '关联' && <From />}
+          {select == '关联' && <LinkFrom />}
           {select == '添加' && <AddFrom />}
           {select == '仓库' && <GithubFrom />}
         </div>
@@ -188,7 +200,7 @@ export default function Expansions() {
                 <div className="absolute  bottom-1 right-1 text-[0.6rem]">
                   <Dropdown
                     Icon={<SettingIcon width={18} height={18} />}
-                    options={['卸载']}
+                    options={['卸载', '禁用']}
                     onChangeOption={value => {
                       if (value == '卸载') {
                         headleDelete(item)
