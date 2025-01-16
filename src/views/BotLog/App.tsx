@@ -54,6 +54,7 @@ export default function BotLog() {
             </div>
             <div>{bot.runStatus ? '已启动' : '未启动'}</div>
           </div>
+
           {modules.nodeModulesStatus ? (
             bot.runStatus ? (
               <button
