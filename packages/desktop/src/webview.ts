@@ -7,8 +7,8 @@ export class webView {
   get #htmlScript() {
     return `<script>  
             const createDesktopAPI = ()=> {
-              const expansions_name = '${this.#name}'
-              return window.appDesktopAPI.create(expansions_name)
+              const expansionsName = '${this.#name}'
+              return window.appDesktopAPI.create(expansionsName)
             }
             window.createDesktopAPI = createDesktopAPI
     </script>`
@@ -54,7 +54,7 @@ export class webView {
    */
   loadWebView(html: string) {
     // 插入脚本
-    const data = html.replace('<head>', `<head> ${this.#htmlScript}`)
+    const data = html.replace('<head>', `<head> ${this.#htmlScript} `)
     processSend({
       type: 'webview-sidebar-load',
       data: data
