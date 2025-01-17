@@ -31,8 +31,8 @@ export default memo(function PackageInfo({
 
   return (
     <div>
-      <div className="p-2 bg-white flex items-center justify-center gap-4 border-b">
-        <div className="bg-gray-100 flex items-center justify-center">
+      <div className="p-2  flex items-center justify-center gap-4 border-b">
+        <div className="flex items-center justify-center">
           <img src={logoURL} alt={`${packageInfo.name} logo`} className="size-20 rounded-md" />
         </div>
         <div className="flex-1 flex flex-col gap-1">
@@ -66,7 +66,7 @@ export default memo(function PackageInfo({
           </div>
         </div>
       </div>
-      <div className="bg-white overflow-auto scrollbar h-[calc(100vh-9.7rem)]">
+      <div className=" overflow-auto scrollbar h-[calc(100vh-9.7rem)]">
         <Markdown source={packageInfo.readme} />
       </div>
     </div>

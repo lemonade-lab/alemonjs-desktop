@@ -42,11 +42,11 @@ export default function GithubFrom() {
     window.expansions.onMessage(handleMessage)
   }, [notification])
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFromNameValue(e.target.value)
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (submit || !fromNameValue) return
     window.expansions.postMessage({ type: 'git-clone', data: fromNameValue })

@@ -1,16 +1,10 @@
 const { ipcRenderer, contextBridge } = require('electron')
 
-// 版本信息
-contextBridge.exposeInMainWorld('versions', {
-  node: process.versions.node,
-  chrome: process.versions.chrome,
-  electron: process.versions.electron,
-  platform: process.platform
-})
-
-// 版本信息
+// electron 桌面 接口
 contextBridge.exposeInMainWorld('appDesktopAPI', {
+  // 为 webview 创建 API
   create: name => ({
+    // 发送消息
     postMessage: data => {
       ipcRenderer.invoke('webview-post-message', {
         type: 'webview-post-message',
@@ -20,12 +14,23 @@ contextBridge.exposeInMainWorld('appDesktopAPI', {
         }
       })
     },
+    // 监听消息
     onMessage: callback => {
       ipcRenderer.on('webview-on-message', (_event, data) => {
         if (data.name == name) {
-          callback(data.value)
+          callback && callback(data.value)
         }
       })
+    },
+    theme: {
+      // 主题变量
+      variables: () => {
+        ipcRenderer.send('css-variables')
+      },
+      // 主题变化
+      on: callback => {
+        ipcRenderer.on('on-css-variables', (_event, value) => callback(value))
+      }
     }
   })
 })

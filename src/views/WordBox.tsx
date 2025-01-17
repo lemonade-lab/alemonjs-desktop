@@ -49,7 +49,7 @@ export default function WordBox() {
   }, [expansions.package])
 
   return (
-    <div className="select-none flex-1 flex justify-between items-center">
+    <div className="flex-1 flex justify-between items-center">
       <div className="flex flex-1 gap-2">
         {isDropdownOpen ? (
           <div

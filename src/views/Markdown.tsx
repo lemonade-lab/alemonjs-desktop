@@ -1,6 +1,6 @@
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import rehypeHighlight from 'rehype-highlight'
-import rehypeSanitize from 'rehype-sanitize'
+// import rehypeSanitize from 'rehype-sanitize'
 import rehypePrism from 'rehype-prism'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -13,8 +13,8 @@ import rehypeAttr from 'rehype-attr'
 const Markdown = ({ source }: { source: string }) => {
   return (
     <MarkdownPreview
-      className="animate__animated animate__fadeIn"
-      style={{ padding: '0.5rem', borderRadius: '0.5rem' }}
+      className="animate__animated animate__fadeIn select-text"
+      style={{ padding: '0.5rem', backgroundColor: '#FFFFFF00' }}
       source={source}
       components={{
         a: ({ node, ...props }) => (
@@ -29,7 +29,7 @@ const Markdown = ({ source }: { source: string }) => {
         )
       }}
       rehypePlugins={[
-        rehypeSanitize, // 清理不安全的 HTML
+        // rehypeSanitize, // 清理不安全的 HTML
         rehypeHighlight, // 代码高亮
         rehypePrism, // Prism.js 高亮
         rehypeSlug, // 为标题生成锚点

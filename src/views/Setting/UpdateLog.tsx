@@ -9,7 +9,13 @@ const data = [
       '优化控制打印效果',
       '优化扩展检索机制',
       '内置可用机器人',
-      '应用加载需要手动配置'
+      '应用加载需要手动配置',
+      '开机自启开关',
+      '优化扩展稳定主题色',
+      '开放扩展主题色同步API',
+      '修复侧边栏激活框未生效',
+      '禁止选择界面文本',
+      '调整扩展API调用方式'
     ]
   },
   {
@@ -61,7 +67,7 @@ const UpdateLog = () => {
     setLogs(selectedVersion.log)
   }
   return (
-    <div className="animate__animated animate__fadeIn select-none flex-1 flex-col flex justify-center items-center">
+    <div className="animate__animated animate__fadeIn flex-1 flex-col flex justify-center items-center">
       <div className="flex-col gap-1 flex-1 flex justify-center py-2">
         <div className="flex ">
           {data.map((item, index) => (

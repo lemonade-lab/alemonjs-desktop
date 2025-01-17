@@ -38,12 +38,14 @@ export default function SettingApp() {
               className={classNames(
                 'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  hover:bg-slate-200',
                 {
-                  'bg-[var(--primary-bg-front)] ': view === index
+                  'bg-[var(--primary-bg-front)] ': view == index
                 }
               )}
             >
               {viewItem.name}
-              <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
+              {view == index && (
+                <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
+              )}
             </div>
           ))}
         </nav>

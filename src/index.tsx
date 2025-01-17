@@ -19,6 +19,13 @@ declare global {
      */
     expansions: WindowExpansions
     /**
+     * 主题
+     */
+    theme: {
+      variables: () => void
+      on: (callback: (val: any) => void) => void
+    }
+    /**
      *  bot
      */
     bot: WindowBot

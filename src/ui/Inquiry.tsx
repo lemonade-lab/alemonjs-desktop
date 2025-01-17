@@ -27,7 +27,7 @@ const Inquiry = ({
     return () => clearTimeout(timer)
   }, [timing])
   return (
-    <div className="px-4 py-2   dark:text-white  flex flex-col gap-4 min-w-36 select-none">
+    <div className="px-4 py-2   dark:text-white  flex flex-col gap-4 min-w-36">
       <div className="text-xl ">
         {title} {timing != 0 && <span className="dark:text-red-500">({timing}s)</span>}
       </div>

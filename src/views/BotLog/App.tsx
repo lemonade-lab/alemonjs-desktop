@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useBotController } from '@src/hook/bot'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { postMessage } from '@src/store/log'
 import { useTerminal } from '@src/hook/terminal'
 /**
  * @description 机器人控制器
@@ -59,7 +58,7 @@ export default function BotLog() {
             bot.runStatus ? (
               <button
                 type="button"
-                className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+                className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
                 onClick={onClickClose}
               >
                 <span>关闭</span>
@@ -67,7 +66,7 @@ export default function BotLog() {
             ) : (
               <button
                 type="button"
-                className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+                className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
                 onClick={onClickStart}
               >
                 <span>启动</span>
@@ -76,7 +75,7 @@ export default function BotLog() {
           ) : (
             <button
               type="button"
-              className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+              className="border px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
               onClick={onClickYarnInstall}
             >
               <span>加载</span>

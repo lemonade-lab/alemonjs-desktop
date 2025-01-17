@@ -13,7 +13,7 @@ export default function Transition() {
       </Header>
       <div className="flex flex-1">
         <main className="flex flex-1 bg-[var(--secondary-bg-front)]">
-          <div className="select-none flex-1 flex-col flex justify-center items-center">
+          <div className="flex-1 flex-col flex justify-center items-center">
             <div className="flex-col flex">
               <div className="flex-col flex justify-center items-center"></div>
             </div>

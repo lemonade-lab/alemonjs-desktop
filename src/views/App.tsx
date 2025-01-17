@@ -70,10 +70,10 @@ export default (function App() {
     })
 
     // 加载css变量
-    window.controller.cssVariables()
+    window.theme.variables()
 
     // 监听 css 变量
-    window.controller.onCSSVariables(cssVariables => {
+    window.theme.on(cssVariables => {
       try {
         Object.keys(cssVariables).forEach(key => {
           document.documentElement.style.setProperty(`--${key}`, cssVariables[key])

@@ -18,7 +18,7 @@ const Confirm = ({
   children
 }: PropsWithChildren<ConfirmProps>) => {
   return (
-    <div className="px-4 py-2 dark:text-white  flex flex-col gap-4 min-w-36 select-none">
+    <div className="px-4 py-2 dark:text-white  flex flex-col gap-4 min-w-36">
       <div className="text-xl ">{title}</div>
       {children}
       <div className="flex gap-4 justify-between">

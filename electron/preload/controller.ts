@@ -14,10 +14,18 @@ contextBridge.exposeInMainWorld('controller', {
   update: () => {
     ipcRenderer.send('update-version')
   },
-  cssVariables: () => {
+  setAutoLaunch: (enable: boolean) => ipcRenderer.invoke('set-auto-launch', enable),
+  autoLaunchStutas: () => ipcRenderer.invoke('get-auto-launch-status')
+})
+
+// 控制
+contextBridge.exposeInMainWorld('theme', {
+  // 主题变量
+  variables: () => {
     ipcRenderer.send('css-variables')
   },
-  onCSSVariables: (callback: (val: any) => void) => {
+  // 主题变化
+  on: (callback: (val: any) => void) => {
     ipcRenderer.on('on-css-variables', (_event, value) => callback(value))
   }
 })

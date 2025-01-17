@@ -20,14 +20,11 @@ export type WindowController = {
    */
   update: () => Promise<void>
   /**
-   * 加载css变量
-   * @returns
+   *
    */
-  cssVariables: () => Promise<void>
+  setAutoLaunch: (enable: boolean) => Promise<boolean>
   /**
-   * 监听css变量
-   * @param callback
-   * @returns
+   *
    */
-  onCSSVariables: (callback: (value: any) => void) => void
+  autoLaunchStutas: () => Promise<boolean>
 }

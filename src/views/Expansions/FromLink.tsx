@@ -29,8 +29,12 @@ export default function From() {
     setFromNameValue(e.target.value)
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (submit) return
     e.preventDefault()
+    if (submit) return
+    if (!/^(alemonjs-|@alemonjs)/.test(fromNameValue)) {
+      notification('alemonjs 扩展必须以 alemonjs- 或 @alemonjs/ 开头', 'warning')
+      return
+    }
     if (!fromNameValue || fromNameValue == '') return
     window.yarn.link(fromNameValue)
     setSubmit(true)
