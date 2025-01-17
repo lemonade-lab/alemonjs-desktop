@@ -123,7 +123,7 @@ export default function ConfigEdit() {
               )}
             >
               {viewItem.name}
-              {viewItem.commond === command.name && (
+              {view && viewItem.commond === command.name && (
                 <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
               )}
             </div>

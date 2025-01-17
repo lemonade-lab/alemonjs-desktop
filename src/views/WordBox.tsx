@@ -67,34 +67,37 @@ export default function WordBox() {
               className="border rounded-md min-w-72 px-2 py-1"
               aria-label="Command Input"
             />
-            <div className="py-1 flex flex-col gap-2 ">
-              {conmond.map((item, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    // 如果已经在当前的路由
-                    if (window.location.pathname === '/webviews') {
-                      window.expansions.postMessage({
-                        type: 'command',
-                        data: item.commond
-                      })
-                      return
-                    } else {
-                      navigate('/webviews', {
-                        state: {
-                          expansions_name: item.expansions_name,
-                          name: item.name,
-                          commond: item.commond
-                        }
-                      })
-                    }
-                  }}
-                  className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
-                >
-                  <div>{item.name}</div>
-                  <div className="text-slate-400">{item.commond}</div>
-                </div>
-              ))}
+            <div className="">
+              <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
+                {conmond.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      // 如果已经在当前的路由
+                      if (window.location.pathname === '/webviews') {
+                        window.expansions.postMessage({
+                          type: 'command',
+                          data: item.commond
+                        })
+                      } else {
+                        navigate('/webviews', {
+                          state: {
+                            expansions_name: item.expansions_name,
+                            name: item.name,
+                            commond: item.commond
+                          }
+                        })
+                      }
+                      // 关闭下拉菜单
+                      setIsDropdownOpen(false)
+                    }}
+                    className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
+                  >
+                    <div>{item.name}</div>
+                    <div className="text-slate-400">{item.commond}</div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex justify-end">
               <span

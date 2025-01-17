@@ -17,12 +17,16 @@ export default function useGoNavigate() {
   const modules = useSelector((state: RootState) => state.modules)
   const { notification } = useNotification()
   const navigateTo = (path: NavigatePath, options?: NavigateOptions) => {
-    // 加载依赖时，不允许跳转。
-    if (!modules.nodeModulesStatus) {
-      notification('正在加载依赖，请等待...')
+    if (path == '/setting' || path == '/') {
+      navigate(path, options)
       return
     }
-    navigate(path, options)
+    if (modules.nodeModulesStatus) {
+      navigate(path, options)
+      return
+    }
+    // 加载依赖时，不允许跳转。
+    notification('正在加载依赖，请等待...')
   }
   return navigateTo
 }

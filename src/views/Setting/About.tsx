@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { useEffect, useState } from 'react'
 const About = () => {
   const [versions, setVersions] = useState<{
@@ -7,16 +8,28 @@ const About = () => {
     platform: string
   } | null>(null)
 
+  const [progress, setProgress] = useState(0)
+
+  const [start, setStart] = useState(false)
+
   useEffect(() => {
     // 确保 window.versions 存在
     if (window.versions) {
       setVersions(window.versions)
     }
+    window.controller.onDownloadProgress((value: number) => {
+      setProgress(value)
+      if (value >= 100) {
+        setStart(false)
+      }
+    })
   }, [])
 
-  const onClickUpdate = () => {
+  const onClickUpdate = _.throttle(() => {
+    if (start) return
+    setStart(true)
     window.controller.update()
-  }
+  }, 500)
 
   return (
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex justify-center items-center">
@@ -35,10 +48,20 @@ const About = () => {
           )}
           <button
             onClick={onClickUpdate}
-            className="mt-4 px-6 py-2 bg-blue-500 rounded-lg text-white duration-700 transition-all  hover:bg-blue-700 "
+            className="mt-4 px-6   py-2 bg-blue-500 rounded-lg text-white duration-700 transition-all  hover:bg-blue-700 "
           >
-            检查更新
+            <div>检查更新</div>
           </button>
+          <div className="h-10 w-full">
+            {progress > 0 && (
+              <div className="relative mt-2 h-2 bg-gray-300 rounded">
+                <div
+                  className="absolute h-full bg-white rounded"
+                  style={{ width: `${progress > 100 ? 100 : progress}%` }}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

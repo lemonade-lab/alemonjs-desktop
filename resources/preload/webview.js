@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('appDesktopAPI', {
   create: name => ({
     // 发送消息
     postMessage: data => {
-      ipcRenderer.invoke('webview-post-message', {
+      ipcRenderer.invoke('expansions-post-message', {
         type: 'webview-post-message',
         data: {
           name: name,
@@ -30,6 +30,27 @@ contextBridge.exposeInMainWorld('appDesktopAPI', {
       // 主题变化
       on: callback => {
         ipcRenderer.on('on-css-variables', (_event, value) => callback(value))
+      }
+    },
+    expansion: {
+      // 获取扩展列表
+      getList: () => {
+        // 触发获取扩展列表
+        ipcRenderer.invoke('expansions-post-message', {
+          type: 'webview-get-expansions',
+          data: {
+            name: name,
+            value: {}
+          }
+        })
+      },
+      // 监听发来的 message
+      on: callback => {
+        ipcRenderer.on('webview-expansions-message', (_event, data) => {
+          if (data.name == name) {
+            callback && callback(data.value)
+          }
+        })
       }
     }
   })

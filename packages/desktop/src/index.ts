@@ -75,6 +75,23 @@ export const events = {
     })
     //
   },
+  /**
+   * 主动获取扩展列表
+   */
+  'webview-get-expansions': data => {
+    if (!storage.has(data.name)) return
+    // 更新模块列表
+    processSend({
+      type: 'webview-get-expansions',
+      data: {
+        name: data.name,
+        value: {
+          type: 'get-expansions',
+          data: Array.from(storage.values()).map(item => item.package)
+        }
+      }
+    })
+  },
   'git-clone': (data: string) => {
     cloneRepo(data)
   },

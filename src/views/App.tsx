@@ -58,11 +58,21 @@ export default (function App() {
   useEffect(() => {
     console.log('App.tsx useEffect')
 
-    setTimeout(() => {
-      if (!modulesRef.current.nodeModulesStatus) {
-        notification('正在加载依赖，请耐心等待...')
+    // 依赖加载状态提示
+    const msg = [
+      '正在加载依赖，请耐心等待...',
+      '若时间过长，请检查网络或退出重试...',
+      '你的依赖超长未完成，请联系开发者协议...'
+    ]
+    const outAt = 1000 * 5
+    const notifyUser = (index: number) => {
+      if (index < msg.length && !modulesRef.current.nodeModulesStatus) {
+        notification(msg[index])
+        setTimeout(() => notifyUser(index + 1), outAt)
       }
-    }, 1600)
+    }
+    // 开始通知
+    setTimeout(() => notifyUser(0), outAt)
 
     // 立即得到 app 路径
     window.app.getAppsPath().then(res => {
@@ -111,6 +121,10 @@ export default (function App() {
           runStatus: value == 0 ? false : true
         })
       )
+    })
+
+    window.controller.onNotification((value: any) => {
+      notification(value)
     })
 
     // 监听expansions消息

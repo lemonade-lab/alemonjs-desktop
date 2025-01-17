@@ -1,8 +1,7 @@
-import { lazy, useEffect, useState } from 'react'
-import logoURL from '@src/assets/logo.jpg'
+import { lazy, useEffect, useRef, useState } from 'react'
 import Dropdown from './Dropdown'
 import { debounce } from 'lodash'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { PackageInfoType } from './PackageInfo'
@@ -11,6 +10,7 @@ import { MenuMoreIcon, RefreshIcon, SettingIcon } from '@src/common/Icons'
 // import { useModal } from '@src/hook/useModal'
 import { fetchPackageInfo, getPackages } from './api'
 import ExpansionsCard from './ExpansionsCard'
+import { putPackage } from '@src/store/expansions'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
@@ -21,14 +21,18 @@ const GithubFrom = lazy(() => import('./FromGit'))
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
   const [packageInfo, setPackageInfo] = useState<PackageInfoType>(null)
+
+  const packageInfoRef = useRef<PackageInfoType>(null)
+
   const { notification } = useNotification()
+  const dispatch = useDispatch()
   const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
 
   const handlePackageClick = debounce(async (packageName: string) => {
     const pkg = expansions.package.find(v => v.name === packageName)
     if (!pkg) {
-      notification(`没有找到 ${packageName} 的数据。`, 'error')
+      notification(`本地没有找到 ${packageName} 的数据。`, 'error')
       return
     }
     const dir = app.nodeModulesPath + '/' + packageName + '/README.md'
@@ -48,8 +52,25 @@ export default function Expansions() {
     setPackageInfo(data)
   }, 500)
 
+  const handleNpmJSPackageClick = debounce(async (packageName: string) => {
+    try {
+      const pkg = await fetchPackageInfo(packageName)
+      const data = {
+        'name': pkg?.name || '',
+        'description': pkg?.description || '',
+        'author': pkg?.author || null,
+        'dist-tags': pkg['dist-tags'],
+        'readme': pkg.readme || ''
+      }
+      setPackageInfo(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }, 500)
+
   useEffect(() => {
     if (packageInfo) setSelect('shoping')
+    packageInfoRef.current = packageInfo
   }, [packageInfo])
 
   const onChangeOption = (value: string) => {
@@ -63,7 +84,7 @@ export default function Expansions() {
   // const modal = useModal()
 
   // const [isSubmitting, setIsSubmitting] = useState(false)
-  const headleDelete = (name: string) => {
+  const headleDelete = () => {
     // if (modal.isActive()) {
     //   console.log('active')
     //   return
@@ -94,12 +115,12 @@ export default function Expansions() {
   }
 
   // 禁用
-  const headleDisable = (name: string) => {
+  const headleDisable = () => {
     notification(`待更新 ...`)
   }
 
   // 恢复
-  const headleRestore = (name: string) => {
+  const headleRestore = () => {
     notification(`待更新 ...`)
   }
 
@@ -133,32 +154,52 @@ export default function Expansions() {
         notification('add 失败', 'error')
       } else {
         notification('add 完成')
-        if (!packageInfo) return
+        if (!packageInfoRef.current) return
+        console.log('packageInfo', packageInfoRef.current)
+
+        const __version = packageInfoRef.current['__version']
+        packageInfoRef.current['dist-tags'].latest = __version
+
+        // 更新数据
+        dispatch(
+          putPackage({
+            name: packageInfoRef.current.name,
+            version: __version
+          })
+        )
         // 推送加载。
-        window.expansions.postMessage({ type: 'add-expansions', data: packageInfo.name })
+        window.expansions.postMessage({ type: 'add-expansions', data: packageInfoRef.current.name })
       }
     })
   }, [])
 
   const onClickUpdate = async () => {
-    if (!packageInfo) return
+    if (!packageInfoRef.current) return
+    notification(`开始检查${packageInfoRef.current.name}版本`)
     // 获取最新版本
     try {
-      const msg = await fetchPackageInfo(packageInfo.name)
+      const msg = await fetchPackageInfo(packageInfoRef.current.name)
       if (msg['dist-tags']) {
-        if (packageInfo['dist-tags'].latest !== msg['dist-tags'].latest) {
-          notification(`检查到最新版本${msg['dist-tags'].latest}`, 'default')
-          window.yarn.add(`${packageInfo.name}@${msg['dist-tags'].latest}`)
+        const version = msg['dist-tags'].latest
+        if (packageInfoRef.current['dist-tags'].latest !== version) {
+          notification(`检查到最新版本${version}`, 'default')
+          packageInfoRef.current['__version'] = version
+          window.yarn.add(`${packageInfoRef.current.name}@${version}`)
         } else {
           notification(`当前已是最新版本`, 'default')
         }
       } else {
-        notification(`无法从npmjs中获取${packageInfo.name}最新版本`, 'error')
+        notification(`无法从npmjs中获取${packageInfoRef.current.name}最新版本`, 'error')
       }
     } catch (err) {
-      notification(`无法从npmjs中获取${packageInfo.name}最新版本`, 'error')
+      notification(`无法从npmjs中获取${packageInfoRef.current.name}最新版本`, 'error')
       console.error(err)
     }
+  }
+
+  const headleInstall = (name: string) => {
+    notification(`开始安装${name}`)
+    window.yarn.add(name)
   }
 
   return (
@@ -201,12 +242,10 @@ export default function Expansions() {
                   <ExpansionsCard
                     item={item}
                     key={item.name}
-                    handlePackageClick={handlePackageClick}
+                    handlePackageClick={name => handleNpmJSPackageClick(name)}
                     options={['安装']}
                     onChangeOption={name => {
-                      if (name === '安装') {
-                        // yarn add packageName
-                      }
+                      if (name == '安装') headleInstall(item.name)
                     }}
                   />
                 ))
@@ -214,12 +253,12 @@ export default function Expansions() {
                   <ExpansionsCard
                     item={item}
                     key={item.name}
-                    handlePackageClick={handlePackageClick}
+                    handlePackageClick={name => handlePackageClick(name)}
                     options={['卸载', '禁用', '恢复']}
                     onChangeOption={name => {
-                      if (name === '卸载') headleDelete(name)
-                      if (name === '禁用') headleDisable(name)
-                      if (name === '恢复') headleRestore(name)
+                      if (name == '卸载') headleDelete()
+                      if (name == '禁用') headleDisable()
+                      if (name == '恢复') headleRestore()
                     }}
                   />
                 ))}

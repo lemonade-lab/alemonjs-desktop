@@ -1,12 +1,17 @@
-// NotificationContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode, useRef, useEffect } from 'react'
 import Notification from '@src/common/Notification'
 
-interface NotificationState {
+interface Notification {
+  id: number
   message: string
-  visible: boolean
   theme: 'default' | 'error' | 'warning'
 }
+
+type NotificationState = {
+  id: number
+  message: string
+  theme: 'default' | 'error' | 'warning'
+}[]
 
 interface NotificationContextType {
   notification: (message: string, theme?: 'default' | 'error' | 'warning') => void
@@ -19,29 +24,42 @@ interface NotificationProviderProps {
 }
 
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
-  const [value, setValue] = useState<NotificationState>({
-    message: '',
-    visible: false,
-    theme: 'default'
-  })
+  const [state, setState] = useState<NotificationState>()
+
+  const stateRef = useRef(state)
+
+  useEffect(() => {
+    stateRef.current = state
+  }, [state])
 
   const notification = (message: string, theme: 'default' | 'error' | 'warning' = 'default') => {
-    setValue({ message, visible: true, theme })
+    const id = Date.now()
+    setState([...(stateRef.current ?? []), { id, message, theme }])
+    setTimeout(() => {
+      hideNotification(id)
+    }, 5000) // 5秒后自动关闭通知
   }
 
-  const hideNotification = () => {
-    setValue({ ...value, visible: false })
+  const hideNotification = (id: number) => {
+    setState(stateRef.current?.filter(notification => notification.id !== id))
   }
 
   return (
     <NotificationContext.Provider value={{ notification }}>
       {children}
-      <Notification
-        message={value.message}
-        visible={value.visible}
-        theme={value.theme}
-        onClose={hideNotification}
-      />
+      <div className="fixed top-16 left-1/2 z-50 transform -translate-x-1/2 min-w-[240px]">
+        <div className="flex flex-col gap-4">
+          {state &&
+            state.map(notification => (
+              <Notification
+                key={notification.id}
+                message={notification.message}
+                theme={notification.theme}
+                onClose={() => hideNotification(notification.id)}
+              />
+            ))}
+        </div>
+      </div>
     </NotificationContext.Provider>
   )
 }

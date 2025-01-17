@@ -21,10 +21,22 @@ export type WindowController = {
   update: () => Promise<void>
   /**
    *
+   * @param callback
+   * @returns
+   */
+  onDownloadProgress: (callback: (val: any) => void) => void
+  /**
+   *
+   * @param enable
+   * @returns
    */
   setAutoLaunch: (enable: boolean) => Promise<boolean>
   /**
    *
    */
   autoLaunchStutas: () => Promise<boolean>
+  /**
+   *
+   */
+  onNotification: (callback: (val: any) => void) => void
 }

@@ -33,23 +33,49 @@ export const activate = (context: typeof Context.prototype) => {
   // 监听 webview 的消息。
   webView.onMessage(data => {
     try {
-      if (data.type === 'desktop.form.save') {
-        const desktop = data.data
-        const config = getConfig()
-        const value = config.value ?? {}
-        value.apps = desktop.apps.split('.')
-        config.saveValue(value)
-        context.notification('desktop 配置保存成功～')
-      } else if (data.type === 'desktop.init') {
+      /**
+          if (value) {
+                    window.desktopAPI.postMessage({
+                      type: 'desktop.open.apps',
+                      data: item.name
+                    })
+                    return
+                  }
+                  window.desktopAPI.postMessage({
+                    type: 'desktop.disable.apps',
+                    data: item.name
+                  })
+       */
+      if (data.type == 'desktop.get.apps') {
+        console.log(data)
         let config = getConfigValue()
         if (!config) config = {}
+        const d = Array.isArray(config.apps) ? config.apps : []
         // 发送消息
         webView.postMessage({
-          type: 'desktop.init',
-          data: {
-            apps: config.apps ?? {}
-          }
+          type: 'desktop.get.apps',
+          data: d
         })
+      } else if (data.type == 'desktop.open.apps') {
+        //
+        let config = getConfig()
+        const value = config.value
+        if (value && Array.isArray(value.apps)) {
+          const name = data.data
+          if (!value.apps.includes(name)) {
+            value.apps.push(name)
+            config.saveValue(value)
+          }
+        }
+      } else if (data.type == 'desktop.disable.apps') {
+        //
+        let config = getConfig()
+        const value = config.value
+        if (value && Array.isArray(value.apps)) {
+          const name = data.data
+          value.apps = value.apps.filter((item: string) => item !== name)
+          config.saveValue(value)
+        }
       }
     } catch (e) {
       console.error(e)

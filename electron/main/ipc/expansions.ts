@@ -29,12 +29,3 @@ ipcMain.handle('expansions-post-message', (event, data) => {
     console.error(e)
   }
 })
-
-// webview post message
-ipcMain.handle('webview-post-message', (event, data) => {
-  try {
-    expansionsPostMessage(event.sender, data)
-  } catch (e) {
-    console.error(e)
-  }
-})

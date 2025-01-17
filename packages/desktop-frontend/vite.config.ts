@@ -15,16 +15,16 @@ export default defineConfig({
     drop: process.env.NODE_ENV === 'development' ? [] : ['console', 'debugger']
   },
   build: {
-    // commonjsOptions: {
-    //   transformMixedEsModules: true
-    // },
-    // minify: 'terser',
-    // terserOptions: {
-    //   compress: {
-    //     drop_console: true,
-    //     drop_debugger: true
-    //   }
-    // },
+    commonjsOptions: {
+      transformMixedEsModules: true
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       output: {
         entryFileNames: `assets/index.js`,

@@ -23,15 +23,16 @@
   },
   "alemonjs": {
     "desktop": {
+      "platform": [],
       "commond": [
         {
-          "name": "apps",
+          "name": "配置应用",
           "commond": "open.desktop"
         }
       ],
       "sidebars": [
         {
-          "name": "apps",
+          "name": "APPS",
           "commond": "open.desktop"
         }
       ]

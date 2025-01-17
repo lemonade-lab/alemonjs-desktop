@@ -22,14 +22,14 @@ export function downloadUpdate() {
   autoUpdater.downloadUpdate()
 }
 
-const showMessage = debounce((mainWindow, message) => {
+const showMessage = debounce((mainWindow: BrowserWindow, message: string) => {
   if (!mainWindow) return
   if (mainWindow.isDestroyed()) return
-
+  mainWindow.webContents.send('on-notification', message)
   // 增加模态 - 当前禁止切换其他窗口
-  dialog.showMessageBox(mainWindow, {
-    message: message
-  })
+  // dialog.showMessageBox(mainWindow, {
+  //   message: message
+  // })
 }, 1000)
 
 /**
@@ -55,6 +55,8 @@ export async function autoUpdateApp(mainWindow: BrowserWindow, t = false) {
     return
   }
 
+  showMessage(mainWindow, '开始检查更新...')
+
   // 每次启动自动更新检查更新版本
   autoUpdater.checkForUpdates()
   autoUpdater.logger = console
@@ -79,9 +81,9 @@ export async function autoUpdateApp(mainWindow: BrowserWindow, t = false) {
   // 下载更新包的进度，可以用于显示下载进度与前端交互等
   autoUpdater.on('download-progress', async progress => {
     // 计算下载百分比
-    // const downloadPercent = Math.round(progress.percent * 100) / 100;
+    const downloadPercent = Math.round(progress.percent * 100) / 100
     // 实时同步下载进度到渲染进程，以便于渲染进程显示下载进度
-    // mainWindow.webContents.send('download-progress', downloadPercent);
+    mainWindow.webContents.send('on-download-progress', downloadPercent)
   })
 
   // 当没有可用更新的时候触发，其实就是啥也不用做

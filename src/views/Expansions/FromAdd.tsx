@@ -34,11 +34,8 @@ export default function From() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (submit) return
-    // if (!/^(alemonjs-|@alemonjs)/.test(fromNameValue)) {
-    //   notification('alemonjs 扩展必须以 alemonjs- 或 @alemonjs/ 开头', 'warning')
-    //   return
-    // }
     if (!fromNameValue || fromNameValue == '') return
+    notification(`开始安装 ${fromNameValue}`)
     window.yarn.add(fromNameValue)
     setSubmit(true)
   }

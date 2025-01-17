@@ -48,6 +48,21 @@ const notificationSlice = createSlice({
     addPackage(state, action: PayloadAction<any>) {
       state.package.push(action.payload)
     },
+    putPackage(
+      state,
+      action: PayloadAction<{
+        name: string
+        [key: string]: any
+      }>
+    ) {
+      const index = state.package.findIndex(item => item.name == action.payload.name)
+      if (index !== -1) {
+        state.package[index] = {
+          ...state.package[index],
+          ...action.payload
+        }
+      }
+    },
     delPackage(state, action: PayloadAction<string>) {
       const index = state.package.findIndex(item => item.name === action.payload)
       if (index !== -1) state.package.splice(index, 1)
@@ -55,6 +70,12 @@ const notificationSlice = createSlice({
   }
 })
 
-export const { initPackage, addPackage, delPackage, setExpansionsStatus, setExpansionsRunAt } =
-  notificationSlice.actions
+export const {
+  initPackage,
+  addPackage,
+  delPackage,
+  putPackage,
+  setExpansionsStatus,
+  setExpansionsRunAt
+} = notificationSlice.actions
 export default notificationSlice.reducer

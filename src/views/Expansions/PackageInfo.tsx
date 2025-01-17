@@ -6,6 +6,7 @@ import { fetchPackageInfo } from './api'
 import { useNotification } from '@src/context/Notification'
 
 export type PackageInfoType = {
+  [key: string]: any
   'name': string
   'description': string
   'author':
