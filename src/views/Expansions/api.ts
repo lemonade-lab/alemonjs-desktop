@@ -68,3 +68,14 @@ export const fetchGitHubBranches = async (username: string, repository: string) 
     console.error('Error fetching branches:', error)
   }
 }
+
+export const getPackages = async () => {
+  return await axios
+    .get('https://registry.npmjs.org/-/v1/search', {
+      params: {
+        text: 'alemonjs',
+        size: 50 // 设置要返回的包数量
+      }
+    })
+    .then(res => res.data)
+}

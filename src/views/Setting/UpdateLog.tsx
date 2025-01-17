@@ -1,7 +1,8 @@
-import classNames from 'classnames'
-import { useState } from 'react'
-
 const data = [
+  {
+    version: '0.0.16',
+    log: ['扩展搜索功能', '修复扩展列表未显示滚动条', 'Apps更改为表格+开关']
+  },
   {
     version: '0.0.15',
     log: [
@@ -58,47 +59,22 @@ const data = [
 ]
 
 const UpdateLog = () => {
-  const [currentVersion, setCurrentVersion] = useState(data[0].version)
-  const [logs, setLogs] = useState(data[0].log)
-  const handleTabClick = (versionName: string) => {
-    const selectedVersion = data.find(item => item.version === versionName)
-    if (!selectedVersion) return
-    setCurrentVersion(selectedVersion.version)
-    setLogs(selectedVersion.log)
-  }
   return (
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex justify-center items-center">
-      <div className="flex-col gap-1 flex-1 flex justify-center py-2">
-        <div className="flex ">
+      <div className="flex-1 p-1">
+        <div className="flex  flex-col flex-1 overflow-auto h-[calc(100vh-2.4rem)] scrollbar gap-6 px-6 py-4 rounded-lg shadow-inner bg-[var(--secondary-bg-front)] ">
           {data.map((item, index) => (
-            <button
-              key={item.version}
-              onClick={() => handleTabClick(item.version)}
-              className={classNames(
-                `duration-700 transition-all px-4 py-2 font-medium `,
-                {
-                  'text-white bg-blue-600': currentVersion === item.version,
-                  'text-gray-700 bg-gray-200 hover:bg-gray-300': currentVersion !== item.version
-                },
-                {
-                  'rounded-l-lg': index === 0,
-                  'rounded-r-lg': index === data.length - 1,
-                  'border-x border-slate-400': index !== data.length - 1 && index !== 0
-                }
-              )}
-            >
-              {item.version}
-            </button>
+            <div key={index}>
+              <h2 className="text-2xl font-semibold mb-4">{item.version}</h2>
+              <ul className="list-disc pl-6 space-y-2 ">
+                {item.log.map((log, index) => (
+                  <li key={index} className="text-sm ">
+                    {log}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </div>
-        <div className="flex flex-col items-center justify-center flex-1 p-6 rounded-lg shadow-inner bg-[var(--secondary-bg-front)] w-96 max-w-full">
-          <ul className="list-disc pl-6 space-y-2 ">
-            {logs.map((log, index) => (
-              <li key={index} className="text-sm ">
-                {log}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </div>

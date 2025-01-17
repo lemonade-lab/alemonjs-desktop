@@ -8,15 +8,54 @@ import { useNotification } from '@src/context/Notification'
 import { PackageInfoType } from './PackageInfo'
 import { Init } from './Component'
 import { MenuMoreIcon, RefreshIcon, SettingIcon } from '@src/common/Icons'
-import Inquiry from '@src/ui/Inquiry'
-import { useModal } from '@src/hook/useModal'
-import { fetchPackageInfo } from './api'
+// import { useModal } from '@src/hook/useModal'
+import { fetchPackageInfo, getPackages } from './api'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
 const LinkFrom = lazy(() => import('./FromLink'))
 const AddFrom = lazy(() => import('./FromAdd'))
 const GithubFrom = lazy(() => import('./FromGit'))
+
+const ExpansionsCard = ({
+  item,
+  handlePackageClick,
+  onChangeOption,
+  options
+}: {
+  item: any
+  handlePackageClick: (name: string) => void
+  onChangeOption: (name: string) => void
+  options?: string[]
+}) => {
+  return (
+    <div
+      onClick={() => handlePackageClick(item.name)}
+      className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center duration-700 transition-all  hover:bg-gray-100"
+    >
+      <div className="size-10 rounded-sm">
+        <img
+          src={logoURL}
+          alt={`${item.name} logo`}
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
+      <div className="flex flex-1 flex-col">
+        <div className="">{item.name}</div>
+        <div className="text-[0.6rem]">{item.description}</div>
+      </div>
+      <div className="absolute  bottom-1 right-1 text-[0.6rem]">
+        <Dropdown
+          Icon={<SettingIcon width={18} height={18} />}
+          options={options ?? []}
+          onChangeOption={value => {
+            onChangeOption(value)
+          }}
+        />
+      </div>
+    </div>
+  )
+}
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -25,9 +64,6 @@ export default function Expansions() {
   const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
 
-  /**
-   *
-   */
   const handlePackageClick = debounce(async (packageName: string) => {
     const pkg = expansions.package.find(v => v.name === packageName)
     if (!pkg) {
@@ -55,20 +91,18 @@ export default function Expansions() {
     if (packageInfo) setSelect('shoping')
   }, [packageInfo])
 
-  //
   const onChangeOption = (value: string) => {
     setSelect(value)
   }
 
   const onClickRefresh = () => {
-    // 刷新列表
     window.expansions.postMessage({ type: 'get-expansions' })
   }
 
-  const modal = useModal()
+  // const modal = useModal()
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const headleDelete = (name: (typeof expansions.package)[0]) => {
+  // const [isSubmitting, setIsSubmitting] = useState(false)
+  const headleDelete = (name: string) => {
     // if (modal.isActive()) {
     //   console.log('active')
     //   return
@@ -108,12 +142,31 @@ export default function Expansions() {
     notification(`待更新 ...`)
   }
 
+  const [npms, setNpms] = useState<typeof expansions.package>([])
+  const [packages, setPackages] = useState<typeof expansions.package>([])
+  const [searchValue, setSearchValue] = useState('')
+
   useEffect(() => {
-    // 获取扩展列表
-  }, [])
+    if (searchValue === '') {
+      setPackages([])
+      return
+    }
+    const reg = new RegExp(searchValue, 'i')
+    const data = npms.filter(v => reg.test(v.name))
+    console.log('server data', data)
+    setPackages(data)
+  }, [searchValue])
 
   // 控制提交
   useEffect(() => {
+    getPackages().then(data => {
+      console.log('data', data)
+      if (data.objects) {
+        setNpms(data.objects.map((v: any) => v.package))
+      }
+    })
+
+    // 初始化请求得到商场数据
     window.yarn.onAddStatus(value => {
       if (value == 0) {
         notification('add 失败', 'error')
@@ -148,71 +201,70 @@ export default function Expansions() {
   }
 
   return (
-    <section className="flex flex-col flex-1 shadow-md">
-      <div className="flex flex-1">
-        <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
-          {select == '' && <Init />}
-          {select == 'shoping' && packageInfo && (
-            <PackageInfo onClickUpdate={onClickUpdate} packageInfo={packageInfo} />
-          )}
-          {select == '关联' && <LinkFrom />}
-          {select == '添加' && <AddFrom />}
-          {select == '仓库' && <GithubFrom />}
-        </div>
-        <nav className="w-72 xl:w-80 border-l flex gap-1 flex-col p-2">
-          <div className=" flex justify-between">
-            <div className="">扩展列表</div>
-            <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
-              <div onClick={onClickRefresh} className=" cursor-pointer">
-                <RefreshIcon width={18} height={18} />
-              </div>
-              <Dropdown
-                Icon={<MenuMoreIcon width={18} height={18} />}
-                options={['仓库', '关联', '添加']}
-                onChangeOption={onChangeOption}
-              />
+    <section className="flex flex-row flex-1 h-full shadow-md">
+      <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
+        {select == '' && <Init />}
+        {select == 'shoping' && packageInfo && (
+          <PackageInfo onClickUpdate={onClickUpdate} packageInfo={packageInfo} />
+        )}
+        {select == '关联' && <LinkFrom />}
+        {select == '添加' && <AddFrom />}
+        {select == '仓库' && <GithubFrom />}
+      </div>
+      <nav className="flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
+        <div className="flex justify-between">
+          <div className="">扩展列表</div>
+          <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
+            <div onClick={onClickRefresh} className=" cursor-pointer">
+              <RefreshIcon width={18} height={18} />
             </div>
-          </div>
-          {/* <div className="">
-            <input
-              placeholder="在应用商店中搜索扩展"
-              className="w-full px-2 py-1 text-[0.7rem] rounded-sm"
+            <Dropdown
+              Icon={<MenuMoreIcon width={18} height={18} />}
+              options={['仓库', '关联', '添加']}
+              onChangeOption={onChangeOption}
             />
-          </div> */}
-          <div className="flex-1 flex flex-col gap-1">
-            {expansions.package.map(item => (
-              <div
-                key={item.name}
-                onClick={() => handlePackageClick(item.name)}
-                className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center duration-700 transition-all  hover:bg-gray-100"
-              >
-                <div className="size-10 rounded-sm">
-                  <img
-                    src={logoURL}
-                    alt={`${item.name} logo`}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col">
-                  <div className="">{item.name}</div>
-                  <div className="text-[0.6rem]">{item.description}</div>
-                </div>
-                <div className="absolute  bottom-1 right-1 text-[0.6rem]">
-                  <Dropdown
-                    Icon={<SettingIcon width={18} height={18} />}
-                    options={['卸载', '禁用']}
-                    onChangeOption={value => {
-                      if (value == '卸载') {
-                        headleDelete(item)
+          </div>
+        </div>
+        <div className="">
+          <input
+            value={searchValue}
+            onChange={e => setSearchValue(e.target.value)}
+            placeholder="在应用商店中搜索扩展"
+            className="w-full px-2 py-1 text-[0.7rem] rounded-sm"
+          />
+        </div>
+        <div className="flex-1">
+          <div className="flex flex-col gap-1 scrollbar overflow-auto h-[calc(100vh-6.5rem)]">
+            {packages.length > 0
+              ? packages.map(item => (
+                  <ExpansionsCard
+                    item={item}
+                    key={item.name}
+                    handlePackageClick={handlePackageClick}
+                    options={['安装']}
+                    onChangeOption={name => {
+                      if (name === '安装') {
+                        // yarn add packageName
                       }
                     }}
                   />
-                </div>
-              </div>
-            ))}
+                ))
+              : expansions.package.map(item => (
+                  <ExpansionsCard
+                    item={item}
+                    key={item.name}
+                    handlePackageClick={handlePackageClick}
+                    options={['卸载', '禁用', '恢复']}
+                    onChangeOption={name => {
+                      if (name === '卸载') headleDelete(name)
+                      if (name === '禁用') headleDisable(name)
+                      if (name === '恢复') headleRestore(name)
+                    }}
+                  />
+                ))}
           </div>
-        </nav>
-      </div>
+        </div>
+      </nav>
     </section>
   )
 }
