@@ -1,13 +1,13 @@
 import { join } from 'path'
 import fs from 'fs'
 import { createRequire } from 'module'
-import { actions, desktops, modules, views } from './storage.js'
-import { Actions } from './actions.js'
-import { webView } from './webview.js'
+import { storage } from './storage.js'
 import { context } from './context.js'
+import { Actions, webView } from './context-pro.js'
 const require = createRequire(import.meta.url)
 const nodeModulesDir = join(process.cwd(), 'node_modules')
 const pkgModulesDir = join(process.cwd(), 'packages')
+const cacheDir = join(nodeModulesDir, '.alemonjs')
 
 /**
  * @param name
@@ -18,7 +18,18 @@ export const addModules = (name: string, callback?: Function) => {
   try {
     const pkg = require(`${name}/package`)
     if (!pkg) return
-    modules.push(pkg)
+
+    // 如果已经存在，就删除
+    storage.has(pkg.name) && storage.delete(pkg.name)
+
+    // 添加到 storage 中
+    storage.set(pkg.name, {
+      package: pkg,
+      desktop: null,
+      action: null,
+      view: null
+    })
+
     const createDesktop = async () => {
       if (!pkg.exports) return
       // 如果没有 desktop 模块，直接返回。
@@ -31,34 +42,25 @@ export const addModules = (name: string, callback?: Function) => {
       try {
         const desktop = await import(`${name}/desktop`)
         const _name = pkg.name
-        // 模块名称
-        desktops.push({
-          // 模块名称
-          name: _name,
-          // 模块描述
-          value: desktop
-        })
-        // 传入上下文
-        context._name = _name
+        const _pkg = storage.get(_name)
+        if (!_pkg) return
+        _pkg.desktop = desktop
         // 创建 webview
         context.createSidebarWebView = context => {
-          const _name = context._name
-          const view = new webView(_name)
+          const view = new webView(context, _name)
           // 注册webview
-          views.push({
-            name: _name,
-            value: view
-          })
+          const _pkg = storage.get(_name)
+          if (!_pkg) return view
+          _pkg.view = view
           return view
         }
+        // 创建 action
         context.createAction = context => {
-          const _name = context._name
-          const action = new Actions(_name)
+          const action = new Actions(context, _name)
           // 注册行为
-          actions.push({
-            name: _name,
-            value: action
-          })
+          const _pkg = storage.get(_name)
+          if (!_pkg) return action
+          _pkg.action = action
           return action
         }
         if (desktop.activate) await desktop.activate(context)
@@ -80,14 +82,14 @@ export const addModules = (name: string, callback?: Function) => {
  */
 export const updateModules = () => {
   if (!fs.existsSync(nodeModulesDir)) return
-  const initapps: string[] = []
+  const _apps: string[] = []
   // 正则条件
   const reg = /^alemonjs-/
   const nodeModules = fs.readdirSync(nodeModulesDir).filter(name => reg.test(name))
   for (const name of nodeModules) {
     const stat = fs.statSync(join(nodeModulesDir, name))
     if (stat.isDirectory()) {
-      initapps.push(name)
+      _apps.push(name)
     }
   }
   const mentionModuleDir = join(nodeModulesDir, '@alemonjs')
@@ -95,39 +97,49 @@ export const updateModules = () => {
   for (const name of mentionModules) {
     const stat = fs.statSync(join(mentionModuleDir, name))
     if (stat.isDirectory()) {
-      initapps.push(`@alemonjs/${name}`)
+      _apps.push(`@alemonjs/${name}`)
     }
   }
   // 去重
-  const apps = Array.from(new Set(initapps))
+  const apps = Array.from(new Set(_apps))
   for (const app of apps) {
     addModules(app)
   }
 }
 
-// 可能是pkg模块。
-
 // 删除
 export const delModules = (name: string, callback?: Function) => {
+  // 确保 nodeModulesDir、 pkgModulesDir和cacheDir 都存在时，都删除。
   fs.rmdirSync(join(nodeModulesDir, name), { recursive: true })
+  fs.rmdirSync(join(pkgModulesDir, name), { recursive: true })
+  fs.rmdirSync(join(cacheDir, name), { recursive: true })
   callback && callback()
 }
 
 // 禁用
 export const disableModules = (name: string) => {
-  const dir = join(nodeModulesDir, name)
-  const cacheDir = join(nodeModulesDir, '.alemonjs', name)
+  // 也就是把 可能在 nodeModulesDir 或 在 pkgModulesDir 下的模块，都移动到 cacheDir 下。
+  const _nodeDir = join(nodeModulesDir, name)
+  const _pkgDir = join(pkgModulesDir, name)
+  const _cacheDir = join(cacheDir, name)
   // cp
-  fs.cpSync(dir, cacheDir, { recursive: true })
+  if (fs.existsSync(_nodeDir)) {
+    fs.cpSync(_nodeDir, _cacheDir, { recursive: true })
+  } else if (fs.existsSync(_pkgDir)) {
+    fs.cpSync(_pkgDir, _cacheDir, { recursive: true })
+  }
   // rm
   fs.rmdirSync(join(nodeModulesDir, name), { recursive: true })
+  fs.rmdirSync(join(pkgModulesDir, name), { recursive: true })
 }
 
 // 恢复
 export const cloneModules = (name: string, callback?: Function) => {
-  const dir = join(nodeModulesDir, name)
-  const cacheDir = join(nodeModulesDir, '.alemonjs', name)
+  // 把依赖都放进 pkgModulesDir 目录下
+  const _pkgDir = join(pkgModulesDir, name)
+  const _cacheDir = join(cacheDir, name)
   // cp
-  fs.cpSync(cacheDir, dir, { recursive: true })
+  fs.cpSync(_cacheDir, _pkgDir, { recursive: true })
   callback && callback()
+  // 进行 yarn install 自动安装
 }

@@ -1,8 +1,7 @@
-import { commands, modules, views } from './storage.js'
+import { commands, storage } from './storage.js'
 import { addModules, delModules, disableModules, updateModules } from './modules.js'
 import { cloneRepo } from './git.js'
 import { processSend } from './send.js'
-
 export const events = {
   /**
    * 恢复扩展
@@ -26,7 +25,7 @@ export const events = {
       // 更新模块列表
       processSend({
         type: 'get-expansions',
-        data: modules
+        data: Array.from(storage.values()).map(item => item.package)
       })
     })
   },
@@ -40,7 +39,7 @@ export const events = {
       // 加载完毕后，更新扩展列表
       processSend({
         type: 'get-expansions',
-        data: modules
+        data: Array.from(storage.values()).map(item => item.package)
       })
     })
   },
@@ -48,15 +47,13 @@ export const events = {
    * 主动获取扩展列表
    */
   'get-expansions': () => {
-    // 从未加载过模块
-    if (modules.length === 0) {
-      // 更新模块脚本
+    if (storage.size === 0) {
       updateModules()
     }
     // 更新模块列表
     processSend({
       type: 'get-expansions',
-      data: modules
+      data: Array.from(storage.values()).map(item => item.package)
     })
   },
   // 执行命令
@@ -69,14 +66,14 @@ export const events = {
     }
   },
   'webview-post-message': data => {
-    // 找到对应插件的webview实例。
-    const view = views.find(item => item.name == data.name)
-    if (view) {
-      // 执行回调函数。
-      view.value.__messages.forEach(callback => {
-        callback(data.value)
-      })
-    }
+    if (!storage.has(data.name)) return
+    const pkg = storage.get(data.name)
+    if (!pkg || !pkg.view) return
+    // 执行回调函数。
+    pkg.view.__messages.forEach(callback => {
+      callback(data.value)
+    })
+    //
   },
   'git-clone': (data: string) => {
     cloneRepo(data)

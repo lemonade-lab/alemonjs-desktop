@@ -14,10 +14,27 @@
   },
   "exports": {
     ".": "./lib/index.js",
-    "./package": "./package.json"
+    "./package": "./package.json",
+    "./desktop": "./lib/desktop.js"
   },
   "dependencies": {
     "alemonjs": "^2.0.0-rc.86",
     "simple-git": "3.27.0"
+  },
+  "alemonjs": {
+    "desktop": {
+      "commond": [
+        {
+          "name": "apps",
+          "commond": "open.desktop"
+        }
+      ],
+      "sidebars": [
+        {
+          "name": "apps",
+          "commond": "open.desktop"
+        }
+      ]
+    }
   }
 }
