@@ -6,7 +6,7 @@ export function onBeforeRequest(): void {
   // 注册 "onBeforeRequest" 事件的处理程序
   // session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
   //   const url = details.url
-  //   console.error('details.url', url)
+  //   Logger.error('details.url', url)
   //   if (url.startsWith('resource://')) {
   //     const localPath = url.replace('resource://', '')
   //     // 检查文件是否存在
@@ -26,7 +26,7 @@ export function onBeforeRequest(): void {
   //   callback({ path: filePath })
   // })
   protocol.handle('resource', request => {
-    console.error('request.url ', request.url)
+    // console.error('request.url ', request.url)
     const filePath = request.url.slice('resource://'.length)
     return net.fetch(url.pathToFileURL(filePath.replace(/^-\//, '')).toString())
   })

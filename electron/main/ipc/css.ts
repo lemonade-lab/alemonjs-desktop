@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
 import { readResourcesFileSync } from '../../core/files'
+import Logger from 'electron-log'
 
 /**
  *
@@ -11,6 +12,6 @@ ipcMain.on('css-variables', event => {
     // 发送数据
     event.sender.send('on-css-variables', d)
   } catch (e) {
-    console.error(e)
+    Logger.error(e)
   }
 })

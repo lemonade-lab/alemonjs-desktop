@@ -33,21 +33,7 @@ export const activate = (context: typeof Context.prototype) => {
   // 监听 webview 的消息。
   webView.onMessage(data => {
     try {
-      /**
-          if (value) {
-                    window.desktopAPI.postMessage({
-                      type: 'desktop.open.apps',
-                      data: item.name
-                    })
-                    return
-                  }
-                  window.desktopAPI.postMessage({
-                    type: 'desktop.disable.apps',
-                    data: item.name
-                  })
-       */
       if (data.type == 'desktop.get.apps') {
-        console.log(data)
         let config = getConfigValue()
         if (!config) config = {}
         const d = Array.isArray(config.apps) ? config.apps : []
@@ -57,7 +43,6 @@ export const activate = (context: typeof Context.prototype) => {
           data: d
         })
       } else if (data.type == 'desktop.open.apps') {
-        //
         let config = getConfig()
         const value = config.value
         if (value && Array.isArray(value.apps)) {
@@ -68,7 +53,6 @@ export const activate = (context: typeof Context.prototype) => {
           }
         }
       } else if (data.type == 'desktop.disable.apps') {
-        //
         let config = getConfig()
         const value = config.value
         if (value && Array.isArray(value.apps)) {

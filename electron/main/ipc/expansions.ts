@@ -5,6 +5,7 @@ import {
   expansionsRun,
   expansionsStatus
 } from '../../core/expansions'
+import Logger from 'electron-log'
 
 ipcMain.handle('expansions-status', () => expansionsStatus())
 
@@ -13,7 +14,7 @@ ipcMain.on('expansions-run', (event, data) => {
   try {
     expansionsRun(event.sender, data ?? [])
   } catch (e) {
-    console.error(e)
+    Logger.error(e)
   }
 })
 
@@ -26,6 +27,6 @@ ipcMain.handle('expansions-post-message', (event, data) => {
   try {
     expansionsPostMessage(event.sender, data)
   } catch (e) {
-    console.error(e)
+    Logger.error(e)
   }
 })

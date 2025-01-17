@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, rmdirSync, statSync, unlinkSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { resourcesPath, templatePath } from './static'
+import Logger from 'electron-log'
 /**
  *
  * @param path
@@ -74,7 +75,7 @@ export const rmTemplateDir = (path: string[]) => {
     rmdirSync(dirPath)
     return true
   } catch (e) {
-    console.log(e)
+    Logger.error(e)
     return false
   }
 }

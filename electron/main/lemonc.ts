@@ -3,6 +3,7 @@ import { join } from 'path'
 import os from 'os'
 import { lemoncPath } from '../core/static'
 import { dialog } from 'electron'
+import Logger from 'electron-log'
 
 // 检测写入权限
 const checkWritePermission = (path: string) => {
@@ -21,9 +22,9 @@ export const registerCommand = async () => {
     const batContent = `@echo off\nnode "${lemoncPath}" %*\n`
     if (process.env.USERPROFILE) {
       fs.writeFileSync(join(process.env.USERPROFILE, 'lemonc.bat'), batContent)
-      console.log('lemonc 命令已注册到 Windows 系统。')
+      Logger.log('lemonc 命令已注册到 Windows 系统。')
     } else {
-      console.error('USERPROFILE 环境变量未设置。')
+      Logger.error('USERPROFILE 环境变量未设置。')
     }
   } else {
     // macOS/Linux
@@ -37,10 +38,10 @@ export const registerCommand = async () => {
       })
       if (response.response === 1) {
         // 用户选择继续
-        console.log('用户选择继续并使用 sudo 权限。')
+        Logger.log('用户选择继续并使用 sudo 权限。')
         // 在这里可以添加调用 sudo 提升权限的逻辑
       } else {
-        console.log('用户取消了安装。')
+        Logger.log('用户取消了安装。')
         return
       }
     }
@@ -48,6 +49,6 @@ export const registerCommand = async () => {
     const bashContent = `#!/bin/bash\nnode "${lemoncPath}" "$@"\n`
     fs.writeFileSync(binPath, bashContent)
     fs.chmodSync(binPath, '755') // 赋予执行权限
-    console.log('lemonc 命令已注册到 macOS/Linux 系统。')
+    Logger.log('lemonc 命令已注册到 macOS/Linux 系统。')
   }
 }

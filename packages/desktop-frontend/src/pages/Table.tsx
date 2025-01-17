@@ -56,7 +56,6 @@ export default function Table() {
       // console.log('Form.tsx message', message)
       if (data.type == 'desktop.get.apps') {
         const { data: apps } = data
-        console.log('Form.tsx apps', apps)
         setExpansions(expansions => {
           return {
             ...expansions,

@@ -10,8 +10,6 @@ const About = () => {
 
   const [progress, setProgress] = useState(0)
 
-  const [start, setStart] = useState(false)
-
   useEffect(() => {
     // 确保 window.versions 存在
     if (window.versions) {
@@ -19,15 +17,10 @@ const About = () => {
     }
     window.controller.onDownloadProgress((value: number) => {
       setProgress(value)
-      if (value >= 100) {
-        setStart(false)
-      }
     })
   }, [])
 
   const onClickUpdate = _.throttle(() => {
-    if (start) return
-    setStart(true)
     window.controller.update()
   }, 500)
 

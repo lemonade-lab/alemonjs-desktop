@@ -1,5 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import { isAutoLaunchEnabled, setAutoLaunch } from '../../core/setLoginItemSettings'
+import Logger from 'electron-log'
 
 // 监听最小化、最大化和关闭事件
 ipcMain.on('minimize-window', event => {
@@ -42,7 +43,7 @@ ipcMain.handle('set-auto-launch', (event, enable) => {
     setAutoLaunch(enable)
     return true
   } catch (e) {
-    console.error(e)
+    Logger.error(e)
     return false
   }
 })

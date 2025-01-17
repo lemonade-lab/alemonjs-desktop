@@ -21,9 +21,13 @@ module.exports = {
       {
         target: 'dmg',
         arch: ['x64', 'arm64']
+      },
+      {
+        target: '7z',
+        arch: ['x64', 'arm64']
       }
     ],
-    artifactName: '${productName}-${version}-${arch}.${ext}'
+    artifactName: '${productName}-${version}-${os}-${arch}.${ext}'
   },
   linux: {
     icon: './icons/512x512.png',
@@ -35,10 +39,14 @@ module.exports = {
       {
         target: 'deb',
         arch: ['x64', 'arm64']
+      },
+      {
+        target: '7z',
+        arch: ['x64', 'arm64']
       }
     ],
     category: 'Utility',
-    artifactName: '${productName}-${version}-${arch}.${ext}'
+    artifactName: '${productName}-${version}-${os}-${arch}.${ext}'
   },
   win: {
     icon: './icons/icon.ico',
@@ -52,7 +60,7 @@ module.exports = {
         arch: ['x64', 'arm64']
       }
     ],
-    artifactName: '${productName}-${version}-${arch}.${ext}'
+    artifactName: '${productName}-${version}-${os}-${arch}.${ext}'
   },
   nsis: {
     oneClick: false, // 是否一键安装

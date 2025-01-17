@@ -3,6 +3,7 @@ import { autoUpdater } from 'electron-updater'
 import Store from 'electron-store'
 import { debounce } from 'lodash'
 import { promisify } from 'util'
+import logger from 'electron-log'
 
 /**
  * @description 检查更新脚本
@@ -47,19 +48,19 @@ export async function autoUpdateApp(mainWindow: BrowserWindow, t = false) {
   if (!mainWindow) return
   if (mainWindow.isDestroyed()) return
 
-  // 等待 3 秒再检查更新，确保窗口准备完成，用户进入系统
-  if (!t) await sleep(3000)
+  // 等待 60 秒再检查更新，确保窗口准备完成，用户进入系统
+  if (!t) await sleep(1000 * 60)
 
   if (isDownloading) {
     showMessage(mainWindow, '正在后台下载中')
     return
   }
 
-  showMessage(mainWindow, '开始检查更新...')
-
   // 每次启动自动更新检查更新版本
   autoUpdater.checkForUpdates()
-  autoUpdater.logger = console
+
+  //
+  autoUpdater.logger = logger
   autoUpdater.disableWebInstaller = false
 
   // 这个写成 false，写成 true 时，可能会报没权限更新
@@ -92,13 +93,15 @@ export async function autoUpdateApp(mainWindow: BrowserWindow, t = false) {
   })
 
   autoUpdater.on('error', error => {
-    // console.error(['检查更新失败', error]);
+    if (t) showMessage(mainWindow, '检查更新失败')
+    logger.error('检查更新失败', error)
     isDownloading = false // 发生错误，重置状态
   })
 
   // 在更新下载完成的时候触发。
   autoUpdater.on('update-downloaded', info => {
     // 下载完成之后，弹出对话框提示用户是否立即安装更新
+    logger.log('下载完成', info)
     // mainWindow.webContents.send('update-downloaded', info);
 
     // 下载完成，重置状态
@@ -112,7 +115,7 @@ export async function autoUpdateApp(mainWindow: BrowserWindow, t = false) {
 
     // 如果当前下载的版本就是设置的跳过的版本，那么就不提示用户安装
 
-    if (!t && version === skippedVersion) return
+    if (!t && version == skippedVersion) return
 
     // dialog 想要使用，必须在 BrowserWindow 创建之后
     dialog

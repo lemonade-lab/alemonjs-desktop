@@ -6,6 +6,7 @@ import { createTray } from '../core/tray'
 import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
+import { autoUpdateApp } from '../core/update'
 
 // 获取屏幕尺寸
 const getScreenSize = (): Electron.Size => {
@@ -133,6 +134,8 @@ app.whenReady().then(() => {
         initWindow()
       }
     })
+
+    win && autoUpdateApp(win)
   })
 })
 

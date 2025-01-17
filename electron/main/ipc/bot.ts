@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
 import { botClose, botRun, botStatus } from '../../core/bot'
+import Logger from 'electron-log'
 
 // bot 状态
 ipcMain.handle('bot-status', () => botStatus())
@@ -9,7 +10,7 @@ ipcMain.on('bot-run', (event, data) => {
   try {
     botRun(event.sender, data ?? [])
   } catch (e) {
-    console.error(e)
+    Logger.error(e)
   }
 })
 
