@@ -83,7 +83,7 @@ export default function BotLog() {
           )}
         </div>
       </div>
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
         <div ref={terminalRef} className="flex p-4 flex-col bg-[#002b36] h-[calc(100vh-3.8rem)]" />
       </div>
     </section>

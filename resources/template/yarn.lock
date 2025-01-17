@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alemonjs/db@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.npmmirror.com/@alemonjs/db/-/db-0.0.1.tgz#b5eeeed46335e91bb642796dcba2b526a35c9704"
-  integrity sha512-vZJF4gUF6dDGwFbkiURHqJWfTWzK6pPJDTh2hj6G47w/yDo8ZEgfeDC9Nk4YU/f4P+3wkGPObzhXRqxvcFJDdA==
+"@alemonjs/db@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.npmmirror.com/@alemonjs/db/-/db-0.0.2.tgz#e9d8364297a2dc72379dc7086bb97918486d31c4"
+  integrity sha512-dXsCHfkxoh2jMFrxgSXFgVh5qLHKR6dstvdxx+2fl2MYqnk//zeSo+Ht8vrNuzLEBOMkGLS6AuMGlACc0qaQ0g==
   dependencies:
     dayjs "^1.11.13"
     ioredis "^5.4.1"
@@ -35,10 +35,10 @@
   resolved "https://registry.npmmirror.com/@alemonjs/kook/-/kook-0.2.5.tgz#ab00ad23f757ef2ac6fcc5424b08e835203b525d"
   integrity sha512-+csEota7HikdURPzVZg0Al61YcJSNSNg7hy+TilBdjXOgG6y8qEUkEEx5iMv3Syc/i79ZUd/aiJDrjM2wMS64w==
 
-"@alemonjs/qq-bot@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.npmmirror.com/@alemonjs/qq-bot/-/qq-bot-0.0.10.tgz#2278e2f42612c39f2b9a9b1cc337a0a6c86ed2b8"
-  integrity sha512-fYLM45zJDy96o744wI6QoYwpr9QEp+JgglQyVrKHu2gGhNKMreyear5MhcmUpIx4MBIv62rAUBE3CRMMfLc6OQ==
+"@alemonjs/qq-bot@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.npmmirror.com/@alemonjs/qq-bot/-/qq-bot-0.0.11.tgz#f807ec8e9671c0dffa7e9242c3025764e4ec3994"
+  integrity sha512-HuoJguSL5/JK4Y63Ou1D9CFGSMAA3u0cX9r8Rc2g09OoomV81Wd5iOWihtZ5QOLAF62H2P9Z93m8eaMumU97Xw==
   dependencies:
     "@noble/curves" "^1.7.0"
     axios "^1.4.0"

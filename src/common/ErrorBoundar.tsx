@@ -1,4 +1,32 @@
 import { useState, useEffect, PropsWithChildren } from 'react'
+import Header from './Header'
+
+const Error = () => {
+  return (
+    <div className="h-screen flex flex-col">
+      <Header />
+      <div className="flex flex-1 justify-center items-center">
+        <div>
+          <h1 className="text-4xl font-bold text-red-500">Error</h1>
+          <p> 发生严重的界面崩溃。。。</p>
+          <p> 请使用Ctrl+R强制刷新界面</p>
+          <p>
+            或者点击
+            <span
+              className="text-blue-500 cursor-pointer"
+              onClick={() => {
+                // 去到首页
+                window.location.href = '/'
+              }}
+            >
+              回到初始界面
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const ErrorBoundary = ({ children }: PropsWithChildren) => {
   const [hasError, setHasError] = useState(false)
@@ -11,6 +39,7 @@ const ErrorBoundary = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const errorHandler = (event: ErrorEvent) => {
       handleError(event.error)
+      // 向 开发者 错误收集平台 留存错误信息
     }
 
     window.addEventListener('error', errorHandler)
@@ -21,7 +50,7 @@ const ErrorBoundary = ({ children }: PropsWithChildren) => {
   }, [])
 
   if (hasError) {
-    return <h1>发生错误，请稍后再试。 请使用Ctrl+R刷新界面 </h1>
+    return <Error />
   }
 
   return children

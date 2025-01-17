@@ -43,7 +43,7 @@ export default (function App() {
     },
     {
       Icon: <FireworksIcon width="20" height="20" />,
-      path: '/config-edit',
+      path: '/webviews',
       onClick: path => navigate(path)
     },
     {

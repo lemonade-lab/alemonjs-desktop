@@ -16,6 +16,8 @@ export default function Form() {
     // 监听消息
     API.onMessage(data => {
       if (data.type === 'desktop.init') {
+        if (!data.data) return
+        if (!data.data.apps) return
         setFormData({
           apps: data.data.apps.join('.')
         })

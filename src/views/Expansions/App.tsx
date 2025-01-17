@@ -10,52 +10,13 @@ import { Init } from './Component'
 import { MenuMoreIcon, RefreshIcon, SettingIcon } from '@src/common/Icons'
 // import { useModal } from '@src/hook/useModal'
 import { fetchPackageInfo, getPackages } from './api'
+import ExpansionsCard from './ExpansionsCard'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
 const LinkFrom = lazy(() => import('./FromLink'))
 const AddFrom = lazy(() => import('./FromAdd'))
 const GithubFrom = lazy(() => import('./FromGit'))
-
-const ExpansionsCard = ({
-  item,
-  handlePackageClick,
-  onChangeOption,
-  options
-}: {
-  item: any
-  handlePackageClick: (name: string) => void
-  onChangeOption: (name: string) => void
-  options?: string[]
-}) => {
-  return (
-    <div
-      onClick={() => handlePackageClick(item.name)}
-      className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center duration-700 transition-all  hover:bg-gray-100"
-    >
-      <div className="size-10 rounded-sm">
-        <img
-          src={logoURL}
-          alt={`${item.name} logo`}
-          className="w-full h-full object-cover rounded-lg"
-        />
-      </div>
-      <div className="flex flex-1 flex-col">
-        <div className="">{item.name}</div>
-        <div className="text-[0.6rem]">{item.description}</div>
-      </div>
-      <div className="absolute  bottom-1 right-1 text-[0.6rem]">
-        <Dropdown
-          Icon={<SettingIcon width={18} height={18} />}
-          options={options ?? []}
-          onChangeOption={value => {
-            onChangeOption(value)
-          }}
-        />
-      </div>
-    </div>
-  )
-}
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -201,14 +162,14 @@ export default function Expansions() {
   }
 
   return (
-    <section className="flex flex-row flex-1 h-full shadow-md">
+    <section className="animate__animated animate__fadeIn flex flex-row flex-1 h-full shadow-md">
       <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
         {select == '' && <Init />}
         {select == 'shoping' && packageInfo && (
           <PackageInfo onClickUpdate={onClickUpdate} packageInfo={packageInfo} />
         )}
         {select == '关联' && <LinkFrom />}
-        {select == '添加' && <AddFrom />}
+        {select == '模块' && <AddFrom />}
         {select == '仓库' && <GithubFrom />}
       </div>
       <nav className="flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
@@ -220,7 +181,7 @@ export default function Expansions() {
             </div>
             <Dropdown
               Icon={<MenuMoreIcon width={18} height={18} />}
-              options={['仓库', '关联', '添加']}
+              options={['仓库', '关联', '模块']}
               onChangeOption={onChangeOption}
             />
           </div>

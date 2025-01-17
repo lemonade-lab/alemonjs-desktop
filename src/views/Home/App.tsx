@@ -11,7 +11,7 @@ export default () => {
           <button
             type="button"
             onClick={() => {
-              navigate('/config-edit')
+              navigate('/webviews')
             }}
             className="px-4 py-1 border border-[var(--secondary-bg)] text-[var(--secondary-bg)] rounded-full flex items-center gap-4"
           >

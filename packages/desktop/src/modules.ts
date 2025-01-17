@@ -102,6 +102,8 @@ export const updateModules = () => {
   }
   // 去重
   const apps = Array.from(new Set(_apps))
+    .filter(name => typeof name == 'string')
+    .filter(name => name.length > 0)
   for (const app of apps) {
     addModules(app)
   }

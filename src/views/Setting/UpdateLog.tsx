@@ -1,7 +1,12 @@
 const data = [
   {
     version: '0.0.16',
-    log: ['扩展搜索功能', '修复扩展列表未显示滚动条', 'Apps更改为表格+开关']
+    log: [
+      '扩展搜索功能',
+      '修复扩展列表未显示滚动条',
+      'Apps更改为表格+开关',
+      '支持简单的command框效果'
+    ]
   },
   {
     version: '0.0.15',
@@ -60,7 +65,7 @@ const data = [
 
 const UpdateLog = () => {
   return (
-    <div className="animate__animated animate__fadeIn flex-1 flex-col flex justify-center items-center">
+    <div className="flex-1 animate__animated animate__fadeIn flex-col flex justify-center items-center">
       <div className="flex-1 p-1">
         <div className="flex  flex-col flex-1 overflow-auto h-[calc(100vh-2.4rem)] scrollbar gap-6 px-6 py-4 rounded-lg shadow-inner bg-[var(--secondary-bg-front)] ">
           {data.map((item, index) => (

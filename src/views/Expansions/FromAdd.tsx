@@ -34,10 +34,10 @@ export default function From() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (submit) return
-    if (!/^(alemonjs-|@alemonjs)/.test(fromNameValue)) {
-      notification('alemonjs 扩展必须以 alemonjs- 或 @alemonjs/ 开头', 'warning')
-      return
-    }
+    // if (!/^(alemonjs-|@alemonjs)/.test(fromNameValue)) {
+    //   notification('alemonjs 扩展必须以 alemonjs- 或 @alemonjs/ 开头', 'warning')
+    //   return
+    // }
     if (!fromNameValue || fromNameValue == '') return
     window.yarn.add(fromNameValue)
     setSubmit(true)
@@ -45,19 +45,18 @@ export default function From() {
   return (
     <div className="flex flex-1 items-center justify-center ">
       <div className="p-8 rounded-lg bg-[var(--secondary-bg-front)] shadow-inner w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">下载扩展</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">下载模块</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm py-1 font-medium text-gray-700">
-              点击了解
+              下载非alemonjs相关模块，可了解
               <span
                 className="cursor-pointer text-blue-600"
                 onClick={() => {
                   window.open('https://www.npmjs.com/search?q=alemonjs')
-                  window.open('https://alemonjs.com/docs/apps')
                 }}
               >
-                更多扩展
+                npmjs.com
               </span>
             </label>
             <input

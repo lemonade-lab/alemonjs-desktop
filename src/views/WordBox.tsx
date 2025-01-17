@@ -1,4 +1,5 @@
 import { CloseIcon, Pause, Play } from '@src/common/Icons'
+import useGoNavigate from '@src/hook/navigate'
 import { RootState } from '@src/store'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -35,6 +36,8 @@ export default function WordBox() {
     }
   }, [])
 
+  const navigate = useGoNavigate()
+
   useEffect(() => {
     const commondItem =
       expansions.package?.flatMap((item: any) => {
@@ -69,10 +72,22 @@ export default function WordBox() {
                 <div
                   key={index}
                   onClick={() => {
-                    // 可以任意输入。
-                    //
-                    // setInputValue(item.commond)
-                    // setIsDropdownOpen(false)
+                    // 如果已经在当前的路由
+                    if (window.location.pathname === '/webviews') {
+                      window.expansions.postMessage({
+                        type: 'command',
+                        data: item.commond
+                      })
+                      return
+                    } else {
+                      navigate('/webviews', {
+                        state: {
+                          expansions_name: item.expansions_name,
+                          name: item.name,
+                          commond: item.commond
+                        }
+                      })
+                    }
                   }}
                   className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
                 >

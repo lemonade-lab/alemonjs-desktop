@@ -26,7 +26,7 @@ export default function ConfigCode() {
             <div
               className="px-1 bg-slate-50 rounded-full border cursor-pointer"
               onClick={() => {
-                navigate('/config-edit')
+                navigate('/webviews')
               }}
             >
               CODE

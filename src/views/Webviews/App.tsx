@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCommand } from '@src/store/command'
+import { useLocation } from 'react-router-dom'
 
 interface Sidebar {
   expansions_name: string
@@ -14,6 +15,8 @@ const createTextHtmlURL = (html: string) =>
   `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
 
 export default function ConfigEdit() {
+  const location = useLocation()
+
   const command = useSelector((state: RootState) => state.command)
   const app = useSelector((state: RootState) => state.app)
   const dispatch = useDispatch()
@@ -23,6 +26,24 @@ export default function ConfigEdit() {
   const [viewSidebars, setViewSidebars] = useState<Sidebar[]>([])
 
   const key2 = 'webview-sidebar-load'
+
+  const handleSidebarClick = useCallback(
+    (viewItem: Sidebar) => {
+      dispatch(setCommand(viewItem.commond))
+      window.expansions.postMessage({
+        type: 'command',
+        data: viewItem.commond
+      })
+    },
+    [dispatch]
+  )
+
+  useEffect(() => {
+    console.log('ConfigEdit useEffect', location.state)
+    if (location.state?.commond) {
+      handleSidebarClick(location.state)
+    }
+  }, [])
 
   useEffect(() => {
     const sidebarsItem =
@@ -67,17 +88,6 @@ export default function ConfigEdit() {
       }
     }
   }, [view])
-
-  const handleSidebarClick = useCallback(
-    (viewItem: Sidebar) => {
-      dispatch(setCommand(viewItem.commond))
-      window.expansions.postMessage({
-        type: 'command',
-        data: viewItem.commond
-      })
-    },
-    [dispatch]
-  )
 
   return (
     <section className="animate__animated animate__fadeIn flex flex-col flex-1 shadow-md">
