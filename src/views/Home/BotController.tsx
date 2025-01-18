@@ -4,10 +4,18 @@ import useGoNavigate from '@src/hook/navigate'
  * @description 机器人控制器
  */
 export default (function BotController() {
-  // 路由跳转
   const navigate = useGoNavigate()
-  const { onClickStart, onClickClose, onClickYarnInstall, bot, modules, state, platforms } =
-    useBotController()
+  const {
+    // 事件
+    onClickStart,
+    onClickClose,
+    onClickYarnInstall,
+    // 状态
+    bot,
+    modules,
+    state,
+    platforms
+  } = useBotController()
   const [platform, setPlatform] = state
   return (
     <section className=" bg-[var(--primary-bg-front)] w-[17rem] rounded-xl shadow-content p-2 ">

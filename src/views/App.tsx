@@ -139,6 +139,7 @@ export default (function App() {
           dispatch(setCommand(data.data))
           return
         } else if (data.type === 'get-expansions') {
+          console.log('get-expansions', data.data)
           dispatch(initPackage(data.data))
         }
       } catch {
@@ -186,6 +187,7 @@ export default (function App() {
     console.log('App.tsx useEffect expansions.runStatus', expansions.runStatus)
     // 运行的时候才会获取扩展器
     if (expansions.runStatus) {
+      console.log('获取扩展器')
       window.expansions.postMessage({ type: 'get-expansions' })
     }
   }, [expansions.runStatus])

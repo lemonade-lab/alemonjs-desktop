@@ -20,6 +20,8 @@ const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 
+let isAppQuitFromDock = false // 用于标识是否是从程序坞退出
+
 /**
  * 创建窗口
  */
@@ -105,6 +107,28 @@ const initWindow = () => {
     win = null
   })
 
+  // 禁止窗口关闭，改为隐藏
+  win.on('close', event => {
+    if (isAppQuitFromDock) {
+      // 关闭
+      app.exit()
+      return
+    }
+    if (process.platform == 'darwin') {
+      // 隐藏了 还触发，就是关闭行为
+      if (win && win.isVisible()) {
+        event.preventDefault() // 阻止默认的关闭行为
+        win.hide() // 隐藏窗口
+      } else {
+        // 关闭
+        app.exit()
+      }
+    } else {
+      // 关闭
+      app.exit()
+    }
+  })
+
   // 仅手动检查更新
   // autoUpdateApp(win)
 }
@@ -123,16 +147,15 @@ app.whenReady().then(() => {
     const tray = createTray()
     // 监听点击托盘的事件
     tray.on('click', () => {
-      const allWindows = BrowserWindow.getAllWindows()
-      if (allWindows.length) {
-        const win = allWindows[0]
-        if (win.isDestroyed()) return
-        if (win.isMinimized()) win.restore()
-        win.focus()
-      } else {
-        // 初始化窗口
-        initWindow()
-      }
+      if (!win) return
+      // 窗口被销毁了
+      if (win.isDestroyed()) return
+      // 最小就得恢复正常
+      if (win.isMinimized()) win.restore()
+      // 隐藏中得显示
+      if (!win.isVisible()) win.show()
+      // 聚焦
+      win.focus()
     })
 
     win && autoUpdateApp(win)
@@ -148,24 +171,30 @@ app.on('window-all-closed', () => {
 
 // 防止应用程序的多个实例
 app.on('second-instance', () => {
-  if (win) {
-    if (win.isDestroyed()) return
-    // 如果用户尝试打开另一个窗口，则聚焦于主窗口
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  }
+  if (!win) return
+  // 窗口被销毁了
+  if (win.isDestroyed()) return
+  // 如果用户尝试打开另一个窗口，则聚焦于主窗口
+  if (win.isMinimized()) win.restore()
+  // 聚焦
+  win.focus()
+})
+
+// 监听程序坞退出事件
+app.on('before-quit', () => {
+  // 程序即将退出，标记为从程序坞退出
+  isAppQuitFromDock = true
 })
 
 // 如果用户单击应用程序的停靠栏图标，则恢复主窗口
 app.on('activate', () => {
-  const allWindows = BrowserWindow.getAllWindows()
-  if (allWindows.length) {
-    const win = allWindows[0]
-    if (win.isDestroyed()) return
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  } else {
-    // 初始化窗口
-    initWindow()
-  }
+  if (!win) return
+  // 窗口被销毁了
+  if (win.isDestroyed()) return
+  // 最小就得恢复正常
+  if (win.isMinimized()) win.restore()
+  // 隐藏中得显示
+  if (!win.isVisible()) win.show()
+  // 聚焦
+  win.focus()
 })

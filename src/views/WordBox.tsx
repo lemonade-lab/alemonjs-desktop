@@ -1,5 +1,6 @@
 import { CloseIcon, Pause, Play } from '@src/common/Icons'
 import useGoNavigate from '@src/hook/navigate'
+import useNetworkSpeed from '@src/hook/useNetworkSpeed'
 import { RootState } from '@src/store'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -51,107 +52,117 @@ export default function WordBox() {
     setCommond(commondItem)
   }, [expansions.package])
 
+  const { networkSpeed, connectionType } = useNetworkSpeed()
+
   return (
-    <div className="flex-1 flex justify-between items-center">
-      <div className="flex flex-1 gap-2">
-        {isDropdownOpen ? (
-          <div
-            ref={dropdownRef}
-            className=" absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--secondary-bg-front)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
-          >
-            <input
-              type="text"
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
-              placeholder="input command ..."
-              className="border rounded-md min-w-72 px-2 py-1"
-              aria-label="Command Input"
-            />
-            <div className="">
-              <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
-                {conmond.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      // 如果已经在当前的路由
-                      if (window.location.pathname === '/webviews') {
-                        window.expansions.postMessage({
-                          type: 'command',
-                          data: item.commond
-                        })
-                      } else {
-                        navigate('/webviews', {
-                          state: {
-                            expansions_name: item.expansions_name,
-                            name: item.name,
-                            commond: item.commond
-                          }
-                        })
-                      }
-                      // 关闭下拉菜单
-                      setIsDropdownOpen(false)
-                    }}
-                    className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
-                  >
-                    <div>{item.name}</div>
-                    <div className="text-slate-400">{item.commond}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <span
-                onClick={onClose}
-                className="text-[var(--notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
-              >
-                <CloseIcon />
-              </span>
+    <div className="flex-1 flex gap-2 justify-between items-center">
+      {isDropdownOpen ? (
+        <div
+          ref={dropdownRef}
+          className=" absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--secondary-bg-front)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
+        >
+          <input
+            type="text"
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            placeholder="input command ..."
+            className="border rounded-md min-w-72 px-2 py-1"
+            aria-label="Command Input"
+          />
+          <div className="">
+            <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
+              {conmond.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    // 如果已经在当前的路由
+                    if (window.location.pathname === '/webviews') {
+                      window.expansions.postMessage({
+                        type: 'command',
+                        data: item.commond
+                      })
+                    } else {
+                      navigate('/webviews', {
+                        state: {
+                          expansions_name: item.expansions_name,
+                          name: item.name,
+                          commond: item.commond
+                        }
+                      })
+                    }
+                    // 关闭下拉菜单
+                    setIsDropdownOpen(false)
+                  }}
+                  className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
+                >
+                  <div>{item.name}</div>
+                  <div className="text-slate-400">{item.commond}</div>
+                </div>
+              ))}
             </div>
           </div>
-        ) : (
-          <>
-            <div className="drag-area flex-1"></div>
-            <div
-              ref={dropdownRef}
-              className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--primary-bg-front)]"
-              onClick={() => setIsDropdownOpen(prev => !prev)}
-              aria-expanded={isDropdownOpen}
-              role="button"
+          <div className="flex justify-end">
+            <span
+              onClick={onClose}
+              className="text-[var(--notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
             >
-              <span className="">input command</span>
-            </div>
-            <div className=" flex-1 flex items-center">
-              {
-                // 当依赖加载完毕后再显示操作按钮
-              }
-              {modules.nodeModulesStatus && (
-                <div className="cursor-pointer">
-                  {expansions.runStatus ? (
-                    <div
-                      onClick={() => {
-                        console.log('expansions.close()')
-                        window.expansions.close()
-                      }}
-                    >
-                      <Pause width={20} height={20} />
-                    </div>
-                  ) : (
-                    <div
-                      onClick={() => {
-                        console.log('expansions.run([])')
-                        window.expansions.run([])
-                      }}
-                    >
-                      <Play width={20} height={20} />
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="drag-area flex-1"></div>
-            </div>
-          </>
-        )}
-      </div>
+              <CloseIcon />
+            </span>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="text-[0.7rem] drag-area flex-1 flex">
+            {networkSpeed && (
+              <div className="flex gap-1 items-center">
+                <div>{networkSpeed.downlink}</div>
+                <div>MB/s</div>
+                <div>RTT</div>
+                <div>{networkSpeed.rtt}</div>
+                <div>ms</div>
+              </div>
+            )}
+          </div>
+          <div
+            ref={dropdownRef}
+            className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--primary-bg-front)]"
+            onClick={() => setIsDropdownOpen(prev => !prev)}
+            aria-expanded={isDropdownOpen}
+            role="button"
+          >
+            <span className="">input command</span>
+          </div>
+          <div className=" flex-1 flex items-center">
+            {
+              // 当依赖加载完毕后再显示操作按钮
+            }
+            {modules.nodeModulesStatus && (
+              <div className="cursor-pointer">
+                {expansions.runStatus ? (
+                  <div
+                    onClick={() => {
+                      console.log('expansions.close()')
+                      window.expansions.close()
+                    }}
+                  >
+                    <Pause width={20} height={20} />
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      console.log('expansions.run([])')
+                      window.expansions.run([])
+                    }}
+                  >
+                    <Play width={20} height={20} />
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="drag-area flex-1"></div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -27,6 +27,14 @@ img {
   height: 100%;
 }
 
-// .animate__animated.animate__fadeIn {
-//   --animate-duration: 2s;
-// }
+.animate__animated.animate__fadeIn.duration-3000 {
+  --animate-duration: 3s;
+}
+
+.animate__animated.animate__zoomIn.duration-1500 {
+  --animate-duration: 1.5s;
+}
+
+.animate__animated.animate__fadeInRight.duration-500 {
+  --animate-duration: 0.5s;
+}

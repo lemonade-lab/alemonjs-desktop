@@ -2350,10 +2350,10 @@ ajv@^8.0.0, ajv@^8.0.1, ajv@^8.6.3:
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
 
-alemonjs@^2.0.0-rc.86:
-  version "2.0.0-rc.86"
-  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.86.tgz#620e178eb990fa8a7bea0adc2973673ffe41b3f7"
-  integrity sha512-55qLSjpR+EvFVCD3P3F6kK5DZkITUZQOGCjY/7cYKQ3hbmVBeqYnmHDBPyHWuxUtO9gtOAuil/jgrVsLvZUPyQ==
+alemonjs@^2.0.0-rc.87:
+  version "2.0.0-rc.87"
+  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.87.tgz#0933131c85b74fd6beb50176d699830b0573fb79"
+  integrity sha512-IItQjhrVmCw/0bwqD8DLQdV/3bDyTcJqpIcFd7Xn8jPApeSeW0GoJI0aCJsbtRcEO0rJULqntzf02nkCHb0DuA==
   dependencies:
     chalk "^5.3.0"
     log4js "^6.9.1"

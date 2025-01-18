@@ -16,6 +16,8 @@ ipcRenderer.on('open-dev-tools', () => {
 // 刷新页面
 ipcRenderer.on('reload-page', () => {
   window?.location?.reload()
+  // 更改为。发送消息到主进程。
+  // 由主进程来重新创建窗口
 })
 
 // 控制台

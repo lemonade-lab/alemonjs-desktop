@@ -213,7 +213,7 @@ export default function Expansions() {
         {select == '模块' && <AddFrom />}
         {select == '仓库' && <GithubFrom />}
       </div>
-      <nav className="flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
+      <nav className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
         <div className="flex justify-between">
           <div className="">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">

@@ -44,20 +44,30 @@ export const activate = (context: typeof Context.prototype) => {
         })
       } else if (data.type == 'desktop.open.apps') {
         let config = getConfig()
-        const value = config.value
-        if (value && Array.isArray(value.apps)) {
-          const name = data.data
+        let value = config.value
+        if (!value) value = {}
+        const name = data.data
+        if (Array.isArray(value.apps)) {
           if (!value.apps.includes(name)) {
             value.apps.push(name)
             config.saveValue(value)
           }
+        } else {
+          value.apps = [name]
+          config.saveValue(value)
         }
       } else if (data.type == 'desktop.disable.apps') {
         let config = getConfig()
-        const value = config.value
-        if (value && Array.isArray(value.apps)) {
-          const name = data.data
-          value.apps = value.apps.filter((item: string) => item !== name)
+        let value = config.value
+        if (!value) value = {}
+        const name = data.data
+        if (Array.isArray(value.apps)) {
+          if (!value.apps.includes(name)) {
+            value.apps = value.apps.filter((item: string) => item !== name)
+            config.saveValue(value)
+          }
+        } else {
+          value.apps = []
           config.saveValue(value)
         }
       }

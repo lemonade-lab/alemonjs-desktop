@@ -18,7 +18,7 @@
     "./desktop": "./lib/desktop.js"
   },
   "dependencies": {
-    "alemonjs": "^2.0.0-rc.86",
+    "alemonjs": "^2.0.0-rc.87",
     "simple-git": "3.27.0"
   },
   "alemonjs": {

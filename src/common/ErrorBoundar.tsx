@@ -9,7 +9,7 @@ const Error = () => {
         <div>
           <h1 className="text-4xl font-bold text-red-500">Error</h1>
           <p> 发生严重的界面崩溃。。。</p>
-          <p> 请使用Ctrl+R强制刷新界面</p>
+          <p> 请使用退出后重新启动</p>
           <p>
             或者点击
             <span
