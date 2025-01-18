@@ -127,7 +127,6 @@ export const expansionsPostMessage = (
       const __name = data.data.name
       webviewWindows.set(__name, webContents)
     }
-    console.log('data', data)
     child.send(data)
     return true
   }
