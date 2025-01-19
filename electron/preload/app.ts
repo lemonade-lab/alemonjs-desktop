@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('app', {
   // Template files
   rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files'),
   // Read files
-  readFiles: (data: string) => ipcRenderer.invoke('read-files', data)
+  readFiles: (data: string) => ipcRenderer.invoke('read-files', data),
+  downloadFiles: (data: string) => ipcRenderer.send('download-files', data)
 })

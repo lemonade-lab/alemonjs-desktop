@@ -112,6 +112,16 @@ export default (function App() {
       )
     )
 
+    // window.addEventListener('message', event => {
+    //   if (event.data === 'zoom-in') {
+    //     console.log('zoom-in')
+    //     // ipcRenderer.send('zoom', 1);
+    //   } else if (event.data === 'zoom-out') {
+    //     // ipcRenderer.send('zoom', -1);
+    //     console.log('zoom-out')
+    //   }
+    // })
+
     // 监听 bot 状态
     window.bot.onStatus((value: number) => {
       dispatch(

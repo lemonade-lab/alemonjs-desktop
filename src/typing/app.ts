@@ -12,4 +12,8 @@ export type WindowApp = {
    *
    */
   readFiles: (dir: string) => Promise<string>
+  /**
+   *
+   */
+  downloadFiles: (dir: string) => Promise<void>
 }

@@ -21,7 +21,7 @@ const About = () => {
   }, [])
 
   const onClickUpdate = _.throttle(() => {
-    window.controller.update()
+    window.controller.updateVersion()
   }, 500)
 
   return (
