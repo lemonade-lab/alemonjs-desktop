@@ -17,7 +17,7 @@ export default memo(function Header({ children }: HeaderProps) {
   return (
     <header className="h-[1.6rem] flex justify-between  bg-[var(--alemonjs-primary-bg)] border-b-2  border-white">
       <div className="drag-area flex-1"></div>
-      {children ?? <div></div>}
+      {children ?? <div className="flex-[2]"></div>}
       {window.versions.platform == 'win32' ? (
         <div className="flex-1 flex ">
           <div className="flex-1 drag-area "></div>

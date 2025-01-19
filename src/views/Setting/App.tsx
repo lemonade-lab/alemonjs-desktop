@@ -3,13 +3,20 @@ import classNames from 'classnames'
 import About from './About'
 import UpdateLog from './UpdateLog'
 import Common from './Common'
+import Npmrc from './Npmrc'
+import Theme from './Theme'
 export default function SettingApp() {
   const [view, setView] = useState(0)
   const datas = [
     {
-      name: '关于',
-      value: 'about',
-      com: <About />
+      name: '通用',
+      value: 'common',
+      com: <Common />
+    },
+    {
+      name: '主题',
+      value: 'theme',
+      com: <Theme />
     },
     {
       name: '记录',
@@ -17,9 +24,14 @@ export default function SettingApp() {
       com: <UpdateLog />
     },
     {
-      name: '通用',
-      value: 'common',
-      com: <Common />
+      name: '配置',
+      value: 'npmrc',
+      com: <Npmrc />
+    },
+    {
+      name: '关于',
+      value: 'about',
+      com: <About />
     }
   ]
   return (

@@ -1,5 +1,19 @@
 const data = [
   {
+    version: '0.0.18',
+    log: [
+      '主题调色板',
+      '扩展自动加载主题',
+      '进程文件下载',
+      'lock文件下载',
+      '设置页UI调整',
+      '快捷键说明',
+      '.npmrc配置编辑',
+      'command指令优化',
+      'command位置调整'
+    ]
+  },
+  {
     version: '0.0.17',
     log: [
       '修复所有平台的错误配置',
@@ -30,8 +44,6 @@ const data = [
       '内置可用机器人',
       '应用加载需要手动配置',
       '开机自启开关',
-      '优化扩展稳定主题色',
-      '开放扩展主题色同步API',
       '修复侧边栏激活框未生效',
       '禁止选择界面文本',
       '调整扩展API调用方式'
@@ -78,21 +90,28 @@ const data = [
 
 const UpdateLog = () => {
   return (
-    <div className="flex-1 animate__animated animate__fadeIn flex-col flex justify-center items-center">
-      <div className="flex-1 p-1">
-        <div className="flex  flex-col flex-1 overflow-auto h-[calc(100vh-2.4rem)] scrollbar gap-6 px-6 py-4 rounded-lg shadow-inner bg-[var(--alemonjs-primary-bg)] ">
-          {data.map((item, index) => (
-            <div key={index}>
-              <h2 className="text-2xl font-semibold mb-4">{item.version}</h2>
-              <ul className="list-disc pl-6 space-y-2 ">
-                {item.log.map((log, index) => (
-                  <li key={index} className="text-sm ">
-                    {log}
-                  </li>
-                ))}
-              </ul>
+    <div className="animate__animated animate__fadeIn flex-1 flex-col flex">
+      <div className="flex-col gap-2 flex-1 flex p-6 ">
+        <div className="flex flex-col flex-1  p-6 rounded-lg shadow-inner bg-[var(--alemonjs-primary-bg)]  max-w-full">
+          <div className="text-2xl flex items-center justify-between font-semibold mb-4 border-b">
+            <div>更新记录</div>
+          </div>
+          <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-y-auto scrollba">
+            <div className="flex  flex-col flex-1 overflow-auto h-[calc(100vh-2.4rem)] scrollbar gap-6 py-4 rounded-lg  bg-[var(--alemonjs-primary-bg)] ">
+              {data.map((item, index) => (
+                <div key={index}>
+                  <h2 className="text-2xl font-semibold mb-4">{item.version}</h2>
+                  <ul className="list-disc pl-6 space-y-2 ">
+                    {item.log.map((log, index) => (
+                      <li key={index} className="text-sm ">
+                        {log}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>

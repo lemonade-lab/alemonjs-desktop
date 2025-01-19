@@ -71,20 +71,20 @@ function Terminal() {
   }
 
   return (
-    <section className=" flex flex-col  bg-[var(--alemonjs-secondary-bg)] shadow-md">
-      <div className="animate__animated animate__fadeIn flex flex-col p-1  bg-[#002b36] text-white rounded-t-md border-[#586e75] border-b ">
+    <section className=" flex flex-col  bg-[var(--alemonjs-secondary-bg)] ">
+      <div className="animate__animated animate__fadeIn flex flex-col p-1  bg-[#002b36] text-white  border-[#586e75] border-b ">
         <div className="flex gap-4  justify-between items-center ">
-          <div className=" flex gap-2 items-center  rounded-md">
+          <div className=" flex gap-2 items-center ">
             <div>
               <select
                 defaultValue={platform.name}
-                onChange={e =>
+                className="bg-transparent"
+                onChange={e => {
                   setPlatform({
                     name: e.target.value,
                     value: platforms.find(item => item.name === e.target.value)?.value || ''
                   })
-                }
-                className="bg-transparent"
+                }}
               >
                 {platforms.map((item, index) => (
                   <option key={index}>{item.name}</option>

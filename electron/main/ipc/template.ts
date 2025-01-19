@@ -1,9 +1,10 @@
 import { dialog, ipcMain } from 'electron'
 import { corePath } from '../../core/static'
-import { copyFile, copyFileSync, existsSync, readFileSync, writeFileSync } from 'fs'
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'fs'
 import { rmTemplateDir } from '../../core/files'
 import * as appsPath from '../../core/static'
 import { basename } from 'path'
+import Logger from 'electron-log'
 
 // 得到应用目录
 ipcMain.handle('get-apps-path', () => appsPath)
@@ -19,6 +20,17 @@ ipcMain.handle('read-files', async (event, dir: string) => {
   return readFileSync(dir, 'utf-8')
 })
 
+ipcMain.handle('write-files', async (event, dir: string, data: string) => {
+  try {
+    writeFileSync(dir, data, 'utf-8')
+    return true
+  } catch (e) {
+    Logger.error(e)
+    return false
+  }
+})
+
+// 下载文件
 ipcMain.on('download-files', async (event, dir: string) => {
   const filePath = dir
   try {
@@ -26,8 +38,9 @@ ipcMain.on('download-files', async (event, dir: string) => {
     const { filePath: savePath } = await dialog.showSaveDialog({
       title: '保存文件',
       defaultPath: basename(filePath), // 默认文件名
-      filters: [{ name: 'Text Files', extensions: ['txt', 'lock'] }]
+      filters: [{ name: 'Text Files', extensions: ['txt', 'log', 'lock'] }]
     })
+    if (!savePath || savePath == '') return
     copyFileSync(filePath, savePath)
   } catch (e) {
     console.error(e)

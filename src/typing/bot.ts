@@ -23,4 +23,15 @@ export type WindowBot = {
    * @returns
    */
   onStatus: (callback: (status: number) => void) => void
+  // /**
+  //  *
+  //  * @returns
+  //  */
+  // automatically: () => Promise<boolean>
+  // /**
+  //  * 设置
+  //  * @param status
+  //  * @returns
+  //  */
+  // setAutomatically: (status: boolean) => Promise<void>
 }

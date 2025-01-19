@@ -1,43 +1,51 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
-
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/yaml/yaml'
 import { useNotification } from '@src/context/Notification'
-import useGoNavigate from '@src/hook/navigate'
-export default function ConfigCode() {
-  const navigate = useGoNavigate()
-  const [value, setValue] = useState('')
-
+import { useSelector } from 'react-redux'
+import { RootState } from '@src/store'
+export default function Npmrc() {
+  const app = useSelector((state: RootState) => state.app)
+  const [value, setValue] = useState(``)
   const { notification } = useNotification()
-
   const [initValue, setInitValue] = useState('')
-
-  const onClickSave = () => {
-    //
+  const onClickSave = async () => {
+    const dir = app.templatePath + '/.npmrc'
+    // 保存数据。
+    const T = await window.app.writeFiles(dir, value)
+    if (T) {
+      setInitValue(value)
+    } else {
+      notification('保存失败', 'error')
+    }
   }
+  const initData = async () => {
+    const dir = app.templatePath + '/.npmrc'
+    const data = await window.app.readFiles(dir)
+    console.log('data', data)
+    if (data && data != '') {
+      setValue(data)
+      setInitValue(data)
+    }
+  }
+  useEffect(() => {
+    initData()
+  }, [])
   return (
     <section className="flex-1 flex flex-col bg-[var(--alemonjs-primary-bg)] ">
-      <div className="flex-1 flex flex-col shadow-md rounded-md bg-[var(--alemonjs-secondary-bg)]">
-        <div className="flex justify-between items-center min-h-10 px-2">
+      <div className="flex-1 flex flex-col bg-[var(--alemonjs-secondary-bg)]">
+        <div className="flex justify-between items-center  px-2">
           <div className="flex gap-2">
-            <div className="px-1">运行配置</div>
-            <div
-              className="px-1 bg-slate-50 rounded-full border cursor-pointer"
-              onClick={() => {
-                navigate('/webviews')
-              }}
-            >
-              CODE
-            </div>
+            <div className="px-1 py-1">.npmrc</div>
           </div>
           <div className="flex  gap-4 items-center">
             {value != initValue && (
               <>
                 <button
                   type="button"
-                  className="border py-1 px-2 rounded-md bg-red-500 duration-700 transition-all  hover:bg-red-400"
+                  className="border px-2 rounded-md bg-red-500 duration-700 transition-all  hover:bg-red-400"
                 >
                   <span
                     className="text-white"
@@ -50,7 +58,7 @@ export default function ConfigCode() {
                 </button>
                 <button
                   type="button"
-                  className="border py-1 px-2 rounded-md bg-blue-500 duration-700 transition-all  hover:bg-blue-400"
+                  className="border px-2 rounded-md bg-blue-500 duration-700 transition-all  hover:bg-blue-400"
                 >
                   <span className="text-white" onClick={onClickSave}>
                     保存
@@ -60,10 +68,10 @@ export default function ConfigCode() {
             )}
           </div>
         </div>
-        <div className="flex flex-col h-[calc(100vh-7rem)] overflow-y-auto scrollbar">
+        <div className="flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto scrollbar">
           <CodeMirror
             value={value}
-            className="flex-1 flex flex-col"
+            className="flex-1 flex flex-col "
             options={{
               mode: 'text/x-yaml',
               lineNumbers: true
@@ -73,7 +81,6 @@ export default function ConfigCode() {
             }}
           />
         </div>
-        <div className="flex justify-between items-center min-h-6"></div>
       </div>
     </section>
   )

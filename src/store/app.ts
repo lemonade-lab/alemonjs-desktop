@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface State {
+  [key: string]: string
   resourcesPath: string
   templatePath: string
   nodeModulesPath: string
   corePath: string
+  logMainPath: string
 }
 
 const initialState: State = {
   resourcesPath: '',
   templatePath: '',
   nodeModulesPath: '',
-  corePath: ''
+  corePath: '',
+  logMainPath: ''
 }
 
 const notificationSlice = createSlice({
@@ -19,10 +22,9 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     setPath(state, action: PayloadAction<State>) {
-      state.resourcesPath = action.payload.resourcesPath
-      state.templatePath = action.payload.templatePath
-      state.nodeModulesPath = action.payload.nodeModulesPath
-      state.corePath = action.payload.corePath
+      for (const key in action.payload) {
+        state[key] = action.payload[key]
+      }
     }
   }
 })

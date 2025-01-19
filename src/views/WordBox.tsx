@@ -55,7 +55,7 @@ export default function WordBox() {
   const { networkSpeed, connectionType } = useNetworkSpeed()
 
   return (
-    <div className="flex-1 flex gap-2 justify-between items-center">
+    <div className="flex-[6] flex gap-2 justify-between items-center">
       {isDropdownOpen ? (
         <div
           ref={dropdownRef}
@@ -103,54 +103,58 @@ export default function WordBox() {
         </div>
       ) : (
         <>
-          <div className="text-[0.7rem] drag-area flex-1 flex">
-            {networkSpeed && (
-              <div className="flex gap-1 items-center">
-                <div>{networkSpeed.downlink}</div>
-                <div>MB/s</div>
-                <div>RTT</div>
-                <div>{networkSpeed.rtt}</div>
-                <div>ms</div>
-              </div>
-            )}
+          <div className=" flex-1 flex items-center ">
+            <div className="text-[0.7rem] drag-area flex-1 flex justify-end">
+              {networkSpeed && (
+                <div className="flex gap-1 items-center">
+                  <div>{networkSpeed.downlink}</div>
+                  <div>MB/s</div>
+                  <div>RTT</div>
+                  <div>{networkSpeed.rtt}</div>
+                  <div>ms</div>
+                </div>
+              )}
+            </div>
           </div>
-          <div
-            ref={dropdownRef}
-            className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--alemonjs-secondary-bg)]"
-            onClick={() => setIsDropdownOpen(prev => !prev)}
-            aria-expanded={isDropdownOpen}
-            role="button"
-          >
-            <span className="">input command</span>
+          <div className=" flex-1 flex items-center justify-center">
+            <div
+              ref={dropdownRef}
+              className="w-full relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--alemonjs-secondary-bg)]"
+              onClick={() => setIsDropdownOpen(prev => !prev)}
+              aria-expanded={isDropdownOpen}
+              role="button"
+            >
+              <span className="">input command</span>
+            </div>
           </div>
           <div className=" flex-1 flex items-center">
             {
               // 当依赖加载完毕后再显示操作按钮
             }
-            {modules.nodeModulesStatus && (
-              <div className="cursor-pointer">
-                {expansions.runStatus ? (
-                  <div
-                    onClick={() => {
-                      console.log('expansions.close()')
-                      window.expansions.close()
-                    }}
-                  >
-                    <Pause width={20} height={20} />
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => {
-                      console.log('expansions.run([])')
-                      window.expansions.run([])
-                    }}
-                  >
-                    <Play width={20} height={20} />
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="drag-area flex-1"></div>
+            <div className="flex flex-1">
+              {modules.nodeModulesStatus && (
+                <div className="cursor-pointer">
+                  {expansions.runStatus ? (
+                    <div
+                      onClick={() => {
+                        window.expansions.close()
+                      }}
+                    >
+                      <Pause width={20} height={20} />
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        window.expansions.run([])
+                      }}
+                    >
+                      <Play width={20} height={20} />
+                    </div>
+                  )}
+                </div>
+              )}
+              <div className="drag-area flex-1"></div>
+            </div>
           </div>
         </>
       )}

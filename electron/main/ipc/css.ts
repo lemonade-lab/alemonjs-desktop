@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron'
-import { readResourcesFileSync } from '../../core/files'
+import { readResourcesFileSync, writeResourcesFileSync } from '../../core/files'
 import Logger from 'electron-log'
 
 /**
@@ -14,4 +14,8 @@ ipcMain.on('css-variables', event => {
   } catch (e) {
     Logger.error(e)
   }
+})
+
+ipcMain.on('save-css-variables', (event, data) => {
+  writeResourcesFileSync(['storage', 'them.json'], JSON.stringify(data))
 })

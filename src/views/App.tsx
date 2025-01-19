@@ -23,6 +23,7 @@ export default (function App() {
   const { notification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
+  const bot = useSelector((state: RootState) => state.bot)
 
   const navList: {
     Icon: React.ReactNode
@@ -75,6 +76,7 @@ export default (function App() {
 
     // 立即得到 app 路径
     window.app.getAppsPath().then(res => {
+      console.log('app.getAppsPath', res)
       dispatch(setPath(res))
     })
 
@@ -111,16 +113,6 @@ export default (function App() {
         })
       )
     )
-
-    // window.addEventListener('message', event => {
-    //   if (event.data === 'zoom-in') {
-    //     console.log('zoom-in')
-    //     // ipcRenderer.send('zoom', 1);
-    //   } else if (event.data === 'zoom-out') {
-    //     // ipcRenderer.send('zoom', -1);
-    //     console.log('zoom-out')
-    //   }
-    // })
 
     // 监听 bot 状态
     window.bot.onStatus((value: number) => {
@@ -209,6 +201,21 @@ export default (function App() {
     // 运行的时候才会获取扩展器
     if (expansions.runStatus) {
       window.expansions.postMessage({ type: 'get-expansions' })
+      // if (!bot.runStatus) {
+      //   // 尝试启动机器人
+      //   window.bot.automatically().then(res => {
+      //     if (res) {
+      //       notification('开始运行机器人...')
+      //       const name = ''
+      //       if (/@alemonjs\//.test(name)) {
+      //         const login = name.replace('@alemonjs/', '')
+      //         window.bot.run(['--login', login])
+      //       } else {
+      //         window.bot.run(['--platform', name])
+      //       }
+      //     }
+      //   })
+      // }
     }
   }, [expansions.runStatus])
 
