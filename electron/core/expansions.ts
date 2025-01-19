@@ -4,11 +4,11 @@ import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
 
 /**
- * @description expansions 管理
+ * @description 扩展器管理
  */
 
 /**
- *
+ * 扩展器关闭
  * @returns
  */
 export const expansionsClose = () => {
@@ -19,23 +19,25 @@ export const expansionsClose = () => {
 
 let child: ChildProcess | null = null
 
+// 缓存webview窗口
+// 用来在扩展器中发送消息给对应的webview
+const webviewWindows = new Map<string, Electron.WebContents>()
+
 /**
- *
+ * 扩展器运行
+ * 如果已经运行，则发送消息给渲染进程
  * @returns
  */
 export const expansionsRun = async (webContents: Electron.WebContents, args: string[]) => {
   if (child && child.connected) {
     logger.info('expansions is running')
-
     webContents.send('expansions-status', 1)
     return
   }
-
   if (webContents.isDestroyed()) return
 
   const MyJS = join(templatePath, 'desktop.js')
 
-  //
   child = fork(MyJS, args, {
     cwd: templatePath,
     stdio: 'pipe' // 确保使用管道来捕获输出
@@ -44,7 +46,6 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
     if (webContents.isDestroyed()) return
-
     // 发消息给渲染进程
     webContents.send('on-terminal', data.toString())
     logger.info(`expansions output: ${data.toString()}`)
@@ -53,7 +54,6 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
     if (webContents.isDestroyed()) return
-
     webContents.send('on-terminal', data.toString())
     logger.error(`expansions error: ${data.toString()}`)
   })
@@ -61,41 +61,29 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   // 监听子进程退出
   child.on('exit', code => {
     if (webContents.isDestroyed()) return
-
     // 退出了。
     webContents.send('expansions-status', 0)
     logger.info(`expansions exit ${code}`)
   })
 
+  const map: {
+    [key: string]: string
+  } = {
+    'webview-on-message': 'webview-on-message',
+    'webview-get-expansions': 'webview-on-expansions-message'
+  }
+
   // 监听子进程返回的消息
   child.on('message', (message: any) => {
     if (webContents.isDestroyed()) return
-
     try {
-      if (/^webview/.test(message.type)) {
-        const map: {
-          [key: string]: string
-        } = {
-          'webview-on-message': 'webview-on-message',
-          'webview-get-expansions': 'webview-expansions-message'
-        }
+      if (/^webview/.test(message.type) && map[message.type]) {
         const __name = message.data.name
         // 是 webview的消息 要 发送给对应的 webview
         if (webviewWindows.has(__name)) {
           const content = webviewWindows.get(__name)
           if (!content) return
           content?.send(map[message.type], message.data)
-          return
-        }
-      }
-      if (message.type === 'webview-on-message') {
-      } else if (message.type == 'webview-get-expansions') {
-        const __name = message.data.name
-        // 是 webview的消息 要 发送给对应的 webview
-        if (webviewWindows.has(__name)) {
-          const content = webviewWindows.get(__name)
-          if (!content) return
-          content?.send('webview-expansions-message', message.data)
           return
         }
       } else {
@@ -110,10 +98,17 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   webContents.send('expansions-status', 1)
 }
 
-const webviewWindows = new Map<string, Electron.WebContents>()
+/**
+ * 扩展器状态
+ * @returns
+ */
+export const expansionsStatus = () => {
+  if (child && child.connected) return true
+  return false
+}
 
 /**
- *
+ * 扩展器发送消息
  * @param data
  * @returns
  */
@@ -134,14 +129,8 @@ export const expansionsPostMessage = (
 }
 
 /**
- *
- * @returns
+ * 扩展器关闭
  */
-export const expansionsStatus = () => {
-  if (child && child.connected) return true
-  return false
-}
-
 process.on('exit', () => {
   expansionsClose()
 })

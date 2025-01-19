@@ -17,19 +17,19 @@ export const BottomBar = memo(
   }) => {
     const location = useLocation()
     return (
-      <aside className="flex flex-col justify-between items-center p-1 bg-[var(--secondary-bg-front)]">
+      <aside className="flex flex-col justify-between items-center p-1 bg-[var(--alemonjs-primary-bg)]">
         <div className=" cursor-pointer" onClick={onClickLogo}>
           <PetalIcon width="28" />
         </div>
-        <div className="px-1 py-8 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
+        <div className="px-1 py-8 flex-col bg-white text-[var(--alemonjs-menu-text)] rounded-full flex gap-4">
           {centerList.map((item, index) => (
             <span
               key={item.path}
               className={classNames(
                 'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer',
                 {
-                  'bg-[var(--secondary-bg)] text-white': item.path == location.pathname,
-                  'hover:bg-[var(--secondary-bg-front)]': item.path != location.pathname
+                  'bg-[var(--alemonjs-menu-bg)] text-white': item.path == location.pathname,
+                  'hover:bg-[var(--alemonjs-primary-bg)]': item.path != location.pathname
                 }
               )}
               onClick={() => item.onClick(item.path)}
@@ -39,7 +39,7 @@ export const BottomBar = memo(
             </span>
           ))}
         </div>
-        <div className="p-1 flex-col bg-white text-[var(--secondary-bg)] rounded-full flex gap-4">
+        <div className="p-1 flex-col bg-white text-[var(--alemonjs-menu-text)] rounded-full flex gap-4">
           <span
             className={classNames(
               'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer'

@@ -2,7 +2,6 @@ import './env'
 import './ipc/main'
 import { createShortcut } from '../core/shortcut'
 import { createTray } from '../core/tray'
-// import { autoUpdateApp } from '../core/update'
 import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
@@ -160,13 +159,6 @@ app.whenReady().then(() => {
 
     win && autoUpdateApp(win)
   })
-})
-
-// 当所有窗口都关闭后，退出应用程序
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
 })
 
 // 防止应用程序的多个实例

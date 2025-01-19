@@ -3,7 +3,7 @@ import App from '@src/views/App'
 import Main from '@src/views/MainView'
 import Home from '@src/views/Home/App'
 import Setting from '@src/views/Setting/App'
-import Webviews from '@src/views/Webviews/App'
+import Application from '@src/views/Application/App'
 import BotLog from '@src/views/BotLog/App'
 import Expansions from '@src/views/Expansions/App'
 const router = createBrowserRouter([
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
       { path: '', element: <Main /> },
       { path: 'home', element: <Home /> },
       { path: 'setting', element: <Setting /> },
-      { path: 'webviews', element: <Webviews /> },
+      { path: 'application', element: <Application /> },
       { path: 'bot-log', element: <BotLog /> },
       { path: 'expansions', element: <Expansions /> },
       { path: '*', element: <Main /> }

@@ -18,10 +18,6 @@ contextBridge.exposeInMainWorld('expansions', {
   onStatus: (callback: callback) => {
     ipcRenderer.on('expansions-status', (_event, value) => callback(value))
   },
-  // 监听发来的 command
-  onCommand: (callback: (value: string) => void) => {
-    ipcRenderer.on('expansions-command', (_event, value) => callback(value))
-  },
   // 监听发来的 message
   onMessage: (callback: (value: any) => void) => {
     ipcRenderer.on('expansions-message', (_event, value) => callback(value))

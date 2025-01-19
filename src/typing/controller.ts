@@ -18,7 +18,7 @@ export type WindowController = {
    *  更新
    * @returns
    */
-  update: () => Promise<void>
+  updateVersion: () => Promise<void>
   /**
    *
    * @param callback

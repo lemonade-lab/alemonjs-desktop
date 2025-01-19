@@ -43,10 +43,7 @@ function Terminal() {
   }, [])
 
   useEffect(() => {
-    if (log.rolu == 'del') {
-      return
-    }
-    console.log('发生变动后。补一行？')
+    if (log.rolu == 'del') return
     const value = log.message[log.message.length - 1]
     if (value) {
       terminalInstance.current?.write(value)
@@ -74,7 +71,7 @@ function Terminal() {
   }
 
   return (
-    <section className=" flex flex-col  bg-[var(--primary-bg-front)] shadow-md">
+    <section className=" flex flex-col  bg-[var(--alemonjs-secondary-bg)] shadow-md">
       <div className="animate__animated animate__fadeIn flex flex-col p-1  bg-[#002b36] text-white rounded-t-md border-[#586e75] border-b ">
         <div className="flex gap-4  justify-between items-center ">
           <div className=" flex gap-2 items-center  rounded-md">

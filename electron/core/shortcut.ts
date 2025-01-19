@@ -1,7 +1,9 @@
 import { globalShortcut, webContents } from 'electron'
 
 /**
- * #description 快捷键映射
+ * 当使用快捷键的时候
+ * 向所有渲染进程发送消息
+ * @description 快捷键映射
  */
 
 interface ShortcutMap {
@@ -10,6 +12,7 @@ interface ShortcutMap {
 
 // 自定义快捷键
 const ShortcutMap: ShortcutMap = {
+  // 快捷键 ： 事件名称
   'Ctrl+I': 'open-dev-tools',
   'Ctrl+R': 'reload-page'
 }

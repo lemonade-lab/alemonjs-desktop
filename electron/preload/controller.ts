@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld('controller', {
   /**
    *
    */
-  update: () => {
+  updateVersion: () => {
     ipcRenderer.send('update-version')
   },
   /**
@@ -50,15 +50,5 @@ contextBridge.exposeInMainWorld('controller', {
    */
   onNotification: (callback: (val: any) => void) => {
     ipcRenderer.on('on-notification', (_event, value) => callback(value))
-  }
-})
-
-// 控制
-contextBridge.exposeInMainWorld('theme', {
-  variables: () => {
-    ipcRenderer.send('css-variables')
-  },
-  on: (callback: (val: any) => void) => {
-    ipcRenderer.on('on-css-variables', (_event, value) => callback(value))
   }
 })

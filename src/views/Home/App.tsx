@@ -11,9 +11,9 @@ export default () => {
           <button
             type="button"
             onClick={() => {
-              navigate('/webviews')
+              navigate('/application')
             }}
-            className="px-4 py-1 border border-[var(--secondary-bg)] text-[var(--secondary-bg)] rounded-full flex items-center gap-4"
+            className="px-4 py-1 border border-[var(--alemonjs-menu-bg)] text-[var(--alemonjs-menu-text)] rounded-full flex items-center gap-4"
           >
             <RobotIcon width="20" height="20" />
             <span className="text-sm">扩展</span>

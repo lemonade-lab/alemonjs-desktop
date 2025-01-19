@@ -135,14 +135,12 @@ export default function Expansions() {
     }
     const reg = new RegExp(searchValue, 'i')
     const data = npms.filter(v => reg.test(v.name))
-    console.log('server data', data)
     setPackages(data)
   }, [searchValue])
 
   // 控制提交
   useEffect(() => {
     getPackages().then(data => {
-      console.log('data', data)
       if (data.objects) {
         setNpms(data.objects.map((v: any) => v.package))
       }
@@ -155,7 +153,6 @@ export default function Expansions() {
       } else {
         notification('add 完成')
         if (!packageInfoRef.current) return
-        console.log('packageInfo', packageInfoRef.current)
 
         const __version = packageInfoRef.current['__version']
         packageInfoRef.current['dist-tags'].latest = __version
@@ -204,7 +201,7 @@ export default function Expansions() {
 
   return (
     <section className="animate__animated animate__fadeIn flex flex-row flex-1 h-full shadow-md">
-      <div className="flex flex-col flex-1 bg-[var(--primary-bg-front)]">
+      <div className="flex flex-col flex-1 bg-[var(--alemonjs-secondary-bg)]">
         {select == '' && <Init />}
         {select == 'shoping' && packageInfo && (
           <PackageInfo onClickUpdate={onClickUpdate} packageInfo={packageInfo} />

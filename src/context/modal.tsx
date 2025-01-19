@@ -39,7 +39,7 @@ export default function ModalProvider({ children }: { children: ReactNode }) {
           )}
         >
           <div className="flex flex-col gap-1 md:gap-2 justify-center items-center">
-            <div className="w-full flex flex-col bg-[var(--notification-bg)] border shadow-sm rounded-xl pointer-events-auto dark:bg-slate-800 dark:border-slate-400 dark:shadow-slate-700/70">
+            <div className="w-full flex flex-col bg-[var(--alemonjs-notification-bg)] border shadow-sm rounded-xl pointer-events-auto dark:bg-slate-800 dark:border-slate-400 dark:shadow-slate-700/70">
               {component}
             </div>
           </div>

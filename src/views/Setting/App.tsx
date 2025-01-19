@@ -25,7 +25,7 @@ export default function SettingApp() {
   return (
     <section className="animate__animated animate__fadeIn flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
+        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--alemonjs-secondary-bg)]">
           {datas[view].com}
         </div>
         <nav className="min-w-14 border-l">
@@ -38,7 +38,7 @@ export default function SettingApp() {
               className={classNames(
                 'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  hover:bg-slate-200',
                 {
-                  'bg-[var(--primary-bg-front)] ': view == index
+                  'bg-[var(--alemonjs-secondary-bg)] ': view == index
                 }
               )}
             >

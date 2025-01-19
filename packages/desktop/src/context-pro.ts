@@ -1,4 +1,9 @@
-import { processSend } from './send.js'
+import {
+  sendNotification,
+  sendWebviewPostMessage,
+  sendActionApplicationSidebarLoad,
+  processSend
+} from './send.js'
 import { commands } from './storage.js'
 
 export class Context {
@@ -20,11 +25,8 @@ export class Context {
    * 发送通知
    * @param message
    */
-  notification(message: string) {
-    processSend({
-      type: 'notification',
-      data: message
-    })
+  notification(message: string, typing: 'error' | 'warning' | 'default' = 'default') {
+    sendNotification(message, typing)
   }
 
   /**
@@ -46,12 +48,22 @@ export class webView {
    */
   get #htmlScript() {
     return `<script>  
-            const createDesktopAPI = ()=> {
+          const createDesktopAPI = ()=> {
               const expansionsName = '${this._name}'
               return window.appDesktopAPI.create(expansionsName)
+          }
+          window.createDesktopAPI = createDesktopAPI
+          window.appDesktopHideAPI.themeVariables('${this._name}')
+          window.appDesktopHideAPI.themeOn('${this._name}',cssVariables => {
+            try {
+               Object.keys(cssVariables).forEach(key => {
+                 document.documentElement.style.setProperty(\`--$\{key\}\`, cssVariables[key])
+              })
+            } catch (e) {
+              console.error(e)
             }
-            window.createDesktopAPI = createDesktopAPI
-    </script>`
+          })
+</script>`
   }
 
   _name: string | null = null
@@ -75,16 +87,9 @@ export class webView {
    * @param {*} data
    */
   postMessage(data: any) {
-    processSend({
-      // 丢给 on message
-      type: 'webview-on-message',
-      // 传入数据
-      data: {
-        // 模块名称
-        name: this._name,
-        // 传入数据
-        value: data
-      }
+    sendWebviewPostMessage({
+      name: this._name,
+      value: data
     })
   }
 
@@ -95,65 +100,94 @@ export class webView {
   loadWebView(html: string) {
     // 插入脚本
     const data = html.replace('<head>', `<head> ${this.#htmlScript} `)
+    sendActionApplicationSidebarLoad(data)
+  }
+}
+
+class Click {
+  #event = ''
+
+  constructor(event: string) {
+    this.#event = event
+  }
+
+  // 点击logo
+  onClickLogo() {
+    // 点击logo
+    this.#event = `${this.#event}:logo`
     processSend({
-      type: 'webview-sidebar-load',
-      data: data
+      type: this.#event,
+      data: ''
+    })
+  }
+
+  // 点击组件
+  onClickComponent() {
+    this.#event = `${this.#event}:home`
+    processSend({
+      type: this.#event,
+      data: ''
+    })
+  }
+
+  // 点击扩展
+  onClickApplication() {
+    this.#event = `${this.#event}:application`
+    return {
+      loadWebView: (html: string) => {
+        this.#event = `${this.#event}:sidebar:load`
+        processSend({
+          type: this.#event,
+          data: html
+        })
+      }
+    }
+  }
+
+  // 点击扩展商场
+  onClickExtensions() {
+    this.#event = `${this.#event}:extensions`
+    processSend({
+      type: this.#event,
+      data: ''
+    })
+  }
+
+  // 点击设置
+  onClickSetting() {
+    this.#event = `${this.#event}:setting`
+    processSend({
+      type: this.#event,
+      data: ''
     })
   }
 }
 
+/**
+ * @description 把传输协议定义为action
+ */
 export class Actions {
   // 一组行为，使用:分开
   #event = ''
 
   _name: string | null
 
+  /**
+   *
+   * @param _ctx
+   * @param _name
+   */
   constructor(_ctx: typeof Context.prototype, _name: string) {
     this._name = _name
   }
 
+  /**
+   *
+   * @returns
+   */
   create() {
     // 创建 行为
     this.#event = 'action'
-  }
-
-  // 点击命令输入框
-  onClickCommandInput() {
-    // 点击命令输入框
-    this.#event = `${this.#event}:click-CommandInput`
-  }
-
-  // 点击logo
-  onClickLogo() {
-    // 点击logo
-    this.#event = `${this.#event}:click-Logo`
-  }
-
-  // 点击组件
-  onClickComponent() {
-    this.#event = `${this.#event}:click-Component`
-  }
-
-  // 点击扩展
-  onClickExtension() {
-    this.#event = `${this.#event}:click-Extension`
-    return {
-      loadWebView: (html: string) => {
-        // const view = new webView('extension')
-        // view.loadWebView(html)
-        // return view
-        console.log('loadWebView', html)
-      }
-    }
-  }
-
-  // 点击扩展商场
-  onClickExtensionShoping() {
-    this.#event = `${this.#event}:click-ExtensionShoping`
-  }
-
-  // 点击设置
-  onClickSetting() {
-    this.#event = `${this.#event}:click-Setting`
+    return new Click(this.#event)
   }
 }

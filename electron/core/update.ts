@@ -4,41 +4,25 @@ import Store from 'electron-store'
 import { debounce } from 'lodash'
 import { promisify } from 'util'
 import logger from 'electron-log'
-
 /**
  * @description 检查更新脚本
  */
 
+// 沉睡函数
 const sleep = promisify(setTimeout)
 
+// 创建一个 Store 实例用于存储跳过的版本
 const store = new Store()
 
 // 状态变量，用于跟踪是否正在下载
 let isDownloading = false
 
-/**
- * 用户确定是否下载更新
- */
-export function downloadUpdate() {
-  autoUpdater.downloadUpdate()
-}
-
+// 显示消息。防抖
 const showMessage = debounce((mainWindow: BrowserWindow, message: string) => {
   if (!mainWindow) return
   if (mainWindow.isDestroyed()) return
   mainWindow.webContents.send('on-notification', message)
-  // 增加模态 - 当前禁止切换其他窗口
-  // dialog.showMessageBox(mainWindow, {
-  //   message: message
-  // })
 }, 1000)
-
-/**
- * 退出并安装更新
- */
-export function installUpdate() {
-  autoUpdater.quitAndInstall()
-}
 
 /**
  * 自动更新的逻辑

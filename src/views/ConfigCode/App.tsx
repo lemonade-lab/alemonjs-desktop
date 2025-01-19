@@ -18,8 +18,8 @@ export default function ConfigCode() {
     //
   }
   return (
-    <section className="flex-1 flex flex-col bg-[var(--secondary-bg-front)] ">
-      <div className="flex-1 flex flex-col shadow-md rounded-md bg-[var(--primary-bg-front)]">
+    <section className="flex-1 flex flex-col bg-[var(--alemonjs-primary-bg)] ">
+      <div className="flex-1 flex flex-col shadow-md rounded-md bg-[var(--alemonjs-secondary-bg)]">
         <div className="flex justify-between items-center min-h-10 px-2">
           <div className="flex gap-2">
             <div className="px-1">运行配置</div>

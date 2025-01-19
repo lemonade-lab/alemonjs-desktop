@@ -1,11 +1,15 @@
 {
-  "primary-bg": "#f9f9f9",
-  "secondary-bg": "#de853c",
-  "primary-bg-front": "#ffffff6b",
-  "secondary-bg-front": "#fef6ea",
-  "primary-text": "#606266",
-  "secondary-text": "#67c23a",
-  "notification-bg": "#f0f9eb",
-  "notification-text": "#c0c4cc",
-  "code-text": "#b2b2b2"
+  "alemonjs-primary-bg": "#fef6ea",
+  "alemonjs-secondary-bg": "#ffffff6b",
+  "alemonjs-notification-bg": "#ffffff6b",
+  "alemonjs-notification-text": "#67c23a",
+  "alemonjs-notification-error-bg": "#fca5a5",
+  "alemonjs-notification-error-text": "#334155",
+  "alemonjs-notification-warning-bg": "#fef08a",
+  "alemonjs-notification-warning-text": "#334155",
+  "alemonjs-menu-bg": "#de853c",
+  "alemonjs-menu-text": "#de853c",
+  "alemonjs-sidebar-bg": "#f9f9f9",
+  "alemonjs-window-bar-bg": "#f9f9f9",
+  "alemonjs-window-bar-text": "#606266"
 }

@@ -18,7 +18,7 @@ export default function Docs() {
     }, []);
 
     return (
-        <div className="relative w-full h-full bg-[var(--primary-bg-front)] shadow-md">
+        <div className="relative w-full h-full bg-[var(--alemonjs-secondary-bg)] shadow-md">
             {
                 !isOnline && (
                     <div className="w-full h-full flex items-center justify-center bg-red-100">

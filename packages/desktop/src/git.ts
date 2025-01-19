@@ -1,5 +1,5 @@
 import simpleGit from 'simple-git'
-import { processSend } from './send'
+import { sendNotification, sendGitClone } from './send'
 /**
  * @param {*} repoUrl
  */
@@ -14,21 +14,12 @@ export async function cloneRepo(repoUrl: string) {
     // 深度
     // 分支
     await git.clone(repoUrl, localPath, ['--depth', '1'])
-    processSend({
-      type: 'notification',
-      data: `克隆仓库成功: ${repoName}`
-    })
+    sendNotification(`克隆仓库成功: ${repoName}`)
   } catch (err) {
     if (!err) return
-    processSend({
-      type: 'git-clone',
-      data: 0
-    })
+    sendGitClone(0)
     if (!err['message']) return
-    processSend({
-      type: 'notification',
-      data: err['message']
-    })
+    sendNotification(`克隆仓库时出错: ${err['message']}`, 'error')
     console.error('克隆仓库时出错:', err['message'])
   }
 }

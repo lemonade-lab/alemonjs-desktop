@@ -18,7 +18,7 @@ export default (function BotController() {
   } = useBotController()
   const [platform, setPlatform] = state
   return (
-    <section className=" bg-[var(--primary-bg-front)] w-[17rem] rounded-xl shadow-content p-2 ">
+    <section className=" bg-[var(--alemonjs-secondary-bg)] w-[17rem] rounded-xl shadow-content p-2 ">
       <div className="flex gap-4 items-center ">
         <div className="flex-1 flex gap-2 items-center rounded-md">
           <div>

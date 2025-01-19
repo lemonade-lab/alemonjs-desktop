@@ -1,9 +1,10 @@
-import { readdirSync, readFileSync, rmdirSync, statSync, unlinkSync, writeFileSync } from 'fs'
+import { readFileSync, rmdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { resourcesPath, templatePath } from './static'
 import Logger from 'electron-log'
+
 /**
- *
+ * 读取资源文件
  * @param path
  * @returns
  */
@@ -12,6 +13,7 @@ export const readResourcesFileSync = (path: string[]) => {
   return readFileSync(dir, 'utf-8')
 }
 /**
+ * 写入资源文件
  * @param path
  * @param data
  * @returns
@@ -22,7 +24,7 @@ export const writeResourcesFileSync = (path: string[], data: any) => {
 }
 
 /**
- *
+ * 读取模板文件
  * @param path
  * @returns
  */
@@ -30,8 +32,9 @@ export const readTemplateFileSync = (path: string[]) => {
   const dir = join(templatePath, ...path)
   return readFileSync(dir, 'utf-8')
 }
+
 /**
- *
+ * 写入模板文件
  * @param path
  * @param data
  * @returns
@@ -42,37 +45,12 @@ export const writeTemplateFileSync = (path: string[], data: any) => {
 }
 
 /**
- *
- * @param path
- * @returns
- */
-const rmTemplateFile = (path: string[]) => {
-  const dir = join(templatePath, ...path)
-  return unlinkSync(dir)
-}
-
-/**
- *
+ * 删除模板文件夹
  * @param path
  */
 export const rmTemplateDir = (path: string[]) => {
   try {
-    // 深度便利得到该文件夹的所有子文件。删除
-    const dirPath = join(templatePath, path.join('/'))
-    const files = readdirSync(dirPath)
-    files.forEach(file => {
-      const filePath = join(dirPath, file)
-      const stats = statSync(filePath)
-      if (stats.isDirectory()) {
-        // 若是文件夹，则继续深度便利
-        rmTemplateDir([...path, file])
-      } else {
-        // 若是文件，则删除
-        rmTemplateFile([...path, file])
-      }
-    })
-    // 删除该文件夹
-    rmdirSync(dirPath)
+    rmdirSync(join(templatePath, path.join('/')), { recursive: true })
     return true
   } catch (e) {
     Logger.error(e)

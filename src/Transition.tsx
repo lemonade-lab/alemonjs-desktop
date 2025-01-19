@@ -12,7 +12,7 @@ export default function Transition() {
         <div></div>
       </Header>
       <div className="flex flex-1">
-        <main className="flex flex-1 bg-[var(--secondary-bg-front)]">
+        <main className="flex flex-1 bg-[var(--alemonjs-primary-bg)]">
           <div className="flex-1 flex-col flex justify-center items-center">
             <div className="flex-col flex">
               <div className="flex-col flex justify-center items-center"></div>

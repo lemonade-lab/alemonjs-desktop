@@ -59,7 +59,7 @@ export default function WordBox() {
       {isDropdownOpen ? (
         <div
           ref={dropdownRef}
-          className=" absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--secondary-bg-front)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
+          className=" absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--alemonjs-primary-bg)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
         >
           <input
             type="text"
@@ -75,21 +75,12 @@ export default function WordBox() {
                 <div
                   key={index}
                   onClick={() => {
-                    // 如果已经在当前的路由
-                    if (window.location.pathname === '/webviews') {
-                      window.expansions.postMessage({
-                        type: 'command',
-                        data: item.commond
-                      })
-                    } else {
-                      navigate('/webviews', {
-                        state: {
-                          expansions_name: item.expansions_name,
-                          name: item.name,
-                          commond: item.commond
-                        }
-                      })
-                    }
+                    if (!modules.nodeModulesStatus) return
+                    // 只负责发送消息
+                    window.expansions.postMessage({
+                      type: 'command',
+                      data: item.commond
+                    })
                     // 关闭下拉菜单
                     setIsDropdownOpen(false)
                   }}
@@ -104,7 +95,7 @@ export default function WordBox() {
           <div className="flex justify-end">
             <span
               onClick={onClose}
-              className="text-[var(--notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
+              className="text-[var(--alemonjs-notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
             >
               <CloseIcon />
             </span>
@@ -125,7 +116,7 @@ export default function WordBox() {
           </div>
           <div
             ref={dropdownRef}
-            className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--primary-bg-front)]"
+            className="w-72 relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--alemonjs-secondary-bg)]"
             onClick={() => setIsDropdownOpen(prev => !prev)}
             aria-expanded={isDropdownOpen}
             role="button"

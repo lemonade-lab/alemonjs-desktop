@@ -74,7 +74,7 @@ export default function GithubFrom() {
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="p-8 rounded-lg bg-[var(--secondary-bg-front)] shadow-inner w-full max-w-md">
+      <div className="p-8 rounded-lg bg-[var(--alemonjs-primary-bg)] shadow-inner w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Git</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

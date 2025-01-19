@@ -8,7 +8,7 @@ import logger from 'electron-log'
  */
 
 /**
- *
+ * bot关闭
  * @returns
  */
 export const botClose = () => {
@@ -22,7 +22,8 @@ export const botClose = () => {
 let child: ChildProcess | null = null
 
 /**
- *
+ * bot运行
+ * 如果已经运行，则发送消息给渲染进程
  * @returns
  */
 export const botRun = async (webContents: Electron.WebContents, args: string[]) => {
@@ -44,7 +45,6 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
     if (webContents.isDestroyed()) return
-
     // 发消息给渲染进程
     webContents.send('on-terminal', data.toString())
     logger.info(`bot output: ${data.toString()}`)
@@ -53,7 +53,6 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
     if (webContents.isDestroyed()) return
-
     webContents.send('on-terminal', data.toString())
     logger.error(`bot error: ${data.toString()}`)
   })
@@ -61,7 +60,6 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
   // 监听子进程退出
   child.on('exit', code => {
     if (webContents.isDestroyed()) return
-
     // 退出了。
     webContents.send('bot-status', 0)
     logger.info(`bot exit ${code}`)
@@ -72,7 +70,7 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
 }
 
 /**
- *
+ * bot状态
  * @returns
  */
 export const botStatus = () => {
@@ -83,6 +81,8 @@ export const botStatus = () => {
   return false
 }
 
+// 监听主进程退出
+// 确保 bot 退出
 process.on('exit', () => {
   botClose()
 })

@@ -35,16 +35,19 @@ const Notification = memo(({ message, theme, onClose }: NotificationProps) => {
   return (
     <div
       className={classNames(`px-4 py-2 rounded-lg shadow-lg`, {
-        'bg-[var(--notification-bg)] text-[var(--secondary-text)]': theme === 'default',
-        'bg-red-300 text-slate-700': theme === 'error',
-        'bg-yellow-200 text-slate-700': theme === 'warning'
+        'bg-[var(--alemonjs-notification-bg)] text-[var(--alemonjs-notification-text)]':
+          theme === 'default',
+        'bg-[var(--alemonjs-notification-error-bg)] text-[var(--alemonjs-notification-error-text)]':
+          theme === 'error',
+        'bg-[var(--alemonjs-notification-warning-bg)] text-[var(--alemonjs-notification-warning-text)]':
+          theme === 'warning'
       })}
     >
       <div className="flex items-center gap-3">
         <span className="text-sm flex-1 break-words max-w-[420px]">{message}</span>
         <span
           onClick={onClose}
-          className="text-[var(--notification-text)] duration-700 transition-all hover:text-[--primary-color] cursor-pointer"
+          className="text-[var(--alemonjs-notification-text)] duration-700 transition-all hover:text-[--primary-color] cursor-pointer"
         >
           <CloseIcon />
         </span>

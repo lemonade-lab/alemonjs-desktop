@@ -14,7 +14,6 @@ export const fetchPackageInfo = async (packageName: string) => {
       }
     })
     .then(res => res.data)
-  console.log(response)
   return {
     'name': response.name,
     'author': response.author,

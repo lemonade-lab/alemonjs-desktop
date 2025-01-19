@@ -14,7 +14,7 @@ interface Sidebar {
 const createTextHtmlURL = (html: string) =>
   `data:text/html;charset=utf-8,${encodeURIComponent(html)}`
 
-export default function ConfigEdit() {
+export default function Webviews() {
   const location = useLocation()
 
   const command = useSelector((state: RootState) => state.command)
@@ -25,25 +25,27 @@ export default function ConfigEdit() {
   const viewRef = useRef<HTMLWebViewElement>(null)
   const [viewSidebars, setViewSidebars] = useState<Sidebar[]>([])
 
-  const key2 = 'webview-sidebar-load'
-
   const handleSidebarClick = useCallback(
     (viewItem: Sidebar) => {
+      // 记录当前的命令
       dispatch(setCommand(viewItem.commond))
+
+      // 应该是 viewItem
       window.expansions.postMessage({
         type: 'command',
         data: viewItem.commond
       })
+
+      //
     },
     [dispatch]
   )
 
   useEffect(() => {
-    console.log('ConfigEdit useEffect', location.state)
-    if (location.state?.commond) {
-      handleSidebarClick(location.state)
+    if (location.state?.view) {
+      setView(location.state.view)
     }
-  }, [])
+  }, [location.state])
 
   useEffect(() => {
     const sidebarsItem =
@@ -56,18 +58,6 @@ export default function ConfigEdit() {
         )
       }) || []
     setViewSidebars(sidebarsItem)
-
-    const handleMessage = (data: any) => {
-      try {
-        if (data.type === key2) {
-          setView(data.data)
-        }
-      } catch (error) {
-        console.error('ConfigEdit 消息解析失败:', error)
-      }
-    }
-
-    window.expansions.onMessage(handleMessage)
   }, [expansions.package])
 
   useEffect(() => {
@@ -92,7 +82,7 @@ export default function ConfigEdit() {
   return (
     <section className="animate__animated animate__fadeIn flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--primary-bg-front)]">
+        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--alemonjs-secondary-bg)]">
           {view ? (
             <webview
               ref={viewRef}
@@ -118,7 +108,7 @@ export default function ConfigEdit() {
               className={classNames(
                 'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  hover:bg-slate-200',
                 {
-                  'bg-[var(--primary-bg-front)]': viewItem.commond === command.name
+                  'bg-[var(--alemonjs-secondary-bg)]': viewItem.commond === command.name
                 }
               )}
             >

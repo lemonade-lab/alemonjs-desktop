@@ -43,7 +43,7 @@ export default (function App() {
     },
     {
       Icon: <FireworksIcon width="20" height="20" />,
-      path: '/webviews',
+      path: '/application',
       onClick: path => navigate(path)
     },
     {
@@ -80,7 +80,6 @@ export default (function App() {
 
     // 加载css变量
     window.theme.variables()
-
     // 监听 css 变量
     window.theme.on(cssVariables => {
       try {
@@ -129,17 +128,32 @@ export default (function App() {
     // 监听expansions消息
     window.expansions.onMessage(data => {
       try {
-        if (data.type === 'notification') {
-          notification(data.data)
+        if (/^action:/.test(data.type)) {
+          const actions = data.type.split(':')
+          const db = data.data
+          if (actions[1] === 'application' && actions[2] === 'sidebar' && actions[3] === 'load') {
+            navigate('/application', {
+              state: {
+                view: db
+              }
+            })
+          } else if (actions[1] === 'expansions') {
+            navigate('/expansions')
+          } else if (actions[1] === 'home') {
+            navigate('/home')
+          } else if (actions[1] === 'setting') {
+            navigate('/setting')
+          } else if (actions[1] === 'bot-log') {
+            navigate('/bot-log')
+          }
+        } else if (data.type === 'notification') {
+          const db = data.data
+          notification(db.value, db.typing)
           return
         } else if (data.type === 'command') {
-          // 应该修改为 command action。
-          // 定义一组actoins。
-          // 最后发送给 ui。
           dispatch(setCommand(data.data))
           return
         } else if (data.type === 'get-expansions') {
-          console.log('get-expansions', data.data)
           dispatch(initPackage(data.data))
         }
       } catch {
@@ -149,7 +163,6 @@ export default (function App() {
 
     // 监听expansions状态
     window.expansions.onStatus((value: number) => {
-      console.log('expansions.onStatus', value)
       if (value == 0) {
         notification('扩展器已停止', 'warning')
       } else {
@@ -174,7 +187,6 @@ export default (function App() {
     }
     // 依赖安装完成后，启动扩展器
     if (modules.nodeModulesStatus) {
-      console.log('启动。。。', modules.nodeModulesStatus, expansions.runStatus)
       // 启动扩展器
       if (!expansions.runStatus) {
         console.log('runStatus', expansions.runStatus)
@@ -184,10 +196,8 @@ export default (function App() {
   }, [modules.nodeModulesStatus])
 
   useEffect(() => {
-    console.log('App.tsx useEffect expansions.runStatus', expansions.runStatus)
     // 运行的时候才会获取扩展器
     if (expansions.runStatus) {
-      console.log('获取扩展器')
       window.expansions.postMessage({ type: 'get-expansions' })
     }
   }, [expansions.runStatus])
@@ -208,11 +218,11 @@ export default (function App() {
           onClickSetting={() => navigate('/setting')}
         />
         {loading ? (
-          <main className=" flex flex-1 bg-[var(--secondary-bg-front)]">
+          <main className=" flex flex-1 bg-[var(--alemonjs-primary-bg)]">
             <Outlet />
           </main>
         ) : (
-          <main className=" flex flex-1 bg-[var(--secondary-bg-front)]">
+          <main className=" flex flex-1 bg-[var(--alemonjs-primary-bg)]">
             <MainView />
           </main>
         )}

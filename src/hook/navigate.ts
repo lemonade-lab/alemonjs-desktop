@@ -1,12 +1,13 @@
 import { useNotification } from '@src/context/Notification'
 import { RootState } from '@src/store'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavigateOptions, useNavigate } from 'react-router-dom'
 export type NavigatePath =
   | '/'
   | '/home'
   | '/bot-log'
-  | '/webviews'
+  | '/application'
   | '/docs'
   | '/config-code'
   | '/setting'
@@ -15,13 +16,18 @@ export type NavigatePath =
 export default function useGoNavigate() {
   const navigate = useNavigate()
   const modules = useSelector((state: RootState) => state.modules)
+  const statusRef = useRef(modules.nodeModulesStatus)
+  // Update the ref whenever notification changes
+  useEffect(() => {
+    statusRef.current = modules.nodeModulesStatus
+  }, [modules.nodeModulesStatus])
   const { notification } = useNotification()
   const navigateTo = (path: NavigatePath, options?: NavigateOptions) => {
     if (path == '/setting' || path == '/') {
       navigate(path, options)
       return
     }
-    if (modules.nodeModulesStatus) {
+    if (statusRef.current) {
       navigate(path, options)
       return
     }

@@ -1,13 +1,14 @@
 import { Menu, Tray, app, shell } from 'electron'
 import { createLogoImageFromPath } from './icons'
-
-const BASE_URL = 'https://alemonjs.com'
-
 /**
  * @description 拓展菜单
  */
+const BASE_URL = 'https://alemonjs.com'
 
-// 创建图标菜单
+/**
+ * 创建托盘
+ * @returns
+ */
 export const createTray = () => {
   // 实例化一个托盘对象，传入的是托盘的图标
   const tray = new Tray(createLogoImageFromPath())
