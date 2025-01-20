@@ -47,7 +47,17 @@ const Theme = () => {
       <div className="flex-col gap-2 flex-1 flex p-6 ">
         <div className="flex flex-col flex-1  p-6 rounded-lg shadow-inner bg-[var(--alemonjs-primary-bg)]  max-w-full">
           <div className="text-2xl flex items-center justify-between font-semibold mb-4 border-b">
-            <div>主题</div>
+            <div className="flex gap-2 items-center">
+              <div>主题</div>
+              <div
+                className="text-xs  cursor-pointer text-[var(--alemonjs-secondary-text)]"
+                onClick={() => {
+                  window.theme.initVariables()
+                }}
+              >
+                <div>恢复默认</div>
+              </div>
+            </div>
             {update && (
               <Button
                 onClick={() => {

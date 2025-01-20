@@ -70,7 +70,7 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
     [key: string]: string
   } = {
     'webview-on-message': 'webview-on-message',
-    'webview-get-expansions': 'webview-on-expansions-message'
+    'webview-on-expansions-message': 'webview-on-expansions-message'
   }
 
   // 监听子进程返回的消息

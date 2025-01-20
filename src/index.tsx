@@ -8,6 +8,7 @@ import { WindowController } from './typing/controller'
 type WindowTheme = {
   save: (data: Object) => void
   variables: () => void
+  initVariables: () => void
   on: (callback: (val: any) => void) => void
 }
 

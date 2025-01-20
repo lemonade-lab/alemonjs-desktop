@@ -5,6 +5,11 @@ contextBridge.exposeInMainWorld('theme', {
   variables: () => {
     ipcRenderer.send('css-variables')
   },
+  // 恢复默认
+  initVariables: () => {
+    // init-css-variables
+    ipcRenderer.send('init-css-variables')
+  },
   save: (data: Object) => {
     ipcRenderer.send('save-css-variables', data)
   },

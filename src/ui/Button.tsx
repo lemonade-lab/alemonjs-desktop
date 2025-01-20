@@ -7,11 +7,11 @@ export default function Button(
     typing?: 'error' | 'success' | 'warning' | 'no-border'
   }
 ) {
-  const { typing = 'none', ...prop } = props
+  const { typing = 'none', className, ...prop } = props
   return (
     <button
       type="button"
-      className={classNames('text-sm  px-1 md:px-2 py-1 rounded', {
+      className={classNames(className, 'text-sm  px-1 md:px-2 py-1 rounded', {
         'text-white  bg-red-500': typing == 'error',
         'text-white  bg-blue-500 ': typing == 'success',
         'text-white  bg-yellow-500 ': typing == 'warning',

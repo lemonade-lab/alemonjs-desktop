@@ -15,7 +15,7 @@ const select = {
 }
 
 const createOn = (callback, select, name) => {
-  ipcRenderer.on(select.onMessage, (_event, data) => {
+  ipcRenderer.on(select, (_event, data) => {
     if (data.name == name) {
       callback && callback(data.value)
     }
