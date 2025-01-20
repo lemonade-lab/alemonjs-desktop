@@ -1,4 +1,4 @@
-import { templatePath } from './static'
+import { userDataTemplatePath } from './static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
@@ -36,9 +36,9 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
 
   if (webContents.isDestroyed()) return
 
-  const MyJS = join(templatePath, 'index.js')
+  const MyJS = join(userDataTemplatePath, 'index.js')
   child = fork(MyJS, args, {
-    cwd: templatePath,
+    cwd: userDataTemplatePath,
     stdio: 'pipe' // 确保使用管道来捕获输出
   })
 

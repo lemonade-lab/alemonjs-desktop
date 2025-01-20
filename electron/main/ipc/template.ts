@@ -1,19 +1,20 @@
 import { dialog, ipcMain } from 'electron'
-import { corePath } from '../../core/static'
-import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'fs'
-import { rmTemplateDir } from '../../core/files'
+import { userDataPackagePath } from '../../core/static'
+import { copyFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'fs'
 import * as appsPath from '../../core/static'
-import { basename } from 'path'
+import { basename, join } from 'path'
 import Logger from 'electron-log'
 
 // 得到应用目录
 ipcMain.handle('get-apps-path', () => appsPath)
 
 // 询问模板是否存在
-ipcMain.handle('get-template-exists', () => existsSync(corePath))
+ipcMain.handle('get-template-exists', () => existsSync(userDataPackagePath))
 
 // 删除所有指定目录下的文件
-ipcMain.handle('rm-template-files', () => rmTemplateDir(['public', 'file']))
+ipcMain.handle('rm-template-files', () => {
+  rmSync(join(appsPath.userDataTemplatePath, 'public', 'file'), { recursive: true, force: true })
+})
 
 // 读取文件
 ipcMain.handle('read-files', async (event, dir: string) => {

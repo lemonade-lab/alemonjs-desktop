@@ -12,7 +12,7 @@ export default function Npmrc() {
   const { notification } = useNotification()
   const [initValue, setInitValue] = useState('')
   const onClickSave = async () => {
-    const dir = app.templatePath + '/.npmrc'
+    const dir = app.userDataTemplatePath + '/.npmrc'
     // 保存数据。
     const T = await window.app.writeFiles(dir, value)
     if (T) {
@@ -22,7 +22,7 @@ export default function Npmrc() {
     }
   }
   const initData = async () => {
-    const dir = app.templatePath + '/.npmrc'
+    const dir = app.userDataTemplatePath + '/.npmrc'
     const data = await window.app.readFiles(dir)
     console.log('data', data)
     if (data && data != '') {

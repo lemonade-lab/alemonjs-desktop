@@ -26,8 +26,8 @@ export function onBeforeRequest(): void {
   //   callback({ path: filePath })
   // })
   protocol.handle('resource', request => {
-    // console.error('request.url ', request.url)
-    const filePath = request.url.slice('resource://'.length)
-    return net.fetch(url.pathToFileURL(filePath.replace(/^-\//, '')).toString())
+    const filePath = decodeURIComponent(request.url.slice('resource://'.length).replace(/^-\//, ''))
+    console.error('filePath', filePath)
+    return net.fetch(url.pathToFileURL(filePath).toString())
   })
 }

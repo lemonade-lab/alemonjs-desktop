@@ -3,10 +3,11 @@ export type WindowApp = {
    *
    */
   getAppsPath: () => Promise<{
-    resourcesPath: string
-    templatePath: string
-    nodeModulesPath: string
-    corePath: string
+    [key: string]: string
+    userDataTemplatePath: string
+    userDataNodeModulesPath: string
+    userDataPackagePath: string
+    preloadPath: string
     logMainPath: string
   }>
   /**

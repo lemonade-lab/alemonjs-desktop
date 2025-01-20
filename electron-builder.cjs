@@ -23,7 +23,7 @@ module.exports = {
         arch: ['x64', 'arm64']
       },
       {
-        target: '7z',
+        target: 'zip',
         arch: ['x64', 'arm64']
       }
     ],
@@ -33,15 +33,15 @@ module.exports = {
     icon: './icons/512x512.png',
     target: [
       {
+        target: 'zip',
+        arch: ['x64', 'arm64']
+      },
+      {
         target: 'AppImage',
         arch: ['x64', 'arm64']
       },
       {
         target: 'deb',
-        arch: ['x64', 'arm64']
-      },
-      {
-        target: '7z',
         arch: ['x64', 'arm64']
       }
     ],
@@ -52,11 +52,11 @@ module.exports = {
     icon: './icons/icon.ico',
     target: [
       {
-        target: 'nsis',
+        target: 'zip',
         arch: ['x64', 'arm64']
       },
       {
-        target: '7z',
+        target: 'nsis',
         arch: ['x64', 'arm64']
       }
     ],

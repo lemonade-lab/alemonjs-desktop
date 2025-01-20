@@ -2,18 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface State {
   [key: string]: string
-  resourcesPath: string
-  templatePath: string
-  nodeModulesPath: string
-  corePath: string
+  userDataTemplatePath: string
+  userDataNodeModulesPath: string
+  userDataPackagePath: string
+  preloadPath: string
   logMainPath: string
 }
 
 const initialState: State = {
-  resourcesPath: '',
-  templatePath: '',
-  nodeModulesPath: '',
-  corePath: '',
+  userDataTemplatePath: '',
+  userDataNodeModulesPath: '',
+  userDataPackagePath: '',
+  preloadPath: '',
   logMainPath: ''
 }
 

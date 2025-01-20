@@ -6,6 +6,8 @@ import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
 import { autoUpdateApp } from '../core/update'
+import { cpSync, existsSync, rmSync } from 'node:fs'
+import { userDataNodeModulesPath, userDataTemplatePath, templatePath } from '../core/static'
 
 // 获取屏幕尺寸
 const getScreenSize = (): Electron.Size => {
@@ -127,13 +129,30 @@ const initWindow = () => {
       app.exit()
     }
   })
+}
 
-  // 仅手动检查更新
-  // autoUpdateApp(win)
+/**
+ * 如何初始化文件。
+ */
+
+/**
+ * 初始化文件
+ */
+const initFiles = () => {
+  // 没有包配置文件
+  if (!existsSync(userDataNodeModulesPath)) {
+    // 确保目录被清空
+    rmSync(userDataTemplatePath, { recursive: true, force: true })
+    // 复制模板文件
+    cpSync(templatePath, userDataTemplatePath, { recursive: true })
+  }
 }
 
 // 当应用程序准备就绪时，创建主窗口
 app.whenReady().then(() => {
+  // 初始化文件
+  initFiles()
+
   // 初始化窗口
   initWindow()
 

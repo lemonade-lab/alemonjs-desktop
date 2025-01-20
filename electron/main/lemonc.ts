@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { join } from 'path'
 import os from 'os'
-import { lemoncPath } from '../core/static'
+import { userDataLemoncPath } from '../core/static'
 import { dialog } from 'electron'
 import Logger from 'electron-log'
 
@@ -19,7 +19,7 @@ export const registerCommand = async () => {
   let binPath
   if (os.platform() === 'win32') {
     // Windows
-    const batContent = `@echo off\nnode "${lemoncPath}" %*\n`
+    const batContent = `@echo off\nnode "${userDataLemoncPath}" %*\n`
     if (process.env.USERPROFILE) {
       fs.writeFileSync(join(process.env.USERPROFILE, 'lemonc.bat'), batContent)
       Logger.log('lemonc 命令已注册到 Windows 系统。')
@@ -46,7 +46,7 @@ export const registerCommand = async () => {
       }
     }
 
-    const bashContent = `#!/bin/bash\nnode "${lemoncPath}" "$@"\n`
+    const bashContent = `#!/bin/bash\nnode "${userDataLemoncPath}" "$@"\n`
     fs.writeFileSync(binPath, bashContent)
     fs.chmodSync(binPath, '755') // 赋予执行权限
     Logger.log('lemonc 命令已注册到 macOS/Linux 系统。')

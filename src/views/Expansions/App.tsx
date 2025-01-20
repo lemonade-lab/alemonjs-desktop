@@ -35,7 +35,7 @@ export default function Expansions() {
       notification(`本地没有找到 ${packageName} 的数据。`, 'error')
       return
     }
-    const dir = app.nodeModulesPath + '/' + packageName + '/README.md'
+    const dir = app.userDataNodeModulesPath + '/' + packageName + '/README.md'
     const data = {
       'name': pkg?.name || '',
       'description': pkg?.description || '',

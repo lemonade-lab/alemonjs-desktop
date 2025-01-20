@@ -66,7 +66,7 @@ const Common = () => {
               </div>
               <Button
                 onClick={() => {
-                  const dir = `${app.templatePath}/yarn.lock`
+                  const dir = `${app.userDataTemplatePath}/yarn.lock`
                   window.app.downloadFiles(dir)
                 }}
               >

@@ -86,7 +86,7 @@ export default function Webviews() {
           {view ? (
             <webview
               ref={viewRef}
-              preload={`file://${app.resourcesPath}/preload/webview.js`}
+              preload={`file://${app.preloadPath}/webview.js`}
               src={createTextHtmlURL(view)}
               className="w-full h-full"
             />

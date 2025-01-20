@@ -1,7 +1,7 @@
 import { fork } from 'child_process'
 import { join } from 'node:path'
 import logger from 'electron-log'
-import { templatePath } from './static'
+import { userDataTemplatePath } from './static'
 
 /**
  * @description yarn 管理
@@ -32,10 +32,10 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
 
     yarnMap.set(KEY, 1)
 
-    const MyJS = join(templatePath, 'bin', 'yarn.cjs')
+    const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
 
     const child = fork(MyJS, ['install', '--ignore-warnings'], {
-      cwd: templatePath,
+      cwd: userDataTemplatePath,
       stdio: 'pipe' // 确保使用管道来捕获输出
     })
 
@@ -97,9 +97,9 @@ export const yarnAdd = (webContents: Electron.WebContents, value: string) => {
     logger.info('yarn add start', KEY)
     yarnMap.set(KEY, 1)
 
-    const MyJS = join(templatePath, 'bin', 'yarn.cjs')
+    const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
     const child = fork(MyJS, ['add', value, '-W'], {
-      cwd: templatePath,
+      cwd: userDataTemplatePath,
       stdio: 'pipe' // 确保使用管道来捕获输出
     })
     // 监听子进程的标准输出
@@ -155,9 +155,9 @@ export const yarnLink = (webContents: Electron.WebContents, value: string) => {
     logger.info('yarn add link', KEY)
     yarnMap.set(KEY, 1)
 
-    const MyJS = join(templatePath, 'bin', 'yarn.cjs')
+    const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
     const child = fork(MyJS, ['link', value], {
-      cwd: templatePath,
+      cwd: userDataTemplatePath,
       stdio: 'pipe' // 确保使用管道来捕获输出
     })
     // 监听子进程的标准输出
