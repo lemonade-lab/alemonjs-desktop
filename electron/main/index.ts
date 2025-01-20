@@ -5,9 +5,9 @@ import { createTray } from '../core/tray'
 import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
-import { autoUpdateApp } from '../core/update'
 import { cpSync, existsSync, rmSync } from 'node:fs'
 import { userDataNodeModulesPath, userDataTemplatePath, templatePath } from '../core/static'
+import { storage } from '../core/storage'
 
 // 获取屏幕尺寸
 const getScreenSize = (): Electron.Size => {
@@ -20,8 +20,6 @@ let win: BrowserWindow | null = null
 const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
-
-let isAppQuitFromDock = false // 用于标识是否是从程序坞退出
 
 /**
  * 创建窗口
@@ -110,9 +108,8 @@ const initWindow = () => {
 
   // 禁止窗口关闭，改为隐藏
   win.on('close', event => {
-    if (isAppQuitFromDock) {
-      // 关闭
-      app.exit()
+    if (storage.autoUpdate) {
+      app.quit()
       return
     }
     if (process.platform == 'darwin') {
@@ -130,10 +127,6 @@ const initWindow = () => {
     }
   })
 }
-
-/**
- * 如何初始化文件。
- */
 
 /**
  * 初始化文件
@@ -158,9 +151,7 @@ app.whenReady().then(() => {
 
   setTimeout(() => {
     onBeforeRequest()
-
     createShortcut()
-
     // 创建菜单图标
     const tray = createTray()
     // 监听点击托盘的事件
@@ -175,8 +166,6 @@ app.whenReady().then(() => {
       // 聚焦
       win.focus()
     })
-
-    win && autoUpdateApp(win)
   })
 })
 
@@ -191,10 +180,21 @@ app.on('second-instance', () => {
   win.focus()
 })
 
-// 监听程序坞退出事件
+// 当所有窗口都关闭后，退出应用程序
+app.on('window-all-closed', () => {
+  if (storage.autoUpdate) {
+    app.quit()
+    return
+  }
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+// 监听退出事件
 app.on('before-quit', () => {
-  // 程序即将退出，标记为从程序坞退出
-  isAppQuitFromDock = true
+  // 直接关闭
+  app.exit()
 })
 
 // 如果用户单击应用程序的停靠栏图标，则恢复主窗口
@@ -209,3 +209,19 @@ app.on('activate', () => {
   // 聚焦
   win.focus()
 })
+
+/**
+ * 注销周期
+ * win.on('close')
+ * app.on('all-close')
+ * app.on('before-quit')
+ *
+ * 如果是程序坞，则
+ * before-quit
+ * close
+ * all-close
+ *
+ * 最终是 before-quit
+ * 都执行 app.exit()
+ *
+ */

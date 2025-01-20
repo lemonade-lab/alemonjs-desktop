@@ -1,6 +1,6 @@
 {
   "name": "alemonjs-desktop",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "main": "dist-electron/main/index.js",
   "description": "AlemonJS Framework Desktop.",
   "license": "MIT",
