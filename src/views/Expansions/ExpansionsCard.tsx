@@ -1,17 +1,17 @@
 import logoURL from '@src/assets/logo.jpg'
-import Dropdown from './Dropdown'
-import { SettingIcon } from '@src/common/Icons'
+// import Dropdown from './Dropdown'
+// import { SettingIcon } from '@src/common/Icons'
 
 const ExpansionsCard = ({
   item,
-  handlePackageClick,
-  onChangeOption,
-  options
+  handlePackageClick
+  // onChangeOption,
+  // options
 }: {
   item: any
   handlePackageClick: (name: string) => void
-  onChangeOption: (name: string) => void
-  options?: string[]
+  // onChangeOption: (name: string) => void
+  // options?: string[]
 }) => {
   return (
     <div
@@ -30,13 +30,13 @@ const ExpansionsCard = ({
         <div className="text-[0.6rem]">{item.description}</div>
       </div>
       <div className="absolute  bottom-1 right-1 text-[0.6rem]">
-        <Dropdown
+        {/* <Dropdown
           Icon={<SettingIcon width={18} height={18} />}
           options={options ?? []}
           onChangeOption={value => {
             onChangeOption(value)
           }}
-        />
+        /> */}
       </div>
     </div>
   )

@@ -38,4 +38,16 @@ export type WindowYarn = {
    * @returns
    */
   onLinkStatus: (callback: (value: number) => void) => void
+  /**
+   *
+   * @param name
+   * @returns
+   */
+  unLink: (name: string) => Promise<void>
+  /**
+   *  监听
+   * @param callback
+   * @returns
+   */
+  onUnLinkStatus: (callback: (value: number) => void) => void
 }

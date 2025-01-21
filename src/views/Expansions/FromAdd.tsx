@@ -46,7 +46,7 @@ export default function From() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm py-1 font-medium text-gray-700">
-              下载非alemonjs相关模块，可了解
+              下载非npmjs模块，可了解
               <span
                 className="cursor-pointer text-blue-600"
                 onClick={() => {

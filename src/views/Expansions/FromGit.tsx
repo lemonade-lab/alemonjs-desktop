@@ -86,6 +86,7 @@ export default function GithubFrom() {
               >
                 点击下载
               </span>
+              ，且仓库满足npmjs规范。
               {/* 。当前仅支持 GitHub 仓库选择分支。 */}
             </label>
             <div className="flex items-center gap-2">

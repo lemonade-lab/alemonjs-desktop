@@ -12,7 +12,8 @@ const yarnMap = new Map()
 const keys = {
   yarnInstall: 'yarnInstall',
   yarnAdd: 'yarnAdd',
-  yarnLink: 'yarnLink'
+  yarnLink: 'yarnLink',
+  yarnUnLink: 'yarnUnLink'
 }
 
 /**
@@ -28,7 +29,7 @@ export const yarnInstall = (webContents: Electron.WebContents) => {
       resolve(0)
       return
     }
-    logger.info('yarn install start', KEY)
+    logger.info('yarn install ', KEY)
 
     yarnMap.set(KEY, 1)
 
@@ -94,7 +95,7 @@ export const yarnAdd = (webContents: Electron.WebContents, value: string) => {
       resolve(false)
       return
     }
-    logger.info('yarn add start', KEY)
+    logger.info('yarn add ', KEY)
     yarnMap.set(KEY, 1)
 
     const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
@@ -152,7 +153,7 @@ export const yarnLink = (webContents: Electron.WebContents, value: string) => {
       resolve(false)
       return
     }
-    logger.info('yarn add link', KEY)
+    logger.info('yarn link', KEY)
     yarnMap.set(KEY, 1)
 
     const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
@@ -187,6 +188,63 @@ export const yarnLink = (webContents: Electron.WebContents, value: string) => {
         webContents.send('yarn-link-status', 1)
       } else {
         webContents.send('yarn-link-status', 0)
+      }
+      //
+    })
+    resolve(true)
+    return
+  })
+}
+
+/**
+ * yarn 安装 <包名>
+ * @param dir 路径
+ * @param packageName 包名
+ * @returns 子进程实例
+ */
+export const yarnUnLink = (webContents: Electron.WebContents, value: string) => {
+  const KEY = keys.yarnUnLink
+  return new Promise(resolve => {
+    if (yarnMap.has(KEY)) {
+      // 执行中...
+      resolve(false)
+      return
+    }
+    logger.info('yarn unlink', KEY)
+    yarnMap.set(KEY, 1)
+
+    const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
+    const child = fork(MyJS, ['unlink', value], {
+      cwd: userDataTemplatePath,
+      stdio: 'pipe' // 确保使用管道来捕获输出
+    })
+    // 监听子进程的标准输出
+    child.stdout?.on('data', data => {
+      if (webContents.isDestroyed()) return
+      // 发消息给渲染进程
+      webContents.send('on-terminal', data.toString())
+      logger.info(`Yarn unlink output: ${data.toString()}`)
+    })
+    // 监听子进程的错误输出
+    child.stderr?.on('data', data => {
+      if (webContents.isDestroyed()) return
+
+      webContents.send('on-terminal', data.toString())
+      logger.error(`Yarn unlink error: ${data.toString()}`)
+    })
+    // 监听子进程退出
+    child.on('exit', code => {
+      logger.info(`Yarn unlink process exited with code ${code}`)
+      // 结束
+      yarnMap.delete(KEY)
+
+      if (webContents.isDestroyed()) return
+
+      // 确保安装成功
+      if (code == 0) {
+        webContents.send('yarn-unlink-status', 1)
+      } else {
+        webContents.send('yarn-unlink-status', 0)
       }
       //
     })
