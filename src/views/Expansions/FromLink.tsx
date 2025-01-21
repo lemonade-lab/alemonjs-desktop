@@ -3,55 +3,77 @@ import { useEffect, useRef, useState } from 'react'
 
 export default function From() {
   const [fromNameValue, setFromNameValue] = useState('')
-
+  const { notification } = useNotification()
+  const [submit, setSubmit] = useState(false)
   const fromNameRef = useRef('')
+
+  /**
+   *
+   * @param e
+   */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFromNameValue(e.target.value)
+  }
+
+  /**
+   *
+   * @param e
+   * @returns
+   */
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    //
+    if (submit) return
+
+    //
+    if (!fromNameValue || fromNameValue == '') return
+
+    setSubmit(true)
+
+    window.yarn.cmds({
+      type: `cmd`,
+      value: fromNameValue.split(' ')
+    })
+  }
 
   useEffect(() => {
     fromNameRef.current = fromNameValue
   }, [fromNameValue])
 
-  const { notification } = useNotification()
-  // 控制提交
-  const [submit, setSubmit] = useState(false)
   useEffect(() => {
-    window.yarn.onLinkStatus(value => {
+    window.yarn.on(data => {
+      if (!data || !data.type || data.type != 'cmd') return
+      //  结束加载状态
       setSubmit(false)
+      const value = data.value
       if (value == 0) {
-        notification('link 失败', 'warning')
+        notification(`yarn ${fromNameRef.current} 失败`, 'warning')
       } else {
-        notification('link 完成')
-        // 推送加载。
-        window.expansions.postMessage({ type: 'add-expansions', data: fromNameRef.current })
+        notification(`yarn ${fromNameRef.current} 完成`)
+        // 匹配到有关更改包的都重新获取扩展列表。
+        if (fromNameRef.current.match(/(add|remove|link|unlink)/)) {
+          window.expansions.postMessage({
+            type: 'get-expansions',
+            data: {}
+          })
+        }
       }
     })
   }, [])
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFromNameValue(e.target.value)
-  }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (submit) return
-    if (!/^(alemonjs-|@alemonjs)/.test(fromNameValue)) {
-      notification('alemonjs 扩展必须以 alemonjs- 或 @alemonjs/ 开头', 'warning')
-      return
-    }
-    if (!fromNameValue || fromNameValue == '') return
-    window.yarn.link(fromNameValue)
-    setSubmit(true)
-  }
+
   return (
     <div className="flex flex-1 items-center justify-center ">
       <div className="p-8 rounded-lg bg-[var(--alemonjs-primary-bg)] shadow-inner w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">本地扩展</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">包管理器</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block py-1 text-sm font-medium text-gray-700">
-              在本地库使用yarn link后可输入package.name进行关联
+              调用内置的Yarn包管理器对包进行操作
             </label>
             <input
               type="text"
               name="name"
-              placeholder="@alemonjs/db"
+              placeholder="link @alemonjs/db"
               value={fromNameValue}
               onChange={handleChange}
               className="mt-1 block w-full px-2 py-1  border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"

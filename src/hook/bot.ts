@@ -65,20 +65,6 @@ export const useBotController = () => {
     notification('机器人已停止', 'warning')
     window.bot.close()
   }, 500)
-  /**
-   * @returns
-   */
-  const onClickYarnInstall = _.throttle(async () => {
-    // 执行控制
-    const status = await window.yarn.status('yarnInstall')
-    if (status) {
-      // 执行中 。。。
-      notification('加载中...')
-      return
-    }
-    if (modules.nodeModulesStatus) return
-    notification('开始加载依赖...')
-    window.yarn.install()
-  }, 500)
-  return { onClickStart, onClickClose, onClickYarnInstall, bot, modules, state, platforms }
+
+  return { onClickStart, onClickClose, bot, modules, state, platforms }
 }

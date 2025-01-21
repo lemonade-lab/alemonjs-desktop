@@ -25,8 +25,7 @@ const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
 }
 
 function Terminal() {
-  const { onClickStart, onClickClose, onClickYarnInstall, bot, state, platforms } =
-    useBotController()
+  const { onClickStart, onClickClose, bot, state, platforms } = useBotController()
   const log = useSelector((state: RootState) => state.log)
   const modules = useSelector((state: RootState) => state.modules)
   const dispatch = useDispatch()
@@ -131,8 +130,8 @@ function Terminal() {
           </div>
 
           <div>
-            {modules.nodeModulesStatus ? (
-              bot.runStatus ? (
+            {modules.nodeModulesStatus &&
+              (bot.runStatus ? (
                 <button
                   type="button"
                   className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
@@ -148,16 +147,7 @@ function Terminal() {
                 >
                   <span>启动</span>
                 </button>
-              )
-            ) : (
-              <button
-                type="button"
-                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
-                onClick={onClickYarnInstall}
-              >
-                <span>加载</span>
-              </button>
-            )}
+              ))}
           </div>
         </div>
       </div>

@@ -108,7 +108,7 @@ export default function Expansions() {
       <div className="flex flex-col flex-1 bg-[var(--alemonjs-secondary-bg)]">
         {select == '' && <Init />}
         {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
-        {select == '关联' && <LinkFrom />}
+        {select == '管理' && <LinkFrom />}
         {select == '模块' && <AddFrom />}
         {select == '仓库' && <GithubFrom />}
       </div>
@@ -121,7 +121,7 @@ export default function Expansions() {
             </div>
             <Dropdown
               Icon={<MenuMoreIcon width={18} height={18} />}
-              options={['仓库', '关联', '模块']}
+              options={['仓库', '模块', '管理']}
               onChangeOption={onChangeOption}
             />
           </div>

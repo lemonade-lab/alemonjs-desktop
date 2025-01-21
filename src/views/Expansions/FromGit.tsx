@@ -4,73 +4,56 @@ import { useEffect, useRef, useState } from 'react'
 // import { extractRepoInfo, fetchGitHubBranches } from './api'
 
 export default function GithubFrom() {
+  const { notification } = useNotification()
+  const [submit, setSubmit] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [fromNameValue, setFromNameValue] = useState('')
   const fromNameRef = useRef('')
+
+  /**
+   *
+   * @param e
+   */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFromNameValue(e.target.value)
+  }
+
+  /**
+   *
+   * @param e
+   * @returns
+   */
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // 防止重复提交
+    if (submit || !fromNameValue) return
+    setLoading(true) // 开始加载状态
+    notification(`开始克隆 ${fromNameValue}`)
+    window.expansions.postMessage({ type: 'git-clone', data: fromNameValue })
+  }
 
   useEffect(() => {
     fromNameRef.current = fromNameValue
   }, [fromNameValue])
 
-  const { notification } = useNotification()
-  const [submit, setSubmit] = useState(false)
-  // const [select, setSelect] = useState('main')
-  // const [platforms, setPlatforms] = useState(['main', 'master'])
-  // const [branches, setBranches] = useState<
-  //   {
-  //     name: string
-  //     commit: {
-  //       sha: string
-  //       url: string
-  //     }
-  //     protected: boolean
-  //   }[]
-  // >([])
-  const [loading, setLoading] = useState(false)
-
   useEffect(() => {
-    const handleMessage = (data: { type: string; data: any }) => {
-      if (data.type === 'git-clone') {
-        setSubmit(false)
-        if (data.data === 1) {
-          notification('git clone 完成')
-          window.yarn.install()
-        } else {
-          notification('git clone 失败', 'warning')
-        }
+    window.expansions.onMessage((data: { type: string; data: any }) => {
+      if (!data.type || data.type !== 'git-clone') return
+      // 结束加载状态
+      setSubmit(false)
+      // 结束加载状态
+      if (data.data == 1) {
+        notification('git clone 完成')
+        // 推送加载。
+        window.yarn.cmds({
+          type: 'install',
+          value: ['install', '--ignore-warnings']
+        })
+      } else {
+        notification('git clone 失败', 'warning')
       }
-    }
-
-    window.expansions.onMessage(handleMessage)
-  }, [notification])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFromNameValue(e.target.value)
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (submit || !fromNameValue) return
-    setLoading(true) // 开始加载状态
-    notification(`开始克隆 ${fromNameValue}`)
-    window.expansions.postMessage({ type: 'git-clone', data: fromNameValue })
-    // setSubmit(true)
-  }
-
-  // const onClickSelect = async () => {
-  //   if (!/github/.test(fromNameValue)) return
-  //   setLoading(true) // 开始加载状态
-  //   const { username, repository } = extractRepoInfo(fromNameValue)
-  //   try {
-  //     const data = await fetchGitHubBranches(username, repository)
-  //     if (!data) return
-  //     setBranches(data)
-  //   } catch (e) {
-  //     console.error(e)
-  //     notification('获取分支失败', 'error')
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
+    })
+  }, [])
 
   return (
     <div className="flex flex-1 items-center justify-center">
@@ -87,7 +70,6 @@ export default function GithubFrom() {
                 点击下载
               </span>
               ，且仓库满足npmjs规范。
-              {/* 。当前仅支持 GitHub 仓库选择分支。 */}
             </label>
             <div className="flex items-center gap-2">
               <input
@@ -98,13 +80,6 @@ export default function GithubFrom() {
                 onChange={handleChange}
                 className="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
               />
-              {/* <div>
-                <select onClick={onClickSelect} value={select} className="bg-transparent">
-                  {platforms.map((item, index) => (
-                    <option key={index}>{item}</option>
-                  ))}
-                </select>
-              </div> */}
             </div>
           </div>
           <button

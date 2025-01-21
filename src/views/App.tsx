@@ -82,6 +82,7 @@ export default (function App() {
 
     // 加载css变量
     window.theme.variables()
+
     // 监听 css 变量
     window.theme.on(cssVariables => {
       try {
@@ -94,15 +95,24 @@ export default (function App() {
     })
 
     // 立即加载依赖
-    window.yarn.install()
+    window.yarn.cmds({
+      type: 'install',
+      value: ['install', '--ignore-warnings']
+    })
 
-    // 监听依赖安装状态
-    window.yarn.onInstallStatus((value: number) => {
-      dispatch(
-        setModulesStatus({
-          nodeModulesStatus: value == 0 ? false : true
-        })
-      )
+    // 监听依赖安装状态 0 失败 1 成功
+    window.yarn.on(data => {
+      const value = data.value
+      if (data.type == 'install') {
+        if (value == 0) {
+          notification('依赖初始化失败', 'error')
+        }
+        dispatch(
+          setModulesStatus({
+            nodeModulesStatus: value == 0 ? false : true
+          })
+        )
+      }
     })
 
     // 立即获取 bot 状态
@@ -156,7 +166,9 @@ export default (function App() {
           dispatch(setCommand(data.data))
           return
         } else if (data.type === 'get-expansions') {
-          dispatch(initPackage(data.data))
+          const db = data.data
+          console.log('get-expansions', db)
+          dispatch(initPackage(db))
         }
       } catch {
         console.error('HomeApp 解析消息失败')
@@ -179,7 +191,6 @@ export default (function App() {
   }, [])
 
   useEffect(() => {
-    // console.log('App.tsx useEffect modules.nodeModulesStatus', modules.nodeModulesStatus)
     modulesRef.current = modules
     // 依赖状态变化时。
     if (modules.nodeModulesStatus) {
@@ -201,21 +212,6 @@ export default (function App() {
     // 运行的时候才会获取扩展器
     if (expansions.runStatus) {
       window.expansions.postMessage({ type: 'get-expansions' })
-      // if (!bot.runStatus) {
-      //   // 尝试启动机器人
-      //   window.bot.automatically().then(res => {
-      //     if (res) {
-      //       notification('开始运行机器人...')
-      //       const name = ''
-      //       if (/@alemonjs\//.test(name)) {
-      //         const login = name.replace('@alemonjs/', '')
-      //         window.bot.run(['--login', login])
-      //       } else {
-      //         window.bot.run(['--platform', name])
-      //       }
-      //     }
-      //   })
-      // }
     }
   }, [expansions.runStatus])
 

@@ -1,5 +1,9 @@
 const data = [
   {
+    version: '0.0.21',
+    log: ['优化npm包管理机制', '开放包管理器', '@alemonjs/process >= 0.0.2']
+  },
+  {
     version: '0.0.20',
     log: ['修复检查更新']
   },

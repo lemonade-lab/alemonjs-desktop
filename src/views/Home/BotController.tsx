@@ -9,7 +9,6 @@ export default (function BotController() {
     // 事件
     onClickStart,
     onClickClose,
-    onClickYarnInstall,
     // 状态
     bot,
     modules,
@@ -40,8 +39,8 @@ export default (function BotController() {
           <div>{bot.runStatus ? '已启动' : '未启动'}</div>
         </div>
         <div className="">
-          {modules.nodeModulesStatus ? (
-            bot.runStatus ? (
+          {modules.nodeModulesStatus &&
+            (bot.runStatus ? (
               <button
                 type="button"
                 className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
@@ -61,16 +60,7 @@ export default (function BotController() {
               >
                 <span>启动</span>
               </button>
-            )
-          ) : (
-            <button
-              type="button"
-              className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
-              onClick={onClickYarnInstall}
-            >
-              <span>加载</span>
-            </button>
-          )}
+            ))}
         </div>
       </div>
     </section>

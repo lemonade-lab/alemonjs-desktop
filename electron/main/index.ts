@@ -6,7 +6,12 @@ import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
 import { cpSync, existsSync, rmSync } from 'node:fs'
-import { userDataNodeModulesPath, userDataTemplatePath, templatePath } from '../core/static'
+import {
+  userDataNodeModulesPath,
+  userDataTemplatePath,
+  templatePath,
+  userDataPackagePath
+} from '../core/static'
 import { storage } from '../core/storage'
 
 // 获取屏幕尺寸
@@ -133,7 +138,7 @@ const initWindow = () => {
  */
 const initFiles = () => {
   // 没有包配置文件
-  if (!existsSync(userDataNodeModulesPath)) {
+  if (!existsSync(userDataPackagePath)) {
     // 确保目录被清空
     rmSync(userDataTemplatePath, { recursive: true, force: true })
     // 复制模板文件
