@@ -1,6 +1,6 @@
 const data = [
   {
-    version: '0.0.22',
+    version: '0.1.0',
     log: ['重置扩展与机器人']
   },
   {
