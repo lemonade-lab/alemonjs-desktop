@@ -1,5 +1,9 @@
 const data = [
   {
+    version: '0.0.22',
+    log: ['重置扩展与机器人']
+  },
+  {
     version: '0.0.21',
     log: ['优化npm包管理机制', '开放包管理器', '@alemonjs/process >= 0.0.2']
   },

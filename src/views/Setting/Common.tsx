@@ -1,5 +1,6 @@
 import { RootState } from '@src/store'
 import Button from '@src/ui/Button'
+import Modal from '@src/ui/Modal'
 import ToggleSwitch from '@src/ui/Switch'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -7,7 +8,6 @@ import { useSelector } from 'react-redux'
 const Common = () => {
   const app = useSelector((state: RootState) => state.app)
   const [desktopChecked, setDesktopChecked] = useState(false)
-  const [botChecked, setBotChecked] = useState(false)
 
   const update = _.throttle(async checked => {
     const T = await window.controller.setAutoLaunch(checked)
@@ -20,9 +20,6 @@ const Common = () => {
   const initUpdate = async () => {
     const T = await window.controller.autoLaunchStutas()
     if (T) setDesktopChecked(true)
-    // window.bot.automatically().then(res => {
-    //   setBotChecked(res)
-    // })
   }
 
   /**
@@ -33,13 +30,10 @@ const Common = () => {
     update(status)
   }
 
-  /**
-   *
-   * @param status
-   */
-  const onChangeBot = (status: boolean) => {
-    // window.bot.setAutomatically(status)
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
 
   useEffect(() => {
     initUpdate()
@@ -88,6 +82,20 @@ const Common = () => {
                 下载
               </Button>
             </div>
+            <div className="flex gap-2 justify-between">
+              <div className="flex flex-row gap-2 items-center">
+                <div>重置扩展与机器人</div>
+                <div className="text-sm text-[var(--alemonjs-secondary-text)]">以当前版本为准</div>
+              </div>
+              <Button
+                onClick={() => {
+                  openModal()
+                  // window.app.reIniteTemplate()
+                }}
+              >
+                重置
+              </Button>
+            </div>
             <div className="flex flex-col gap-2 border rounded-md p-1">
               <div className="">快捷键</div>
               <div className="flex gap-2 justify-between">
@@ -110,6 +118,21 @@ const Common = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2 className="text-xl mb-4">重置扩展与机器人</h2>
+        <p>危险！该操作将以当前版本初始内容对所有扩展和机器人进行重置!</p>
+        <div className="flex justify-end">
+          <button
+            onClick={() => {
+              window.app.reIniteTemplate()
+              closeModal()
+            }}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+          >
+            重置并重启
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }

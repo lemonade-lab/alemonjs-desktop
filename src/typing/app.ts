@@ -29,4 +29,8 @@ export type WindowApp = {
    * @returns
    */
   downloadFiles: (dir: string) => Promise<void>
+  /**
+   *
+   */
+  reIniteTemplate: () => Promise<void>
 }

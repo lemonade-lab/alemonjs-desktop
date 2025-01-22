@@ -1,5 +1,5 @@
 import './bot'
-import './template'
+import './app'
 import './window'
 import './yarn'
 import './css'

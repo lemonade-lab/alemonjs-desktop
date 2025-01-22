@@ -5,14 +5,10 @@ import { createTray } from '../core/tray'
 import { onBeforeRequest } from '../core/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
 import { join } from 'node:path'
-import { cpSync, existsSync, rmSync } from 'node:fs'
-import {
-  userDataNodeModulesPath,
-  userDataTemplatePath,
-  templatePath,
-  userDataPackagePath
-} from '../core/static'
+import { existsSync } from 'node:fs'
+import { userDataPackagePath } from '../core/static'
 import { storage } from '../core/storage'
+import { initTemplate } from '../core/init'
 
 // 获取屏幕尺寸
 const getScreenSize = (): Electron.Size => {
@@ -139,10 +135,7 @@ const initWindow = () => {
 const initFiles = () => {
   // 没有包配置文件
   if (!existsSync(userDataPackagePath)) {
-    // 确保目录被清空
-    rmSync(userDataTemplatePath, { recursive: true, force: true })
-    // 复制模板文件
-    cpSync(templatePath, userDataTemplatePath, { recursive: true })
+    initTemplate()
   }
 }
 

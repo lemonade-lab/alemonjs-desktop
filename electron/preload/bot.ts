@@ -9,11 +9,6 @@ contextBridge.exposeInMainWorld('bot', {
   run: (data: string) => {
     ipcRenderer.send('bot-run', data)
   },
-  // automatically: () => ipcRenderer.invoke('bot-automatically'),
-  // // 自动启动
-  // setAutomatically: (status: boolean) => {
-  //   ipcRenderer.send('bot-automatically', status)
-  // },
   // 关闭
   close: () => {
     ipcRenderer.send('bot-close')
