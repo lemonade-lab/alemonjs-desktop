@@ -1,3 +1,5 @@
+import { PrimaryDiv } from '@src/ui/Div'
+import { Button } from '@src/ui/Interactive'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 const About = () => {
@@ -27,7 +29,7 @@ const About = () => {
   return (
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex justify-center items-center">
       <div className="flex-col gap-2 flex justify-center py-6 items-center">
-        <div className="flex flex-col items-center  justify-center flex-1  p-6 rounded-lg shadow-inner bg-[var(--alemonjs-primary-bg)] w-96 max-w-full">
+        <PrimaryDiv className="flex flex-col items-center  justify-center flex-1  p-6 rounded-lg shadow-inner">
           <h2 className="text-2xl font-semibold mb-4">AlemonJS</h2>
           {versions ? (
             <ul className="list-disc pl-5">
@@ -39,12 +41,12 @@ const About = () => {
           ) : (
             <p>加载版本信息...</p>
           )}
-          <button
+          <Button
             onClick={onClickUpdate}
-            className="mt-4 px-6 py-1 bg-blue-500 rounded-lg text-white duration-700 transition-all  hover:bg-blue-700 "
+            className="mt-4 px-6 py-1 rounded-lg  duration-700 transition-all   "
           >
             <div>检查更新</div>
-          </button>
+          </Button>
           <div className="h-10 w-full">
             {progress > 0 && (
               <div className="relative mt-2 h-2 bg-gray-300 rounded">
@@ -55,7 +57,7 @@ const About = () => {
               </div>
             )}
           </div>
-        </div>
+        </PrimaryDiv>
       </div>
     </div>
   )

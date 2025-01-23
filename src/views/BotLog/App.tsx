@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTerminal } from '@src/hook/terminal'
 import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
+import { ChevronDown } from '@src/common/Icons'
+import { useNavigate } from 'react-router-dom'
+import { NavDiv, SecondaryDiv } from '@src/ui/Div'
+import { Button } from '@src/ui/Interactive'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())
@@ -25,6 +29,7 @@ const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
 }
 
 function Terminal() {
+  const navigate = useNavigate()
   const { onClickStart, onClickClose, bot, state, platforms } = useBotController()
   const log = useSelector((state: RootState) => state.log)
   const modules = useSelector((state: RootState) => state.modules)
@@ -70,8 +75,8 @@ function Terminal() {
   }
 
   return (
-    <section className=" flex flex-col  bg-[var(--alemonjs-secondary-bg)] ">
-      <div className="animate__animated animate__fadeIn flex flex-col p-1  bg-[#002b36] text-white  border-[#586e75] border-b ">
+    <div className="flex flex-col">
+      <NavDiv className="animate__animated animate__fadeIn flex flex-col p-1 border-b ">
         <div className="flex gap-4  justify-between items-center ">
           <div className=" flex gap-2 items-center ">
             <div>
@@ -95,66 +100,57 @@ function Terminal() {
 
           <div className="flex gap-4 ">
             <div>Terminal</div>
-            <div
-              className=" cursor-pointer"
-              onClick={() => {
-                onClickDeleteLog()
-              }}
-            >
-              -10
-            </div>
-            <div
-              className=" cursor-pointer"
-              onClick={() => {
-                onClickDeleteLog(20)
-              }}
-            >
-              -20
-            </div>
-            <div
-              className=" cursor-pointer"
-              onClick={() => {
-                onClickDeleteLog(50)
-              }}
-            >
-              -50
-            </div>
-            <div
-              className=" cursor-pointer"
-              onClick={() => {
-                onClickDeleteLog(99)
-              }}
-            >
-              -99
-            </div>
+            {[10, 20, 50, 99].map((item, index) => (
+              <div
+                key={index}
+                className=" cursor-pointer"
+                onClick={() => {
+                  onClickDeleteLog(item)
+                }}
+              >
+                -{item}
+              </div>
+            ))}
           </div>
 
-          <div>
+          <div className="flex items-center gap-2">
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                window.app.openWindowTerminal()
+                // navigate('/window/terminal')
+              }}
+            >
+              <ChevronDown width={16} height={16} />
+            </div>
             {modules.nodeModulesStatus &&
               (bot.runStatus ? (
-                <button
+                <Button
                   type="button"
-                  className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
+                  className="border  px-2 rounded-md  duration-700 transition-all  "
                   onClick={onClickClose}
                 >
                   <span>关闭</span>
-                </button>
+                </Button>
               ) : (
-                <button
+                <Button
                   type="button"
-                  className="border border-[#586e75] px-2 rounded-md  duration-700 transition-all  hover:bg-gray-500"
+                  className="border  px-2 rounded-md  duration-700 transition-all  "
                   onClick={onClickStart}
                 >
                   <span>启动</span>
-                </button>
+                </Button>
               ))}
           </div>
         </div>
+      </NavDiv>
+      <div className=" duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
+        <div
+          ref={terminalRef}
+          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.8rem)]"
+        />
       </div>
-      <div className="duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
-        <div ref={terminalRef} className="flex p-4 flex-col bg-[#002b36] h-[calc(100vh-3.8rem)]" />
-      </div>
-    </section>
+    </div>
   )
 }
 

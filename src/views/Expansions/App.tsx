@@ -9,6 +9,8 @@ import { Init } from './Component'
 import { MenuMoreIcon, RefreshIcon } from '@src/common/Icons'
 import { fetchPackageInfo, getPackages } from './api'
 import ExpansionsCard from './ExpansionsCard'
+import { SecondaryDiv, SidebarDiv } from '@src/ui/Div'
+import { Input } from '@src/ui/Interactive'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
@@ -104,15 +106,15 @@ export default function Expansions() {
   }, [])
 
   return (
-    <section className="animate__animated animate__fadeIn flex flex-row flex-1 h-full shadow-md">
-      <div className="flex flex-col flex-1 bg-[var(--alemonjs-secondary-bg)]">
+    <section className=" flex flex-row flex-1 h-full">
+      <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1">
         {select == '' && <Init />}
         {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
         {select == '管理' && <LinkFrom />}
         {select == '模块' && <AddFrom />}
         {select == '仓库' && <GithubFrom />}
-      </div>
-      <nav className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
+      </SecondaryDiv>
+      <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
         <div className="flex justify-between">
           <div className="">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
@@ -127,7 +129,7 @@ export default function Expansions() {
           </div>
         </div>
         <div className="">
-          <input
+          <Input
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
             placeholder="在应用商店中搜索扩展"
@@ -153,7 +155,7 @@ export default function Expansions() {
                 ))}
           </div>
         </div>
-      </nav>
+      </SidebarDiv>
     </section>
   )
 }

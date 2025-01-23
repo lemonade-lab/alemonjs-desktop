@@ -1,4 +1,5 @@
 import logoURL from '@src/assets/logo.jpg'
+import { PrimaryDiv } from '@src/ui/Div'
 // import Dropdown from './Dropdown'
 // import { SettingIcon } from '@src/common/Icons'
 
@@ -14,9 +15,10 @@ const ExpansionsCard = ({
   // options?: string[]
 }) => {
   return (
-    <div
+    <PrimaryDiv
+      hover={true}
       onClick={() => handlePackageClick(item.name)}
-      className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center duration-700 transition-all  hover:bg-gray-100"
+      className="cursor-pointer rounded-sm relative flex gap-1  p-1 flex-row h-14 justify-between items-center duration-700 transition-all  "
     >
       <div className="size-10 rounded-sm">
         <img
@@ -38,7 +40,7 @@ const ExpansionsCard = ({
           }}
         /> */}
       </div>
-    </div>
+    </PrimaryDiv>
   )
 }
 

@@ -7,7 +7,7 @@ import { setBotStatus } from '@src/store/bot'
 import { setCommand } from '@src/store/command'
 import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/common/MenuIcons'
 import Header from '@src/common/Header'
-import { BottomBar } from '@src/views/BottomBar'
+import Menu from '@src/views/Menu'
 import WordBox from './WordBox'
 import { setModulesStatus } from '@src/store/modules'
 import { initPackage, setExpansionsStatus } from '@src/store/expansions'
@@ -15,6 +15,7 @@ import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import MainView from './MainView'
 import { postMessage } from '@src/store/log'
+import { PrimaryDiv } from '@src/ui/Div'
 
 export default (function App() {
   const navigate = useGoNavigate()
@@ -56,7 +57,25 @@ export default (function App() {
   const modulesRef = useRef(modules)
 
   useEffect(() => {
+    // 加载css变量
+    window.theme.variables()
+    // 监听 css 变量
+    window.theme.on(cssVariables => {
+      try {
+        Object.keys(cssVariables).forEach(key => {
+          document.documentElement.style.setProperty(`--${key}`, cssVariables[key])
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    }
+
     console.log('App.tsx useEffect')
+
     // 依赖加载状态提示
     const msg = [
       '正在加载依赖，请耐心等待...',
@@ -77,20 +96,6 @@ export default (function App() {
     window.app.getAppsPath().then(res => {
       console.log('app.getAppsPath', res)
       dispatch(setPath(res))
-    })
-
-    // 加载css变量
-    window.theme.variables()
-
-    // 监听 css 变量
-    window.theme.on(cssVariables => {
-      try {
-        Object.keys(cssVariables).forEach(key => {
-          document.documentElement.style.setProperty(`--${key}`, cssVariables[key])
-        })
-      } catch (e) {
-        console.error(e)
-      }
     })
 
     // 立即加载依赖
@@ -221,24 +226,26 @@ export default (function App() {
   }, [])
 
   return (
-    <div className="flex flex-col h-screen">
-      <Header>{<WordBox />}</Header>
-      <div className="flex flex-1">
-        <BottomBar
+    <div className="flex flex-col h-screen ">
+      <Header>
+        <WordBox />
+      </Header>
+      <PrimaryDiv className="flex flex-1">
+        <Menu
           onClickLogo={() => navigate('/')}
           centerList={navList}
           onClickSetting={() => navigate('/setting')}
         />
         {loading ? (
-          <main className=" flex flex-1 bg-[var(--alemonjs-primary-bg)]">
+          <div className=" flex flex-1">
             <Outlet />
-          </main>
+          </div>
         ) : (
-          <main className=" flex flex-1 bg-[var(--alemonjs-primary-bg)]">
+          <div className=" flex flex-1">
             <MainView />
-          </main>
+          </div>
         )}
-      </div>
+      </PrimaryDiv>
     </div>
   )
 })

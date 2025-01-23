@@ -6,15 +6,45 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeRaw from 'rehype-raw'
 import rehypeAttr from 'rehype-attr'
+import { useEffect } from 'react'
 /**
  * @param param0
  * @returns
  */
 const Markdown = ({ source }: { source: string }) => {
+  // theme
+  useEffect(() => {
+    // 读取本地存储的主题
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-color-mode', 'dark')
+    } else {
+      document.documentElement.setAttribute('data-color-mode', 'light')
+    }
+    const observer = new MutationObserver(mutationsList => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const hasDarkClass = document.documentElement.classList.contains('dark')
+          document.documentElement.setAttribute('data-color-mode', hasDarkClass ? 'dark' : 'light')
+        }
+      }
+    })
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    })
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
   return (
     <MarkdownPreview
       className="animate__animated animate__fadeIn select-text"
-      style={{ padding: '0.5rem', backgroundColor: '#FFFFFF00' }}
+      style={{
+        padding: '0.5rem',
+        backgroundColor: '#FFFFFF00'
+      }}
       source={source}
       components={{
         a: ({ node, ...props }) => (

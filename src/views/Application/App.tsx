@@ -4,6 +4,7 @@ import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCommand } from '@src/store/command'
 import { useLocation } from 'react-router-dom'
+import { SecondaryDiv, SidebarDiv, TagDiv } from '@src/ui/Div'
 
 interface Sidebar {
   expansions_name: string
@@ -80,9 +81,9 @@ export default function Webviews() {
   }, [view])
 
   return (
-    <section className="animate__animated animate__fadeIn flex flex-col flex-1 shadow-md">
+    <section className=" flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--alemonjs-secondary-bg)]">
+        <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1 h-[calc(100vh-2rem)] ">
           {view ? (
             <webview
               ref={viewRef}
@@ -99,26 +100,24 @@ export default function Webviews() {
               </div>
             </div>
           )}
-        </div>
-        <nav className="min-w-14 border-l">
+        </SecondaryDiv>
+        <SidebarDiv className="min-w-14 border-l">
           {viewSidebars.map((viewItem, index) => (
-            <div
+            <TagDiv
               key={index}
               onClick={() => handleSidebarClick(viewItem)}
               className={classNames(
-                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  hover:bg-slate-200',
-                {
-                  'bg-[var(--alemonjs-secondary-bg)]': viewItem.commond === command.name
-                }
+                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  ',
+                { 'bg-secondary-bg': viewItem.commond === command.name }
               )}
             >
               {viewItem.name}
               {view && viewItem.commond === command.name && (
                 <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
               )}
-            </div>
+            </TagDiv>
           ))}
-        </nav>
+        </SidebarDiv>
       </div>
     </section>
   )

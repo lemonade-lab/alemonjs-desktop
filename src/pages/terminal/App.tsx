@@ -3,12 +3,12 @@ import Header from '@src/common/Header'
 import { useEffect } from 'react'
 import { postMessage } from '@src/store/log'
 import { useDispatch } from 'react-redux'
+import { PrimaryDiv } from '@src/ui/Div'
 export default (function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     // 加载css变量
     window.theme.variables()
-
     // 监听 css 变量
     window.theme.on(cssVariables => {
       try {
@@ -19,21 +19,24 @@ export default (function App() {
         console.error(e)
       }
     })
-
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    }
     window.terminal.on((message: string) => {
       dispatch(postMessage(message))
     })
   }, [])
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen ">
       <Header>
         <div className="drag-area flex-1"></div>
       </Header>
-      <div className="flex flex-1">
-        <main className=" flex flex-1 bg-[var(--alemonjs-primary-bg)]">
+      <PrimaryDiv className="flex flex-1">
+        <div className=" flex flex-1">
           <Outlet />
-        </main>
-      </div>
+        </div>
+      </PrimaryDiv>
     </div>
   )
 })

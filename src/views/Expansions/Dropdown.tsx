@@ -1,4 +1,5 @@
 import { MenuMoreIcon } from '@src/common/Icons'
+import { SecondaryDiv } from '@src/ui/Div'
 import React, { useState, useRef, memo } from 'react'
 
 interface DropdownProps<T> {
@@ -41,21 +42,23 @@ const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: Drop
         {Icon}
       </button>
       {isOpen && (
-        <ul className="absolute bg-white z-10 bg-opacity-90 right-0 w-20 mt-2 border rounded-md shadow-md">
-          {options.map((option, index) => (
-            <li
-              key={index}
-              onClick={e => {
-                e.stopPropagation()
-                setIsOpen(false)
-                onChangeOption(option)
-              }}
-              className="px-2 py-1 duration-700 transition-all  hover:bg-gray-100 cursor-pointer"
-            >
-              {option}
-            </li>
-          ))}
-        </ul>
+        <SecondaryDiv className="absolute  z-10 bg-opacity-90 right-0 w-20 mt-2 border rounded-md shadow-md">
+          <ul>
+            {options.map((option, index) => (
+              <li
+                key={index}
+                onClick={e => {
+                  e.stopPropagation()
+                  setIsOpen(false)
+                  onChangeOption(option)
+                }}
+                className="px-2 py-1 duration-700 transition-all  hover:bg-gray-100 cursor-pointer"
+              >
+                {option}
+              </li>
+            ))}
+          </ul>
+        </SecondaryDiv>
       )}
     </div>
   )

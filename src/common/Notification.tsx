@@ -1,6 +1,7 @@
-import React, { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { CloseIcon } from './Icons'
 import classNames from 'classnames'
+import { NotificationDiv } from '@src/ui/Div'
 
 interface NotificationProps {
   message: string
@@ -33,22 +34,10 @@ const Notification = memo(({ message, theme, onClose }: NotificationProps) => {
   if (!visible) return null // 如果不可见则返回 null
 
   return (
-    <div
-      className={classNames(`px-4 py-2 rounded-lg shadow-lg`, {
-        'bg-[var(--alemonjs-notification-bg)] text-[var(--alemonjs-notification-text)]':
-          theme === 'default',
-        'bg-[var(--alemonjs-notification-error-bg)] text-[var(--alemonjs-notification-error-text)]':
-          theme === 'error',
-        'bg-[var(--alemonjs-notification-warning-bg)] text-[var(--alemonjs-notification-warning-text)]':
-          theme === 'warning'
-      })}
-    >
+    <NotificationDiv type={theme} className={classNames(`px-4 py-2 rounded-lg shadow-lg`)}>
       <div className="flex items-center gap-3">
         <span className="text-sm flex-1 break-words max-w-[420px]">{message}</span>
-        <span
-          onClick={onClose}
-          className="text-[var(--alemonjs-notification-text)] duration-700 transition-all hover:text-[--primary-color] cursor-pointer"
-        >
+        <span onClick={onClose} className=" duration-700 transition-all  cursor-pointer">
           <CloseIcon />
         </span>
       </div>
@@ -58,7 +47,7 @@ const Notification = memo(({ message, theme, onClose }: NotificationProps) => {
           style={{ width: `${progress}%`, transition: 'width 0.1s' }}
         />
       </div>
-    </div>
+    </NotificationDiv>
   )
 })
 

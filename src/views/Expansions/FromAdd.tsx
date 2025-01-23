@@ -1,4 +1,6 @@
 import { useNotification } from '@src/context/Notification'
+import { PrimaryDiv } from '@src/ui/Div'
+import { Button, Input } from '@src/ui/Interactive'
 import { useEffect, useRef, useState } from 'react'
 
 export default function From() {
@@ -64,7 +66,7 @@ export default function From() {
 
   return (
     <div className="flex flex-1 items-center justify-center ">
-      <div className="p-8 rounded-lg bg-[var(--alemonjs-primary-bg)] shadow-inner w-full max-w-md">
+      <PrimaryDiv className="p-8 rounded-lg   shadow-inner w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">下载模块</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -79,25 +81,25 @@ export default function From() {
                 npmjs.com
               </span>
             </label>
-            <input
+            <Input
               type="text"
               name="name"
               placeholder="@alemonjs/db"
               value={fromNameValue}
               onChange={handleChange}
-              className="mt-1 block w-full px-2 py-1  border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+              className="mt-1 block w-full px-2 py-1  border   rounded-md focus:outline-none focus:ring "
             />
           </div>
-          <button
+          <Button
             type="submit"
             // 控制提交
             disabled={submit}
-            className="w-full bg-blue-400 text-white p-2 rounded-md duration-700 transition-all  hover:bg-blue-700 "
+            className="w-full   p-2 rounded-md duration-700 transition-all    "
           >
             开始安装
-          </button>
+          </Button>
         </form>
-      </div>
+      </PrimaryDiv>
     </div>
   )
 }

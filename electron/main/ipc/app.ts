@@ -5,6 +5,7 @@ import * as appsPath from '../../core/static'
 import { basename, join } from 'path'
 import Logger from 'electron-log'
 import { initTemplate } from '../../core/init'
+import { createTerminal } from '../terminal'
 
 // 得到应用目录
 ipcMain.handle('get-apps-path', () => appsPath)
@@ -35,6 +36,7 @@ ipcMain.handle('read-files', async (event, dir: string) => {
   return readFileSync(dir, 'utf-8')
 })
 
+// 写入文件
 ipcMain.handle('write-files', async (event, dir: string, data: string) => {
   try {
     writeFileSync(dir, data, 'utf-8')
@@ -59,5 +61,28 @@ ipcMain.on('download-files', async (event, dir: string) => {
     copyFileSync(filePath, savePath)
   } catch (e) {
     console.error(e)
+  }
+})
+
+let terminalWindow: Electron.BrowserWindow | null = null
+
+ipcMain.on('open-window-terminal', () => {
+  if (!terminalWindow) {
+    terminalWindow = createTerminal()
+    // terminalWindow 是可以关闭的
+    terminalWindow.on('closed', () => {
+      terminalWindow = null
+    })
+  } else {
+    terminalWindow.show()
+  }
+})
+
+ipcMain.on('open-window-main', () => {
+  if (!global.mainWindow) {
+    // main窗口是不可以被关闭的
+    // 只能隐藏
+  } else {
+    global.mainWindow.show()
   }
 })

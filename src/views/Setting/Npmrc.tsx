@@ -6,6 +6,7 @@ import 'codemirror/mode/yaml/yaml'
 import { useNotification } from '@src/context/Notification'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/store'
+import { PrimaryDiv, SecondaryDiv } from '@src/ui/Div'
 export default function Npmrc() {
   const app = useSelector((state: RootState) => state.app)
   const [value, setValue] = useState(``)
@@ -34,8 +35,8 @@ export default function Npmrc() {
     initData()
   }, [])
   return (
-    <section className="flex-1 flex flex-col bg-[var(--alemonjs-primary-bg)] ">
-      <div className="flex-1 flex flex-col bg-[var(--alemonjs-secondary-bg)]">
+    <section className="flex-1 flex flex-col ">
+      <SecondaryDiv classID="flex-1 flex flex-col">
         <div className="flex justify-between items-center  px-2">
           <div className="flex gap-2">
             <div className="px-1 py-1">.npmrc</div>
@@ -68,7 +69,7 @@ export default function Npmrc() {
             )}
           </div>
         </div>
-        <div className="flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto scrollbar">
+        <PrimaryDiv className="flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto scrollbar">
           <CodeMirror
             value={value}
             className="flex-1 flex flex-col "
@@ -80,8 +81,8 @@ export default function Npmrc() {
               setValue(value)
             }}
           />
-        </div>
-      </div>
+        </PrimaryDiv>
+      </SecondaryDiv>
     </section>
   )
 }

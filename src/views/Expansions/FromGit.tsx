@@ -1,4 +1,6 @@
 import { useNotification } from '@src/context/Notification'
+import { PrimaryDiv } from '@src/ui/Div'
+import { Button, Input } from '@src/ui/Interactive'
 import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 // import { extractRepoInfo, fetchGitHubBranches } from './api'
@@ -57,7 +59,7 @@ export default function GithubFrom() {
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="p-8 rounded-lg bg-[var(--alemonjs-primary-bg)] shadow-inner w-full max-w-md">
+      <PrimaryDiv className="p-8 rounded-lg  ] shadow-inner w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Git</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -72,28 +74,25 @@ export default function GithubFrom() {
               ，且仓库满足npmjs规范。
             </label>
             <div className="flex items-center gap-2">
-              <input
+              <Input
                 type="text"
                 name="name"
                 placeholder="请输入[@URL].git"
                 value={fromNameValue}
                 onChange={handleChange}
-                className="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                className="mt-1 block w-full px-2 py-1 border b  rounded-md focus:outline-none focus:ring "
               />
             </div>
           </div>
-          <button
+          <Button
             type="submit"
-            className={classNames('w-full p-2 rounded-md transition-all duration-700', {
-              'bg-gray-400 cursor-not-allowed': loading,
-              'bg-blue-500 text-white hover:bg-blue-700': !loading
-            })}
+            className={classNames('w-full p-2 rounded-md transition-all duration-700')}
             disabled={loading}
           >
             {loading ? '加载中...' : '克隆仓库'}
-          </button>
+          </Button>
         </form>
-      </div>
+      </PrimaryDiv>
     </div>
   )
 }

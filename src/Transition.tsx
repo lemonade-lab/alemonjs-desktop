@@ -1,4 +1,5 @@
 import Header from '@src/common/Header'
+import { PrimaryDiv } from './ui/Div'
 /**
  * 过度页
  * 在蓝加载中，切换时的国度页
@@ -12,13 +13,13 @@ export default function Transition() {
         <div></div>
       </Header>
       <div className="flex flex-1">
-        <main className="flex flex-1 bg-[var(--alemonjs-primary-bg)]">
+        <PrimaryDiv className="flex flex-1">
           <div className="flex-1 flex-col flex justify-center items-center">
             <div className="flex-col flex">
               <div className="flex-col flex justify-center items-center"></div>
             </div>
           </div>
-        </main>
+        </PrimaryDiv>
       </div>
     </div>
   )

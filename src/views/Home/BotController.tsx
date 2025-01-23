@@ -1,5 +1,7 @@
 import { useBotController } from '@src/hook/bot'
 import useGoNavigate from '@src/hook/navigate'
+import { SecondaryDiv } from '@src/ui/Div'
+import { Button } from '@src/ui/Interactive'
 /**
  * @description 机器人控制器
  */
@@ -17,7 +19,7 @@ export default (function BotController() {
   } = useBotController()
   const [platform, setPlatform] = state
   return (
-    <section className=" bg-[var(--alemonjs-secondary-bg)] w-[17rem] rounded-xl shadow-content p-2 ">
+    <SecondaryDiv className=" w-[17rem] rounded-xl shadow-content p-2 ">
       <div className="flex gap-4 items-center ">
         <div className="flex-1 flex gap-2 items-center rounded-md">
           <div>
@@ -41,17 +43,17 @@ export default (function BotController() {
         <div className="">
           {modules.nodeModulesStatus &&
             (bot.runStatus ? (
-              <button
+              <Button
                 type="button"
-                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+                className="border px-2 rounded-md  duration-700 transition-all   "
                 onClick={onClickClose}
               >
                 <span>关闭</span>
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 type="button"
-                className="border px-2 rounded-md  duration-700 transition-all  hover:bg-blue-200"
+                className="border px-2 rounded-md  duration-700 transition-all  "
                 onClick={() => {
                   onClickStart()
                   // 跳转到控制台
@@ -59,10 +61,10 @@ export default (function BotController() {
                 }}
               >
                 <span>启动</span>
-              </button>
+              </Button>
             ))}
         </div>
       </div>
-    </section>
+    </SecondaryDiv>
   )
 })

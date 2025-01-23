@@ -1,6 +1,7 @@
 import { RobotIcon } from '@src/common/MenuIcons'
 import useGoNavigate from '@src/hook/navigate'
 import BotController from './BotController'
+import { BarDiv } from '@src/ui/Div'
 export default () => {
   const navigate = useGoNavigate()
   return (
@@ -8,16 +9,15 @@ export default () => {
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-xl pl-2">欢迎使用，AlemonJS 机器人。</div>
-          <button
-            type="button"
+          <BarDiv
             onClick={() => {
               navigate('/application')
             }}
-            className="px-4 py-1 border border-[var(--alemonjs-menu-bg)] text-[var(--alemonjs-menu-text)] rounded-full flex items-center gap-4"
+            className="px-4 py-1 border cursor-pointer  rounded-full flex items-center gap-4"
           >
             <RobotIcon width="20" height="20" />
             <span className="text-sm">扩展</span>
-          </button>
+          </BarDiv>
         </div>
         <div className="flex flex-wrap items-center gap-2 py-2">
           <BotController />

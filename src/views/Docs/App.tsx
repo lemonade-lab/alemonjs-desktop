@@ -1,3 +1,4 @@
+import { SecondaryDiv } from '@src/ui/Div';
 import { useState, useEffect } from 'react';
 
 export default function Docs() {
@@ -18,7 +19,7 @@ export default function Docs() {
     }, []);
 
     return (
-        <div className="relative w-full h-full bg-[var(--alemonjs-secondary-bg)] shadow-md">
+        <SecondaryDiv className="relative w-full h-full  shadow-md">
             {
                 !isOnline && (
                     <div className="w-full h-full flex items-center justify-center bg-red-100">
@@ -35,6 +36,6 @@ export default function Docs() {
                     />
                 )
             }
-        </div>
+        </SecondaryDiv>
     );
 }

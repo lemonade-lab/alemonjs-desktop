@@ -5,6 +5,7 @@ import UpdateLog from './UpdateLog'
 import Common from './Common'
 import Npmrc from './Npmrc'
 import Theme from './Theme'
+import { SecondaryDiv, SidebarDiv, TagDiv } from '@src/ui/Div'
 export default function SettingApp() {
   const [view, setView] = useState(0)
   const datas = [
@@ -35,22 +36,22 @@ export default function SettingApp() {
     }
   ]
   return (
-    <section className="animate__animated animate__fadeIn flex flex-col flex-1 shadow-md">
+    <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        <div className="flex flex-col flex-1 h-[calc(100vh-2rem)] bg-[var(--alemonjs-secondary-bg)]">
+        <SecondaryDiv className="flex flex-col flex-1 h-[calc(100vh-2rem)]">
           {datas[view].com}
-        </div>
-        <nav className="min-w-14 border-l">
+        </SecondaryDiv>
+        <SidebarDiv className="min-w-14 border-l">
           {datas.map((viewItem, index) => (
-            <div
+            <TagDiv
               key={index}
               onClick={() => {
                 setView(index)
               }}
               className={classNames(
-                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  hover:bg-slate-200',
+                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  ',
                 {
-                  'bg-[var(--alemonjs-secondary-bg)] ': view == index
+                  'bg-secondary-bg': view == index
                 }
               )}
             >
@@ -58,9 +59,9 @@ export default function SettingApp() {
               {view == index && (
                 <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
               )}
-            </div>
+            </TagDiv>
           ))}
-        </nav>
+        </SidebarDiv>
       </div>
     </section>
   )

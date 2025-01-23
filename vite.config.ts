@@ -66,10 +66,6 @@ export default defineConfig(({ command }) => {
       chunkSizeWarningLimit: 1500,
       minify: 'terser',
       rollupOptions: {
-        input: {
-          main: resolve(__dirname, 'index.html'), // 首页
-          terminal: resolve(__dirname, 'src/pages/terminal/index.html')
-        },
         output: {
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',

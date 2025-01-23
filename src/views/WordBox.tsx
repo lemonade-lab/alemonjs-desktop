@@ -1,7 +1,9 @@
 import { CloseIcon, Pause, Play } from '@src/common/Icons'
-import useGoNavigate from '@src/hook/navigate'
 import useNetworkSpeed from '@src/hook/useNetworkSpeed'
 import { RootState } from '@src/store'
+import { BarDiv, PrimaryDiv, SecondaryDiv } from '@src/ui/Div'
+import { Input } from '@src/ui/Interactive'
+import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -16,7 +18,6 @@ export default function WordBox() {
   const expansions = useSelector((state: RootState) => state.expansions)
 
   // 公共样式常量
-
   const onClose = () => {
     setIsDropdownOpen(false)
   }
@@ -37,8 +38,6 @@ export default function WordBox() {
     }
   }, [])
 
-  const navigate = useGoNavigate()
-
   useEffect(() => {
     const commondItem =
       expansions.package?.flatMap((item: any) => {
@@ -57,22 +56,25 @@ export default function WordBox() {
   return (
     <div className="flex-[6] flex gap-2 justify-between items-center">
       {isDropdownOpen ? (
-        <div
+        <PrimaryDiv
           ref={dropdownRef}
-          className=" absolute top-0 p-1 left-1/2 transform -translate-x-1/2 bg-[var(--alemonjs-primary-bg)] border-slate-300 bg-opacity-95 rounded-md  shadow-md z-10"
+          className={classNames(
+            'absolute top-0 p-1 left-1/2 transform -translate-x-1/2  rounded-md  shadow-md z-10'
+          )}
         >
-          <input
+          <Input
             type="text"
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
-            placeholder="input command ..."
+            placeholder="input command"
             className="border rounded-md min-w-72 px-2 py-1"
             aria-label="Command Input"
-          />
+          ></Input>
           <div className="">
             <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
               {conmond.map((item, index) => (
-                <div
+                <PrimaryDiv
+                  hover={true}
                   key={index}
                   onClick={() => {
                     if (!modules.nodeModulesStatus) return
@@ -84,23 +86,25 @@ export default function WordBox() {
                     // 关闭下拉菜单
                     setIsDropdownOpen(false)
                   }}
-                  className="flex text-slate-600 justify-between px-2 py-1 cursor-pointer duration-700 transition-all  hover:bg-gray-300 hover:bg-opacity-80 rounded-md"
+                  className={classNames(
+                    'flex justify-between px-2 py-1 cursor-pointer duration-700 transition-all   rounded-md'
+                  )}
                 >
                   <div>{item.name}</div>
-                  <div className="text-slate-400">{item.commond}</div>
-                </div>
+                  <div className="text-secondary-text">{item.commond}</div>
+                </PrimaryDiv>
               ))}
             </div>
           </div>
           <div className="flex justify-end">
-            <span
+            <BarDiv
               onClick={onClose}
-              className="text-[var(--alemonjs-notification-text)] duration-700 transition-all  hover:text-[--primary-color] cursor-pointer"
+              className=" duration-700 rounded-full p-1 transition-all  cursor-pointer"
             >
               <CloseIcon />
-            </span>
+            </BarDiv>
           </div>
-        </div>
+        </PrimaryDiv>
       ) : (
         <>
           <div className=" flex-1 flex items-center ">
@@ -117,15 +121,15 @@ export default function WordBox() {
             </div>
           </div>
           <div className=" flex-1 flex items-center justify-center">
-            <div
+            <SecondaryDiv
               ref={dropdownRef}
-              className="w-full relative text-sm text-slate-400 cursor-pointer border flex justify-center items-center   h-5 rounded-md bg-[var(--alemonjs-secondary-bg)]"
+              className="w-full relative text-sm  cursor-pointer border flex justify-center items-center h-[1.1rem] rounded-md "
               onClick={() => setIsDropdownOpen(prev => !prev)}
               aria-expanded={isDropdownOpen}
               role="button"
             >
               <span className="">input command</span>
-            </div>
+            </SecondaryDiv>
           </div>
           <div className=" flex-1 flex items-center">
             {

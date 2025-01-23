@@ -33,4 +33,12 @@ export type WindowApp = {
    *
    */
   reIniteTemplate: () => Promise<void>
+  /**
+   *
+   */
+  openWindowTerminal: () => void
+  /**
+   *
+   */
+  openWindowMain: () => void
 }

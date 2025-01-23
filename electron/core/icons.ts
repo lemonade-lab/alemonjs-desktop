@@ -1,5 +1,8 @@
-import { join } from 'path'
 import { nativeImage } from 'electron'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
 /**
  * #description 从路径创建图标
  */

@@ -191,14 +191,10 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
           <img src={logoURL} alt={`${packageInfo.name} logo`} className="size-20 rounded-md" />
         </div>
         <div className="flex-1 flex flex-col gap-1">
-          <div className="text-xl flex gap-2  text-gray-800">
+          <div className="text-xl flex gap-2 text-secondary-text">
             <div className="font-bold">{packageInfo.name}</div>
-            {packageInfo['isLink'] && (
-              <div className="text-xs text-[var(--alemonjs-secondary-text)]">link</div>
-            )}
-            {packageInfo['isGit'] && (
-              <div className="text-xs text-[var(--alemonjs-secondary-text)]">git</div>
-            )}
+            {packageInfo['isLink'] && <div className="text-xs text-secondary-text">link</div>}
+            {packageInfo['isGit'] && <div className="text-xs text-secondary-text">git</div>}
           </div>
           <div className="flex gap-2 items-center">
             {typeof packageInfo.author === 'string' ? (
@@ -218,7 +214,7 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
               </div>
             )}
           </div>
-          <div className="text-gray-700">{packageInfo.description}</div>
+          <div className="text-secondary-text">{packageInfo.description}</div>
           <div className="flex gap-2 items-center justify-between">
             <div className="flex gap-2 items-center">
               <div>Version: {packageInfo['dist-tags'].latest}</div>

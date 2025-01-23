@@ -1,5 +1,7 @@
 import { memo, PropsWithChildren, ReactNode } from 'react'
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from '@src/common/Icons'
+import classNames from 'classnames'
+import { HeaderDiv } from '@src/ui/Div'
 
 type HeaderProps = PropsWithChildren<{
   LeftSlot?: ReactNode
@@ -15,7 +17,7 @@ type HeaderProps = PropsWithChildren<{
  */
 export default memo(function Header({ children }: HeaderProps) {
   return (
-    <header className="h-[1.6rem] flex justify-between  bg-[var(--alemonjs-primary-bg)] border-b-2  border-white">
+    <HeaderDiv className={classNames('h-[1.6rem] flex justify-between  border-b-2 ')}>
       <div className="drag-area flex-1"></div>
       {children ?? <div className="flex-[2]"></div>}
       {window.versions.platform == 'win32' ? (
@@ -23,19 +25,25 @@ export default memo(function Header({ children }: HeaderProps) {
           <div className="flex-1 drag-area "></div>
           <div className="flex px-2   gap-2 justify-center items-center">
             <span
-              className="cursor-pointer   hover:bg-slate-300  rounded-sm px-1 text-[var(--alemonjs-window-bar-text)]  hover:text-gray-900 transition-all duration-300"
+              className={classNames(
+                'cursor-pointer hover:bg-slate-300  rounded-sm px-1  hover:text-gray-900 transition-all duration-300'
+              )}
               onClick={() => window.controller.minimize()}
             >
               <MinimizeIcon />
             </span>
             <span
-              className="cursor-pointer   hover:bg-slate-300  rounded-sm px-1 text-[var(--alemonjs-window-bar-text)]  hover:text-gray-900 transition-all duration-300"
+              className={classNames(
+                'cursor-pointer hover:bg-slate-300  rounded-sm px-1  hover:text-gray-900 transition-all duration-300'
+              )}
               onClick={() => window.controller.maximize()}
             >
               <MaximizeIcon />
             </span>
             <span
-              className="cursor-pointer   hover:bg-red-600   hover:text-white  rounded-sm px-1 text-[var(--alemonjs-window-bar-text)]  transition-all duration-300"
+              className={classNames(
+                'cursor-pointer hover:bg-red-600  hover:text-white  rounded-sm px-1   transition-all duration-300'
+              )}
               onClick={() => window.controller.close()}
             >
               <CloseIcon />
@@ -45,6 +53,6 @@ export default memo(function Header({ children }: HeaderProps) {
       ) : (
         <div className="drag-area flex-1"></div>
       )}
-    </header>
+    </HeaderDiv>
   )
 })

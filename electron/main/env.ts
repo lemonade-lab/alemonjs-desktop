@@ -1,6 +1,9 @@
 import { app } from 'electron'
 import { release } from 'node:os'
-import { join } from 'node:path'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
 // 定义进程变量
 process.env.DIST_ELECTRON = join(__dirname, '../')
 // 被打包后的文件

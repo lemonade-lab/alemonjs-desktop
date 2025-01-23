@@ -1,5 +1,5 @@
 import { BrowserWindow, MessageBoxReturnValue, dialog } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import * as updater from 'electron-updater'
 import Store from 'electron-store'
 import { debounce } from 'lodash'
 import { promisify } from 'util'
@@ -42,16 +42,16 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   }
 
   // 检查更新并自动操作
-  // autoUpdater.checkForUpdatesAndNotify()
+  // updater.autoUpdater.checkForUpdatesAndNotify()
 
   // 更新检查更新版本
-  autoUpdater.checkForUpdates()
+  updater.autoUpdater.checkForUpdates()
 
-  autoUpdater.logger = logger
-  autoUpdater.disableWebInstaller = false
+  updater.autoUpdater.logger = logger
+  updater.autoUpdater.disableWebInstaller = false
 
   // 这个写成 false，写成 true 时，可能会报没权限更新
-  autoUpdater.autoDownload = false // 自动下载
+  updater.autoUpdater.autoDownload = false // 自动下载
 
   let timeID: NodeJS.Timeout | null = null
   const send = () => {
@@ -61,9 +61,9 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   }
 
   // 当有可用更新的时候触发。 更新将自动下载。
-  autoUpdater.on('update-available', info => {
+  updater.autoUpdater.on('update-available', info => {
     // 这里做的是检测到更新，直接就下载
-    autoUpdater.downloadUpdate()
+    updater.autoUpdater.downloadUpdate()
 
     // 设置状态为正在下载
     isDownloading = true
@@ -76,7 +76,7 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   })
 
   // 下载更新包的进度，可以用于显示下载进度与前端交互等
-  autoUpdater.on('download-progress', async progress => {
+  updater.autoUpdater.on('download-progress', async progress => {
     // 计算下载百分比
     const downloadPercent = Math.round(progress.percent * 100) / 100
     // 实时同步下载进度到渲染进程，以便于渲染进程显示下载进度
@@ -84,14 +84,14 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   })
 
   // 当没有可用更新的时候触发，其实就是啥也不用做
-  autoUpdater.on('update-not-available', () => {
+  updater.autoUpdater.on('update-not-available', () => {
     if (t) {
       timeID && clearTimeout(timeID)
       showMessage(mainWindow, '没有可用更新')
     }
   })
 
-  autoUpdater.on('error', error => {
+  updater.autoUpdater.on('error', error => {
     if (t) {
       timeID && clearTimeout(timeID)
       showMessage(mainWindow, '检查更新失败')
@@ -101,7 +101,7 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   })
 
   // 在更新下载完成的时候触发。
-  autoUpdater.on('update-downloaded', info => {
+  updater.autoUpdater.on('update-downloaded', info => {
     if (t) {
       timeID && clearTimeout(timeID)
     }
@@ -142,7 +142,7 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
           // 确定操作更新
           storage.autoUpdate = true
           // 退出并安装更新，自动启动新版本
-          autoUpdater.quitAndInstall()
+          updater.autoUpdater.quitAndInstall()
         } else if (response === 1) {
           // 如果用户选择跳过版本，我们储存这个版本号到 electron-store
           store.set(KEY, info.version)
