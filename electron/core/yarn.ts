@@ -2,14 +2,15 @@ import { fork } from 'child_process'
 import { join } from 'node:path'
 import logger from 'electron-log'
 import { userDataTemplatePath } from './static'
+import { webContents } from 'electron'
 
 /**
  * yarn 安装依赖
- * @param webContents
+ * @param webContent
  * @returns
  */
 export const yarn = async (
-  webContents: Electron.WebContents,
+  webContent: Electron.WebContents,
   data: {
     type: string
     value: string[]
@@ -23,28 +24,33 @@ export const yarn = async (
   })
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
-    if (webContents.isDestroyed()) return
-    // 发消息给渲染进程
-    webContents.send('on-terminal', data.toString())
+    const allWebContents = webContents.getAllWebContents()
+    allWebContents.forEach(contents => {
+      if (contents.isDestroyed()) return
+      contents.send('on-terminal', data.toString())
+    })
     logger.info(`Yarn output: ${data.toString()}`)
   })
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
-    if (webContents.isDestroyed()) return
-    webContents.send('on-terminal', data.toString())
+    const allWebContents = webContents.getAllWebContents()
+    allWebContents.forEach(contents => {
+      if (contents.isDestroyed()) return
+      contents.send('on-terminal', data.toString())
+    })
     logger.error(`Yarn error: ${data.toString()}`)
   })
   // 监听子进程退出
   child.on('exit', code => {
-    if (webContents.isDestroyed()) return
+    if (webContent.isDestroyed()) return
     // 确保安装成功
     if (code == 0) {
-      webContents.send('yarn-status', {
+      webContent.send('yarn-status', {
         type: data.type,
         value: 1
       })
     } else {
-      webContents.send('yarn-status', {
+      webContent.send('yarn-status', {
         type: data.type,
         value: 0
       })

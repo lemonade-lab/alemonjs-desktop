@@ -2,6 +2,7 @@ import { userDataTemplatePath } from './static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
+import { webContents } from 'electron'
 
 /**
  * @description bot 管理
@@ -26,15 +27,15 @@ let child: ChildProcess | null = null
  * 如果已经运行，则发送消息给渲染进程
  * @returns
  */
-export const botRun = async (webContents: Electron.WebContents, args: string[]) => {
+export const botRun = async (webContent: Electron.WebContents, args: string[]) => {
   if (child && child.connected) {
     logger.info('Bot is running')
     // 运行中
-    webContents.send('bot-status', 1)
+    webContent.send('bot-status', 1)
     return
   }
 
-  if (webContents.isDestroyed()) return
+  if (webContent.isDestroyed()) return
 
   const MyJS = join(userDataTemplatePath, 'index.js')
   child = fork(MyJS, args, {
@@ -44,29 +45,36 @@ export const botRun = async (webContents: Electron.WebContents, args: string[]) 
 
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
-    if (webContents.isDestroyed()) return
-    // 发消息给渲染进程
-    webContents.send('on-terminal', data.toString())
+    const allWebContents = webContents.getAllWebContents()
+    allWebContents.forEach(contents => {
+      if (contents.isDestroyed()) return
+      contents.send('on-terminal', data.toString())
+    })
+
     logger.info(`bot output: ${data.toString()}`)
   })
 
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
-    if (webContents.isDestroyed()) return
-    webContents.send('on-terminal', data.toString())
+    const allWebContents = webContents.getAllWebContents()
+    allWebContents.forEach(contents => {
+      if (contents.isDestroyed()) return
+      contents.send('on-terminal', data.toString())
+    })
+
     logger.error(`bot error: ${data.toString()}`)
   })
 
   // 监听子进程退出
   child.on('exit', code => {
-    if (webContents.isDestroyed()) return
+    if (webContent.isDestroyed()) return
     // 退出了。
-    webContents.send('bot-status', 0)
+    webContent.send('bot-status', 0)
     logger.info(`bot exit ${code}`)
   })
 
   // 运行成功
-  webContents.send('bot-status', 1)
+  webContent.send('bot-status', 1)
 }
 
 /**

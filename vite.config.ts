@@ -1,4 +1,4 @@
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { rmSync } from 'node:fs'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -66,6 +66,10 @@ export default defineConfig(({ command }) => {
       chunkSizeWarningLimit: 1500,
       minify: 'terser',
       rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'), // 首页
+          terminal: resolve(__dirname, 'src/pages/terminal/index.html')
+        },
         output: {
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',

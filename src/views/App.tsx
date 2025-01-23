@@ -23,7 +23,6 @@ export default (function App() {
   const { notification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
-  const bot = useSelector((state: RootState) => state.bot)
 
   const navList: {
     Icon: React.ReactNode

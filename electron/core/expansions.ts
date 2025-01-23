@@ -2,6 +2,7 @@ import { userDataTemplatePath } from './static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
+import { webContents } from 'electron'
 
 /**
  * @description 扩展器管理
@@ -28,13 +29,13 @@ const webviewWindows = new Map<string, Electron.WebContents>()
  * 如果已经运行，则发送消息给渲染进程
  * @returns
  */
-export const expansionsRun = async (webContents: Electron.WebContents, args: string[]) => {
+export const expansionsRun = async (webContent: Electron.WebContents, args: string[]) => {
   if (child && child.connected) {
     logger.info('expansions is running')
-    webContents.send('expansions-status', 1)
+    webContent.send('expansions-status', 1)
     return
   }
-  if (webContents.isDestroyed()) return
+  if (webContent.isDestroyed()) return
 
   const MyJS = join(userDataTemplatePath, 'desktop.js')
 
@@ -45,24 +46,31 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
 
   // 监听子进程的标准输出
   child.stdout?.on('data', data => {
-    if (webContents.isDestroyed()) return
-    // 发消息给渲染进程
-    webContents.send('on-terminal', data.toString())
+    const allWebContents = webContents.getAllWebContents()
+    allWebContents.forEach(contents => {
+      if (contents.isDestroyed()) return
+      contents.send('on-terminal', data.toString())
+    })
+
     logger.info(`expansions output: ${data.toString()}`)
   })
 
   // 监听子进程的错误输出
   child.stderr?.on('data', data => {
-    if (webContents.isDestroyed()) return
-    webContents.send('on-terminal', data.toString())
+    const allWebContents = webContents.getAllWebContents()
+    allWebContents.forEach(contents => {
+      if (contents.isDestroyed()) return
+      contents.send('on-terminal', data.toString())
+    })
+
     logger.error(`expansions error: ${data.toString()}`)
   })
 
   // 监听子进程退出
   child.on('exit', code => {
-    if (webContents.isDestroyed()) return
+    if (webContent.isDestroyed()) return
     // 退出了。
-    webContents.send('expansions-status', 0)
+    webContent.send('expansions-status', 0)
     logger.info(`expansions exit ${code}`)
   })
 
@@ -75,7 +83,7 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
 
   // 监听子进程返回的消息
   child.on('message', (message: any) => {
-    if (webContents.isDestroyed()) return
+    if (webContent.isDestroyed()) return
     try {
       if (/^webview/.test(message.type) && map[message.type]) {
         const __name = message.data.name
@@ -87,7 +95,7 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
           return
         }
       } else {
-        webContents.send('expansions-message', message)
+        webContent.send('expansions-message', message)
       }
     } catch (e) {
       logger.error(e)
@@ -95,7 +103,7 @@ export const expansionsRun = async (webContents: Electron.WebContents, args: str
   })
 
   // 运行成功
-  webContents.send('expansions-status', 1)
+  webContent.send('expansions-status', 1)
 }
 
 /**
