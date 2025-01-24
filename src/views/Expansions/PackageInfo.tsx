@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef } from 'react'
-import Markdown from '../Markdown'
+import Markdown from '../../common/Markdown'
 import logoURL from '@src/assets/logo.jpg'
 import { Download, RefreshIcon, Upload } from '@src/common/Icons'
 import { useDispatch, useSelector } from 'react-redux'

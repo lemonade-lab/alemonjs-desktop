@@ -38,9 +38,7 @@ export default function SettingApp() {
   return (
     <section className="flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        <SecondaryDiv className="flex flex-col flex-1 h-[calc(100vh-2rem)]">
-          {datas[view].com}
-        </SecondaryDiv>
+        <SecondaryDiv className="flex flex-col flex-1">{datas[view].com}</SecondaryDiv>
         <SidebarDiv className="min-w-14 border-l">
           {datas.map((viewItem, index) => (
             <TagDiv

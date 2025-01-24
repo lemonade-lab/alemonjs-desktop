@@ -82,7 +82,7 @@ function Terminal() {
             <div>
               <Select
                 defaultValue={platform.name}
-                className="bg-transparent"
+                className="rounded-md"
                 onChange={e => {
                   setPlatform({
                     name: e.target.value,

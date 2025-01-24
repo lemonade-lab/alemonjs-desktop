@@ -31,7 +31,7 @@ export default (function BotController() {
                   value: platforms.find(item => item.name === e.target.value)?.value || ''
                 })
               }
-              className="bg-transparent"
+              className="rounded-md"
             >
               {platforms.map((item, index) => (
                 <option key={index}>{item.name}</option>
