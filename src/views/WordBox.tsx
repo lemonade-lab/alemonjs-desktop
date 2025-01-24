@@ -1,4 +1,4 @@
-import { CloseIcon, Pause, Play } from '@src/common/Icons'
+import { AlignTextCenter, CloseIcon, Pause, Play } from '@src/common/Icons'
 import useNetworkSpeed from '@src/hook/useNetworkSpeed'
 import { RootState } from '@src/store'
 import { BarDiv, PrimaryDiv, SecondaryDiv } from '@src/ui/Div'
@@ -6,14 +6,20 @@ import { Input } from '@src/ui/Interactive'
 import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+interface Sidebar {
+  expansions_name: string
+  name: string
+  icon: string
+  commond: string
+}
 
 export default function WordBox() {
+  const app = useSelector((state: RootState) => state.app)
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const dropdownRef = useRef<HTMLDivElement | null>(null)
-  const [conmond, setCommond] = useState<
-    { expansions_name: string; name: string; commond: string }[]
-  >([])
+  const [conmond, setCommond] = useState<Sidebar[]>([])
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
 
@@ -53,6 +59,10 @@ export default function WordBox() {
 
   const { networkSpeed, connectionType } = useNetworkSpeed()
 
+  const createIconURL = (viewItem: Sidebar) => {
+    return `resource://-${app.userDataTemplatePath}/node_modules/${viewItem.expansions_name}/${viewItem.icon}`
+  }
+
   return (
     <div className="flex-[6] flex gap-2 justify-between items-center">
       {isDropdownOpen ? (
@@ -60,7 +70,7 @@ export default function WordBox() {
           ref={dropdownRef}
           className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2  z-10"
         >
-          <PrimaryDiv className={classNames('rounded-md  shadow-md')}>
+          <PrimaryDiv className={classNames('rounded-md  shadow-md p-1')}>
             <Input
               type="text"
               value={inputValue}
@@ -69,31 +79,38 @@ export default function WordBox() {
               className="border rounded-md min-w-72 px-2 py-1"
               aria-label="Command Input"
             />
-            <div className="">
-              <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
-                {conmond.map((item, index) => (
-                  <PrimaryDiv
-                    hover={true}
-                    key={index}
-                    onClick={() => {
-                      if (!modules.nodeModulesStatus) return
-                      // 只负责发送消息
-                      window.expansions.postMessage({
-                        type: 'command',
-                        data: item.commond
-                      })
-                      // 关闭下拉菜单
-                      setIsDropdownOpen(false)
-                    }}
-                    className={classNames(
-                      'flex justify-between px-2 py-1 cursor-pointer duration-700 transition-all   rounded-md'
-                    )}
-                  >
-                    <div>{item.name}</div>
-                    <div className="text-secondary-text">{item.commond}</div>
-                  </PrimaryDiv>
-                ))}
-              </div>
+            <div className="py-2 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
+              {conmond.map((item, index) => (
+                <PrimaryDiv
+                  hover={true}
+                  key={index}
+                  onClick={() => {
+                    if (!modules.nodeModulesStatus) return
+                    // 只负责发送消息
+                    window.expansions.postMessage({
+                      type: 'command',
+                      data: item.commond
+                    })
+                    // 关闭下拉菜单
+                    setIsDropdownOpen(false)
+                  }}
+                  className={classNames(
+                    'flex justify-between px-2 py-1 cursor-pointer duration-700 transition-all   rounded-md'
+                  )}
+                >
+                  <div className="flex gap-2">
+                    <div className="flex items-center justify-center ">
+                      {item.icon ? (
+                        <img className="size-4 rounded-md" src={createIconURL(item)}></img>
+                      ) : (
+                        <AlignTextCenter width={16} height={16} />
+                      )}
+                    </div>
+                    <div className="flex items-center justify-center ">{item.name}</div>
+                  </div>
+                  <div className="text-secondary-text">{item.commond}</div>
+                </PrimaryDiv>
+              ))}
             </div>
             <div className="flex justify-end">
               <BarDiv

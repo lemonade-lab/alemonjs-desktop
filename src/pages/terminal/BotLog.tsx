@@ -101,7 +101,7 @@ function Terminal() {
       <div className=" duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
         <div
           ref={terminalRef}
-          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.8rem)]"
+          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.5rem)]"
         />
       </div>
     </div>

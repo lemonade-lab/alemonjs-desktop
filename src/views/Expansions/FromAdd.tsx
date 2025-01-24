@@ -79,7 +79,7 @@ export default function From() {
             <Input
               type="text"
               name="name"
-              placeholder="@alemonjs/db"
+              placeholder="alemonjs"
               value={fromNameValue}
               onChange={handleChange}
               className="mt-1 block w-full px-2 py-1  border   rounded-md focus:outline-none focus:ring "

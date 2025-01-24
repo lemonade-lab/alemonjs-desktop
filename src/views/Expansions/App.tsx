@@ -20,8 +20,8 @@ const GithubFrom = lazy(() => import('./FromGit'))
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
-  const [packageInfo, setPackageInfo] = useState<PackageInfoType>(null)
-  const packageInfoRef = useRef<PackageInfoType>(null)
+  const [packageInfo, setPackageInfo] = useState<PackageInfoType | null>(null)
+  const packageInfoRef = useRef<PackageInfoType | null>(null)
   const { notification } = useNotification()
   const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
@@ -31,20 +31,27 @@ export default function Expansions() {
 
   // 查看扩展信息
   const handlePackageClick = debounce(async (packageName: string) => {
-    const pkg = expansions.package.find(v => v.name === packageName)
-    if (!pkg) {
+    const info = expansions.package.find(v => v.name === packageName)
+    if (!info) {
       notification(`本地没有找到 ${packageName} 的数据。`, 'error')
       return
     }
     const dir = app.userDataNodeModulesPath + '/' + packageName + '/README.md'
+    let __logo = null
+    if (info?.alemonjs?.desktop?.logo) {
+      const __dir = info.alemonjs.desktop.logo.replace(/^\./, '').replace(/^\//, '')
+      __logo = app.userDataNodeModulesPath + '/' + packageName + '/' + __dir
+    }
     const data = {
-      'name': pkg?.name || '',
-      'description': pkg?.description || '',
-      'author': pkg?.author || null,
-      'dist-tags': { latest: pkg?.version || '' },
+      'name': info?.name || '',
+      'description': info?.description || '',
+      'author': info?.author || null,
+      'dist-tags': { latest: info?.version || '' },
+      'version': info?.version || '',
       'readme': '',
-      'isLink': pkg?.isLink || false,
-      'isGit': pkg?.isGit || false
+      'isLink': info?.isLink || false,
+      'isGit': info?.isGit || false,
+      '__logo': __logo
     }
     try {
       const readme = await window.app.readFiles(dir)
@@ -58,13 +65,15 @@ export default function Expansions() {
   // 查看扩展信息
   const handleNpmJSPackageClick = debounce(async (packageName: string) => {
     try {
-      const pkg = await fetchPackageInfo(packageName)
+      const info = await fetchPackageInfo(packageName)
       const data = {
-        'name': pkg?.name || '',
-        'description': pkg?.description || '',
-        'author': pkg?.author || null,
-        'dist-tags': pkg['dist-tags'],
-        'readme': pkg.readme || ''
+        'name': info?.name || '',
+        'description': info?.description || '',
+        'author': info?.author || null,
+        'dist-tags': info['dist-tags'],
+        'version': info['dist-tags'].latest,
+        'readme': info.readme || '',
+        '__logo_url': info?.__logo_url || null
       }
       setPackageInfo(data)
     } catch (err) {
@@ -73,7 +82,7 @@ export default function Expansions() {
   }, 500)
 
   useEffect(() => {
-    packageInfoRef.current = packageInfo
+    if (packageInfo) packageInfoRef.current = packageInfo
     if (packageInfo) setSelect('shoping')
   }, [packageInfo])
 
@@ -100,6 +109,7 @@ export default function Expansions() {
     // 获取alemonjs相关包
     getPackages().then(data => {
       if (data.objects) {
+        console.log('data.objects', data.objects)
         setNpms(data.objects.map((v: any) => v.package))
       }
     })
@@ -116,7 +126,7 @@ export default function Expansions() {
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
         <div className="flex justify-between">
-          <div className="">扩展列表</div>
+          <div className="text-xl">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <div onClick={onClickRefresh} className=" cursor-pointer">
               <RefreshIcon width={18} height={18} />
@@ -133,11 +143,11 @@ export default function Expansions() {
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
             placeholder="在应用商店中搜索扩展"
-            className="w-full px-2 py-1 text-[0.7rem] rounded-sm"
+            className="w-full px-2 py-1 rounded-sm"
           />
         </div>
         <div className="flex-1">
-          <div className="flex flex-col gap-1 scrollbar overflow-auto h-[calc(100vh-6.5rem)]">
+          <div className="flex flex-col gap-1 scrollbar overflow-auto h-[calc(100vh-8rem)]">
             {packages.length > 0
               ? packages.map(item => (
                   <ExpansionsCard

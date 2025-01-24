@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@src/ui/Div'
 
 const data = [
   {
+    version: '0.1.2',
+    log: ['支持切换扩展版本', '支持加载扩展图标']
+  },
+  {
     version: '0.1.1',
     log: ['支持调节switch样式', '支持webview主题和黑白模式', '优化webview通讯']
   },

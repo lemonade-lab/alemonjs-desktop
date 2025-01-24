@@ -1,5 +1,20 @@
 import axios from 'axios'
 
+//
+export const createNPMJSURL = ({
+  name,
+  version,
+  path
+}: {
+  name: string
+  version: string
+  path: string
+}) => {
+  // 可能是  ./xx  /xx
+  const pathName = path.replace(/^\./, '').replace(/^\//, '')
+  return `https://unpkg.com/${name}@${version}/${pathName}`
+}
+
 /**
  *
  * @param packageName
@@ -14,15 +29,34 @@ export const fetchPackageInfo = async (packageName: string) => {
       }
     })
     .then(res => res.data)
-  return {
-    'name': response.name,
-    'author': response.author,
-    'description': response.description,
-    'license': response.license,
-    'dist-tags': response['dist-tags'],
-    'time': response.time,
-    'readme': response.readme || ''
+  const version = response['dist-tags'].latest
+  const pkgURL = createNPMJSURL({
+    name: packageName,
+    version: version,
+    path: 'package.json'
+  })
+  const pkg = await axios.get(pkgURL).then(res => res.data)
+  let __logo_url = null
+  if (pkg?.alemonjs?.desktop?.logo) {
+    __logo_url = createNPMJSURL({
+      name: packageName,
+      version: version,
+      path: pkg.alemonjs.desktop.logo
+    })
   }
+  const versions = Object.keys(response.versions)
+  const data = {
+    'name': response.name,
+    'description': response.description,
+    'author': response.author,
+    'dist-tags': response['dist-tags'],
+    'version': response['dist-tags'].latest,
+    'readme': response.readme || '',
+    '__logo_url': __logo_url,
+    versions
+  }
+  console.log('response', response)
+  return data
 }
 
 export const extractRepoInfo = (url: string) => {

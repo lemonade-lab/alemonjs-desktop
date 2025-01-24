@@ -1,14 +1,13 @@
-import { protocol, net } from 'electron'
-// import { existsSync } from 'fs'
-// import { join } from 'path'
+import { protocol, net, session } from 'electron'
+import { existsSync } from 'fs'
 import url from 'url'
 export function onBeforeRequest(): void {
   // 注册 "onBeforeRequest" 事件的处理程序
   // session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
   //   const url = details.url
-  //   Logger.error('details.url', url)
-  //   if (url.startsWith('resource://')) {
-  //     const localPath = url.replace('resource://', '')
+  //   if (url.startsWith('resource://-')) {
+  //     const localPath = url.replace('resource://-', '')
+  //     console.error('localPath', localPath)
   //     // 检查文件是否存在
   //     if (existsSync(localPath)) {
   //       callback({
@@ -26,7 +25,7 @@ export function onBeforeRequest(): void {
   //   callback({ path: filePath })
   // })
   protocol.handle('resource', request => {
-    const filePath = decodeURIComponent(request.url.slice('resource://'.length).replace(/^-\//, ''))
+    const filePath = decodeURIComponent(request.url.replace('resource://-', ''))
     console.error('filePath', filePath)
     return net.fetch(url.pathToFileURL(filePath).toString())
   })

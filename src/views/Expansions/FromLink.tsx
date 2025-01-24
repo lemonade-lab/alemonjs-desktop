@@ -75,7 +75,7 @@ export default function From() {
             <Input
               type="text"
               name="name"
-              placeholder="link @alemonjs/db"
+              placeholder="link alemonjs-xiuxian"
               value={fromNameValue}
               onChange={handleChange}
               className="mt-1 block w-full px-2 py-1  border  rounded-md focus:outline-none focus:ring  "
@@ -87,7 +87,7 @@ export default function From() {
             disabled={submit}
             className="w-full      p-2 rounded-md duration-700 transition-all   "
           >
-            开始关联
+            执行
           </Button>
         </form>
       </PrimaryDiv>

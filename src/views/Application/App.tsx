@@ -9,6 +9,7 @@ import { SecondaryDiv, SidebarDiv, TagDiv } from '@src/ui/Div'
 interface Sidebar {
   expansions_name: string
   name: string
+  icon: string
   commond: string
 }
 
@@ -80,6 +81,10 @@ export default function Webviews() {
     }
   }, [view])
 
+  const createIconURL = (viewItem: Sidebar) => {
+    return `resource://-${app.userDataTemplatePath}/node_modules/${viewItem.expansions_name}/${viewItem.icon}`
+  }
+
   return (
     <section className=" flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
@@ -111,7 +116,11 @@ export default function Webviews() {
                 { 'bg-secondary-bg': viewItem.commond === command.name }
               )}
             >
-              {viewItem.name}
+              {viewItem.icon ? (
+                <img className="size-10 rounded-md" src={createIconURL(viewItem)}></img>
+              ) : (
+                viewItem.name
+              )}
               {view && viewItem.commond === command.name && (
                 <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
               )}

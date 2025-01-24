@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from 'react'
+import { memo, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import Markdown from '../../common/Markdown'
 import logoURL from '@src/assets/logo.jpg'
 import { Download, RefreshIcon, Upload } from '@src/common/Icons'
@@ -7,6 +7,7 @@ import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { fetchPackageInfo } from './api'
 import { putPackage } from '@src/store/expansions'
+import { Select } from '@src/ui/Interactive'
 
 export type PackageInfoType = {
   [key: string]: any
@@ -21,18 +22,20 @@ export type PackageInfoType = {
       }
     | null
   'dist-tags': { latest: string }
+  'version': string
   'readme': string
-} | null
+  '__logo'?: string | null
+  '__logo_url'?: string | null
+}
 
-export default memo(function PackageInfo({ packageInfo }: { packageInfo: PackageInfoType }) {
-  if (!packageInfo) return <div></div>
-  const pkgInfo = packageInfo
+export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoType }) {
+  const [pkgInfo, setPkgInfo] = useState<PackageInfoType>(packageInfo)
   const { notification } = useNotification()
   const expansions = useSelector((state: RootState) => state.expansions)
   const dispatch = useDispatch()
+  const [options, setOptions] = useState<string[]>([])
 
   /**
-   *
    * @param name
    */
   const headleInstall = (name: string) => {
@@ -69,7 +72,9 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
         const version = msg['dist-tags'].latest
         if (pkgInfo['dist-tags'].latest !== version) {
           notification(`检查到最新版本${version}`, 'default')
-          pkgInfo['__version'] = version
+
+          setPkgInfo({ ...pkgInfo, __version: version })
+
           //
           window.yarn.cmds({
             type: `upgrade`,
@@ -112,6 +117,11 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
     }
   }
 
+  useEffect(() => {
+    setPkgInfo(packageInfo)
+    setOptions([packageInfo['dist-tags'].latest])
+  }, [packageInfo])
+
   // 控制提交
   useEffect(() => {
     window.yarn.on(data => {
@@ -126,7 +136,12 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
           notification(`upgrade ${pkgInfo?.name} 完成`)
           if (!pkgInfo) return
           const __version = pkgInfo['__version']
-          pkgInfo['dist-tags'].latest = __version
+
+          setPkgInfo({
+            ...pkgInfo,
+            'dist-tags': { latest: __version }
+          })
+
           // 更新数据
           dispatch(
             putPackage({
@@ -184,6 +199,56 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
     })
   }, [])
 
+  /**
+   *
+   * @param item
+   * @returns
+   */
+  const getURL = (item: any) => {
+    if (item['__logo_url']) return item['__logo_url']
+    return item['__logo'] ? `resource://-${item['__logo']}` : logoURL
+  }
+
+  const loadVersion: MouseEventHandler<HTMLSelectElement> = async e => {
+    e.stopPropagation()
+    if (options.length > 1) return
+    // notification(`开始获取${pkgInfo.name}版本`)
+    // 获取最新版本
+    const info = await fetchPackageInfo(pkgInfo.name)
+    console.log('info', info)
+    setOptions(info.versions)
+  }
+
+  /**
+   *
+   * @param e
+   * @returns
+   */
+  const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (pkgInfo['isLink']) {
+      notification(`link包无法切换版本`)
+      return
+    }
+    // 选择版本,立即切换到该版本
+    const version = e.target.value
+    // 版本相同不处理
+    if (version == pkgInfo['dist-tags'].latest) return
+
+    // 切换版本
+    notification(`开始切换${pkgInfo.name}版本到${version}`)
+
+    setPkgInfo({
+      ...pkgInfo,
+      __version: version
+    })
+
+    //
+    window.yarn.cmds({
+      type: `upgrade`,
+      value: ['upgrade', `${pkgInfo.name}@${version}`, '-W']
+    })
+  }
+
   return (
     <div className=" select-text">
       <div
@@ -192,47 +257,59 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
            dark:border-dark-secondary-border"
       >
         <div className="flex items-center justify-center">
-          <img src={logoURL} alt={`${packageInfo.name} logo`} className="size-20 rounded-md" />
+          <img src={getURL(pkgInfo)} alt={`${pkgInfo.name} logo`} className="size-20 rounded-md" />
         </div>
         <div className="flex-1 flex flex-col gap-1">
-          <div className="text-xl flex gap-2 text-secondary-text">
-            <div className="font-bold">{packageInfo.name}</div>
-            {packageInfo['isLink'] && <div className="text-xs text-secondary-text">link</div>}
-            {packageInfo['isGit'] && <div className="text-xs text-secondary-text">git</div>}
+          <div className="flex justify-between">
+            <div className="text-xl flex gap-2 text-secondary-text">
+              <div className="font-bold">{pkgInfo.name}</div>
+              {pkgInfo['isLink'] && <div className="text-xs text-secondary-text">link</div>}
+              {pkgInfo['isGit'] && <div className="text-xs text-secondary-text">git</div>}
+            </div>
+            <div>
+              {!pkgInfo['isLink'] && (
+                <Select onChange={onSelect} onClick={loadVersion} className="rounded-md">
+                  {options.map((item, index) => (
+                    <option key={index}>{item}</option>
+                  ))}
+                </Select>
+              )}
+            </div>
           </div>
+
           <div className="flex gap-2 items-center">
-            {typeof packageInfo.author === 'string' ? (
-              <div>{packageInfo.author}</div>
+            {typeof pkgInfo.author === 'string' ? (
+              <div>{pkgInfo.author}</div>
             ) : (
               <div className="flex gap-2 items-center">
-                {packageInfo.author?.url ? (
+                {pkgInfo.author?.url ? (
                   <div>
-                    <a target="_blank" rel="noreferrer" href={packageInfo.author?.url}>
-                      {packageInfo.author?.name ?? '未知'}
+                    <a target="_blank" rel="noreferrer" href={pkgInfo.author?.url}>
+                      {pkgInfo.author?.name ?? '未知'}
                     </a>
                   </div>
                 ) : (
-                  <div>{packageInfo.author?.name ?? '未知'}</div>
+                  <div>{pkgInfo.author?.name ?? '未知'}</div>
                 )}
-                <div> {packageInfo.author?.email ? `| ${packageInfo.author?.email}` : ' '}</div>
+                <div> {pkgInfo.author?.email ? `| ${pkgInfo.author?.email}` : ' '}</div>
               </div>
             )}
           </div>
-          <div className="text-secondary-text">{packageInfo.description}</div>
+          <div className="text-secondary-text">{pkgInfo.description}</div>
           <div className="flex gap-2 items-center justify-between">
             <div className="flex gap-2 items-center">
-              <div>Version: {packageInfo['dist-tags'].latest}</div>
-              {expansions.package.find(item => item.name == packageInfo.name) ? (
+              <div>Version: {pkgInfo['dist-tags'].latest}</div>
+              {expansions.package.find(item => item.name == pkgInfo.name) ? (
                 <>
-                  {!packageInfo['isLink'] && (
+                  {!pkgInfo['isLink'] && (
                     <div className="flex items-center gap-1 cursor-pointer" onClick={onClickUpdate}>
                       <RefreshIcon width={16} height={16} /> 更新
                     </div>
                   )}
-                  {packageInfo.name != '@alemonjs/process' && (
+                  {pkgInfo.name != '@alemonjs/process' && (
                     <div
                       className="flex items-center gap-1 cursor-pointer"
-                      onClick={() => headleDelete(packageInfo)}
+                      onClick={() => headleDelete(pkgInfo)}
                     >
                       <Upload width={16} height={16} /> 卸载
                     </div>
@@ -241,7 +318,7 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
               ) : (
                 <div
                   className="flex items-center gap-1 cursor-pointer"
-                  onClick={() => headleInstall(packageInfo.name)}
+                  onClick={() => headleInstall(pkgInfo.name)}
                 >
                   <Download width={16} height={16} /> 下载
                 </div>
@@ -251,8 +328,8 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
         </div>
       </div>
       <div className=" overflow-auto scrollbar h-[calc(100vh-9.7rem)]">
-        <Markdown source={packageInfo.readme} />
+        <Markdown source={pkgInfo.readme} />
       </div>
     </div>
   )
-})
+}
