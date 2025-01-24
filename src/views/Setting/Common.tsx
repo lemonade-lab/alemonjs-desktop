@@ -138,15 +138,15 @@ const Common = () => {
         <h2 className="text-xl mb-4">重置扩展与机器人</h2>
         <p>危险！该操作将以当前版本初始内容对所有扩展和机器人进行重置!</p>
         <div className="flex justify-end">
-          <button
+          <Button
             onClick={() => {
               window.app.reIniteTemplate()
               closeModal()
             }}
-            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+            className="mt-4 px-4 py-2   rounded "
           >
             重置并重启
-          </button>
+          </Button>
         </div>
       </Modal>
     </div>

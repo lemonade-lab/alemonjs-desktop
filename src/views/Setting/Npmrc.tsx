@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import { PrimaryDiv } from '@src/ui/Div'
 import Code from '@src/common/CodeMirror'
+import { Button } from '@src/ui/Interactive'
 export default function Npmrc() {
   const app = useSelector((state: RootState) => state.app)
   const [value, setValue] = useState(``)
@@ -40,27 +41,24 @@ export default function Npmrc() {
         <div className="flex  gap-4 items-center">
           {value != initValue && (
             <>
-              <button
+              <Button
                 type="button"
-                className="border px-2 rounded-md bg-red-500 duration-700 transition-all  hover:bg-red-400"
+                className="border px-2 rounded-md  duration-700 transition-all  "
               >
                 <span
-                  className="text-white"
                   onClick={() => {
                     setValue(initValue)
                   }}
                 >
                   放弃
                 </span>
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
-                className="border px-2 rounded-md bg-blue-500 duration-700 transition-all  hover:bg-blue-400"
+                className="border px-2 rounded-md  duration-700 transition-all  "
               >
-                <span className="text-white" onClick={onClickSave}>
-                  保存
-                </span>
-              </button>
+                <span onClick={onClickSave}>保存</span>
+              </Button>
             </>
           )}
         </div>

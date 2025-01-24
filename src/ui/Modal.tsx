@@ -1,5 +1,8 @@
 // src/Modal.jsx
 
+import { PrimaryDiv } from './Div'
+import { Button } from './Interactive'
+
 const Modal = ({
   isOpen,
   onClose,
@@ -12,15 +15,12 @@ const Modal = ({
   if (!isOpen) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white rounded-lg p-6 relative w-1/3">
-        <button
-          className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
-          onClick={onClose}
-        >
+      <PrimaryDiv className="rounded-lg p-6 relative w-1/3">
+        <Button className="absolute top-3 right-3 px-2 rounded-md" onClick={onClose}>
           &times;
-        </button>
+        </Button>
         {children}
-      </div>
+      </PrimaryDiv>
     </div>
   )
 }

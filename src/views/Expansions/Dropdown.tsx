@@ -52,7 +52,7 @@ const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: Drop
                   setIsOpen(false)
                   onChangeOption(option)
                 }}
-                className="px-2 py-1 duration-700 transition-all  hover:bg-gray-100 cursor-pointer"
+                className="px-2 py-1 duration-700 transition-all cursor-pointer"
               >
                 {option}
               </li>

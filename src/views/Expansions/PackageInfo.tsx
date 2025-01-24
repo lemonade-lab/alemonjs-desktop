@@ -186,7 +186,7 @@ export default memo(function PackageInfo({ packageInfo }: { packageInfo: Package
 
   return (
     <div className=" select-text">
-      <div className="p-2  flex items-center justify-center gap-4 border-b">
+      <div className="p-2  flex items-center justify-center gap-4 border-b border-secondary-border">
         <div className="flex items-center justify-center">
           <img src={logoURL} alt={`${packageInfo.name} logo`} className="size-20 rounded-md" />
         </div>

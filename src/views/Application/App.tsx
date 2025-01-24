@@ -83,7 +83,7 @@ export default function Webviews() {
   return (
     <section className=" flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
-        <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1 h-[calc(100vh-2rem)] ">
+        <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1 ">
           {view ? (
             <webview
               ref={viewRef}

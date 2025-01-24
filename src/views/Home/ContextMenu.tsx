@@ -28,7 +28,7 @@ export default function ContextMenu({
   }, [onClose])
   return (
     <div
-      className="context-menu absolute bg-white  border-gray-300 rounded shadow-lg"
+      className="context-menu absolute  rounded shadow-lg"
       style={{ top: position.y, left: position.x }}
       onMouseLeave={onClose} // 鼠标离开时隐藏菜单
     >
@@ -36,7 +36,7 @@ export default function ContextMenu({
         {items.map((item, index) => (
           <li
             key={index}
-            className="cursor-pointer duration-700 transition-all  hover:bg-gray-200"
+            className="cursor-pointer duration-700 transition-all  "
             onClick={() => {
               item.onClick()
               onClose() // 点击后隐藏菜单
