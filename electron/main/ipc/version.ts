@@ -1,11 +1,5 @@
-import './bot'
-import './app'
-import './window'
-import './yarn'
-import './css'
-import './expansions'
 import { BrowserWindow, ipcMain } from 'electron'
-import { autoUpdateApp } from '../../core/update'
+import { autoUpdateApp } from '../../src/update'
 
 // version
 ipcMain.on('update-version', (event, __) => {

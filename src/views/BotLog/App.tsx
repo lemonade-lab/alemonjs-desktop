@@ -9,7 +9,7 @@ import { useNotification } from '@src/context/Notification'
 import { ChevronDown } from '@src/common/Icons'
 import { useNavigate } from 'react-router-dom'
 import { NavDiv, SecondaryDiv } from '@src/ui/Div'
-import { Button } from '@src/ui/Interactive'
+import { Button, Select } from '@src/ui/Interactive'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())
@@ -80,7 +80,7 @@ function Terminal() {
         <div className="flex gap-4  justify-between items-center ">
           <div className=" flex gap-2 items-center ">
             <div>
-              <select
+              <Select
                 defaultValue={platform.name}
                 className="bg-transparent"
                 onChange={e => {
@@ -93,7 +93,7 @@ function Terminal() {
                 {platforms.map((item, index) => (
                   <option key={index}>{item.name}</option>
                 ))}
-              </select>
+              </Select>
             </div>
             <div>{bot.runStatus ? '已启动' : '未启动'}</div>
           </div>

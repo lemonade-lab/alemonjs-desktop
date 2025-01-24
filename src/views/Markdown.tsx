@@ -15,12 +15,15 @@ const Markdown = ({ source }: { source: string }) => {
   // theme
   useEffect(() => {
     // 读取本地存储的主题
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme === 'dark') {
-      document.documentElement.setAttribute('data-color-mode', 'dark')
-    } else {
-      document.documentElement.setAttribute('data-color-mode', 'light')
-    }
+
+    window.theme.mode().then(res => {
+      if (res === 'dark') {
+        document.documentElement.setAttribute('data-color-mode', 'dark')
+      } else {
+        document.documentElement.setAttribute('data-color-mode', 'light')
+      }
+    })
+
     const observer = new MutationObserver(mutationsList => {
       for (const mutation of mutationsList) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
@@ -29,6 +32,8 @@ const Markdown = ({ source }: { source: string }) => {
         }
       }
     })
+
+    //
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']

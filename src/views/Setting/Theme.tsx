@@ -1,6 +1,6 @@
-import { isDarkTheme, updateTheme } from '@src/core/theme'
-import Button from '@src/ui/Button'
+import { updateTheme } from '@src/core/theme'
 import { PrimaryDiv } from '@src/ui/Div'
+import { Button, Input } from '@src/ui/Interactive'
 import ToggleSwitch from '@src/ui/Switch'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -12,7 +12,7 @@ const Theme = () => {
     }[]
   >([])
   const [update, setUpdate] = useState(false)
-  const [isDark, setIsDark] = useState(isDarkTheme())
+  const [isDark, setIsDark] = useState(false)
   const saveColor = () => {
     // 转为 object 存储起来。
     // data
@@ -25,7 +25,13 @@ const Theme = () => {
     // 存储
     window.theme.save(_data)
   }
-  const onChangeColor = _.debounce((name: string, color: string) => {
+
+  /**
+   *
+   * @param name
+   * @param color
+   */
+  const onChangeColor = (name: string, color: string) => {
     // 找到index
     const index = _.findIndex(data, item => item.name === name)
     if (data[index].coler != color) {
@@ -33,10 +39,17 @@ const Theme = () => {
       setData([...data])
       setUpdate(true)
     }
-  }, 300)
+  }
+
+  const setColor = (name: string, color: string) => {
+    const _name = `alemonjs-${name}`
+    document.documentElement.style.setProperty(`--${_name}`, color)
+  }
+
   useEffect(() => {
     // 加载css变量
     window.theme.variables()
+
     // 监听 css 变量
     window.theme.on(cssVariables => {
       const arr = Object.keys(cssVariables).map(key => ({
@@ -44,6 +57,14 @@ const Theme = () => {
         coler: cssVariables[key]
       }))
       setData(arr)
+    })
+
+    window.theme.mode().then(res => {
+      if (res === 'dark') {
+        setIsDark(true)
+      } else {
+        setIsDark(false)
+      }
     })
   }, [])
 
@@ -94,18 +115,28 @@ const Theme = () => {
                       <div className="">{item.name}</div>
 
                       <div className="flex gap-2 items-center">
-                        <div>{item.coler}</div>
-                        <input
+                        <Input
+                          type="text"
+                          value={item.coler}
+                          className="rounded px-1"
+                          onChange={value => {
+                            const color = value.target.value
+                            // #开头。且只能是数字和字母。最多6位
+                            const reg = /^#[0-9a-zA-Z]$/
+                            if (!reg.test(color)) return
+                            onChangeColor(item.name, color)
+                            setColor(item.name, color)
+                          }}
+                        />
+                        <Input
                           type="color"
                           value={item.coler}
                           onChange={value => {
                             const color = value.target.value
-                            const _name = `alemonjs-${item.name}`
                             onChangeColor(item.name, color)
-                            // 编辑theme
-                            document.documentElement.style.setProperty(`--${_name}`, color)
+                            setColor(item.name, color)
                           }}
-                          className="border-2 bg-white border-gray-300 px-1 rounded"
+                          className="border-2  rounded"
                         />
                       </div>
                     </div>
@@ -116,18 +147,28 @@ const Theme = () => {
                     <div key={item.name} className="flex gap-2 justify-between">
                       <div className="">{item.name}</div>
                       <div className="flex gap-2 items-center">
-                        <div>{item.coler}</div>
-                        <input
+                        <Input
+                          type="text"
+                          value={item.coler}
+                          className="rounded px-1"
+                          onChange={value => {
+                            const color = value.target.value
+                            // #开头。且只能是数字和字母。最多12位
+                            const reg = /^(#[0-9a-zA-Z]{1,12}|#)$/
+                            if (!reg.test(color)) return
+                            onChangeColor(item.name, color)
+                            setColor(item.name, color)
+                          }}
+                        />
+                        <Input
                           type="color"
                           value={item.coler}
                           onChange={value => {
                             const color = value.target.value
-                            const _name = `alemonjs-${item.name}`
                             onChangeColor(item.name, color)
-                            // 编辑theme
-                            document.documentElement.style.setProperty(`--${_name}`, color)
+                            setColor(item.name, color)
                           }}
-                          className="border-2 bg-white border-gray-300 px-1 rounded"
+                          className="border-2  rounded"
                         />
                       </div>
                     </div>

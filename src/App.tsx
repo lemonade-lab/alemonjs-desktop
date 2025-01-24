@@ -10,6 +10,8 @@ type WindowTheme = {
   variables: () => void
   initVariables: () => void
   on: (callback: (val: any) => void) => void
+  setMode: (mode: string) => void
+  mode: () => Promise<string>
 }
 
 declare global {

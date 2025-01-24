@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import Button from '@src/ui/Button'
+import { Button } from './Interactive'
 
 type ConfirmProps = {
   onClickCancel: () => void
@@ -23,9 +23,7 @@ const Confirm = ({
       {children}
       <div className="flex gap-4 justify-between">
         <Button onClick={onClickCancel}>取消</Button>
-        <Button typing="error" onClick={onClickSuccess}>
-          确认
-        </Button>
+        <Button onClick={onClickSuccess}>确认</Button>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useBotController } from '@src/hook/bot'
 import useGoNavigate from '@src/hook/navigate'
 import { SecondaryDiv } from '@src/ui/Div'
-import { Button } from '@src/ui/Interactive'
+import { Button, Select } from '@src/ui/Interactive'
 /**
  * @description 机器人控制器
  */
@@ -23,7 +23,7 @@ export default (function BotController() {
       <div className="flex gap-4 items-center ">
         <div className="flex-1 flex gap-2 items-center rounded-md">
           <div>
-            <select
+            <Select
               defaultValue={platform.name}
               onChange={e =>
                 setPlatform({
@@ -36,7 +36,7 @@ export default (function BotController() {
               {platforms.map((item, index) => (
                 <option key={index}>{item.name}</option>
               ))}
-            </select>
+            </Select>
           </div>
           <div>{bot.runStatus ? '已启动' : '未启动'}</div>
         </div>

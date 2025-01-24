@@ -1,6 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron'
-import { isAutoLaunchEnabled, setAutoLaunch } from '../../core/setLoginItemSettings'
+import { isAutoLaunchEnabled, setAutoLaunch } from '../../src/setLoginItemSettings'
 import Logger from 'electron-log'
+import { createTerminal } from '../terminal'
 
 // 监听最小化、最大化和关闭事件
 ipcMain.on('minimize-window', event => {
@@ -49,3 +50,26 @@ ipcMain.handle('set-auto-launch', (event, enable) => {
 })
 
 ipcMain.handle('get-auto-launch-status', () => isAutoLaunchEnabled())
+
+let terminalWindow: Electron.BrowserWindow | null = null
+
+ipcMain.on('open-window-terminal', () => {
+  if (!terminalWindow) {
+    terminalWindow = createTerminal()
+    // terminalWindow 是可以关闭的
+    terminalWindow.on('closed', () => {
+      terminalWindow = null
+    })
+  } else {
+    terminalWindow.show()
+  }
+})
+
+ipcMain.on('open-window-main', () => {
+  if (!global.mainWindow) {
+    // main窗口是不可以被关闭的
+    // 只能隐藏
+  } else {
+    global.mainWindow.show()
+  }
+})

@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { join } from 'path'
 import os from 'os'
-import { userDataLemoncPath } from '../core/static'
+import { userDataLemoncPath } from '../src/static'
 import { dialog } from 'electron'
 import Logger from 'electron-log'
 

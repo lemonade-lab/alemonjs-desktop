@@ -4,7 +4,7 @@ import {
   expansionsPostMessage,
   expansionsRun,
   expansionsStatus
-} from '../../core/expansions'
+} from '../../src/expansions'
 import Logger from 'electron-log'
 
 ipcMain.handle('expansions-status', () => expansionsStatus())

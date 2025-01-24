@@ -9,6 +9,7 @@ export default (function App() {
   useEffect(() => {
     // 加载css变量
     window.theme.variables()
+
     // 监听 css 变量
     window.theme.on(cssVariables => {
       try {
@@ -19,10 +20,16 @@ export default (function App() {
         console.error(e)
       }
     })
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    }
+
+    // 加载主题
+    window.theme.mode().then(res => {
+      if (res === 'dark') {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    })
+
     window.terminal.on((message: string) => {
       dispatch(postMessage(message))
     })

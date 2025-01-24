@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react'
-import Button from '@src/ui/Button'
 import { useNotification } from '@src/context/Notification'
+import { Button } from './Interactive'
 
 type InquiryProps = {
   onClickCancel: () => void
@@ -42,7 +42,6 @@ const Inquiry = ({
           取消
         </Button>
         <Button
-          typing="error"
           onClick={() => {
             if (timing > 0) {
               notification('请等待冷却', 'warning')
