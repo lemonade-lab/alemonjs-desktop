@@ -59,6 +59,6 @@ ipcMain.on('download-files', async (event, dir: string) => {
     if (!savePath || savePath == '') return
     copyFileSync(filePath, savePath)
   } catch (e) {
-    console.error(e)
+    Logger.error(e)
   }
 })

@@ -2,10 +2,7 @@ import { ipcMain } from 'electron'
 import Logger from 'electron-log'
 import { webviewWindows } from '../../src/webview'
 import { getCSSVariables, getInitCSSVariables, setCSSVariables } from '../../src/css'
-import Store from 'electron-store'
-
-// 创建一个 Store 实例用于存储跳过的版本
-const store = new Store()
+import { localStorage } from '../../src/storage'
 
 ipcMain.on('css-variables', event => {
   try {
@@ -57,7 +54,7 @@ const KEY = 'theme-mode'
 
 ipcMain.on('set-theme-mode', (event, mode) => {
   // 存储起来
-  store.set(KEY, mode)
+  localStorage.set(KEY, mode)
 
   // 设置的时候，发送给 webview
   webviewWindows.forEach((value, key) => {
@@ -72,5 +69,5 @@ ipcMain.on('set-theme-mode', (event, mode) => {
 })
 
 ipcMain.handle('get-theme-mode', () => {
-  return store.get(KEY, 'light')
+  return localStorage.get(KEY, 'light')
 })

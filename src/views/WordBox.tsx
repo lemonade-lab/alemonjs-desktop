@@ -56,55 +56,55 @@ export default function WordBox() {
   return (
     <div className="flex-[6] flex gap-2 justify-between items-center">
       {isDropdownOpen ? (
-        <PrimaryDiv
+        <div
           ref={dropdownRef}
-          className={classNames(
-            'absolute top-0 p-1 left-1/2 transform -translate-x-1/2  rounded-md  shadow-md z-10'
-          )}
+          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2  z-10"
         >
-          <Input
-            type="text"
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            placeholder="input command"
-            className="border rounded-md min-w-72 px-2 py-1"
-            aria-label="Command Input"
-          ></Input>
-          <div className="">
-            <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
-              {conmond.map((item, index) => (
-                <PrimaryDiv
-                  hover={true}
-                  key={index}
-                  onClick={() => {
-                    if (!modules.nodeModulesStatus) return
-                    // 只负责发送消息
-                    window.expansions.postMessage({
-                      type: 'command',
-                      data: item.commond
-                    })
-                    // 关闭下拉菜单
-                    setIsDropdownOpen(false)
-                  }}
-                  className={classNames(
-                    'flex justify-between px-2 py-1 cursor-pointer duration-700 transition-all   rounded-md'
-                  )}
-                >
-                  <div>{item.name}</div>
-                  <div className="text-secondary-text">{item.commond}</div>
-                </PrimaryDiv>
-              ))}
+          <PrimaryDiv className={classNames('rounded-md  shadow-md')}>
+            <Input
+              type="text"
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              placeholder="input command"
+              className="border rounded-md min-w-72 px-2 py-1"
+              aria-label="Command Input"
+            />
+            <div className="">
+              <div className="py-1 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
+                {conmond.map((item, index) => (
+                  <PrimaryDiv
+                    hover={true}
+                    key={index}
+                    onClick={() => {
+                      if (!modules.nodeModulesStatus) return
+                      // 只负责发送消息
+                      window.expansions.postMessage({
+                        type: 'command',
+                        data: item.commond
+                      })
+                      // 关闭下拉菜单
+                      setIsDropdownOpen(false)
+                    }}
+                    className={classNames(
+                      'flex justify-between px-2 py-1 cursor-pointer duration-700 transition-all   rounded-md'
+                    )}
+                  >
+                    <div>{item.name}</div>
+                    <div className="text-secondary-text">{item.commond}</div>
+                  </PrimaryDiv>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="flex justify-end">
-            <BarDiv
-              onClick={onClose}
-              className=" duration-700 rounded-full p-1 transition-all  cursor-pointer"
-            >
-              <CloseIcon />
-            </BarDiv>
-          </div>
-        </PrimaryDiv>
+            <div className="flex justify-end">
+              <BarDiv
+                onClick={onClose}
+                className=" duration-700 rounded-full p-1 transition-all  cursor-pointer"
+              >
+                <CloseIcon />
+              </BarDiv>
+            </div>
+          </PrimaryDiv>
+        </div>
       ) : (
         <>
           <div className=" flex-1 flex items-center ">
@@ -121,15 +121,17 @@ export default function WordBox() {
             </div>
           </div>
           <div className=" flex-1 flex items-center justify-center">
-            <SecondaryDiv
+            <div
               ref={dropdownRef}
-              className="w-full relative text-sm  cursor-pointer border flex justify-center items-center h-[1.1rem] rounded-md "
+              className="w-full relative  "
               onClick={() => setIsDropdownOpen(prev => !prev)}
               aria-expanded={isDropdownOpen}
               role="button"
             >
-              <span className="">input command</span>
-            </SecondaryDiv>
+              <SecondaryDiv className="text-sm  cursor-pointer border flex justify-center items-center h-[1.1rem] rounded-md">
+                <span className="">input command</span>
+              </SecondaryDiv>
+            </div>
           </div>
           <div className=" flex-1 flex items-center">
             {

@@ -70,16 +70,11 @@ export default function From() {
         <h1 className="text-2xl font-bold mb-6 text-center">下载模块</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm py-1 font-medium text-gray-700">
+            <label className="block text-sm py-1 font-medium text-secondary-text">
               安装npmjs模块，可了解
-              <span
-                className="cursor-pointer text-blue-600"
-                onClick={() => {
-                  window.open('https://www.npmjs.com/search?q=alemonjs')
-                }}
-              >
+              <a href="https://www.npmjs.com/search?q=alemonjs" target="_blank">
                 npmjs.com
-              </span>
+              </a>
             </label>
             <Input
               type="text"

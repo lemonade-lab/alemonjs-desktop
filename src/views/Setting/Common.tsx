@@ -1,5 +1,5 @@
 import { RootState } from '@src/store'
-import { PrimaryDiv } from '@src/ui/Div'
+import { PrimaryDiv, SecondaryDiv } from '@src/ui/Div'
 import { Button } from '@src/ui/Interactive'
 import Modal from '@src/ui/Modal'
 import ToggleSwitch from '@src/ui/Switch'
@@ -44,7 +44,14 @@ const Common = () => {
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex">
       <div className="flex-col gap-2 flex-1 flex p-6 ">
         <PrimaryDiv className="flex flex-col flex-1  p-6 rounded-lg shadow-inner  max-w-full">
-          <div className="text-2xl font-semibold mb-4 border-b">通用</div>
+          <div
+            className="text-2xl font-semibold mb-4 border-b 
+            border-secondary-border
+           dark:border-dark-secondary-border
+          "
+          >
+            通用
+          </div>
           <div className="flex flex-col gap-4">
             <div className="flex gap-2 justify-between">
               <div className="">开机自启</div>
@@ -94,13 +101,12 @@ const Common = () => {
                 className="px-2 rounded-md border"
                 onClick={() => {
                   openModal()
-                  // window.app.reIniteTemplate()
                 }}
               >
                 重置
               </Button>
             </div>
-            <div className="flex flex-col gap-2 border rounded-md p-1">
+            <SecondaryDiv className="flex flex-col gap-2  shadow-inner rounded-md p-1">
               <div className="">快捷键</div>
               <div className="flex gap-2 justify-between">
                 <div className="flex flex-row gap-2 items-center">
@@ -130,7 +136,7 @@ const Common = () => {
                   <div>F12</div>
                 </div>
               </div>
-            </div>
+            </SecondaryDiv>
           </div>
         </PrimaryDiv>
       </div>

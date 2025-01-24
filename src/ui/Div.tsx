@@ -6,7 +6,7 @@ export function PrimaryDiv(
     hover?: boolean
   }
 ) {
-  const { className, ...prop } = props
+  const { className, hover, ...prop } = props
   return (
     <div
       className={classNames(
@@ -14,12 +14,12 @@ export function PrimaryDiv(
         'bg-[var(--alemonjs-primary-bg)] border-[var(--alemonjs-primary-border)] text-[var(--alemonjs-primary-text)]',
         {
           'hover:bg-[var(--alemonjs-primary-bg-hover)] hover:border-[var(--alemonjs-primary-border-hover)] hover:text-[var(--alemonjs-primary-text-hover)]':
-            props.hover
+            hover
         },
         'dark:bg-[var(--alemonjs-dark-primary-bg)] dark:border-[var(--alemonjs-dark-primary-border)] dark:text-[var(--alemonjs-dark-primary-text)]',
         {
           'dark:hover:bg-[var(--alemonjs-dark-primary-bg-hover)] dark:hover:border-[var(--alemonjs-dark-primary-border-hover)] dark:hover:text-[var(--alemonjs-dark-primary-text-hover)]':
-            props.hover
+            hover
         }
       )}
       {...prop}
@@ -28,7 +28,7 @@ export function PrimaryDiv(
 }
 
 export function SecondaryDiv(props: React.HTMLProps<HTMLDivElement> & { hover?: boolean }) {
-  const { className, ...prop } = props
+  const { className, hover, ...prop } = props
   return (
     <div
       className={classNames(
@@ -37,11 +37,11 @@ export function SecondaryDiv(props: React.HTMLProps<HTMLDivElement> & { hover?: 
         'dark:bg-[var(--alemonjs-dark-secondary-bg)] dark:border-[var(--alemonjs-dark-secondary-border)] dark:text-[var(--alemonjs-dark-secondary-text)]',
         {
           'hover:bg-[var(--alemonjs-secondary-bg-hover)] hover:border-[var(--alemonjs-secondary-border-hover)] hover:text-[var(--alemonjs-secondary-text-hover)]':
-            props.hover
+            hover
         },
         {
           'dark:hover:bg-[var(--alemonjs-dark-secondary-bg-hover)] dark:hover:border-[var(--alemonjs-dark-secondary-border-hover)] dark:hover:text-[var(--alemonjs-dark-secondary-text-hover)]':
-            props.hover
+            hover
         }
       )}
       {...prop}

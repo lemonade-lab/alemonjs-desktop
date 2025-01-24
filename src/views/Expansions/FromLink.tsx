@@ -69,7 +69,7 @@ export default function From() {
         <h1 className="text-2xl font-bold mb-6 text-center">包管理器</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block py-1 text-sm font-medium text-gray-700">
+            <label className="block text-sm py-1 font-medium text-secondary-text">
               调用内置的Yarn包管理器对包进行操作
             </label>
             <Input

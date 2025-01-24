@@ -80,7 +80,12 @@ const Theme = () => {
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex">
       <div className="flex-col gap-2 flex-1 flex p-6 ">
         <PrimaryDiv className="flex flex-col flex-1  p-6 rounded-lg shadow-inner    max-w-full">
-          <div className="text-2xl flex items-center justify-between font-semibold mb-4 border-b">
+          <div
+            className="text-2xl flex items-center justify-between font-semibold mb-4 border-b
+            border-secondary-border
+           dark:border-dark-secondary-border
+          "
+          >
             <div className="flex gap-2 items-center">
               <div>主题</div>
               <div

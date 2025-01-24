@@ -6,7 +6,7 @@
     "@alemonjs/discord": "0.2.6",
     "@alemonjs/gui": "0.3.5",
     "@alemonjs/kook": "0.2.6",
-    "@alemonjs/process": "^0.0.2",
+    "@alemonjs/process": "^0.0.3",
     "@alemonjs/qq-bot": "0.0.12",
     "alemonjs": "2.0.0-rc.87",
     "jsxp": "^1.1.2"

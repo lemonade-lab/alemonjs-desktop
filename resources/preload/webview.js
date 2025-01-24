@@ -8,7 +8,7 @@ const select = {
   onMessage: 'webview-on-message',
   // 主题变量
   cssVariables: 'webview-css-variables',
-  onCSSCariables: 'webview-on-css-variables',
+  onCSSVariables: 'webview-on-css-variables',
   // 扩展
   getExpansions: 'webview-get-expansions',
   onExpansionsMessage: 'webview-on-expansions-message'
@@ -73,7 +73,10 @@ contextBridge.exposeInMainWorld('appDesktopHideAPI', {
            * type string
            * data object
            */
-          if (data._name == name && callback) callback(data)
+          if (data._name == name && callback) {
+            // console.log('webview-hide-message', JSON.stringify(data))
+            callback(data)
+          }
         })
       }
     }
@@ -90,7 +93,7 @@ contextBridge.exposeInMainWorld('appDesktopHideAPI', {
    * @param {*} callback
    * @returns
    */
-  themeOn: (name, callback) => createOn(callback, select.onCSSCariables, name)
+  themeOn: (name, callback) => createOn(callback, select.onCSSVariables, name)
 })
 
 // electron 桌面 接口

@@ -63,14 +63,11 @@ export default function GithubFrom() {
         <h1 className="text-2xl font-bold mb-6 text-center">Git</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm py-1 font-medium text-gray-700">
+            <label className="block text-sm py-1 font-medium text-secondary-text">
               需安装git,
-              <span
-                className="cursor-pointer text-blue-600"
-                onClick={() => window.open('https://git-scm.com/')}
-              >
-                点击下载
-              </span>
+              <a href="https://git-scm.com/" target="_blank">
+                "点击下载"
+              </a>
               ，且仓库满足npmjs规范。
             </label>
             <div className="flex items-center gap-2">

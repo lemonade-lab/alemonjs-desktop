@@ -3,7 +3,7 @@ import { PrimaryDiv } from '@src/ui/Div'
 const data = [
   {
     version: '0.1.1',
-    log: ['支持调节switch样式', '支持webview主题和黑白模式']
+    log: ['支持调节switch样式', '支持webview主题和黑白模式', '优化webview通讯']
   },
   {
     version: '0.1.0',
@@ -32,7 +32,6 @@ const data = [
     version: '0.0.18',
     log: [
       '主题调色板',
-      '扩展自动加载主题',
       '进程文件下载',
       'lock文件下载',
       '设置页UI调整',
@@ -122,7 +121,12 @@ const UpdateLog = () => {
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex">
       <div className="flex-col gap-2 flex-1 flex p-6 ">
         <PrimaryDiv className="flex flex-col flex-1  p-6 rounded-lg shadow-inner  max-w-full">
-          <div className="text-2xl flex items-center justify-between font-semibold mb-4 border-b">
+          <div
+            className="text-2xl flex items-center justify-between font-semibold mb-4 border-b
+            border-secondary-border
+           dark:border-dark-secondary-border
+          "
+          >
             <div>更新记录</div>
           </div>
           <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-y-auto scrollba">

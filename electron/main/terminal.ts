@@ -43,7 +43,6 @@ export const createTerminal = () => {
 
   // 加载应用的HTML(URL when dev)。
   if (url) {
-    console.log('url:', url)
     terminal.loadURL(url + '#/window/terminal')
   } else {
     terminal.loadFile(indexHtml, {

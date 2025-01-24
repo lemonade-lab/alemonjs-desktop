@@ -4,6 +4,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        xs: '320px' // 比 sm 小一半的尺寸
+      },
       colors: {
         'primary-bg': 'var(--alemonjs-primary-bg)',
         'primary-border': 'var(--alemonjs-primary-border)',
