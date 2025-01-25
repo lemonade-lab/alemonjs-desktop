@@ -55,6 +55,19 @@ export default defineConfig(({ command }) => {
               reportCompressedSize: false
             }
           }
+        },
+        {
+          entry: 'electron/preload/webview.ts',
+          onstart(options) {
+            options.reload()
+          },
+          vite: {
+            build: {
+              outDir: 'resources/preload',
+              minify: 'terser',
+              reportCompressedSize: false
+            }
+          }
         }
       ]),
       // Use Node.js API in the Renderer-process
