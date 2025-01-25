@@ -35,10 +35,10 @@
   resolved "https://registry.npmmirror.com/@alemonjs/kook/-/kook-0.2.6.tgz#d594636d25c9a4dca13e3462bdd8161696942b8e"
   integrity sha512-+YBsDDi1PBa7LqGz3DnTlLG0vnoBmR1xLd5aJ0d7RmthLLxv1YajhKaLu9NvQWrk45t9W3HCZ2fgE1k/KexExA==
 
-"@alemonjs/process@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmmirror.com/@alemonjs/process/-/process-0.0.3.tgz#bc25998f8106e7b113145d3c532ae27ef2dbd3be"
-  integrity sha512-hsMxit4Viwh6KsnozwZhIs4TShOH+FI9uh1OKBmSmDtR6XP2KetQvDOejQb84JuDahwUYrlvgM15IbtnU7Y1Uw==
+"@alemonjs/process@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmmirror.com/@alemonjs/process/-/process-0.0.5.tgz#c45abee7da234f5d81277360049b2efc5e3e7d34"
+  integrity sha512-YJ9gJr7WJlqtcTztWvDgTYtGiASOqwDRmlQS4Pdbvtg5x8goA1Pf1wOL+fpIfVm4bb4pat3PKsFUTPAZOQMolA==
   dependencies:
     simple-git "3.27.0"
 
