@@ -1,15 +1,14 @@
 import { memo, useEffect, useState } from 'react'
-import { CloseIcon } from './Icons'
 import classNames from 'classnames'
-import { NotificationDiv } from '@src/ui/Div'
+import { NotificationDiv, NotificationDivProps } from '@src/ui/NotificationDiv'
+import { Close } from '@src/ui/Icons'
 
-interface NotificationProps {
+type NotificationProps = {
   message: string
-  theme: 'default' | 'error' | 'warning'
   onClose: () => void
-}
+} & NotificationDivProps
 
-const Notification = memo(({ message, theme, onClose }: NotificationProps) => {
+const Notification = memo(({ message, type = 'default', onClose }: NotificationProps) => {
   const [visible, setVisible] = useState(true)
   const [progress, setProgress] = useState(100)
 
@@ -34,11 +33,11 @@ const Notification = memo(({ message, theme, onClose }: NotificationProps) => {
   if (!visible) return null // 如果不可见则返回 null
 
   return (
-    <NotificationDiv type={theme} className={classNames(`px-4 py-2 rounded-lg shadow-lg`)}>
+    <NotificationDiv type={type} className={classNames(`px-4 py-2 rounded-lg shadow-lg`)}>
       <div className="flex items-center gap-3">
         <span className="text-sm flex-1 break-words max-w-[420px]">{message}</span>
         <span onClick={onClose} className=" duration-700 transition-all  cursor-pointer">
-          <CloseIcon />
+          <Close />
         </span>
       </div>
       <div className="relative mt-2 h-2 bg-gray-300 rounded">

@@ -5,7 +5,9 @@ import UpdateLog from './UpdateLog'
 import Common from './Common'
 import Npmrc from './Npmrc'
 import Theme from './Theme'
-import { SecondaryDiv, SidebarDiv, TagDiv } from '@src/ui/Div'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { SidebarDiv } from '@src/ui/SidebarDiv'
+import { TagDiv } from '@src/ui/TagDiv'
 export default function SettingApp() {
   const [view, setView] = useState(0)
   const datas = [

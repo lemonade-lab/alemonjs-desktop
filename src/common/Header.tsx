@@ -1,7 +1,7 @@
 import { memo, PropsWithChildren, ReactNode } from 'react'
-import { CloseIcon, MaximizeIcon, MinimizeIcon } from '@src/common/Icons'
 import classNames from 'classnames'
-import { HeaderDiv } from '@src/ui/Div'
+import { HeaderDiv } from '@src/ui/HeaderDiv'
+import { Close, Maximize, Minimize } from '@src/ui/Icons'
 
 type HeaderProps = PropsWithChildren<{
   LeftSlot?: ReactNode
@@ -30,7 +30,7 @@ export default memo(function Header({ children }: HeaderProps) {
               )}
               onClick={() => window.controller.minimize()}
             >
-              <MinimizeIcon />
+              <Minimize />
             </span>
             <span
               className={classNames(
@@ -38,7 +38,7 @@ export default memo(function Header({ children }: HeaderProps) {
               )}
               onClick={() => window.controller.maximize()}
             >
-              <MaximizeIcon />
+              <Maximize />
             </span>
             <span
               className={classNames(
@@ -46,7 +46,7 @@ export default memo(function Header({ children }: HeaderProps) {
               )}
               onClick={() => window.controller.close()}
             >
-              <CloseIcon />
+              <Close />
             </span>
           </div>
         </div>

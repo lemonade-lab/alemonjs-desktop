@@ -8,7 +8,7 @@ interface ToggleSwitchProps {
   disabled?: boolean
 }
 
-const ToggleSwitch = ({ value, onChange, hover = false, disabled = false }: ToggleSwitchProps) => {
+export const Switch = ({ value, onChange, hover = false, disabled = false }: ToggleSwitchProps) => {
   const [checked, setChecked] = useState(value)
 
   useEffect(() => {
@@ -88,5 +88,3 @@ const ToggleSwitch = ({ value, onChange, hover = false, disabled = false }: Togg
     </div>
   )
 }
-
-export default ToggleSwitch

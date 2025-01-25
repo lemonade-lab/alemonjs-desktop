@@ -1,8 +1,10 @@
-import { AlignTextCenter, CloseIcon, Pause, Play } from '@src/common/Icons'
 import useNetworkSpeed from '@src/hook/useNetworkSpeed'
 import { RootState } from '@src/store'
-import { BarDiv, PrimaryDiv, SecondaryDiv } from '@src/ui/Div'
-import { Input } from '@src/ui/Interactive'
+import { BarDiv } from '@src/ui/BarDiv'
+import { AlignTextCenter, Close, Pause, Play } from '@src/ui/Icons'
+import { Input } from '@src/ui/Input'
+import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -117,7 +119,7 @@ export default function WordBox() {
                 onClick={onClose}
                 className=" duration-700 rounded-full p-1 transition-all  cursor-pointer"
               >
-                <CloseIcon />
+                <Close />
               </BarDiv>
             </div>
           </PrimaryDiv>

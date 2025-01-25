@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+interface Package {
+  name: string
+  [key: string]: any
+}
+
 interface State {
   runStatus: boolean
   runAt: number
-  package: {
-    [key: string]: any
-    name: string
-  }[]
+  package: Package[]
 }
 
 const initialState: State = {
@@ -19,6 +21,11 @@ const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
+    /**
+     *
+     * @param state
+     * @param action
+     */
     setExpansionsStatus(
       state,
       action: PayloadAction<{
@@ -42,19 +49,41 @@ const notificationSlice = createSlice({
     setExpansionsRunAt(state, action: PayloadAction<number>) {
       state.runAt = action.payload
     },
+    /**
+     *
+     * @param state
+     * @param action
+     */
     initPackage(state, action: PayloadAction<any[]>) {
       state.package = action.payload
     },
-    addPackage(state, action: PayloadAction<any>) {
-      state.package.push(action.payload)
+    /**
+     *
+     * @param state
+     * @param action
+     */
+    addPackage(state, action: PayloadAction<Package>) {
+      const item = state.package.find(item => item.name === action.payload.name)
+      if (!item) {
+        state.package.push(action.payload)
+      } else {
+        state.package = state.package.map(item => {
+          if (item.name === action.payload.name) {
+            return {
+              ...item,
+              ...action.payload
+            }
+          }
+          return item
+        })
+      }
     },
-    putPackage(
-      state,
-      action: PayloadAction<{
-        name: string
-        [key: string]: any
-      }>
-    ) {
+    /**
+     *
+     * @param state
+     * @param action
+     */
+    putPackage(state, action: PayloadAction<Package>) {
       const index = state.package.findIndex(item => item.name == action.payload.name)
       if (index !== -1) {
         state.package[index] = {
@@ -63,6 +92,11 @@ const notificationSlice = createSlice({
         }
       }
     },
+    /**
+     *
+     * @param state
+     * @param action
+     */
     delPackage(state, action: PayloadAction<string>) {
       const index = state.package.findIndex(item => item.name === action.payload)
       if (index !== -1) state.package.splice(index, 1)

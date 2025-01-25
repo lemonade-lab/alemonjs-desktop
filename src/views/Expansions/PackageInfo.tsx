@@ -1,13 +1,13 @@
 import { memo, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import Markdown from '../../common/Markdown'
 import logoURL from '@src/assets/logo.jpg'
-import { Download, RefreshIcon, Upload } from '@src/common/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { fetchPackageInfo } from './api'
-import { putPackage } from '@src/store/expansions'
-import { Select } from '@src/ui/Interactive'
+import { addPackage, putPackage } from '@src/store/expansions'
+import { Select } from '@src/ui/Select'
+import { Download, Refresh, Upload } from '@src/ui/Icons'
 
 export type PackageInfoType = {
   [key: string]: any
@@ -129,12 +129,13 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
       const type = data.type
       const value = data.value
       //
-      if (type == `upgrade`) {
+      if (type == 'add') {
         if (value == 0) {
-          notification(`upgrade ${pkgInfo?.name} 失败`, 'warning')
+          notification(`add ${pkgInfo?.name} 失败`, 'warning')
         } else {
-          notification(`upgrade ${pkgInfo?.name} 完成`)
+          notification(`add ${pkgInfo?.name} 完成`)
           if (!pkgInfo) return
+
           const __version = pkgInfo['__version']
 
           setPkgInfo({
@@ -149,11 +150,36 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
               version: __version
             })
           )
+
           // 推送加载。
           window.expansions.postMessage({
             type: 'add-expansions',
             data: pkgInfo.name
           })
+        }
+        return
+      } else if (type == `upgrade`) {
+        if (value == 0) {
+          notification(`upgrade ${pkgInfo?.name} 失败`, 'warning')
+        } else {
+          notification(`upgrade ${pkgInfo?.name} 完成`)
+          if (!pkgInfo) return
+
+          // 更新数据
+          dispatch(
+            addPackage({
+              name: pkgInfo.name,
+              version: pkgInfo['dist-tags'].latest
+            })
+          )
+
+          // 推送加载。
+          window.expansions.postMessage({
+            type: 'add-expansions',
+            data: pkgInfo.name
+          })
+
+          // 推送加载。
         }
         return
       } else if (type == `unlink`) {
@@ -303,7 +329,7 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
                 <>
                   {!pkgInfo['isLink'] && (
                     <div className="flex items-center gap-1 cursor-pointer" onClick={onClickUpdate}>
-                      <RefreshIcon width={16} height={16} /> 更新
+                      <Refresh width={16} height={16} /> 更新
                     </div>
                   )}
                   {pkgInfo.name != '@alemonjs/process' && (

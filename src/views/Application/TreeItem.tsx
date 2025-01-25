@@ -1,4 +1,4 @@
-import { ArrowsDownIcon } from '@src/common/Icons'
+import { ArrowsDown } from '@src/ui/Icons'
 
 // 定义树形数据结构
 export type TreeDataType = {
@@ -37,7 +37,7 @@ export const TreeItem = ({
             className={`text-[--font-primary] cursor-pointer ${item.isExpanded ? '' : 'rotate-[-90deg]'} transition-all duration-300`}
             onClick={() => handleToggleExpand(item.id, item)}
           >
-            <ArrowsDownIcon
+            <ArrowsDown
               width="12"
               height="12"
               color={item.isExpanded ? 'var(--primary-color)' : '#575B66'}

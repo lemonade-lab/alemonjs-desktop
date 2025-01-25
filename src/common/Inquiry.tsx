@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react'
 import { useNotification } from '@src/context/Notification'
-import { Button } from '../ui/Interactive'
+import { Button } from '@src/ui/Button'
 
 type InquiryProps = {
   onClickCancel: () => void

@@ -1,7 +1,8 @@
 import { updateTheme } from '@src/core/theme'
-import { PrimaryDiv } from '@src/ui/Div'
-import { Button, Input } from '@src/ui/Interactive'
-import ToggleSwitch from '@src/ui/Switch'
+import { Button } from '@src/ui/Button'
+import { Input } from '@src/ui/Input'
+import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { Switch } from '@src/ui/Switch'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 const Theme = () => {
@@ -108,7 +109,7 @@ const Theme = () => {
                   <div>保存</div>
                 </Button>
               )}
-              <ToggleSwitch value={isDark} onChange={onChangeDesktop} />
+              <Switch value={isDark} onChange={onChangeDesktop} />
             </div>
           </div>
           <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-y-auto scrollba">

@@ -1,6 +1,7 @@
 import { useNotification } from '@src/context/Notification'
-import { PrimaryDiv } from '@src/ui/Div'
-import { Button, Input } from '@src/ui/Interactive'
+import { Button } from '@src/ui/Button'
+import { Input } from '@src/ui/Input'
+import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 import { useEffect, useRef, useState } from 'react'
 
 export default function From() {

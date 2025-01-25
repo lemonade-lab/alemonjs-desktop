@@ -1,7 +1,8 @@
-import { useBotController } from '@src/hook/bot'
-import useGoNavigate from '@src/hook/navigate'
-import { SecondaryDiv } from '@src/ui/Div'
-import { Button, Select } from '@src/ui/Interactive'
+import { useBotController } from '@src/hook/useBotController'
+import useGoNavigate from '@src/hook/useGoNavigate'
+import { Button } from '@src/ui/Button'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { Select } from '@src/ui/Select'
 /**
  * @description 机器人控制器
  */

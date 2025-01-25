@@ -1,4 +1,4 @@
-import { CirclePlusIcon } from '@src/common/Icons'
+import { CirclePlus } from '@src/ui/Icons'
 import { useState } from 'react'
 
 type PreferencesType = {
@@ -39,7 +39,7 @@ export default () => {
           className="cursor-pointer duration-700 transition-all  hover:text-[--primary-color] text-[var(--code-text)]"
           onClick={handleAddPreference}
         >
-          <CirclePlusIcon width="20" height="20" />
+          <CirclePlus width="20" height="20" />
         </div>
       </div>
 

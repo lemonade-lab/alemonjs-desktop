@@ -54,7 +54,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
               <Notification
                 key={notification.id}
                 message={notification.message}
-                theme={notification.theme}
+                type={notification.theme}
                 onClose={() => hideNotification(notification.id)}
               />
             ))}

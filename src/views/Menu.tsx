@@ -1,9 +1,10 @@
-import { SettingIcon } from '@src/common/Icons'
-import { PetalIcon } from '@src/common/MenuIcons'
-import { NavigatePath } from '@src/hook/navigate'
-import { BarDiv, NavDiv } from '@src/ui/Div'
+import { PetalIcon } from '@src/ui/MenuIcons'
+import { NavigatePath } from '@src/hook/useGoNavigate'
+import { BarDiv } from '@src/ui/BarDiv'
+import { NavDiv } from '@src/ui/NavDiv'
 import classNames from 'classnames'
 import { memo } from 'react'
+import { Setting } from '@src/ui/Icons'
 // import { useLocation } from 'react-router-dom'
 type PropsList = { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
 const MenuButton = memo(
@@ -53,7 +54,7 @@ const MenuButton = memo(
             )}
             onClick={onClickSetting}
           >
-            <SettingIcon width="28" height="28" />
+            <Setting width="28" height="28" />
           </BarDiv>
         </NavDiv>
       </aside>

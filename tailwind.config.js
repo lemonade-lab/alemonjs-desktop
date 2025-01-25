@@ -8,6 +8,20 @@ export default {
         xs: '320px' // 比 sm 小一半的尺寸
       },
       colors: {
+        /**
+         * 命名规则：默认省略模式 light-
+         * --alemonjs-模式-类型-属性-伪类(可选)-状态(可选)
+         * // 主要颜色 次要颜色
+         * 1. [light|dark]-[primary|secondary]-[bg|border|text]-[hover]
+         * // 头部 导航栏 侧边栏 标签
+         * 2. [light|dark]-[header|nav|bar|sidebar|tag]-[bg|border|text]-[hover]
+         * // 输入框 textarea 选择框 按钮
+         * 3. [light|dark]-[button|input|textarea|select]-[bg|border|text]-[focus|disabled|hover]
+         * // 开关
+         * 4. [light|dark]-[switch]-[bg|border]-[checked|disabled|hover]
+         * // 通知栏
+         * 5. [light|dark]-[notification]-[bg|text|border]-[error|warning]
+         */
         'primary-bg': 'var(--alemonjs-primary-bg)',
         'primary-border': 'var(--alemonjs-primary-border)',
         'primary-text': 'var(--alemonjs-primary-text)',

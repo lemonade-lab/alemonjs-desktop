@@ -4,7 +4,9 @@ import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCommand } from '@src/store/command'
 import { useLocation } from 'react-router-dom'
-import { SecondaryDiv, SidebarDiv, TagDiv } from '@src/ui/Div'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { SidebarDiv } from '@src/ui/SidebarDiv'
+import { TagDiv } from '@src/ui/TagDiv'
 
 interface Sidebar {
   expansions_name: string

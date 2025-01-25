@@ -1,5 +1,4 @@
-import { MenuMoreIcon } from '@src/common/Icons'
-import { SecondaryDiv } from '@src/ui/Div'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 import React, { useState, useRef, memo } from 'react'
 
 interface DropdownProps<T> {

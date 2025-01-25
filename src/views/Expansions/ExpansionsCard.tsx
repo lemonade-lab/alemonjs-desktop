@@ -1,4 +1,4 @@
-import { PrimaryDiv } from '@src/ui/Div'
+import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const ExpansionsCard = ({
   item,

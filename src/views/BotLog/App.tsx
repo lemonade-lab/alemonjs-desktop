@@ -1,15 +1,16 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-import { useBotController } from '@src/hook/bot'
+import { useBotController } from '@src/hook/useBotController'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { useTerminal } from '@src/hook/terminal'
+import { useTerminal } from '@src/hook/useTerminal'
 import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
-import { ChevronDown } from '@src/common/Icons'
 import { useNavigate } from 'react-router-dom'
-import { NavDiv, SecondaryDiv } from '@src/ui/Div'
-import { Button, Select } from '@src/ui/Interactive'
+import { Button } from '@src/ui/Button'
+import { NavDiv } from '@src/ui/NavDiv'
+import { Select } from '@src/ui/Select'
+import { ChevronDown } from '@src/ui/Icons'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())

@@ -1,7 +1,7 @@
-import { RobotIcon } from '@src/common/MenuIcons'
-import useGoNavigate from '@src/hook/navigate'
+import { RobotIcon } from '@src/ui/MenuIcons'
+import useGoNavigate from '@src/hook/useGoNavigate'
 import BotController from './BotController'
-import { BarDiv } from '@src/ui/Div'
+import { BarDiv } from '@src/ui/BarDiv'
 export default () => {
   const navigate = useGoNavigate()
   return (

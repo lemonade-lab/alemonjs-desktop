@@ -2,11 +2,11 @@ import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { RootState } from '@src/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { useTerminal } from '@src/hook/terminal'
+import { useTerminal } from '@src/hook/useTerminal'
 import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
-import { AlignTextCenter, ChevronDown } from '@src/common/Icons'
-import { NavDiv, SecondaryDiv } from '@src/ui/Div'
+import { NavDiv } from '@src/ui/NavDiv'
+import { ChevronDown } from '@src/ui/Icons'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())

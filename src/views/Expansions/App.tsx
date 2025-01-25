@@ -6,11 +6,12 @@ import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { PackageInfoType } from './PackageInfo'
 import { Init } from './Component'
-import { MenuMoreIcon, RefreshIcon } from '@src/common/Icons'
 import { fetchPackageInfo, getPackages } from './api'
 import ExpansionsCard from './ExpansionsCard'
-import { SecondaryDiv, SidebarDiv } from '@src/ui/Div'
-import { Input } from '@src/ui/Interactive'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { SidebarDiv } from '@src/ui/SidebarDiv'
+import { Input } from '@src/ui/Input'
+import { MenuMore, Refresh } from '@src/ui/Icons'
 
 // 懒加载
 const PackageInfo = lazy(() => import('./PackageInfo'))
@@ -129,10 +130,10 @@ export default function Expansions() {
           <div className="text-xl">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <div onClick={onClickRefresh} className=" cursor-pointer">
-              <RefreshIcon width={18} height={18} />
+              <Refresh width={18} height={18} />
             </div>
             <Dropdown
-              Icon={<MenuMoreIcon width={18} height={18} />}
+              Icon={<MenuMore width={18} height={18} />}
               options={['仓库', '模块', '管理']}
               onChangeOption={onChangeOption}
             />

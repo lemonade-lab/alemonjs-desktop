@@ -1,8 +1,9 @@
 import { RootState } from '@src/store'
-import { PrimaryDiv, SecondaryDiv } from '@src/ui/Div'
-import { Button } from '@src/ui/Interactive'
-import Modal from '@src/ui/Modal'
-import ToggleSwitch from '@src/ui/Switch'
+import { Button } from '@src/ui/Button'
+import { Modal } from '@src/ui/Modal'
+import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { Switch } from '@src/ui/Switch'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -55,7 +56,7 @@ const Common = () => {
           <div className="flex flex-col gap-4">
             <div className="flex gap-2 justify-between">
               <div className="">开机自启</div>
-              <ToggleSwitch value={desktopChecked} onChange={onChangeDesktop} />
+              <Switch value={desktopChecked} onChange={onChangeDesktop} />
             </div>
             {/* <div className="flex gap-2 justify-between">
               <div className="">机器人自启</div>

@@ -1,4 +1,4 @@
-import { SecondaryDiv } from '@src/ui/Div';
+import { SecondaryDiv } from '@src/ui/SecondaryDiv';
 import { useState, useEffect } from 'react';
 
 export default function Docs() {

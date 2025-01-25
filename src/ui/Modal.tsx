@@ -1,9 +1,6 @@
-// src/Modal.jsx
-
-import { PrimaryDiv } from './Div'
-import { Button } from './Interactive'
-
-const Modal = ({
+import { PrimaryDiv } from './PrimaryDiv'
+import { Button } from './Button'
+export const Modal = ({
   isOpen,
   onClose,
   children
@@ -24,5 +21,3 @@ const Modal = ({
     </div>
   )
 }
-
-export default Modal

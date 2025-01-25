@@ -1,12 +1,12 @@
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import rehypeHighlight from 'rehype-highlight'
-// import rehypeSanitize from 'rehype-sanitize'
 import rehypePrism from 'rehype-prism'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeRaw from 'rehype-raw'
 import rehypeAttr from 'rehype-attr'
 import { useEffect } from 'react'
+
 /**
  * @param param0
  * @returns
@@ -15,7 +15,6 @@ const Markdown = ({ source }: { source: string }) => {
   // theme
   useEffect(() => {
     // 读取本地存储的主题
-
     window.theme.mode().then(res => {
       if (res === 'dark') {
         document.documentElement.setAttribute('data-color-mode', 'dark')
@@ -23,7 +22,7 @@ const Markdown = ({ source }: { source: string }) => {
         document.documentElement.setAttribute('data-color-mode', 'light')
       }
     })
-
+    // 监听主题变化
     const observer = new MutationObserver(mutationsList => {
       for (const mutation of mutationsList) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
@@ -32,17 +31,16 @@ const Markdown = ({ source }: { source: string }) => {
         }
       }
     })
-
-    //
+    // 监听根元素的 class 变化
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']
     })
     return () => {
+      // 移除监听
       observer.disconnect()
     }
   }, [])
-
   return (
     <MarkdownPreview
       className="animate__animated animate__fadeIn select-text"

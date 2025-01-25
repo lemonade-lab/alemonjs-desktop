@@ -1,6 +1,14 @@
-import { PrimaryDiv } from '@src/ui/Div'
+import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const data = [
+  {
+    version: '0.1.3',
+    log: [
+      '修复安装扩展时,未自动加载扩展',
+      '修复警告通知栏样式丢失'
+      // '支持扩展配置内置icon'
+    ]
+  },
   {
     version: '0.1.2',
     log: ['支持切换扩展版本', '支持加载扩展图标']
