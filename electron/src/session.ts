@@ -25,7 +25,14 @@ export function onBeforeRequest(): void {
   //   callback({ path: filePath })
   // })
   protocol.handle('resource', request => {
-    const filePath = decodeURIComponent(request.url.replace('resource://-', ''))
+    // if (process.platform === 'win32') {
+    //   const filePath = decodeURIComponent(
+    //     request.url.slice('resource://'.length).replace(/^-\//, '')
+    //   )
+    //   console.error('filePath', filePath)
+    //   return net.fetch(url.pathToFileURL(filePath).toString())
+    // }
+    const filePath = decodeURIComponent(request.url.replace('resource://-/', ''))
     console.error('filePath', filePath)
     return net.fetch(url.pathToFileURL(filePath).toString())
   })

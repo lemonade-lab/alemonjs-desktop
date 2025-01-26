@@ -2,12 +2,12 @@ import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const data = [
   {
+    version: '0.1.4',
+    log: ['修复windows扩展加载失败']
+  },
+  {
     version: '0.1.3',
-    log: [
-      '修复安装扩展时,未自动加载扩展',
-      '修复警告通知栏样式丢失'
-      // '支持扩展配置内置icon'
-    ]
+    log: ['修复安装扩展时,未自动加载扩展', '修复警告通知栏样式丢失']
   },
   {
     version: '0.1.2',

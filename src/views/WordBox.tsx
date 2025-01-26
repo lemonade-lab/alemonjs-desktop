@@ -62,7 +62,7 @@ export default function WordBox() {
   const { networkSpeed, connectionType } = useNetworkSpeed()
 
   const createIconURL = (viewItem: Sidebar) => {
-    return `resource://-${app.userDataTemplatePath}/node_modules/${viewItem.expansions_name}/${viewItem.icon}`
+    return `resource://-/${app.userDataTemplatePath}/node_modules/${viewItem.expansions_name}/${viewItem.icon}`
   }
 
   return (

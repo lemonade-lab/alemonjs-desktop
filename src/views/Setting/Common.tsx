@@ -107,7 +107,7 @@ const Common = () => {
                 重置
               </Button>
             </div>
-            <SecondaryDiv className="flex flex-col gap-2  shadow-inner rounded-md p-1">
+            <SecondaryDiv className="flex flex-col gap-2  shadow-inner rounded-md p-2">
               <div className="">快捷键</div>
               <div className="flex gap-2 justify-between">
                 <div className="flex flex-row gap-2 items-center">

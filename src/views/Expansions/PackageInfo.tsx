@@ -232,7 +232,7 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
    */
   const getURL = (item: any) => {
     if (item['__logo_url']) return item['__logo_url']
-    return item['__logo'] ? `resource://-${item['__logo']}` : logoURL
+    return item['__logo'] ? `resource://-/${item['__logo']}` : logoURL
   }
 
   const loadVersion: MouseEventHandler<HTMLSelectElement> = async e => {
