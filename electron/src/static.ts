@@ -1,5 +1,4 @@
 import { app } from 'electron'
-import Logger from 'electron-log'
 import { join } from 'node:path'
 /**
  * @returns
@@ -31,5 +30,4 @@ export const userDataStoragePath = join(app.getPath('userData'), 'storage')
 export const userDataTemplatePath = join(userDataResourcesPath, 'template')
 export const userDataNodeModulesPath = join(userDataTemplatePath, 'node_modules')
 export const userDataPackagePath = join(userDataNodeModulesPath, 'alemonjs', 'package.json')
-export const userDataLemoncPath = join(userDataTemplatePath, 'bin', 'yarn.cjs')
 export const userDataPreloadPath = join(userDataResourcesPath, 'preload')
