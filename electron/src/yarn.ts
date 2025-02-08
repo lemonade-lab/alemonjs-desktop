@@ -4,8 +4,6 @@ import logger from 'electron-log'
 import { userDataTemplatePath } from './static'
 import { webContents } from 'electron'
 
-const yarnCliPath = join(userDataTemplatePath, 'node_modules', 'yarn', 'bin', 'yarn.js')
-
 /**
  * yarn 安装依赖
  * @param webContent
@@ -18,8 +16,9 @@ export const yarn = async (
     value: string[]
   }
 ) => {
+  const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
   logger.info(`Yarn command: ${data.value.join(' ')}`)
-  const child = fork(yarnCliPath, data.value, {
+  const child = fork(MyJS, data.value, {
     cwd: userDataTemplatePath,
     stdio: 'pipe' // 确保使用管道来捕获输出
   })
