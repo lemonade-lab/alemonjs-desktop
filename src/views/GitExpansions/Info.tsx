@@ -1,27 +1,7 @@
-import { Collapse } from 'antd'
-import { Tabs } from 'antd'
-import type { TabsProps, CollapseProps } from 'antd'
+import { Collapse } from './Collapse'
+import { Tabs } from './Tabs'
 
-const onChange = (key: string) => {
-  console.log(key)
-}
-
-const BranchesLogs: CollapseProps['items'] = [
-  {
-    key: '1',
-    label: 'main'
-  },
-  {
-    key: '2',
-    label: 'dev'
-  },
-  {
-    key: '3',
-    label: 'build'
-  }
-]
-
-const itemsLogs: CollapseProps['items'] = [
+const itemsLogs = [
   {
     key: '1',
     label: 'v0.0.1'
@@ -36,48 +16,80 @@ const itemsLogs: CollapseProps['items'] = [
   }
 ]
 
-const tagsItems: TabsProps['items'] = [
+const BranchesLogs = [
   {
     key: '1',
-    label: 'Branches',
+    label: 'main',
     children: (
       <div className="flex flex-col gap-2">
-        <Collapse items={BranchesLogs} defaultActiveKey={['1']} />
+        <div>v0.0.1</div>
+        <div>v0.0.1</div>
+        <div>v0.0.1</div>
       </div>
     )
   },
   {
     key: '2',
-    label: 'Tags',
+    label: 'dev',
     children: (
       <div className="flex flex-col gap-2">
-        <Collapse items={itemsLogs} defaultActiveKey={['1']} />
+        <div>v0.0.1</div>
+        <div>v0.0.1</div>
+        <div>v0.0.1</div>
+      </div>
+    )
+  },
+  {
+    key: '3',
+    label: 'build',
+    children: (
+      <div className="flex flex-col gap-2">
+        <div>v0.0.1</div>
+        <div>v0.0.1</div>
+        <div>v0.0.1</div>
       </div>
     )
   }
 ]
 
-const Card = () => {
-  return <Tabs defaultActiveKey="1" items={tagsItems} onChange={onChange} />
-}
-
-const items: CollapseProps['items'] = [
+const tagsItems = [
   {
     key: '1',
-    label: 'lemonade-lab/alemonjs',
-    children: <Card />
+    label: 'Tags',
+    children: (
+      <div className="flex flex-col gap-2">
+        {itemsLogs.map(item => (
+          <div key={item.key} className="flex items-center gap-2">
+            <div>{item.label}</div>
+          </div>
+        ))}
+      </div>
+    )
   },
   {
     key: '2',
-    // https://github.com/
+    label: 'Branches',
+    children: (
+      <div className="flex flex-col gap-2">
+        <Collapse items={BranchesLogs} />
+      </div>
+    )
+  }
+]
+
+const items = [
+  {
+    key: '1',
+    label: 'lemonade-lab/alemonjs',
+    children: <Tabs items={tagsItems} />
+  },
+  {
+    key: '2',
     label: 'lemonade-lab/alemonjs-desktop',
-    children: <Card />
+    children: <Tabs items={tagsItems} />
   }
 ]
 
 export default function GitList() {
-  const onChange = (key: string | string[]) => {
-    console.log(key)
-  }
-  return <Collapse items={items} defaultActiveKey={['1']} onChange={onChange} />
+  return <Collapse items={items} />
 }
