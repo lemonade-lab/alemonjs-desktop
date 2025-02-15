@@ -1,11 +1,11 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom'
 import App from '@src/views/App'
 import Main from '@src/views/MainView'
-import Home from '@src/views/Home/App'
 import Setting from '@src/views/Setting/App'
 import Application from '@src/views/Application/App'
 import BotLog from '@src/views/BotLog/App'
 import Expansions from '@src/views/Expansions/App'
+import GitExpansions from '@src/views/GitExpansions/App'
 
 import BotLog2 from '@src/pages/terminal/BotLog'
 import App2 from '@src/pages/terminal/App'
@@ -21,7 +21,10 @@ const router = createHashRouter([
     element: <App />,
     children: [
       { path: '', element: <Main /> },
-      { path: 'home', element: <Home /> },
+      {
+        path: 'git-expansions',
+        element: <GitExpansions />
+      },
       { path: 'setting', element: <Setting /> },
       { path: 'application', element: <Application /> },
       { path: 'bot-log', element: <BotLog /> },

@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux'
 import { NavigateOptions, useNavigate } from 'react-router-dom'
 export type NavigatePath =
   | '/'
-  | '/home'
   | '/bot-log'
   | '/application'
   | '/docs'
   | '/config-code'
   | '/setting'
   | '/expansions'
+  | '/git-expansions'
 //
 export default function useGoNavigate() {
   const navigate = useNavigate()

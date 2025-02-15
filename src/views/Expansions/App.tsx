@@ -17,7 +17,6 @@ import { MenuMore, Refresh } from '@src/ui/Icons'
 const PackageInfo = lazy(() => import('./PackageInfo'))
 const LinkFrom = lazy(() => import('./FromLink'))
 const AddFrom = lazy(() => import('./FromAdd'))
-const GithubFrom = lazy(() => import('./FromGit'))
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -123,7 +122,6 @@ export default function Expansions() {
         {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
         {select == '管理' && <LinkFrom />}
         {select == '模块' && <AddFrom />}
-        {select == '仓库' && <GithubFrom />}
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
         <div className="flex justify-between">
@@ -134,7 +132,7 @@ export default function Expansions() {
             </div>
             <Dropdown
               Icon={<MenuMore width={18} height={18} />}
-              options={['仓库', '模块', '管理']}
+              options={['模块', '管理']}
               onChangeOption={onChangeOption}
             />
           </div>
@@ -148,7 +146,7 @@ export default function Expansions() {
           />
         </div>
         <div className="flex-1">
-          <div className="flex flex-col gap-1 scrollbar overflow-auto h-[calc(100vh-8rem)]">
+          <div className="flex flex-col gap-1  overflow-auto h-[calc(100vh-8rem)]">
             {packages.length > 0
               ? packages.map(item => (
                   <ExpansionsCard

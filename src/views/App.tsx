@@ -5,7 +5,7 @@ import { useNotification } from '@src/context/Notification'
 import useGoNavigate, { NavigatePath } from '@src/hook/useGoNavigate'
 import { setBotStatus } from '@src/store/bot'
 import { setCommand } from '@src/store/command'
-import { ContactIcon, FireworksIcon, HomeIcon, PizzaIcon } from '@src/ui/MenuIcons'
+import { ContactIcon, FireworksIcon, GitIcon, HomeIcon, PizzaIcon } from '@src/ui/MenuIcons'
 import Header from '@src/common/Header'
 import Menu from '@src/views/Menu'
 import WordBox from './WordBox'
@@ -32,13 +32,6 @@ export default (function App() {
   }[] = [
     {
       Icon: <HomeIcon width="20" height="20" />,
-      path: '/home',
-      onClick: path => {
-        navigate(path)
-      }
-    },
-    {
-      Icon: <ContactIcon width="20" height="20" />,
       path: '/bot-log',
       onClick: path => navigate(path)
     },
@@ -51,6 +44,13 @@ export default (function App() {
       Icon: <PizzaIcon width="20" height="20" />,
       path: '/expansions',
       onClick: path => navigate(path)
+    },
+    {
+      Icon: <GitIcon width="20" height="20" />,
+      path: '/git-expansions',
+      onClick: path => {
+        navigate(path)
+      }
     }
   ]
 
@@ -159,8 +159,6 @@ export default (function App() {
             })
           } else if (actions[1] === 'expansions') {
             navigate('/expansions')
-          } else if (actions[1] === 'home') {
-            navigate('/home')
           } else if (actions[1] === 'setting') {
             navigate('/setting')
           } else if (actions[1] === 'bot-log') {

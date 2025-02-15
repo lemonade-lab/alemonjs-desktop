@@ -63,7 +63,7 @@ export default function Npmrc() {
           )}
         </div>
       </div>
-      <PrimaryDiv className=" flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto scrollbar">
+      <PrimaryDiv className=" flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto ">
         <Code
           value={value}
           theme="solarized"

@@ -81,7 +81,7 @@ export default function WordBox() {
               className="border rounded-md min-w-72 px-2 py-1"
               aria-label="Command Input"
             />
-            <div className="py-2 flex flex-col gap-2  scrollbar overflow-auto  max-h-[calc(100vh/5*2)]">
+            <div className="py-2 flex flex-col gap-2 scrollbar overflow-y-auto  max-h-[calc(100vh/5*2)]">
               {conmond.map((item, index) => (
                 <PrimaryDiv
                   hover={true}
