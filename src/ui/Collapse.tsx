@@ -21,7 +21,7 @@ export const Collapse = ({
   items
 }: {
   items: {
-    key: string
+    key: string | number
     label: string | React.ReactNode
     children: React.ReactNode
   }[]

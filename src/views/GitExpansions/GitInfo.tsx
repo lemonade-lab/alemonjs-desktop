@@ -3,11 +3,13 @@ import { Collapse } from '../../ui/Collapse'
 import { Tabs } from '../../ui/Tabs'
 import { PropsWithChildren, useEffect, useState } from 'react'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import dayjs from 'dayjs'
 
 type GitBranchesLogsData = {
   key: string
   label: string
   data: string
+  hash: string
 }
 
 /**
@@ -15,13 +17,39 @@ type GitBranchesLogsData = {
  * @param param0
  * @returns
  */
-const GitBranchesLogs = ({ url, branch }: { url: string; branch: string }) => {
+const GitBranchesLogs = ({
+  name,
+  branch,
+  onShow
+}: {
+  name: string
+  branch: string
+  onShow: (item: { name: string; hash: string }) => void
+}) => {
   const [data, setData] = useState<GitBranchesLogsData[]>([])
   useEffect(() => {
     // 获取 branches
-  }, [url, branch])
+
+    console.log('GitBranchesLogs mounted', branch)
+
+    window.git.log(name, branch).then((data: any) => {
+      console.log('纪录', data)
+      setData(
+        data.all.map((item: any) => {
+          return {
+            key: item.hash,
+            hash: item.hash,
+            label: item.message,
+            data: dayjs(item.date).format('YYYY-MM-DD HH:mm:ss')
+          }
+        })
+      )
+    })
+
+    //
+  }, [name, branch])
   return (
-    <div className="flex flex-col py-2 rounded-md">
+    <div className="flex flex-col py-2 rounded-md  scrollbar overflow-auto h-[calc(100vh-80vh)]">
       {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
       )}
@@ -29,10 +57,17 @@ const GitBranchesLogs = ({ url, branch }: { url: string; branch: string }) => {
         <PrimaryDiv
           key={item.key}
           hover={true}
-          className="text-sm flex  justify-between cursor-pointer"
+          onClick={() =>
+            onShow &&
+            onShow({
+              name,
+              hash: item.hash
+            })
+          }
+          className="text-sm flex flex-col justify-between cursor-pointer"
         >
           <div className="px-4">{item.label}</div>
-          <div className="">{item.data}</div>
+          <div className="px-4">{item.data}</div>
         </PrimaryDiv>
       ))}
     </div>
@@ -41,7 +76,6 @@ const GitBranchesLogs = ({ url, branch }: { url: string; branch: string }) => {
 
 type GitBranchesData = {
   key: string
-  url: string
   branch: string
 }
 
@@ -50,11 +84,26 @@ type GitBranchesData = {
  * @param param0
  * @returns
  */
-const GitBranches = ({ url }: { url: string }) => {
+const GitBranches = ({
+  name,
+  onShow
+}: {
+  name: string
+  onShow: (item: { name: string; hash: string }) => void
+}) => {
   const [data, setData] = useState<GitBranchesData[]>([])
   useEffect(() => {
-    //
-  }, [url])
+    window.git.branch(name).then((data: any) => {
+      setData(
+        data.all.map((item: any) => {
+          return {
+            key: item,
+            branch: item
+          }
+        })
+      )
+    })
+  }, [name])
   return (
     <div className="py-2">
       {data.length === 0 && (
@@ -65,11 +114,11 @@ const GitBranches = ({ url }: { url: string }) => {
           return {
             key: item.key,
             label: (
-              <PrimaryDiv hover={true} className=" cursor-pointer px-1">
+              <PrimaryDiv hover={true} className="cursor-pointer px-1">
                 {item.branch}
               </PrimaryDiv>
             ),
-            children: <GitBranchesLogs url={item.url} branch={item.branch} />
+            children: <GitBranchesLogs onShow={onShow} name={name} branch={item.branch} />
           }
         })}
       />
@@ -80,16 +129,35 @@ const GitBranches = ({ url }: { url: string }) => {
 type GitTagsData = {
   key: string
   label: string
-  data: string
+  // date: string
+  hash: string
 }
 
-const GitTags = ({ url }: { url: string }) => {
+const GitTags = ({
+  name,
+  onShow
+}: {
+  name: string
+  onShow: (item: { name: string; hash: string }) => void
+}) => {
   const [data, setData] = useState<GitTagsData[]>([])
   useEffect(() => {
-    // 获取 tags
-  }, [url])
+    window.git.tags(name).then((data: any) => {
+      console.log('tags', data)
+      setData(
+        data.all.map((item: any) => {
+          return {
+            key: item,
+            label: item,
+            hash: item
+            // date: ''
+          }
+        })
+      )
+    })
+  }, [name])
   return (
-    <div className="flex flex-col py-2">
+    <div className="flex flex-col py-2 ">
       {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
       )}
@@ -97,10 +165,17 @@ const GitTags = ({ url }: { url: string }) => {
         <PrimaryDiv
           hover={true}
           key={item.key}
-          className="flex items-center text-sm justify-between px-1 cursor-pointer"
+          onClick={() => {
+            onShow &&
+              onShow({
+                name,
+                hash: item.hash
+              })
+          }}
+          className="flex items-center text-sm justify-between px-1 cursor-pointer "
         >
           <div className="">{item.label}</div>
-          <div className="">{item.data}</div>
+          {/* <div className="">{item.date}</div> */}
         </PrimaryDiv>
       ))}
     </div>
@@ -129,57 +204,42 @@ const Title = ({
   )
 }
 
-export type GitInfoProps = {
-  name: string
-  path: string
-  username: string
-  repository: string
-  platform: string
-}
-
 export default function GitInfo({
   data,
-  onDelete
+  onDelete,
+  onShow
 }: {
-  data: GitInfoProps[]
-  onDelete: (item: GitInfoProps) => void
+  data: string[]
+  onDelete: (item: string) => void
+  onShow: (item: { name: string; hash: string }) => void
 }) {
-  useEffect(() => {
-    console.log('GitList mounted')
-    // 本地存储，维护一个列表。
-    return () => {
-      console.log('GitList unmounted')
-    }
-  }, [])
-
-  const onClickDelete = (item: GitInfoProps) => {
+  const onClickDelete = (item: string) => {
     onDelete(item)
   }
-
   return (
     <Collapse
-      items={data.map(item => ({
-        key: item.name,
+      items={data.map((item, index) => ({
+        key: index,
         label: (
           <PrimaryDiv hover={true} className="px-1 rounded-sm">
-            <Title key={item.name} onDelete={e => onClickDelete(item)}>
-              {item.name}
+            <Title key={index} onDelete={e => onClickDelete(item)}>
+              {item}
             </Title>
           </PrimaryDiv>
         ),
         children: (
           <Tabs
-            key={item.name}
+            key={index}
             items={[
               {
                 key: '1',
-                label: 'Tags',
-                children: <GitTags url={item.path} />
+                label: 'Branches',
+                children: <GitBranches name={item} onShow={onShow} />
               },
               {
                 key: '2',
-                label: 'Branches',
-                children: <GitBranches url={item.path} />
+                label: 'Tags',
+                children: <GitTags name={item} onShow={onShow} />
               }
             ]}
           />

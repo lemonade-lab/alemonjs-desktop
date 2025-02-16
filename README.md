@@ -17,12 +17,15 @@ nvm use 22
 npm install yarn@1.19.1 -g
 # 安装所有依赖
 yarn install
+# 生产捆绑资源
+yarn bundle
 ```
 
-- 生产资源
+- 开发
 
 ```sh
-yarn bundle
+yarn dev # mac
+yarn dev-win # win
 ```
 
 - 生产应用
@@ -31,11 +34,20 @@ yarn bundle
 yarn build
 ```
 
-- 开发
+### 环境变量
+
+`ALEMONDEJS_BOT_PATH` 可配置机器人地址，若该目录无机器人则生产
+
+- mac
+
+> ~/.bashrc, ~/.bash_profile, ~/.zshrc
+
+```
+export ALEMONDEJS_BOT_PATH=/Users/[your name]/Desktop/[your path]
+```
 
 ```sh
-yarn dev # mac
-yarn dev-win # win
+source ~/.bashrc
 ```
 
 ### Community

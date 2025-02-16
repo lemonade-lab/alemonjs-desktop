@@ -1,0 +1,26 @@
+import { contextBridge, ipcRenderer } from 'electron'
+
+// 扩展
+contextBridge.exposeInMainWorld('git', {
+  // 获取仓库
+  repos: () => ipcRenderer.invoke('git-repos'),
+  // 打开仓库
+  openRepo: (repoName: string) => ipcRenderer.invoke('git-open-repo', repoName),
+  // clone
+  clone: (repoUrl: string) => ipcRenderer.invoke('git-clone', repoUrl),
+  // 当前分支
+  currentBranch: (repoName: string) => ipcRenderer.invoke('git-current-branch', repoName),
+  // 所有分支
+  branch: (repoName: string) => ipcRenderer.invoke('git-branch', repoName),
+  // 切换分支
+  checkout: (repoName: string, branch: string) =>
+    ipcRenderer.invoke('git-checkout', repoName, branch),
+  // 所有tags
+  tags: (repoName: string) => ipcRenderer.invoke('git-tags', repoName),
+  // 当前分支下的所有提交
+  log: (repoName: string, branch: string) => ipcRenderer.invoke('git-log', repoName, branch),
+  // delete
+  delete: (repoName: string) => ipcRenderer.invoke('git-delete', repoName),
+  // 指定 hash 的提交
+  show: (repoName: string, hash: string) => ipcRenderer.invoke('git-show', repoName, hash)
+})
