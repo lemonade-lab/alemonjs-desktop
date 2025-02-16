@@ -1,3 +1,5 @@
+import { classNameBorder as classNameBorderPrimaryDiv } from '@src/ui/PrimaryDiv'
+import { TagDiv } from '@src/ui/TagDiv'
 import classNames from 'classnames'
 import { useState } from 'react'
 export const Tabs = ({
@@ -10,23 +12,22 @@ export const Tabs = ({
   }[]
 }) => {
   const [activeTab, setActiveTab] = useState(items[0].key)
-
   return (
     <div>
-      <div className="flex border-b">
+      <div className={classNames('border-b flex ', classNameBorderPrimaryDiv)}>
         {items.map(item => (
-          <button
+          <TagDiv
             key={item.key}
-            className={classNames(`px-2 py-1 border-b-2`, {
-              'border-blue-500': activeTab === item.key
+            className={classNames(`px-2 py-1 text-sm  cursor-pointer`, {
+              ' hover': activeTab === item.key
             })}
             onClick={() => setActiveTab(item.key)}
           >
             {item.label}
-          </button>
+          </TagDiv>
         ))}
       </div>
-      <div className="px-2 py-1">{items.find(item => item.key === activeTab)?.children}</div>
+      <div>{items.find(item => item.key === activeTab)?.children}</div>
     </div>
   )
 }

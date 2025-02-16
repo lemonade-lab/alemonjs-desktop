@@ -46,6 +46,25 @@ ipcMain.handle('write-files', async (event, dir: string, data: string) => {
   }
 })
 
+// fecch 请求
+ipcMain.handle('fetch', async (event, url: string, options: any) => {
+  const data = await fetch(url, options)
+  const res = {
+    body: data.body,
+    bodyUsed: data.bodyUsed,
+    ok: data.ok,
+    redirected: data.redirected,
+    type: data.type,
+    url: data.url
+  }
+  return res
+})
+
+// 询问文件是否存在
+ipcMain.handle('exists-files', async (event, dir: string) => {
+  return existsSync(dir)
+})
+
 // 下载文件
 ipcMain.on('download-files', async (event, dir: string) => {
   const filePath = dir

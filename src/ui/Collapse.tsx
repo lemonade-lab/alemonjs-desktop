@@ -6,18 +6,13 @@ const CollapseItem = ({
   isOpen,
   onClick
 }: {
-  label: string
+  label: string | React.ReactNode
   children: React.ReactNode
   isOpen: boolean
   onClick: () => void
 }) => (
-  <div className="border-b">
-    <div className="flex  justify-between">
-      <button className="w-full text-left py-1 text-sm" onClick={onClick}>
-        {label}
-      </button>
-      <div className="text-sm">del</div>
-    </div>
+  <div className="">
+    <div onClick={onClick}>{label}</div>
     {isOpen && <div>{children}</div>}
   </div>
 )
@@ -27,7 +22,7 @@ export const Collapse = ({
 }: {
   items: {
     key: string
-    label: string
+    label: string | React.ReactNode
     children: React.ReactNode
   }[]
 }) => {
@@ -38,7 +33,7 @@ export const Collapse = ({
   }
 
   return (
-    <div className="">
+    <div className="flex flex-col ">
       {items.map((item, index) => (
         <CollapseItem
           key={item.key}

@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import App from '@src/views/App'
 import Main from '@src/views/MainView'
 import Setting from '@src/views/Setting/App'

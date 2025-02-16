@@ -76,7 +76,7 @@ function Terminal() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col shadow-md">
       <NavDiv className="animate__animated animate__fadeIn flex flex-col p-1 border-b ">
         <div className="flex gap-4  justify-between items-center ">
           <div className=" flex gap-2 items-center ">

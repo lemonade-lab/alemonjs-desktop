@@ -1,5 +1,14 @@
 import axios from 'axios'
 
+// 判断一个 URL 是否是 Git 仓库 格式
+export function isGitRepositoryFormat(url: string) {
+  if (!/^(https:\/\/|git@).*\.git$/.test(url)) {
+    console.error('Invalid repository URL')
+    return false
+  }
+  return true
+}
+
 //
 export const createNPMJSURL = ({
   name,
@@ -60,22 +69,16 @@ export const fetchPackageInfo = async (packageName: string) => {
 }
 
 export const extractRepoInfo = (url: string) => {
-  // 正则表达式匹配各种格式的 URL
-  const regex = /(?:https?:\/\/)?(?:www\.)?(github\.com|gitlab\.com)\/([^\/]+)\/([^\/]+)(?:\.git)?$/
-  const match = url.match(regex)
+  // 匹配 HTTPS 或 HTTP 格式的 URL
+  const httpsRegex = /(?:https?:\/\/)?(?:www\.)?([^\/]+)\/([^\/]+)\/([^\/]+)(?:\.git)?$/
+  // 匹配 SSH 格式的 URL
+  const sshRegex = /(?:git@)?([^:]+):([^\/]+)\/([^\/]+)(?:\.git)?$/
+  let match = url.match(httpsRegex) || url.match(sshRegex)
   if (match) {
     return {
-      username: match[2],
-      repository: match[3].replace(/\.git$/, '')
-    }
-  }
-  // 如果没有匹配上，上面的方法可能不适用，尝试 SSH 格式
-  const sshRegex = /(?:git@(?:www\.)?)?(github\.com|gitlab\.com):([^\/]+)\/([^\/]+)(?:\.git)?$/
-  const sshMatch = url.match(sshRegex)
-  if (sshMatch) {
-    return {
-      username: sshMatch[2],
-      repository: sshMatch[3].replace(/\.git$/, '')
+      platform: match[1], // 平台域名（如 github.com、gitlab.com 或自定义域名）
+      username: match[2], // 用户名或组织名
+      repository: match[3].replace(/\.git$/, '') // 仓库名，去掉 .git 后缀
     }
   }
   throw new Error('Invalid repository URL')

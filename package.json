@@ -29,6 +29,8 @@
     "node-machine-id": "^1.1.12"
   },
   "devDependencies": {
+    "buffer": "^6.0.3",
+    "@ant-design/icons": "^5.6.1",
     "@playwright/test": "^1.42.1",
     "@reduxjs/toolkit": "^2.2.2",
     "@types/js-yaml": "^4.0.9",
@@ -50,6 +52,7 @@
     "electron-builder": "^25.1.8",
     "electron-icon-builder": "^2.0.1",
     "husky": "^9.1.6",
+    "isomorphic-git": "^1.29.0",
     "js-yaml": "^4.1.0",
     "lerna": "^8.1.9",
     "lodash": "^4.17.21",

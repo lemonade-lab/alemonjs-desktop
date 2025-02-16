@@ -6,17 +6,15 @@ import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { PackageInfoType } from './PackageInfo'
 import { Init } from './Component'
-import { fetchPackageInfo, getPackages } from './api'
+import { fetchPackageInfo, getPackages } from '../../api'
 import ExpansionsCard from './ExpansionsCard'
 import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 import { SidebarDiv } from '@src/ui/SidebarDiv'
 import { Input } from '@src/ui/Input'
 import { MenuMore, Refresh } from '@src/ui/Icons'
-
-// 懒加载
-const PackageInfo = lazy(() => import('./PackageInfo'))
-const LinkFrom = lazy(() => import('./FromLink'))
-const AddFrom = lazy(() => import('./FromAdd'))
+import PackageInfo from './PackageInfo'
+import LinkFrom from './FromLink'
+import AddFrom from './FromAdd'
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -116,15 +114,15 @@ export default function Expansions() {
   }, [])
 
   return (
-    <section className=" flex flex-row flex-1 h-full">
+    <section className=" flex flex-row flex-1 h-full shadow-md">
       <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1">
         {select == '' && <Init />}
         {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
         {select == '管理' && <LinkFrom />}
         {select == '模块' && <AddFrom />}
       </SecondaryDiv>
-      <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l  gap-1 h-full p-2">
-        <div className="flex justify-between">
+      <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
+        <div className="flex justify-between px-2 py-1">
           <div className="text-xl">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <div onClick={onClickRefresh} className=" cursor-pointer">
@@ -145,8 +143,8 @@ export default function Expansions() {
             className="w-full px-2 py-1 rounded-sm"
           />
         </div>
-        <div className="flex-1">
-          <div className="flex flex-col gap-1  overflow-auto h-[calc(100vh-8rem)]">
+        <div className="flex-1 ">
+          <SecondaryDiv className="flex flex-col gap-1  border-t py-2 overflow-auto  h-[calc(100vh-5.9rem)]">
             {packages.length > 0
               ? packages.map(item => (
                   <ExpansionsCard
@@ -162,7 +160,7 @@ export default function Expansions() {
                     handlePackageClick={name => handlePackageClick(name)}
                   />
                 ))}
-          </div>
+          </SecondaryDiv>
         </div>
       </SidebarDiv>
     </section>

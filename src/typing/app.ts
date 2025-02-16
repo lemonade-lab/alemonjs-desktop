@@ -28,6 +28,12 @@ export type WindowApp = {
    * @param dir
    * @returns
    */
+  exists: (dir: string) => Promise<boolean>
+  /**
+   *
+   * @param dir
+   * @returns
+   */
   downloadFiles: (dir: string) => Promise<void>
   /**
    *
@@ -41,4 +47,11 @@ export type WindowApp = {
    *
    */
   openWindowMain: () => void
+  /**
+   *
+   * @param url
+   * @param options
+   * @returns
+   */
+  fetch: (url: string, options: any) => Promise<any>
 }
