@@ -4,6 +4,14 @@ import { Tabs } from '../../ui/Tabs'
 import { PropsWithChildren, useEffect, useState } from 'react'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 import dayjs from 'dayjs'
+import {
+  ApartmentOutlined,
+  BookOutlined,
+  BranchesOutlined,
+  CalendarOutlined,
+  TagOutlined,
+  TagsOutlined
+} from '@ant-design/icons'
 
 type GitBranchesLogsData = {
   key: string
@@ -66,7 +74,10 @@ const GitBranchesLogs = ({
           }
           className="text-sm flex flex-col justify-between cursor-pointer"
         >
-          <div className="px-4">{item.label}</div>
+          <div className="px-4 flex gap-2">
+            <CalendarOutlined />
+            {item.label}
+          </div>
           <div className="px-4">{item.data}</div>
         </PrimaryDiv>
       ))}
@@ -115,7 +126,7 @@ const GitBranches = ({
             key: item.key,
             label: (
               <PrimaryDiv hover={true} className="cursor-pointer px-1">
-                {item.branch}
+                <BranchesOutlined /> {item.branch}
               </PrimaryDiv>
             ),
             children: <GitBranchesLogs onShow={onShow} name={name} branch={item.branch} />
@@ -157,7 +168,7 @@ const GitTags = ({
     })
   }, [name])
   return (
-    <div className="flex flex-col py-2 ">
+    <div className="flex flex-col py-2 scrollbar overflow-auto h-[calc(100vh-80vh)]">
       {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
       )}
@@ -174,7 +185,10 @@ const GitTags = ({
           }}
           className="flex items-center text-sm justify-between px-1 cursor-pointer "
         >
-          <div className="">{item.label}</div>
+          <div className="flex gap-2">
+            <BookOutlined />
+            {item.label}
+          </div>
           {/* <div className="">{item.date}</div> */}
         </PrimaryDiv>
       ))}
@@ -189,8 +203,8 @@ const Title = ({
   onDelete: (e: React.MouseEvent) => void
 } & PropsWithChildren) => {
   return (
-    <div className="flex justify-between items-center cursor-pointer">
-      <div>{children}</div>
+    <div className="flex  justify-between items-center cursor-pointer">
+      <div className="flex gap-2">{children}</div>
       <div
         className=""
         onClick={e => {
@@ -223,6 +237,7 @@ export default function GitInfo({
         label: (
           <PrimaryDiv hover={true} className="px-1 rounded-sm">
             <Title key={index} onDelete={e => onClickDelete(item)}>
+              <ApartmentOutlined />
               {item}
             </Title>
           </PrimaryDiv>
@@ -233,12 +248,20 @@ export default function GitInfo({
             items={[
               {
                 key: '1',
-                label: 'Branches',
+                label: (
+                  <div className="flex gap-2">
+                    <TagsOutlined /> <div>Branches</div>
+                  </div>
+                ),
                 children: <GitBranches name={item} onShow={onShow} />
               },
               {
                 key: '2',
-                label: 'Tags',
+                label: (
+                  <div className="flex gap-2">
+                    <TagOutlined /> <div>tags</div>
+                  </div>
+                ),
                 children: <GitTags name={item} onShow={onShow} />
               }
             ]}

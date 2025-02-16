@@ -7,7 +7,7 @@ export const Tabs = ({
 }: {
   items: {
     key: string
-    label: string
+    label: string | React.ReactNode
     children: React.ReactNode
   }[]
 }) => {
