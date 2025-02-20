@@ -10,9 +10,6 @@ import { setUserDataTemplatePath } from '../../src/storage'
 // 得到应用目录
 ipcMain.handle('get-apps-path', () => appsPath)
 
-// 询问模板是否存在
-ipcMain.handle('get-template-exists', () => existsSync(userDataPackagePath))
-
 // 删除所有指定目录下的文件
 ipcMain.handle('rm-template-files', () => {
   rmSync(join(appsPath.userDataTemplatePath, 'public', 'file'), { recursive: true, force: true })
@@ -93,8 +90,15 @@ ipcMain.handle('select-directory', async () => {
 
 // 得到指定目录，重启应用
 ipcMain.on('restart-app', (event, dir: string) => {
+  if (appsPath.userDataTemplatePath === dir) {
+    event.sender.send('on-notification', '选择目录和当前启动目录相同，请重新选择...')
+    return
+  }
   // 保存dir
   setUserDataTemplatePath(dir)
-  app.relaunch() // 重新启动应用
-  app.exit() // 退出当前进程
+  event.sender.send('on-notification', '3s后重启应用...')
+  setTimeout(() => {
+    app.relaunch() // 重新启动应用
+    app.exit() // 退出当前进程
+  }, 3000)
 })

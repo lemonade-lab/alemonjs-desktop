@@ -3,6 +3,7 @@ import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
 import { webContents } from 'electron'
+import { existsSync } from 'fs'
 
 /**
  * @description 扩展器管理
@@ -38,6 +39,13 @@ export const expansionsRun = async (webContent: Electron.WebContents, args: stri
   if (webContent.isDestroyed()) return
 
   const MyJS = join(userDataTemplatePath, 'alemonjs', 'desktop.js')
+
+  // 判断是否存在 desktop.js
+  if (!existsSync(MyJS)) {
+    // 确认是否初始化模板
+    webContent.send('on-notification', '该机器人不存在通讯脚本desktop.js,请检查')
+    return
+  }
 
   child = fork(MyJS, args, {
     cwd: userDataTemplatePath,

@@ -12,6 +12,11 @@ export default function Npmrc() {
   const [initValue, setInitValue] = useState('')
   const onClickSave = async () => {
     const dir = app.userDataTemplatePath + '/.npmrc'
+    const isDir = await window.app.exists(dir)
+    if (!isDir) {
+      notification('.npmrc不存在')
+      return
+    }
     // 保存数据。
     const T = await window.app.writeFiles(dir, value)
     if (T) {
@@ -22,6 +27,11 @@ export default function Npmrc() {
   }
   const initData = async () => {
     const dir = app.userDataTemplatePath + '/.npmrc'
+    const isDir = await window.app.exists(dir)
+    if (!isDir) {
+      notification('.npmrc不存在')
+      return
+    }
     const data = await window.app.readFiles(dir)
     console.log('data', data)
     if (data && data != '') {

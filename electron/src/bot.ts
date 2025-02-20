@@ -3,6 +3,7 @@ import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
 import { webContents } from 'electron'
+import { existsSync } from 'fs'
 
 /**
  * @description bot 管理
@@ -38,6 +39,14 @@ export const botRun = async (webContent: Electron.WebContents, args: string[]) =
   if (webContent.isDestroyed()) return
 
   const MyJS = join(userDataTemplatePath, 'alemonjs', 'index.js')
+
+  // 判断是否存在 index.js
+  if (!existsSync(MyJS)) {
+    // 确认是否初始化模板
+    webContent.send('on-notification', '该机器人不存在启动脚本index.js,请检查')
+    return
+  }
+
   child = fork(MyJS, args, {
     cwd: userDataTemplatePath,
     stdio: 'pipe' // 确保使用管道来捕获输出

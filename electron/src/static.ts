@@ -11,7 +11,7 @@ export const preloadPath = join(resourcesPath, 'preload')
 // template
 export const templatePath = join(resourcesPath, 'template')
 export const nodeModulesPath = join(templatePath, 'node_modules')
-export const packagePath = join(nodeModulesPath, 'alemonjs', 'package.json')
+export const packagePath = join(templatePath, 'package.json')
 export const warehousePath = join(templatePath, 'packages')
 /**
  * userData
@@ -25,5 +25,5 @@ export const userDataStoragePath = join(app.getPath('userData'), 'storage')
 export const userDataTemplatePath =
   getUserDataTemplatePath() ?? join(userDataResourcesPath, 'template')
 export const userDataNodeModulesPath = join(userDataTemplatePath, 'node_modules')
-export const userDataPackagePath = join(userDataNodeModulesPath, 'alemonjs', 'package.json')
+export const userDataPackagePath = join(userDataTemplatePath, 'package.json')
 export const userDataWarehousePath = join(userDataTemplatePath, 'packages')

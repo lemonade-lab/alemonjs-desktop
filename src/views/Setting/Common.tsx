@@ -1,4 +1,4 @@
-// import { useNotification } from '@src/context/Notification'
+import { useNotification } from '@src/context/Notification'
 import { RootState } from '@src/store'
 import { Button } from '@src/ui/Button'
 import { Modal } from '@src/ui/Modal'
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux'
 const Common = () => {
   const app = useSelector((state: RootState) => state.app)
   const [desktopChecked, setDesktopChecked] = useState(false)
-  // const { notification } = useNotification()
+  const { notification } = useNotification()
 
   const update = _.throttle(async checked => {
     const T = await window.controller.setAutoLaunch(checked)
@@ -72,8 +72,13 @@ const Common = () => {
               </div>
               <Button
                 className="px-2 rounded-md border"
-                onClick={() => {
+                onClick={async () => {
                   const dir = `${app.userDataTemplatePath}/yarn.lock`
+                  const T = await window.app.exists(dir)
+                  if (!T) {
+                    notification('yarn.lock不存在')
+                    return
+                  }
                   window.app.downloadFiles(dir)
                 }}
               >

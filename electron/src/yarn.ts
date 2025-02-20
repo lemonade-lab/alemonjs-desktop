@@ -1,8 +1,10 @@
 import { fork } from 'child_process'
 import { join } from 'node:path'
 import logger from 'electron-log'
-import { userDataTemplatePath } from './static'
-import { webContents } from 'electron'
+import { userDataPackagePath, userDataTemplatePath } from './static'
+import { dialog, webContents } from 'electron'
+import { existsSync } from 'node:fs'
+import { initTemplate } from './init'
 
 /**
  * yarn 安装依赖
@@ -16,7 +18,33 @@ export const yarn = async (
     value: string[]
   }
 ) => {
+  // 如果是
+  if (!existsSync(userDataPackagePath)) {
+    // 确认是否初始化模板
+    const response = await dialog.showMessageBox({
+      type: 'question',
+      buttons: ['确定', '取消'],
+      title: '确认',
+      message: '该目录不存在机器人，是否要删除该目录数据，并初始化模板？'
+    })
+    if (response.response === 0) {
+      // 用户选择了 "确定"
+      initTemplate()
+    } else {
+      webContent.send('on-notification', '已取消初始化模板')
+      return
+    }
+  }
+
   const MyJS = join(userDataTemplatePath, 'alemonjs', 'bin', 'yarn.cjs')
+
+  // 判断是否存在 yarn.cjs
+  if (!existsSync(MyJS)) {
+    // 确认是否初始化模板
+    webContent.send('on-notification', '该机器人不存在包管理脚本，请检查')
+    return
+  }
+
   logger.info(`Yarn command: ${data.value.join(' ')}`)
   const child = fork(MyJS, data.value, {
     cwd: userDataTemplatePath,

@@ -4,10 +4,7 @@ import { createShortcut } from '../src/shortcut'
 import { createTray } from '../src/tray'
 import { onBeforeRequest } from '../src/session'
 import { app, BrowserWindow, shell, screen } from 'electron'
-import { existsSync } from 'node:fs'
-import { userDataPackagePath } from '../src/static'
 import { storage } from '../src/storage'
-import { initTemplate } from '../src/init'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -125,21 +122,8 @@ const initWindow = () => {
   })
 }
 
-/**
- * 初始化文件
- */
-const initFiles = () => {
-  // 没有包配置文件
-  if (!existsSync(userDataPackagePath)) {
-    initTemplate()
-  }
-}
-
 // 当应用程序准备就绪时，创建主窗口
 app.whenReady().then(() => {
-  // 初始化文件
-  initFiles()
-
   // 初始化窗口
   initWindow()
 

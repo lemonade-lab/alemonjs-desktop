@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const data = [
   {
+    version: '0.2.1',
+    log: ['修复选择目录后，pkg判断错误问题', '非机器人目录初始化提示']
+  },
+  {
     version: '0.2.0',
     log: [
       '由自动加载依赖更改为引导加载',
