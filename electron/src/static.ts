@@ -16,7 +16,7 @@ export const warehousePath = join(templatePath, 'packages')
 /**
  * userData
  */
-const userDataResourcesPath = join(app.getPath('userData'), 'resources')
+export const userDataResourcesPath = join(app.getPath('userData'), 'resources')
 console.info('userDataResourcesPath', userDataResourcesPath)
 export const userDataStoragePath = join(app.getPath('userData'), 'storage')
 // export const userDataPreloadPath = join(userDataResourcesPath, 'preload')
@@ -27,3 +27,10 @@ export const userDataTemplatePath =
 export const userDataNodeModulesPath = join(userDataTemplatePath, 'node_modules')
 export const userDataPackagePath = join(userDataTemplatePath, 'package.json')
 export const userDataWarehousePath = join(userDataTemplatePath, 'packages')
+// init data
+export const initUserDataPackagePath = join(userDataResourcesPath, 'template', 'package.json')
+
+// cjs
+export const cjsYarnPath = join(userDataTemplatePath, 'alemonjs', 'bin', 'yarn.cjs')
+export const cjsDesktopPath = join(userDataTemplatePath, 'alemonjs', 'desktop.js')
+export const cjsIndexPath = join(userDataTemplatePath, 'alemonjs', 'index.js')

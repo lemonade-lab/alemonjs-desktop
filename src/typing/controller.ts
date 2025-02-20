@@ -39,4 +39,16 @@ export type WindowController = {
    *
    */
   onNotification: (callback: (val: any) => void) => void
+  /**
+   *
+   * @param callback
+   * @returns
+   */
+  onModal: (callback: (val: any) => void) => void
+  /**
+   *
+   * @param id
+   * @returns
+   */
+  onClick: (code: number, data: any) => Promise<boolean>
 }

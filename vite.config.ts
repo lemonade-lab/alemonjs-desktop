@@ -7,6 +7,11 @@ import renderer from 'vite-plugin-electron-renderer'
 // pkg is the package.json of the project
 import pkg from './package.json'
 
+// 是否是开发环境
+const isDev = process.env.NODE_ENV === 'development'
+
+console.log('isDev', isDev)
+
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   rmSync('dist-electron', { recursive: true, force: true })
@@ -89,10 +94,12 @@ export default defineConfig(({ command }) => {
         transformMixedEsModules: true
       },
       terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true
-        }
+        compress: isDev
+          ? null
+          : {
+              drop_console: true,
+              drop_debugger: true
+            }
       }
     }
   }

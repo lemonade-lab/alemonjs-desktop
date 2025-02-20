@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom'
 import store from '@src/store/index'
 import { NotificationProvider } from '@src/context/Notification'
 import ModalProvider from '@src/context/modal'
+import PopProvider from '@src/context/Pop'
 import router from '@src/route'
 import { Suspense } from 'react'
 import Transition from '@src/Transition'
@@ -19,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Provider store={store}>
         <NotificationProvider>
           <ModalProvider>
-            <RouterProvider router={router} />
+            <PopProvider>
+              <RouterProvider router={router} />
+            </PopProvider>
           </ModalProvider>
         </NotificationProvider>
       </Provider>

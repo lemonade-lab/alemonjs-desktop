@@ -2,6 +2,8 @@ import { BrowserWindow, ipcMain } from 'electron'
 import { isAutoLaunchEnabled, setAutoLaunch } from '../../src/setLoginItemSettings'
 import Logger from 'electron-log'
 import { createTerminal } from '../terminal'
+import { initTemplate } from '../../src/init'
+import { yarn } from '../../src/yarn'
 
 // 监听最小化、最大化和关闭事件
 ipcMain.on('minimize-window', event => {
@@ -72,4 +74,12 @@ ipcMain.on('open-window-main', () => {
   } else {
     global.mainWindow.show()
   }
+})
+
+ipcMain.handle('on-clicked', (event, code, data) => {
+  if (code === 2010) {
+    initTemplate()
+    yarn(event.sender, data)
+  }
+  return true
 })

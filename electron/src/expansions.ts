@@ -1,4 +1,4 @@
-import { userDataTemplatePath } from './static'
+import { cjsDesktopPath, userDataTemplatePath } from './static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
@@ -38,7 +38,7 @@ export const expansionsRun = async (webContent: Electron.WebContents, args: stri
   }
   if (webContent.isDestroyed()) return
 
-  const MyJS = join(userDataTemplatePath, 'alemonjs', 'desktop.js')
+  const MyJS = cjsDesktopPath
 
   // 判断是否存在 desktop.js
   if (!existsSync(MyJS)) {

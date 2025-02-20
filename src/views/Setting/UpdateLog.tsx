@@ -3,6 +3,10 @@ import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 const data = [
   {
     version: '0.2.1',
+    log: ['优化弹窗', '默认目前不提示初始化确认']
+  },
+  {
+    version: '0.2.1',
     log: ['修复选择目录后，pkg判断错误问题', '非机器人目录初始化提示']
   },
   {

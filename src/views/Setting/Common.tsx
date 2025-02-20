@@ -1,4 +1,5 @@
 import { useNotification } from '@src/context/Notification'
+import { usePop } from '@src/context/Pop'
 import { RootState } from '@src/store'
 import { Button } from '@src/ui/Button'
 import { Modal } from '@src/ui/Modal'
@@ -35,10 +36,22 @@ const Common = () => {
     update(status)
   }
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { setPopValue } = usePop()
 
-  const openModal = () => setIsModalOpen(true)
-  const closeModal = () => setIsModalOpen(false)
+  const openModal = () => {
+    setPopValue({
+      open: true,
+      title: '重置扩展与机器人',
+      description: '危险！该操作将以当前版本初始内容对所有扩展和机器人进行重置!',
+      buttonText: '重置并重启',
+      data: {},
+      code: 0,
+      onConfirm: () => {
+        console.log('重置')
+        window.app.reIniteTemplate()
+      }
+    })
+  }
 
   useEffect(() => {
     initUpdate()
@@ -170,21 +183,6 @@ const Common = () => {
           </div>
         </PrimaryDiv>
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2 className="text-xl mb-4">重置扩展与机器人</h2>
-        <p>危险！该操作将以当前版本初始内容对所有扩展和机器人进行重置!</p>
-        <div className="flex justify-end">
-          <Button
-            onClick={() => {
-              window.app.reIniteTemplate()
-              closeModal()
-            }}
-            className="mt-4 px-4 py-2   rounded "
-          >
-            重置并重启
-          </Button>
-        </div>
-      </Modal>
     </div>
   )
 }

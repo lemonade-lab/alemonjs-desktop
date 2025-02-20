@@ -14,7 +14,7 @@ module.exports = {
   directories: {
     output: 'release'
   },
-  files: ['dist-electron', 'dist', 'icons'],
+  files: ['dist-electron', 'dist'],
   mac: {
     icon: './icons/icon.icns',
     target: [
@@ -73,8 +73,8 @@ module.exports = {
     uninstallerIcon: './icons/icon.ico', // 卸载图标
     installerHeader: './icons/icon.ico', // 安装的头部(右边的图标)
     installerHeaderIcon: './icons/icon.ico', // 安装时头部图标
-    installerSidebar: './assets/installerSidebar.bmp', // 安装包安装侧边图片，要求164 × 314 像素
-    uninstallerSidebar: './assets/installerSidebar.bmp', // 安装包卸载侧边图片，要求164 × 314 像素
+    // installerSidebar: './assets/installerSidebar.bmp', // 安装包安装侧边图片，要求164 × 314 像素
+    // uninstallerSidebar: './assets/installerSidebar.bmp', // 安装包卸载侧边图片，要求164 × 314 像素
     createDesktopShortcut: true, // 是否创建桌面图标
     createStartMenuShortcut: true, // 是否创建开始菜单图标
     shortcutName: '${productName}', // 图标名称

@@ -16,6 +16,9 @@ import { setPath } from '@src/store/app'
 import { postMessage } from '@src/store/log'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 import { ControlFilled, ControlOutlined, RobotFilled } from '@ant-design/icons'
+import { Modal } from '@src/ui/Modal'
+import { Button } from '@src/ui/Button'
+import { usePop } from '@src/context/Pop'
 
 export default (function App() {
   const navigate = useGoNavigate()
@@ -23,6 +26,8 @@ export default (function App() {
   const { notification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
+
+  const { setPopValue, closePop } = usePop()
 
   const navTop = {
     logo: () => {
@@ -185,6 +190,23 @@ export default (function App() {
     window.terminal.on((message: string) => {
       dispatch(postMessage(message))
     })
+
+    // 坚挺modal
+    window.controller.onModal((data: any) => {
+      if (data.open) {
+        setPopValue({
+          open: true,
+          title: data.title,
+          description: data.description,
+          buttonText: data.buttonText,
+          data: data.data,
+          code: data.code
+        })
+        return
+      } else {
+        closePop()
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -203,7 +225,7 @@ export default (function App() {
   }, [expansions.runStatus])
 
   return (
-    <div className="flex flex-col h-screen ">
+    <div className="flex flex-col flex-1 h-screen relative ">
       <Header>
         <WordBox />
       </Header>
