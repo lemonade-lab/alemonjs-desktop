@@ -113,10 +113,8 @@ const Common = () => {
 
             <div className="flex gap-2 justify-between">
               <div className="flex flex-row gap-2 items-center">
-                <div>以指定目录打开机器人</div>
-                <div className="text-sm text-secondary-text">
-                  目录为空时，将移动内部机器人到该目录
-                </div>
+                <div>以指定目录打开应用</div>
+                <div className="text-sm text-secondary-text">目录不存在pkg时，将新建机器人</div>
               </div>
               <Button
                 className="px-2 rounded-md border"
@@ -129,7 +127,7 @@ const Common = () => {
                   })
                 }}
               >
-                打开目录
+                选择
               </Button>
             </div>
 

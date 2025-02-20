@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Init } from './Component'
 import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 import { SidebarDiv } from '@src/ui/SidebarDiv'
@@ -11,6 +11,7 @@ import Info from './GitInfo'
 import { useNotification } from '@src/context/Notification'
 import { extractRepoInfo, isGitRepositoryFormat } from '@src/api'
 import Markdown from '@src/common/Markdown'
+import { Tooltip } from '@src/ui/Tooltip'
 
 export default function Expansions() {
   // const app = useSelector((state: RootState) => state.app)
@@ -22,15 +23,12 @@ export default function Expansions() {
 
   const [readme, setReadme] = useState('')
 
+  // const listRef = useRef<string[]>([])
+
   const initData = async () => {
-    window.git
-      .repos()
-      .then(res => {
-        setData(res)
-      })
-      .catch(err => {
-        notification('获取仓库列表失败', 'error')
-      })
+    window.git.repos().then(res => {
+      setData(res)
+    })
   }
 
   /**
@@ -73,15 +71,10 @@ export default function Expansions() {
 
     notification('正在添加仓库..')
 
-    await window.git
-      .clone(value)
-      .then(res => {
-        setData([...data, repository])
-        notification('添加成功')
-      })
-      .catch(() => {
-        notification('添加失败', 'error')
-      })
+    await window.git.clone(value).then(res => {
+      setData([...data, repository])
+      notification('添加成功')
+    })
 
     setSub(false)
   }
@@ -99,20 +92,13 @@ export default function Expansions() {
     }
     setSub(true)
 
-    notification('待更新.')
+    notification('正在删除仓库..')
 
-    // notification('正在删除仓库..')
-
-    await window.git
-      .delete(item)
-      .then(() => {
-        const db = data.filter(v => v !== item)
-        setData(db)
-        notification('删除成功')
-      })
-      .catch(() => {
-        notification('删除失败', 'error')
-      })
+    await window.git.delete(item).then(() => {
+      const db = data.filter(v => v !== item)
+      setData(db)
+      notification('删除成功')
+    })
 
     setSub(false)
   }
@@ -128,16 +114,11 @@ export default function Expansions() {
   const onShow = (item: { name: string; hash: string }) => {
     // setSelect('info')
 
-    window.git
-      .show(item.name, item.hash)
-      .then((res: any) => {
-        setReadme(res)
-        // setSelect('info')
-        console.log(res)
-      })
-      .catch((err: any) => {
-        notification('获取失败，可能无readme.md', 'error')
-      })
+    window.git.show(item.name, item.hash).then((res: any) => {
+      setReadme(res)
+      // setSelect('info')
+      console.log(res)
+    })
   }
 
   useEffect(() => {
@@ -167,9 +148,11 @@ export default function Expansions() {
             placeholder="https://xxx.git或git@xxx.git"
             className="w-full px-2 py-1 rounded-sm"
           />
-          <div className="cursor-pointer px-2" onClick={onAdd}>
-            <FolderAddOutlined />
-          </div>
+          <Tooltip text="安装仓库">
+            <div className="px-2" onClick={onAdd}>
+              <FolderAddOutlined />
+            </div>
+          </Tooltip>
         </div>
         <div className="flex-1 ">
           <SecondaryDiv className="flex flex-col gap-1  border-t py-2  overflow-auto  h-[calc(100vh-5.9rem)]">

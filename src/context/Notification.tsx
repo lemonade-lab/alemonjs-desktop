@@ -33,6 +33,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   }, [state])
 
   const notification = (message: string, theme: 'default' | 'error' | 'warning' = 'default') => {
+    // 和最近的一次相同的通知不再显示
+    if (stateRef.current?.[stateRef.current.length - 1]?.message === message) {
+      return
+    }
     const id = Date.now()
     setState([...(stateRef.current ?? []), { id, message, theme }])
     setTimeout(() => {

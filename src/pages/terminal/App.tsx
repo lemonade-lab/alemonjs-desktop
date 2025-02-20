@@ -40,7 +40,7 @@ export default (function App() {
         <div className="drag-area flex-1"></div>
       </Header>
       <PrimaryDiv className="flex flex-1">
-        <div className=" flex flex-1">
+        <div className="flex flex-1">
           <Outlet />
         </div>
       </PrimaryDiv>

@@ -67,8 +67,8 @@ function Terminal() {
 
   return (
     <div className="flex flex-col">
-      <NavDiv className="animate__animated animate__fadeIn flex flex-col p-1 border-b ">
-        <div className="flex gap-4  justify-between items-center ">
+      <NavDiv className="animate__animated animate__fadeIn flex flex-col border-b ">
+        <div className="flex gap-4  justify-between items-center px-2">
           <div className=" flex gap-2 items-center "></div>
           <div className="flex gap-4 ">
             <div>Terminal</div>
@@ -101,7 +101,7 @@ function Terminal() {
       <div className=" duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
         <div
           ref={terminalRef}
-          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.5rem)]"
+          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.1rem)]"
         />
       </div>
     </div>

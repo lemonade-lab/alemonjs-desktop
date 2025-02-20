@@ -15,6 +15,7 @@ import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import { postMessage } from '@src/store/log'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { ControlFilled, ControlOutlined, RobotFilled } from '@ant-design/icons'
 
 export default (function App() {
   const navigate = useGoNavigate()
@@ -26,6 +27,9 @@ export default (function App() {
   const navTop = {
     logo: () => {
       navigate('/')
+    },
+    yarnManage: () => {
+      navigate('/yarn-manage')
     }
   }
 
@@ -40,14 +44,19 @@ export default (function App() {
     path: NavigatePath
     onClick: (path: NavigatePath) => void
   }[] = [
+    // {
+    //   Icon: <ControlFilled width={20} height={20} />,
+    //   path: '/yarn-manage',
+    //   onClick: path => navigate(path)
+    // },
     {
-      Icon: <HomeIcon width="20" height="20" />,
+      Icon: <RobotFilled width={20} height={20} />,
       path: '/bot-log',
       onClick: path => navigate(path)
     },
     {
-      Icon: <FireworksIcon width="20" height="20" />,
-      path: '/application',
+      Icon: <GitIcon width="20" height="20" />,
+      path: '/git-expansions',
       onClick: path => navigate(path)
     },
     {
@@ -56,8 +65,8 @@ export default (function App() {
       onClick: path => navigate(path)
     },
     {
-      Icon: <GitIcon width="20" height="20" />,
-      path: '/git-expansions',
+      Icon: <FireworksIcon width="20" height="20" />,
+      path: '/application',
       onClick: path => navigate(path)
     }
   ]
@@ -198,8 +207,13 @@ export default (function App() {
       <Header>
         <WordBox />
       </Header>
-      <PrimaryDiv className="flex flex-1">
-        <Menu onClickLogo={navTop.logo} centerList={navList} onClickSetting={navBottom.setting} />
+      <PrimaryDiv className="flex flex-1 z-40">
+        <Menu
+          onClickLogo={navTop.logo}
+          onClickYarn={navTop.yarnManage}
+          centerList={navList}
+          onClickSetting={navBottom.setting}
+        />
         <div className="flex flex-1">
           <Outlet />
         </div>

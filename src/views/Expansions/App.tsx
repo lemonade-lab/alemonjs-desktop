@@ -1,20 +1,16 @@
-import { lazy, useEffect, useRef, useState } from 'react'
-import Dropdown from './Dropdown'
+import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
-import { PackageInfoType } from './PackageInfo'
-import { Init } from './Component'
-import { fetchPackageInfo, getPackages } from '../../api'
-import ExpansionsCard from './ExpansionsCard'
 import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 import { SidebarDiv } from '@src/ui/SidebarDiv'
 import { Input } from '@src/ui/Input'
-import { MenuMore, Refresh } from '@src/ui/Icons'
-import PackageInfo from './PackageInfo'
-import LinkFrom from './FromLink'
-import AddFrom from './FromAdd'
+import { Refresh } from '@src/ui/Icons'
+import { fetchPackageInfo, getPackages } from '@src/api'
+import PackageInfo, { PackageInfoType } from './PackageInfo'
+import ExpansionsCard from './ExpansionsCard'
+import { Init } from './Component'
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -118,8 +114,6 @@ export default function Expansions() {
       <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1">
         {select == '' && <Init />}
         {select == 'shoping' && packageInfo && <PackageInfo packageInfo={packageInfo} />}
-        {select == '管理' && <LinkFrom />}
-        {select == '模块' && <AddFrom />}
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
         <div className="flex justify-between px-2 py-1">
@@ -128,11 +122,11 @@ export default function Expansions() {
             <div onClick={onClickRefresh} className=" cursor-pointer">
               <Refresh width={18} height={18} />
             </div>
-            <Dropdown
+            {/* <Dropdown
               Icon={<MenuMore width={18} height={18} />}
-              options={['模块', '管理']}
+              options={['模块']}
               onChangeOption={onChangeOption}
-            />
+            /> */}
           </div>
         </div>
         <div className="">

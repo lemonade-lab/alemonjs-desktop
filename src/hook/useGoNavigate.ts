@@ -12,7 +12,18 @@ export type NavigatePath =
   | '/setting'
   | '/expansions'
   | '/git-expansions'
-//
+  | '/yarn-manage'
+
+// 能放行的路径
+const passPath: NavigatePath[] = ['/', '/setting', '/yarn-manage']
+
+// 需要启动扩展器的路径
+const runPath: NavigatePath[] = ['/expansions', '/application']
+
+/**
+ *
+ * @returns
+ */
 export default function useGoNavigate() {
   const navigate = useNavigate()
   const modules = useSelector((state: RootState) => state.modules)
@@ -29,18 +40,18 @@ export default function useGoNavigate() {
   }, [modules.nodeModulesStatus, expansions.runStatus])
   const { notification } = useNotification()
   const navigateTo = (path: NavigatePath, options?: NavigateOptions) => {
-    if (path === '/setting' || path === '/') {
+    if (passPath.find(v => v === path)) {
       navigate(path, options)
       return
     }
     if (!statusRef.current.nodeModulesStatus) {
-      notification('依赖未加载...')
+      notification('依赖未加载...', 'warning')
       navigate('/')
       return
     }
-    if (path === '/expansions' || path === '/application' || path === '/git-expansions') {
+    if (runPath.find(v => v === path)) {
       if (!statusRef.current.runStatus) {
-        notification('扩展器未运行...')
+        notification('扩展器未运行...', 'warning')
         return
       }
     }

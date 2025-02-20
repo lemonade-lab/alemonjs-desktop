@@ -2,20 +2,48 @@ import { useNotification } from '@src/context/Notification'
 import { Button } from '@src/ui/Button'
 import { Input } from '@src/ui/Input'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { Select } from '@src/ui/Select'
 import { useEffect, useRef, useState } from 'react'
 
-export default function From() {
-  const [fromNameValue, setFromNameValue] = useState('')
+export default function YarnManage() {
+  const [inputValue, setIputValue] = useState('')
   const { notification } = useNotification()
   const [submit, setSubmit] = useState(false)
   const fromNameRef = useRef('')
+
+  const noValueSelect = ['install', 'list']
+
+  const selects = [
+    'upgrade',
+    'link',
+    'unlink',
+    'add',
+    'remove',
+    'global add',
+    'global remove',
+    'info',
+    ...noValueSelect
+  ]
+
+  const [value, setValue] = useState(selects[0])
+
+  /**
+   *
+   * @param e
+   * @returns
+   */
+  const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // 选择版本,立即切换到该版本
+    const value = e.target.value
+    setValue(value)
+  }
 
   /**
    *
    * @param e
    */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFromNameValue(e.target.value)
+    setIputValue(e.target.value)
   }
 
   /**
@@ -28,20 +56,39 @@ export default function From() {
     //
     if (submit) return
 
-    //
-    if (!fromNameValue || fromNameValue == '') return
+    if (!value) return
+
+    if (noValueSelect.includes(value)) {
+      setSubmit(true)
+      window.yarn.cmds({
+        type: `cmd`,
+        value: [value]
+      })
+      return
+    }
+
+    if (!inputValue || inputValue == '') return
+
+    const inputValues = inputValue.split(' ')
 
     setSubmit(true)
 
+    if (value === 'add') {
+      // 没有参数的时候，自动添加 -W
+      if (!inputValues.includes('-W')) {
+        inputValues.push('-W')
+      }
+    }
+
     window.yarn.cmds({
       type: `cmd`,
-      value: fromNameValue.split(' ')
+      value: [value].concat(inputValue.split(' '))
     })
   }
 
   useEffect(() => {
-    fromNameRef.current = fromNameValue
-  }, [fromNameValue])
+    fromNameRef.current = `${value} ${inputValue}`
+  }, [value, inputValue])
 
   useEffect(() => {
     window.yarn.on(data => {
@@ -73,20 +120,29 @@ export default function From() {
             <label className="block text-sm py-1 font-medium text-secondary-text">
               调用内置的Yarn包管理器对包进行操作
             </label>
-            <Input
-              type="text"
-              name="name"
-              placeholder="link alemonjs-xiuxian"
-              value={fromNameValue}
-              onChange={handleChange}
-              className="mt-1 block w-full px-2 py-1  border  rounded-md focus:outline-none focus:ring  "
-            />
+            <div className="flex gap-2">
+              <Select onChange={onSelect} className="rounded-md px-2">
+                {selects.map((v, i) => (
+                  <option key={i} value={v}>
+                    {v}
+                  </option>
+                ))}
+              </Select>
+              <Input
+                type="text"
+                name="name"
+                placeholder="alemonjs"
+                value={inputValue}
+                onChange={handleChange}
+                className="mt-1 block w-full px-2 py-1  border  rounded-md focus:outline-none focus:ring  "
+              />
+            </div>
           </div>
           <Button
             type="submit"
             // 控制提交
             disabled={submit}
-            className="w-full      p-2 rounded-md duration-700 transition-all   "
+            className="w-full p-2 rounded-md duration-700 transition-all   "
           >
             执行
           </Button>

@@ -12,6 +12,7 @@ import {
   TagOutlined,
   TagsOutlined
 } from '@ant-design/icons'
+import { Tooltip } from '@src/ui/Tooltip'
 
 type GitBranchesLogsData = {
   key: string
@@ -58,9 +59,9 @@ const GitBranchesLogs = ({
   }, [name, branch])
   return (
     <div className="flex flex-col py-2 rounded-md  scrollbar overflow-auto h-[calc(100vh-80vh)]">
-      {data.length === 0 && (
+      {/* {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
-      )}
+      )} */}
       {data.map(item => (
         <PrimaryDiv
           key={item.key}
@@ -117,9 +118,9 @@ const GitBranches = ({
   }, [name])
   return (
     <div className="py-2">
-      {data.length === 0 && (
+      {/* {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
-      )}
+      )} */}
       <Collapse
         items={data.map(item => {
           return {
@@ -169,9 +170,9 @@ const GitTags = ({
   }, [name])
   return (
     <div className="flex flex-col py-2 scrollbar overflow-auto h-[calc(100vh-80vh)]">
-      {data.length === 0 && (
+      {/* {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
-      )}
+      )} */}
       {data.map(item => (
         <PrimaryDiv
           hover={true}
@@ -205,15 +206,17 @@ const Title = ({
   return (
     <div className="flex  justify-between items-center cursor-pointer">
       <div className="flex gap-2">{children}</div>
-      <div
-        className=""
-        onClick={e => {
-          e.stopPropagation()
-          onDelete(e)
-        }}
-      >
-        <Close></Close>
-      </div>
+      <Tooltip text="删除仓库">
+        <div
+          className=""
+          onClick={e => {
+            e.stopPropagation()
+            onDelete(e)
+          }}
+        >
+          <Close></Close>
+        </div>
+      </Tooltip>
     </div>
   )
 }

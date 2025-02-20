@@ -17,7 +17,7 @@ type HeaderProps = PropsWithChildren<{
  */
 export default memo(function Header({ children }: HeaderProps) {
   return (
-    <HeaderDiv className={classNames('h-[1.6rem] flex justify-between  border-b-2 ')}>
+    <HeaderDiv className={classNames('h-[1.6rem] flex justify-between  border-b-2 z-50')}>
       <div className="drag-area flex-1"></div>
       {children ?? <div className="flex-[2]"></div>}
       {window.versions.platform == 'win32' ? (
