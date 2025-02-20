@@ -5,7 +5,7 @@ import { useNotification } from '@src/context/Notification'
 import useGoNavigate, { NavigatePath } from '@src/hook/useGoNavigate'
 import { setBotStatus } from '@src/store/bot'
 import { setCommand } from '@src/store/command'
-import { ContactIcon, FireworksIcon, GitIcon, HomeIcon, PizzaIcon } from '@src/ui/MenuIcons'
+import { FireworksIcon, GitIcon, HomeIcon, PizzaIcon } from '@src/ui/MenuIcons'
 import Header from '@src/common/Header'
 import Menu from '@src/views/Menu'
 import WordBox from './WordBox'
@@ -13,17 +13,27 @@ import { setModulesStatus } from '@src/store/modules'
 import { initPackage, setExpansionsStatus } from '@src/store/expansions'
 import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
-import MainView from './MainView'
 import { postMessage } from '@src/store/log'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 export default (function App() {
   const navigate = useGoNavigate()
   const dispatch = useDispatch()
-  const [loading, setLoading] = useState(false)
   const { notification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
+
+  const navTop = {
+    logo: () => {
+      navigate('/')
+    }
+  }
+
+  const navBottom = {
+    setting: () => {
+      navigate('/setting')
+    }
+  }
 
   const navList: {
     Icon: React.ReactNode
@@ -48,14 +58,13 @@ export default (function App() {
     {
       Icon: <GitIcon width="20" height="20" />,
       path: '/git-expansions',
-      onClick: path => {
-        navigate(path)
-      }
+      onClick: path => navigate(path)
     }
   ]
 
   const modulesRef = useRef(modules)
 
+  // watch
   useEffect(() => {
     // 加载css变量
     window.theme.variables()
@@ -78,34 +87,10 @@ export default (function App() {
       }
     })
 
-    console.log('App.tsx useEffect')
-
-    // 依赖加载状态提示
-    const msg = [
-      '正在加载依赖，请耐心等待...',
-      '若时间过长，请检查网络或退出重试...',
-      '你的依赖超长未完成，请联系开发者协议...'
-    ]
-    const outAt = 1000 * 10
-    const notifyUser = (index: number) => {
-      if (index < msg.length && !modulesRef.current.nodeModulesStatus) {
-        notification(msg[index])
-        setTimeout(() => notifyUser(index + 1), outAt)
-      }
-    }
-    // 开始通知
-    setTimeout(() => notifyUser(0), outAt)
-
     // 立即得到 app 路径
     window.app.getAppsPath().then(res => {
       console.log('app.getAppsPath', res)
       dispatch(setPath(res))
-    })
-
-    // 立即加载依赖
-    window.yarn.cmds({
-      type: 'install',
-      value: ['install', '--ignore-warnings']
     })
 
     // 监听依赖安装状态 0 失败 1 成功
@@ -123,15 +108,6 @@ export default (function App() {
       }
     })
 
-    // 立即获取 bot 状态
-    window.bot.status().then(res =>
-      dispatch(
-        setBotStatus({
-          runStatus: res
-        })
-      )
-    )
-
     // 监听 bot 状态
     window.bot.onStatus((value: number) => {
       dispatch(
@@ -141,6 +117,7 @@ export default (function App() {
       )
     })
 
+    // 监听 通知消息
     window.controller.onNotification((value: any) => {
       notification(value)
     })
@@ -194,38 +171,27 @@ export default (function App() {
         })
       )
     })
-  }, [])
 
-  useEffect(() => {
-    modulesRef.current = modules
-    // 依赖状态变化时。
-    if (modules.nodeModulesStatus) {
-      setLoading(true)
-    } else {
-      setLoading(false)
-    }
-    // 依赖安装完成后，启动扩展器
-    if (modules.nodeModulesStatus) {
-      // 启动扩展器
-      if (!expansions.runStatus) {
-        console.log('runStatus', expansions.runStatus)
-        window.expansions.run([])
-      }
-    }
-  }, [modules.nodeModulesStatus])
-
-  useEffect(() => {
-    // 运行的时候才会获取扩展器
-    if (expansions.runStatus) {
-      window.expansions.postMessage({ type: 'get-expansions' })
-    }
-  }, [expansions.runStatus])
-
-  useEffect(() => {
+    // 监听log
     window.terminal.on((message: string) => {
       dispatch(postMessage(message))
     })
   }, [])
+
+  useEffect(() => {
+    modulesRef.current = modules
+    // 依赖安装完成后，启动扩展器
+    if (modules.nodeModulesStatus) {
+      notification('依赖加载完成')
+    }
+  }, [modules.nodeModulesStatus])
+
+  useEffect(() => {
+    if (expansions.runStatus) {
+      // 获取扩展器列表
+      window.expansions.postMessage({ type: 'get-expansions' })
+    }
+  }, [expansions.runStatus])
 
   return (
     <div className="flex flex-col h-screen ">
@@ -233,20 +199,10 @@ export default (function App() {
         <WordBox />
       </Header>
       <PrimaryDiv className="flex flex-1">
-        <Menu
-          onClickLogo={() => navigate('/')}
-          centerList={navList}
-          onClickSetting={() => navigate('/setting')}
-        />
-        {loading ? (
-          <div className=" flex flex-1">
-            <Outlet />
-          </div>
-        ) : (
-          <div className=" flex flex-1">
-            <MainView />
-          </div>
-        )}
+        <Menu onClickLogo={navTop.logo} centerList={navList} onClickSetting={navBottom.setting} />
+        <div className="flex flex-1">
+          <Outlet />
+        </div>
       </PrimaryDiv>
     </div>
   )

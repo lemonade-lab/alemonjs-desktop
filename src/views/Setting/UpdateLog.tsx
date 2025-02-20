@@ -2,6 +2,16 @@ import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const data = [
   {
+    version: '0.2.0',
+    log: [
+      '由自动加载依赖更改为引导加载',
+      '允许在未加载依赖时访问设置',
+      '支持以指定目录来打开桌面',
+      '删除小组件设计页',
+      '为部分图标增加气泡提示框'
+    ]
+  },
+  {
     version: '0.1.4',
     log: ['修复windows扩展加载失败']
   },

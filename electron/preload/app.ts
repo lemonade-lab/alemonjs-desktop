@@ -10,5 +10,7 @@ contextBridge.exposeInMainWorld('app', {
   fetch: (url: string, options: any) => ipcRenderer.invoke('fetch', url, options),
   downloadFiles: (data: string) => ipcRenderer.send('download-files', data),
   openWindowTerminal: () => ipcRenderer.send('open-window-terminal'),
-  openWindowMain: () => ipcRenderer.send('open-window-main')
+  openWindowMain: () => ipcRenderer.send('open-window-main'),
+  selectDirectory: () => ipcRenderer.invoke('select-directory'),
+  reStart: (dir: string) => ipcRenderer.send('restart-app', dir)
 })

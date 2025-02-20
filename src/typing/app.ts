@@ -54,4 +54,15 @@ export type WindowApp = {
    * @returns
    */
   fetch: (url: string, options: any) => Promise<any>
+  /**
+   *
+   * @returns
+   */
+  selectDirectory: () => Promise<string[]>
+  /**
+   *
+   * @param dir
+   * @returns
+   */
+  reStart: (dir: string) => void
 }

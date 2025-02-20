@@ -1,15 +1,18 @@
+// import { useNotification } from '@src/context/Notification'
 import { RootState } from '@src/store'
 import { Button } from '@src/ui/Button'
 import { Modal } from '@src/ui/Modal'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 import { Switch } from '@src/ui/Switch'
+import { Tooltip } from '@src/ui/Tooltip'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 const Common = () => {
   const app = useSelector((state: RootState) => state.app)
   const [desktopChecked, setDesktopChecked] = useState(false)
+  // const { notification } = useNotification()
 
   const update = _.throttle(async checked => {
     const T = await window.controller.setAutoLaunch(checked)
@@ -107,6 +110,29 @@ const Common = () => {
                 重置
               </Button>
             </div>
+
+            <div className="flex gap-2 justify-between">
+              <div className="flex flex-row gap-2 items-center">
+                <div>以指定目录打开机器人</div>
+                <div className="text-sm text-secondary-text">
+                  目录为空时，将移动内部机器人到该目录
+                </div>
+              </div>
+              <Button
+                className="px-2 rounded-md border"
+                onClick={() => {
+                  window.app.selectDirectory().then(dir => {
+                    const path = dir[0]
+                    if (typeof path === 'string') {
+                      window.app.reStart(path)
+                    }
+                  })
+                }}
+              >
+                打开目录
+              </Button>
+            </div>
+
             <SecondaryDiv className="flex flex-col gap-2  shadow-inner rounded-md p-2">
               <div className="">快捷键</div>
               <div className="flex gap-2 justify-between">

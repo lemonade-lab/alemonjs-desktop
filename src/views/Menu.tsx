@@ -5,6 +5,7 @@ import { NavDiv } from '@src/ui/NavDiv'
 import classNames from 'classnames'
 import { memo } from 'react'
 import { Setting } from '@src/ui/Icons'
+import { Tooltip } from '@src/ui/Tooltip'
 // import { useLocation } from 'react-router-dom'
 type PropsList = { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
 const MenuButton = memo(
@@ -24,9 +25,11 @@ const MenuButton = memo(
           // icon
         }
         <nav>
-          <span className=" cursor-pointer" onClick={onClickLogo}>
-            <PetalIcon width="28" />
-          </span>
+          <Tooltip text="首页">
+            <div className="py-2" onClick={onClickLogo}>
+              <PetalIcon width="28" />
+            </div>
+          </Tooltip>
         </nav>
         {
           // nav

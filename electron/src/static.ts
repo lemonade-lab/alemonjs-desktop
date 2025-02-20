@@ -1,20 +1,7 @@
 import { app } from 'electron'
 import { join } from 'node:path'
-/**
- * @returns
- */
-const createLogMainPath = () => {
-  if (process.platform === 'darwin') {
-    // ~/Library/Logs/{app name}/main.log
-    return join(app.getPath('home'), 'Library', 'Logs', app.getName(), 'main.log')
-  } else {
-    // %USERPROFILE%\AppData\Roaming\{app name}\logs\main.log
-    // ~/.config/{app name}/logs/main.log
-    return join(app.getPath('userData'), 'logs', 'main.log')
-  }
-}
+import { createLogMainPath, getUserDataTemplatePath } from './storage'
 export const logMainPath = createLogMainPath()
-
 /**
  * localData
  */
@@ -34,9 +21,9 @@ console.info('userDataResourcesPath', userDataResourcesPath)
 export const userDataStoragePath = join(app.getPath('userData'), 'storage')
 // export const userDataPreloadPath = join(userDataResourcesPath, 'preload')
 // export const userDataWarehousePath = join(userDataStoragePath, 'warehouse')
-const ALEMONDEJS_BOT_PATH = process.env?.ALEMONDEJS_BOT_PATH
 // template
-export const userDataTemplatePath = ALEMONDEJS_BOT_PATH ?? join(userDataResourcesPath, 'template')
+export const userDataTemplatePath =
+  getUserDataTemplatePath() ?? join(userDataResourcesPath, 'template')
 export const userDataNodeModulesPath = join(userDataTemplatePath, 'node_modules')
 export const userDataPackagePath = join(userDataNodeModulesPath, 'alemonjs', 'package.json')
 export const userDataWarehousePath = join(userDataTemplatePath, 'packages')

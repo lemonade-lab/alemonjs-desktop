@@ -5,6 +5,7 @@ import * as appsPath from '../../src/static'
 import { basename, join } from 'path'
 import Logger from 'electron-log'
 import { initTemplate } from '../../src/init'
+import { setUserDataTemplatePath } from '../../src/storage'
 
 // 得到应用目录
 ipcMain.handle('get-apps-path', () => appsPath)
@@ -80,4 +81,20 @@ ipcMain.on('download-files', async (event, dir: string) => {
   } catch (e) {
     Logger.error(e)
   }
+})
+
+// 选择文件
+ipcMain.handle('select-directory', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory']
+  })
+  return result.filePaths
+})
+
+// 得到指定目录，重启应用
+ipcMain.on('restart-app', (event, dir: string) => {
+  // 保存dir
+  setUserDataTemplatePath(dir)
+  app.relaunch() // 重新启动应用
+  app.exit() // 退出当前进程
 })

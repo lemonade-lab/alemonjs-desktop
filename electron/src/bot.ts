@@ -37,7 +37,7 @@ export const botRun = async (webContent: Electron.WebContents, args: string[]) =
 
   if (webContent.isDestroyed()) return
 
-  const MyJS = join(userDataTemplatePath, 'index.js')
+  const MyJS = join(userDataTemplatePath, 'alemonjs', 'index.js')
   child = fork(MyJS, args, {
     cwd: userDataTemplatePath,
     stdio: 'pipe' // 确保使用管道来捕获输出

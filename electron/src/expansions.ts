@@ -37,7 +37,7 @@ export const expansionsRun = async (webContent: Electron.WebContents, args: stri
   }
   if (webContent.isDestroyed()) return
 
-  const MyJS = join(userDataTemplatePath, 'desktop.js')
+  const MyJS = join(userDataTemplatePath, 'alemonjs', 'desktop.js')
 
   child = fork(MyJS, args, {
     cwd: userDataTemplatePath,

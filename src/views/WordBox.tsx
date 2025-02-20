@@ -1,3 +1,4 @@
+import { useNotification } from '@src/context/Notification'
 import useNetworkSpeed from '@src/hook/useNetworkSpeed'
 import { RootState } from '@src/store'
 import { BarDiv } from '@src/ui/BarDiv'
@@ -5,6 +6,7 @@ import { AlignTextCenter, Close, Pause, Play } from '@src/ui/Icons'
 import { Input } from '@src/ui/Input'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { Tooltip } from '@src/ui/Tooltip'
 import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -24,6 +26,7 @@ export default function WordBox() {
   const [conmond, setCommond] = useState<Sidebar[]>([])
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
+  const { notification } = useNotification()
 
   // 公共样式常量
   const onClose = () => {
@@ -143,7 +146,15 @@ export default function WordBox() {
             <div
               ref={dropdownRef}
               className="w-full relative  "
-              onClick={() => setIsDropdownOpen(prev => !prev)}
+              onClick={() => {
+                // 检查是否加载完毕
+                if (!modules.nodeModulesStatus) {
+                  // 通知
+                  notification('依赖未加载', 'warning')
+                  return
+                }
+                setIsDropdownOpen(prev => !prev)
+              }}
               aria-expanded={isDropdownOpen}
               role="button"
             >
@@ -152,13 +163,17 @@ export default function WordBox() {
               </SecondaryDiv>
             </div>
           </div>
-          <div className=" flex-1 flex items-center">
+          <div
+            className={classNames('flex-1 flex items-center', {
+              'drag-area h-full': !modules.nodeModulesStatus
+            })}
+          >
             {
               // 当依赖加载完毕后再显示操作按钮
             }
-            <div className="flex flex-1">
+            <div className={classNames('flex flex-1')}>
               {modules.nodeModulesStatus && (
-                <div className="cursor-pointer">
+                <Tooltip text="运行扩展器">
                   {expansions.runStatus ? (
                     <div
                       onClick={() => {
@@ -176,9 +191,9 @@ export default function WordBox() {
                       <Play width={20} height={20} />
                     </div>
                   )}
-                </div>
+                </Tooltip>
               )}
-              <div className="drag-area flex-1"></div>
+              <div className="drag-area flex-1 "></div>
             </div>
           </div>
         </>

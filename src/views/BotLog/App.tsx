@@ -11,6 +11,7 @@ import { Button } from '@src/ui/Button'
 import { NavDiv } from '@src/ui/NavDiv'
 import { Select } from '@src/ui/Select'
 import { ChevronDown } from '@src/ui/Icons'
+import { Tooltip } from '@src/ui/Tooltip'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())
@@ -77,7 +78,7 @@ function Terminal() {
 
   return (
     <div className="flex flex-col shadow-md">
-      <NavDiv className="animate__animated animate__fadeIn flex flex-col p-1 border-b ">
+      <NavDiv className="z-50 animate__animated animate__fadeIn flex flex-col p-1 border-b ">
         <div className="flex gap-4  justify-between items-center ">
           <div className=" flex gap-2 items-center ">
             <div>
@@ -91,6 +92,7 @@ function Terminal() {
                   })
                 }}
               >
+                {platforms.length === 0 && <option>gui</option>}
                 {platforms.map((item, index) => (
                   <option key={index}>{item.name}</option>
                 ))}
@@ -115,15 +117,16 @@ function Terminal() {
           </div>
 
           <div className="flex items-center gap-2">
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                window.app.openWindowTerminal()
-                // navigate('/window/terminal')
-              }}
-            >
-              <ChevronDown width={16} height={16} />
-            </div>
+            <Tooltip text="新建记录台">
+              <div
+                onClick={() => {
+                  window.app.openWindowTerminal()
+                  // navigate('/window/terminal')
+                }}
+              >
+                <ChevronDown width={16} height={16} />
+              </div>
+            </Tooltip>
             {modules.nodeModulesStatus &&
               (bot.runStatus ? (
                 <Button
@@ -145,7 +148,7 @@ function Terminal() {
           </div>
         </div>
       </NavDiv>
-      <div className=" duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
+      <div className="z-0 duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
         <div
           ref={terminalRef}
           className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.8rem)]"

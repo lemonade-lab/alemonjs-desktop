@@ -16,23 +16,35 @@ export type NavigatePath =
 export default function useGoNavigate() {
   const navigate = useNavigate()
   const modules = useSelector((state: RootState) => state.modules)
-  const statusRef = useRef(modules.nodeModulesStatus)
-  // Update the ref whenever notification changes
+  const expansions = useSelector((state: RootState) => state.expansions)
+  const statusRef = useRef({
+    nodeModulesStatus: modules.nodeModulesStatus,
+    runStatus: expansions.runStatus
+  })
   useEffect(() => {
-    statusRef.current = modules.nodeModulesStatus
-  }, [modules.nodeModulesStatus])
+    statusRef.current = {
+      nodeModulesStatus: modules.nodeModulesStatus,
+      runStatus: expansions.runStatus
+    }
+  }, [modules.nodeModulesStatus, expansions.runStatus])
   const { notification } = useNotification()
   const navigateTo = (path: NavigatePath, options?: NavigateOptions) => {
-    if (path == '/setting' || path == '/') {
+    if (path === '/setting' || path === '/') {
       navigate(path, options)
       return
     }
-    if (statusRef.current) {
-      navigate(path, options)
+    if (!statusRef.current.nodeModulesStatus) {
+      notification('依赖未加载...')
+      navigate('/')
       return
     }
-    // 加载依赖时，不允许跳转。
-    notification('正在加载依赖，请等待...')
+    if (path === '/expansions' || path === '/application' || path === '/git-expansions') {
+      if (!statusRef.current.runStatus) {
+        notification('扩展器未运行...')
+        return
+      }
+    }
+    navigate(path, options)
   }
   return navigateTo
 }

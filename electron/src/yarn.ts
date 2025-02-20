@@ -16,7 +16,7 @@ export const yarn = async (
     value: string[]
   }
 ) => {
-  const MyJS = join(userDataTemplatePath, 'bin', 'yarn.cjs')
+  const MyJS = join(userDataTemplatePath, 'alemonjs', 'bin', 'yarn.cjs')
   logger.info(`Yarn command: ${data.value.join(' ')}`)
   const child = fork(MyJS, data.value, {
     cwd: userDataTemplatePath,
