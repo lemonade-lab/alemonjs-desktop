@@ -1,7 +1,7 @@
-import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { SecondaryDiv } from '@src/component/SecondaryDiv'
 import React, { useState, useRef, memo, PropsWithChildren } from 'react'
 import classNames from 'classnames'
-import { Button } from '@src/ui/Button'
+import { Button } from '@src/component/Button'
 
 type DropdownProps<T> = PropsWithChildren<{
   buttons: React.DetailedHTMLProps<

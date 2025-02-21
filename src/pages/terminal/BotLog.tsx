@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTerminal } from '@src/hook/useTerminal'
 import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
-import { NavDiv } from '@src/ui/NavDiv'
-import { ChevronDown } from '@src/ui/Icons'
+import { NavDiv } from '@src/component/NavDiv'
+import { ChevronDown } from '@src/component/Icons'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())

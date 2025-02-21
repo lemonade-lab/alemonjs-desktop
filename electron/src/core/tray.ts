@@ -1,9 +1,6 @@
 import { Menu, Tray, app, shell } from 'electron'
 import { createLogoImageFromPath } from './icons'
-/**
- * @description 拓展菜单
- */
-const BASE_URL = 'https://alemonjs.com'
+import { ALEMONJS_BASE_URL } from '../data/conifg'
 
 /**
  * 创建托盘
@@ -23,7 +20,7 @@ export const createTray = () => {
       {
         label: '文档',
         click: () => {
-          shell.openExternal(BASE_URL)
+          shell.openExternal(ALEMONJS_BASE_URL)
         }
       },
       {

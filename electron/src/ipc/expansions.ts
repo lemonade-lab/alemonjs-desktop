@@ -4,18 +4,13 @@ import {
   expansionsPostMessage,
   expansionsRun,
   expansionsStatus
-} from '../../src/expansions'
-import Logger from 'electron-log'
+} from '../../src/script/expansions'
 
 ipcMain.handle('expansions-status', () => expansionsStatus())
 
 // expansions
 ipcMain.on('expansions-run', (event, data) => {
-  try {
-    expansionsRun(event.sender, data ?? [])
-  } catch (e) {
-    Logger.error(e)
-  }
+  expansionsRun(event.sender, data ?? [])
 })
 
 ipcMain.on('expansions-close', () => {
@@ -24,9 +19,5 @@ ipcMain.on('expansions-close', () => {
 
 // expansions post message
 ipcMain.handle('expansions-post-message', (event, data) => {
-  try {
-    expansionsPostMessage(event.sender, data)
-  } catch (e) {
-    Logger.error(e)
-  }
+  expansionsPostMessage(event.sender, data)
 })

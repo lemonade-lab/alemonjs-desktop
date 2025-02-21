@@ -1,5 +1,4 @@
-import { protocol, net, session } from 'electron'
-import { existsSync } from 'fs'
+import { protocol, net } from 'electron'
 import url from 'url'
 export function onBeforeRequest(): void {
   // 注册 "onBeforeRequest" 事件的处理程序

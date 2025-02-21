@@ -1,10 +1,10 @@
 import { ipcMain } from 'electron'
 import simpleGit from 'simple-git'
-import fs, { existsSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync, rmdirSync } from 'fs'
 import { join } from 'path'
 import { webContents } from 'electron'
-import { getWordSpacePath, setWordSpacePath } from '../../src/storage'
-import { userDataTemplatePath } from '../../src/static'
+import { getWordSpacePath, setWordSpacePath } from '../../src/data/storage'
+import { userDataTemplatePath } from '../../src/data/static'
 
 /**
  * 获得用户数据仓库路径
@@ -13,17 +13,13 @@ import { userDataTemplatePath } from '../../src/static'
 const getUserDataWarehousePath = () => {
   const select = getWordSpacePath()
   const userDataWarehousePath = join(userDataTemplatePath, select)
-  if (!fs.existsSync(userDataWarehousePath)) {
-    fs.mkdirSync(userDataWarehousePath, {
+  if (!existsSync(userDataWarehousePath)) {
+    mkdirSync(userDataWarehousePath, {
       recursive: true
     })
   }
   return userDataWarehousePath
 }
-
-ipcMain.handle('get-workspaces', () => getWordSpacePath())
-
-ipcMain.handle('set-workspaces', (event, select) => setWordSpacePath(select))
 
 // 丢出错误
 const sendError = (e: any) => {
@@ -38,11 +34,17 @@ const sendError = (e: any) => {
   }
 }
 
+// 获取工作区
+ipcMain.handle('get-workspaces', () => getWordSpacePath())
+
+// 设置工作区
+ipcMain.handle('set-workspaces', (_event, select) => setWordSpacePath(select))
+
 // 获取指定目录下的所有仓库
 ipcMain.handle('git-repos', async () => {
   try {
     const userDataWarehousePath = getUserDataWarehousePath()
-    const dirs = fs.readdirSync(userDataWarehousePath, { withFileTypes: true })
+    const dirs = readdirSync(userDataWarehousePath, { withFileTypes: true })
     const repos = dirs
       .filter(
         dirent =>
@@ -71,7 +73,7 @@ ipcMain.handle('git-open-repo', async (event, repoName: string) => {
   }
 })
 
-// git clone
+// 克隆仓库
 ipcMain.handle('git-clone', async (event, repoUrl: string) => {
   try {
     const userDataWarehousePath = getUserDataWarehousePath()
@@ -170,7 +172,7 @@ ipcMain.handle('git-delete', async (event, repoName: string) => {
   try {
     const userDataWarehousePath = getUserDataWarehousePath()
     const repoPath = join(userDataWarehousePath, repoName)
-    fs.rmdirSync(repoPath, { recursive: true })
+    rmdirSync(repoPath, { recursive: true })
   } catch (e) {
     sendError(e)
     // 丢出错误

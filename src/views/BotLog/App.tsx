@@ -7,11 +7,11 @@ import { useTerminal } from '@src/hook/useTerminal'
 import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@src/ui/Button'
-import { NavDiv } from '@src/ui/NavDiv'
-import { Select } from '@src/ui/Select'
-import { ChevronDown } from '@src/ui/Icons'
-import { Tooltip } from '@src/ui/Tooltip'
+import { Button } from '@src/component/Button'
+import { NavDiv } from '@src/component/NavDiv'
+import { Select } from '@src/component/Select'
+import { ChevronDown } from '@src/component/Icons'
+import { Tooltip } from '@src/component/Tooltip'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())

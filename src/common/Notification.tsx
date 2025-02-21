@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { NotificationDiv, NotificationDivProps } from '@src/ui/NotificationDiv'
-import { Close } from '@src/ui/Icons'
+import { NotificationDiv, NotificationDivProps } from '@src/component/NotificationDiv'
+import { Close } from '@src/component/Icons'
 
 type NotificationProps = {
   message: string

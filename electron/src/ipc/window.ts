@@ -1,10 +1,10 @@
 import { BrowserWindow, ipcMain } from 'electron'
-import { isAutoLaunchEnabled, setAutoLaunch } from '../../src/setLoginItemSettings'
+import { isAutoLaunchEnabled, setAutoLaunch } from '../core/setLoginItemSettings'
 import Logger from 'electron-log'
-import { createTerminal } from '../terminal'
-import { initTemplate } from '../../src/init'
-import { yarn } from '../../src/yarn'
-import { storage } from '../../src/storage'
+import { createTerminal } from '../../src/window/terminal'
+import { initTemplate } from '../core/init'
+import { yarn } from '../../src/script/yarn'
+import { storage } from '../../src/data/storage'
 import * as updater from 'electron-updater'
 
 // 监听最小化、最大化和关闭事件
@@ -17,6 +17,7 @@ ipcMain.on('minimize-window', event => {
   win.minimize()
 })
 
+// 监听最小化、最大化和关闭事件
 ipcMain.on('maximize-window', event => {
   const win = BrowserWindow.fromWebContents(event.sender)
   if (!win) return
@@ -28,6 +29,7 @@ ipcMain.on('maximize-window', event => {
   }
 })
 
+// 监听最小化、最大化和关闭事件
 ipcMain.on('close-window', event => {
   const win = BrowserWindow.fromWebContents(event.sender)
   if (!win) return
@@ -43,7 +45,9 @@ ipcMain.on('close-window', event => {
   }
 })
 
+// 设置开机自启动
 ipcMain.handle('set-auto-launch', (event, enable) => {
+  // 返回结果
   try {
     setAutoLaunch(enable)
     return true
@@ -53,10 +57,13 @@ ipcMain.handle('set-auto-launch', (event, enable) => {
   }
 })
 
+// 获取开机自启动状态
 ipcMain.handle('get-auto-launch-status', () => isAutoLaunchEnabled())
 
+// 打开终端窗口
 let terminalWindow: Electron.BrowserWindow | null = null
 
+// 监听打开终端窗口
 ipcMain.on('open-window-terminal', () => {
   if (!terminalWindow) {
     terminalWindow = createTerminal()
@@ -69,6 +76,7 @@ ipcMain.on('open-window-terminal', () => {
   }
 })
 
+// 监听打开主窗口
 ipcMain.on('open-window-main', () => {
   if (!global.mainWindow) {
     // main窗口是不可以被关闭的
@@ -78,7 +86,8 @@ ipcMain.on('open-window-main', () => {
   }
 })
 
-ipcMain.handle('on-clicked', (event, code, data) => {
+// 触发窗口的点击事件
+ipcMain.handle('clicked', (event, code, data) => {
   if (code === 2000) {
     storage.autoUpdate = true
     updater.autoUpdater.quitAndInstall()

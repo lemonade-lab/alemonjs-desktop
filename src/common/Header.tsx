@@ -1,7 +1,7 @@
 import { memo, PropsWithChildren, ReactNode } from 'react'
 import classNames from 'classnames'
-import { HeaderDiv } from '@src/ui/HeaderDiv'
-import { Close, Maximize, Minimize } from '@src/ui/Icons'
+import { HeaderDiv } from '@src/component/HeaderDiv'
+import { Close, Maximize, Minimize } from '@src/component/Icons'
 
 type HeaderProps = PropsWithChildren<{
   LeftSlot?: ReactNode

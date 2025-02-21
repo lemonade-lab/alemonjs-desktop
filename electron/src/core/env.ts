@@ -5,7 +5,7 @@ import { dirname, join } from 'path'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // 定义进程变量
-process.env.DIST_ELECTRON = join(__dirname, '../')
+process.env.DIST_ELECTRON = join(__dirname, '../../')
 // 被打包后的文件
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 // 前端公共文件

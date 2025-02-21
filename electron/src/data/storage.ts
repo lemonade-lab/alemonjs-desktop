@@ -10,9 +10,7 @@ export const localStorage = new Store()
 import { join } from 'node:path'
 import { existsSync } from 'node:fs'
 import { app } from 'electron'
-
-const ALEMONDEJS_BOT_PATH = 'ALEMONDEJS_BOT_PATH'
-const ALEMONDEJS_WORDSPACE_PATH = 'ALEMONDEJS_WORDSPACE_PATH'
+import { ALEMONDEJS_BOT_PATH, ALEMONDEJS_WORDSPACE_PATH } from './conifg'
 
 /**
  *

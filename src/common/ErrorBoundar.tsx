@@ -1,5 +1,5 @@
 import { useState, useEffect, PropsWithChildren } from 'react'
-import Header from './Header'
+import Header from '@src/common/Header'
 
 const Error = () => {
   return (

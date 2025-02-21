@@ -1,4 +1,4 @@
-import { cjsDesktopPath, userDataTemplatePath } from './static'
+import { cjsDesktopPath, userDataTemplatePath } from '../data/static'
 import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
@@ -128,20 +128,20 @@ export const expansionsStatus = () => {
  * @param data
  * @returns
  */
-export const expansionsPostMessage = (
+export const expansionsPostMessage = async (
   webContents: Electron.WebContents,
   data: { type: string; data: any }
 ) => {
   if (child && child.connected) {
+    // 判断是否是webview的消息
     if (/^webview/.test(data.type)) {
-      // 是 webview的消息要保存窗口
+      // 是webview的消息要保存窗口
       const __name = data.data.name
       webviewWindows.set(__name, webContents)
     }
+    // 发送消息
     child.send(data)
-    return true
   }
-  return false
 }
 
 /**

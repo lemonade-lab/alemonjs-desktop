@@ -3,7 +3,7 @@ import Header from '@src/common/Header'
 import { useEffect } from 'react'
 import { postMessage } from '@src/store/log'
 import { useDispatch } from 'react-redux'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
 export default (function App() {
   const dispatch = useDispatch()
   useEffect(() => {

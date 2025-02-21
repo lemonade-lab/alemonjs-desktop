@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron'
-import { yarn } from '../../src/yarn'
+import { yarn } from '../../src/script/yarn'
 
 // 执行yarn指令
 ipcMain.on('yarn', (event, value) => {

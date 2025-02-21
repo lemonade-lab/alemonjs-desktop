@@ -1,7 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron'
-import { autoUpdateApp } from '../../src/update'
+import { autoUpdateApp } from '../core/update'
 
-// version
+// 更新版本
 ipcMain.on('update-version', (event, __) => {
   const window = BrowserWindow.fromWebContents(event.sender)
   if (!window) return

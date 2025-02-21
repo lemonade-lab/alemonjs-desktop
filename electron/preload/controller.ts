@@ -54,5 +54,5 @@ contextBridge.exposeInMainWorld('controller', {
   onModal: (callback: (val: any) => void) => {
     ipcRenderer.on('on-modal', (_event, value) => callback(value))
   },
-  onClick: (code: number, data: any) => ipcRenderer.invoke('on-clicked', code, data)
+  onClick: (code: number, data: any) => ipcRenderer.invoke('clicked', code, data)
 })

@@ -1,8 +1,8 @@
 import { useNotification } from '@src/context/Notification'
-import { Button } from '@src/ui/Button'
-import { Input } from '@src/ui/Input'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
-import { Select } from '@src/ui/Select'
+import { Button } from '@src/component/Button'
+import { Input } from '@src/component/Input'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import { Select } from '@src/component/Select'
 import { useEffect, useRef, useState } from 'react'
 
 export default function YarnManage() {
@@ -18,10 +18,10 @@ export default function YarnManage() {
     'remove',
     'link',
     'unlink',
-    'upgrade',
-    'global add',
-    'global remove',
-    'info',
+    // 'upgrade',
+    // 'global add',
+    // 'global remove',
+    // 'info',
     ...noValueSelect
   ]
 

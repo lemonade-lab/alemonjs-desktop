@@ -1,9 +1,13 @@
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
 
 const data = [
   {
+    version: '0.2.5',
+    log: ['个性化目录无需自带yarn管理器']
+  },
+  {
     version: '0.2.4',
-    log: ['支持选择仓库管理目录']
+    log: ['支持选择仓库管理目录', '修复yarn add命令错误']
   },
   {
     version: '0.2.3',

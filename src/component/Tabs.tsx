@@ -1,5 +1,5 @@
-import { classNameBorder as classNameBorderPrimaryDiv } from '@src/ui/PrimaryDiv'
-import { TagDiv } from '@src/ui/TagDiv'
+import { classNameBorder as classNameBorderPrimaryDiv } from '@src/component/PrimaryDiv'
+import { TagDiv } from '@src/component/TagDiv'
 import classNames from 'classnames'
 import { useState } from 'react'
 export const Tabs = ({

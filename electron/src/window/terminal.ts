@@ -9,7 +9,7 @@ const getScreenSize = (): Electron.Size => {
   return { width, height }
 }
 
-const preload = join(__dirname, '../preload/index.js')
+const preload = join(__dirname, '../../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 

@@ -1,8 +1,8 @@
 import { ReloadOutlined } from '@ant-design/icons'
 import logoURL from '@src/assets/logo.jpg'
 import { RootState } from '@src/store'
-import { Button } from '@src/ui/Button'
-import { Pause, Play } from '@src/ui/Icons'
+import { Button } from '@src/component/Button'
+import { Pause, Play } from '@src/component/Icons'
 import { useSelector } from 'react-redux'
 const MainView = () => {
   const modules = useSelector((state: RootState) => state.modules)

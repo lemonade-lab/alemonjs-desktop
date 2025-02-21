@@ -3,7 +3,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 contextBridge.exposeInMainWorld('app', {
   getAppsPath: () => ipcRenderer.invoke('get-apps-path'),
   rmTemplateFiles: () => ipcRenderer.invoke('rm-template-files'),
-  reIniteTemplate: () => ipcRenderer.send('re-inite-template'),
+  reIniteTemplate: () => ipcRenderer.send('reset-template'),
   readFiles: (data: string) => ipcRenderer.invoke('read-files', data),
   writeFiles: (dir: string, data: string) => ipcRenderer.invoke('write-files', dir, data),
   exists: (dir: string) => ipcRenderer.invoke('exists-files', dir),

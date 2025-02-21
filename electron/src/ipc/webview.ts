@@ -1,9 +1,8 @@
 import { ipcMain } from 'electron'
-import { webviewWindows } from '../../src/webview'
-import { getCSSVariables } from '../../src/css'
-import { localStorage } from '../../src/storage'
-
-const ALEMONJS_THEM_MODE = 'theme-mode'
+import { webviewWindows } from '../../src/data/webview'
+import { getCSSVariables } from '../core/css'
+import { localStorage } from '../../src/data/storage'
+import { ALEMONJS_THEM_MODE } from '../../src/data/conifg'
 
 // window
 // webview-hide-message-create
@@ -12,7 +11,7 @@ ipcMain.handle('webview-hide-message-create', (event, data) => {
   webviewWindows.set(_name, event.sender)
 })
 
-// webview 隐藏消息
+// webview 私密消息
 ipcMain.on('webview-hide-message', (event, data) => {
   // webview 发送消息过来
   const _name = data._name

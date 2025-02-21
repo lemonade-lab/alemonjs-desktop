@@ -1,8 +1,9 @@
 import { ipcMain } from 'electron'
 import Logger from 'electron-log'
-import { webviewWindows } from '../../src/webview'
-import { getCSSVariables, getInitCSSVariables, setCSSVariables } from '../../src/css'
-import { localStorage } from '../../src/storage'
+import { webviewWindows } from '../../src/data/webview'
+import { getCSSVariables, getInitCSSVariables, setCSSVariables } from '../core/css'
+import { localStorage } from '../../src/data/storage'
+import { ALEMONJS_THEM_MODE } from '../../src/data/conifg'
 
 ipcMain.on('css-variables', event => {
   try {
@@ -49,8 +50,6 @@ ipcMain.on('init-css-variables', event => {
 ipcMain.on('save-css-variables', (event, data) => {
   setCSSVariables(data)
 })
-
-const ALEMONJS_THEM_MODE = 'theme-mode'
 
 ipcMain.on('set-theme-mode', (event, mode) => {
   // 存储起来

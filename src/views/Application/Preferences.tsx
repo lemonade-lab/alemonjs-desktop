@@ -1,4 +1,4 @@
-import { CirclePlus } from '@src/ui/Icons'
+import { CirclePlus } from '@src/component/Icons'
 import { useState } from 'react'
 
 type PreferencesType = {

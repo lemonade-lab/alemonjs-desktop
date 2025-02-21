@@ -1,6 +1,6 @@
 import Logger from 'electron-log'
 import { join } from 'node:path'
-import { userDataStoragePath, storagePath } from './static'
+import { userDataStoragePath, storagePath } from '../data/static'
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
 export const localThemePath = join(userDataStoragePath, 'them.json')

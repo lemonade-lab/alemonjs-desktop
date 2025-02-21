@@ -1,11 +1,11 @@
-import { HomeIcon } from '@src/ui/MenuIcons'
+import { HomeIcon } from '@src/component/MenuIcons'
 import useGoNavigate, { NavigatePath } from '@src/hook/useGoNavigate'
-import { BarDiv } from '@src/ui/BarDiv'
-import { NavDiv } from '@src/ui/NavDiv'
+import { BarDiv } from '@src/component/BarDiv'
+import { NavDiv } from '@src/component/NavDiv'
 import classNames from 'classnames'
 import { memo } from 'react'
 import { SettingFilled } from '@ant-design/icons'
-import Dropdown from '@src/ui/Dropdown'
+import Dropdown from '@src/component/Dropdown'
 type PropsList = { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
 const MenuButton = memo(
   ({ centerList, onClickLogo }: { centerList: PropsList; onClickLogo: () => void }) => {

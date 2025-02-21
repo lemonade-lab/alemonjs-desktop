@@ -1,8 +1,8 @@
 import { updateTheme } from '@src/core/theme'
-import { Button } from '@src/ui/Button'
-import { Input } from '@src/ui/Input'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
-import { Switch } from '@src/ui/Switch'
+import { Button } from '@src/component/Button'
+import { Input } from '@src/component/Input'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import { Switch } from '@src/component/Switch'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 const Theme = () => {

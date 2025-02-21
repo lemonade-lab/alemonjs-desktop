@@ -1,4 +1,4 @@
-import { RobotStart, RobotStop } from '@src/ui/Icons'
+import { RobotStart, RobotStop } from '@src/component/Icons'
 import { useState } from 'react'
 export default () => {
   const [isStarted, setIsStarted] = useState(false)

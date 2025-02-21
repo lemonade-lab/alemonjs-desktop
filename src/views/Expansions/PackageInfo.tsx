@@ -6,8 +6,8 @@ import { RootState } from '@src/store'
 import { useNotification } from '@src/context/Notification'
 import { fetchPackageInfo } from '../../api'
 import { addPackage, putPackage } from '@src/store/expansions'
-import { Select } from '@src/ui/Select'
-import { Download, Refresh, Upload } from '@src/ui/Icons'
+import { Select } from '@src/component/Select'
+import { Download, Refresh, Upload } from '@src/component/Icons'
 
 export type PackageInfoType = {
   [key: string]: any

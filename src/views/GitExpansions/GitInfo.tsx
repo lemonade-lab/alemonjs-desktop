@@ -1,8 +1,8 @@
-import { Close } from '@src/ui/Icons'
-import { Collapse } from '../../ui/Collapse'
-import { Tabs } from '../../ui/Tabs'
+import { Close } from '@src/component/Icons'
+import { Collapse } from '@src/component/Collapse'
+import { Tabs } from '@src/component/Tabs'
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
 import dayjs from 'dayjs'
 import {
   ApartmentOutlined,
@@ -12,7 +12,7 @@ import {
   TagOutlined,
   TagsOutlined
 } from '@ant-design/icons'
-import { Tooltip } from '@src/ui/Tooltip'
+import { Tooltip } from '@src/component/Tooltip'
 
 type GitBranchesLogsData = {
   key: string

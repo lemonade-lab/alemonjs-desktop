@@ -1,5 +1,5 @@
 import { FileTextOutlined } from '@ant-design/icons'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
 
 const ExpansionsCard = ({
   item,

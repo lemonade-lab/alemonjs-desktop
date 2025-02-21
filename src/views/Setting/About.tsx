@@ -1,5 +1,5 @@
-import { Button } from '@src/ui/Button'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { Button } from '@src/component/Button'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 const About = () => {

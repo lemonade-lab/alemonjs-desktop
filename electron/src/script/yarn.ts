@@ -1,15 +1,14 @@
 import { fork } from 'child_process'
-import { join } from 'node:path'
 import logger from 'electron-log'
 import {
   cjsYarnPath,
   isInitTemplatePath,
   userDataPackagePath,
   userDataTemplatePath
-} from './static'
-import { dialog, webContents } from 'electron'
+} from '../data/static'
+import { webContents } from 'electron'
 import { existsSync } from 'node:fs'
-import { initTemplate } from './init'
+import { initTemplate } from '../core/init'
 
 let isLoading = false
 

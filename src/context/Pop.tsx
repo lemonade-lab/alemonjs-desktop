@@ -1,5 +1,5 @@
-import { Button } from '@src/ui/Button'
-import { Modal } from '@src/ui/Modal'
+import { Button } from '@src/component/Button'
+import { Modal } from '@src/component/Modal'
 import { createContext, useState, ReactNode, useContext } from 'react'
 
 type DataType = {

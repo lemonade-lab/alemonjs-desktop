@@ -1,4 +1,4 @@
-import { ArrowsDown } from '@src/ui/Icons'
+import { ArrowsDown } from '@src/component/Icons'
 
 // 定义树形数据结构
 export type TreeDataType = {

@@ -3,9 +3,9 @@ import { useNotification } from '@src/context/Notification'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/store'
 import Code from '@src/common/CodeMirror'
-import { Button } from '@src/ui/Button'
-import { PrimaryDiv } from '@src/ui/PrimaryDiv'
-import { SecondaryDiv } from '@src/ui/SecondaryDiv'
+import { Button } from '@src/component/Button'
+import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import { SecondaryDiv } from '@src/component/SecondaryDiv'
 export default function Npmrc() {
   const app = useSelector((state: RootState) => state.app)
   const [value, setValue] = useState(``)
