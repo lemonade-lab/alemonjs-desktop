@@ -1,19 +1,14 @@
-import { BrowserWindow, MessageBoxReturnValue, dialog } from 'electron'
+import { BrowserWindow } from 'electron'
 import * as updater from 'electron-updater'
-import Store from 'electron-store'
 import { debounce } from 'lodash'
 import { promisify } from 'util'
 import logger from 'electron-log'
-import { storage } from './storage'
 /**
  * @description 检查更新脚本
  */
 
 // 沉睡函数
 const sleep = promisify(setTimeout)
-
-// 创建一个 Store 实例用于存储跳过的版本
-const store = new Store()
 
 // 状态变量，用于跟踪是否正在下载
 let isDownloading = false
@@ -37,7 +32,8 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   if (!t) await sleep(1000 * 60)
 
   if (isDownloading) {
-    showMessage(mainWindow, '正在后台下载中')
+    mainWindow.webContents.send('on-notification', '正在后台下载中')
+    // showMessage(mainWindow, '正在后台下载中')
     return
   }
 
@@ -56,7 +52,8 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
   let timeID: NodeJS.Timeout | null = null
   const send = () => {
     timeID = setTimeout(() => {
-      showMessage(mainWindow, '开始下载。。。')
+      mainWindow.webContents.send('on-notification', '开始下载。。。')
+      // showMessage(mainWindow, '开始下载。。。')
     }, 1300)
   }
 
@@ -113,44 +110,15 @@ export const autoUpdateApp = debounce(async (mainWindow: BrowserWindow, t = fals
     // 下载完成，重置状态
     isDownloading = false
 
-    // 只记录该版本被跳过
-    const version = info.version
-    const KEY = `skippedVersion-${version}`
+    if (!t) return
 
-    const skippedVersion = store.get(KEY)
-
-    // 如果当前下载的版本就是设置的跳过的版本，那么就不提示用户安装
-
-    if (!t && version == skippedVersion) return
-
-    // dialog 想要使用，必须在 BrowserWindow 创建之后
-
-    dialog
-      .showMessageBox(mainWindow, {
-        type: 'info',
-        buttons: ['取消', '跳过版本', '立即更新'],
-        title: '升级提示',
-        message: '已为您下载最新应用!',
-        detail:
-          '点击“立即更新”马上替换为最新版本，并在一段准备时间后启动，点击“跳过版本”不再接收当前版本的更新。'
-      })
-      .then((returnVal: MessageBoxReturnValue) => {
-        const { response } = returnVal
-        if (response === 2) {
-          // 安装的时候如果设置过 skkipVersion, 需要清除掉
-          store.delete(KEY)
-          // 确定操作更新
-          storage.autoUpdate = true
-          // 退出并安装更新，自动启动新版本
-          updater.autoUpdater.quitAndInstall()
-        } else if (response === 1) {
-          // 如果用户选择跳过版本，我们储存这个版本号到 electron-store
-          store.set(KEY, info.version)
-        } else {
-          // 取消
-        }
-      })
-
-    //
+    mainWindow.webContents.send('on-modal', {
+      open: true,
+      title: '是否立即更新',
+      description: '点击“立即更新”马上替换为最新版本，并在一段准备时间后启动',
+      buttonText: '立即更新',
+      data: null,
+      code: 2000
+    })
   })
 }, 1000)

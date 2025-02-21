@@ -1,5 +1,6 @@
 import { app } from 'electron'
 import { join } from 'node:path'
+import fs from 'node:fs'
 import { createLogMainPath, getUserDataTemplatePath } from './storage'
 export const logMainPath = createLogMainPath()
 /**

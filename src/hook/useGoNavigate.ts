@@ -3,19 +3,30 @@ import { RootState } from '@src/store'
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavigateOptions, useNavigate } from 'react-router-dom'
+
 export type NavigatePath =
   | '/'
   | '/bot-log'
   | '/application'
-  | '/docs'
-  | '/config-code'
-  | '/setting'
   | '/expansions'
   | '/git-expansions'
+  | '/common'
+  | '/theme'
+  | '/log'
+  | '/npmrc'
   | '/yarn-manage'
+  | '/about'
 
 // 能放行的路径
-const passPath: NavigatePath[] = ['/', '/setting', '/yarn-manage']
+const passPath: NavigatePath[] = [
+  '/',
+  '/yarn-manage',
+  '/common',
+  '/theme',
+  '/log',
+  '/npmrc',
+  '/about'
+]
 
 // 需要启动扩展器的路径
 const runPath: NavigatePath[] = ['/expansions', '/application']

@@ -2,8 +2,12 @@ import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const data = [
   {
-    version: '0.2.1',
-    log: ['优化弹窗', '默认目前不提示初始化确认']
+    version: '0.2.3',
+    log: ['优化更新弹窗', '修复路径地址错误', '调整桌面操作风格']
+  },
+  {
+    version: '0.2.2',
+    log: ['优化弹窗机制', '默认目前不提示初始化确认']
   },
   {
     version: '0.2.1',

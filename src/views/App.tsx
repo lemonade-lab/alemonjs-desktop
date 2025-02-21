@@ -15,7 +15,7 @@ import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import { postMessage } from '@src/store/log'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
-import { ControlFilled, ControlOutlined, RobotFilled } from '@ant-design/icons'
+import { AppstoreFilled, ControlFilled, ControlOutlined, RobotFilled } from '@ant-design/icons'
 import { Modal } from '@src/ui/Modal'
 import { Button } from '@src/ui/Button'
 import { usePop } from '@src/context/Pop'
@@ -32,15 +32,6 @@ export default (function App() {
   const navTop = {
     logo: () => {
       navigate('/')
-    },
-    yarnManage: () => {
-      navigate('/yarn-manage')
-    }
-  }
-
-  const navBottom = {
-    setting: () => {
-      navigate('/setting')
     }
   }
 
@@ -70,7 +61,7 @@ export default (function App() {
       onClick: path => navigate(path)
     },
     {
-      Icon: <FireworksIcon width="20" height="20" />,
+      Icon: <AppstoreFilled size={20} />,
       path: '/application',
       onClick: path => navigate(path)
     }
@@ -150,8 +141,6 @@ export default (function App() {
             })
           } else if (actions[1] === 'expansions') {
             navigate('/expansions')
-          } else if (actions[1] === 'setting') {
-            navigate('/setting')
           } else if (actions[1] === 'bot-log') {
             navigate('/bot-log')
           }
@@ -232,9 +221,9 @@ export default (function App() {
       <PrimaryDiv className="flex flex-1 z-40">
         <Menu
           onClickLogo={navTop.logo}
-          onClickYarn={navTop.yarnManage}
+          // onClickYarn={navTop.yarnManage}
           centerList={navList}
-          onClickSetting={navBottom.setting}
+          // onClickSetting={navBottom.setting}
         />
         <div className="flex flex-1">
           <Outlet />

@@ -80,10 +80,6 @@ export default function Expansions() {
     if (packageInfo) setSelect('shoping')
   }, [packageInfo])
 
-  const onChangeOption = (value: string) => {
-    setSelect(value)
-  }
-
   const onClickRefresh = () => {
     window.expansions.postMessage({ type: 'get-expansions' })
   }
@@ -122,11 +118,6 @@ export default function Expansions() {
             <div onClick={onClickRefresh} className=" cursor-pointer">
               <Refresh width={18} height={18} />
             </div>
-            {/* <Dropdown
-              Icon={<MenuMore width={18} height={18} />}
-              options={['模块']}
-              onChangeOption={onChangeOption}
-            /> */}
           </div>
         </div>
         <div className="">

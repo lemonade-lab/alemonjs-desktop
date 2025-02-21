@@ -1,66 +1,94 @@
 import { SecondaryDiv } from '@src/ui/SecondaryDiv'
-import React, { useState, useRef, memo } from 'react'
+import React, { useState, useRef, memo, PropsWithChildren } from 'react'
+import classNames from 'classnames'
+import { Button } from '@src/ui/Button'
 
-interface DropdownProps<T> {
-  options: T[]
-  onChangeOption: (value: T) => void
-  Icon: React.ReactNode
-}
+type DropdownProps<T> = PropsWithChildren<{
+  buttons: React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >[]
+  placement?: 'bottomLeft' | 'bottom' | 'bottomRight' | 'topLeft' | 'top' | 'topRight'
+}>
 
-const Dropdown = memo(<T extends string>({ options, onChangeOption, Icon }: DropdownProps<T>) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
+const Dropdown = memo(
+  <T extends string>({ children, buttons, placement = 'bottom' }: DropdownProps<T>) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const dropdownRef = useRef<HTMLDivElement | null>(null)
 
-  const toggleDropdown = () => {
-    // 禁止冒泡
-    setIsOpen(prev => !prev)
-  }
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false)
+    const toggleDropdown = () => {
+      // 禁止冒泡
+      setIsOpen(prev => !prev)
     }
-  }
 
-  React.useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
     }
-  }, [])
 
-  return (
-    <div className="relative inline-block " ref={dropdownRef}>
-      <button
-        onClick={e => {
-          e.stopPropagation()
-          toggleDropdown()
-        }}
-        className="flex items-center px-2 justify-center"
-      >
-        {Icon}
-      </button>
-      {isOpen && (
-        <SecondaryDiv className="absolute  z-10 bg-opacity-90 right-0 w-20 mt-2 border rounded-md shadow-md">
-          <ul>
-            {options.map((option, index) => (
-              <li
-                key={index}
-                onClick={e => {
-                  e.stopPropagation()
-                  setIsOpen(false)
-                  onChangeOption(option)
-                }}
-                className="px-2 py-1 duration-700 transition-all cursor-pointer"
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-        </SecondaryDiv>
-      )}
-    </div>
-  )
-})
+    React.useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [])
+
+    const getPlacementClasses = () => {
+      switch (placement) {
+        case 'bottomRight':
+          return 'left-0 mt-2'
+        case 'bottom':
+          return 'left-1/2 transform -translate-x-1/2 mt-2'
+        case 'bottomLeft':
+          return 'right-0 mt-2'
+        case 'topRight':
+          return 'left-0 bottom-full mb-2'
+        case 'top':
+          return 'left-1/2 transform -translate-x-1/2 bottom-full mb-2'
+        case 'topLeft':
+          return 'right-0 bottom-full mb-2'
+        default:
+          return 'left-1/2 transform -translate-x-1/2 mt-2'
+      }
+    }
+
+    return (
+      <div className="relative" ref={dropdownRef}>
+        {isOpen && (
+          <SecondaryDiv
+            className={classNames(
+              'absolute z-20 bg-opacity-90 border rounded-md shadow-md max-h-60 overflow-y-auto',
+              getPlacementClasses()
+            )}
+          >
+            <div className="flex flex-col gap-2 p-1">
+              {buttons.map((button, index) => (
+                <Button
+                  key={index}
+                  className="px-2 min-w-16 rounded-md whitespace-nowrap"
+                  onClick={e => {
+                    e.stopPropagation()
+                    setIsOpen(false)
+                  }}
+                  {...button}
+                />
+              ))}
+            </div>
+          </SecondaryDiv>
+        )}
+        <div
+          onClick={e => {
+            e.stopPropagation()
+            toggleDropdown()
+          }}
+          className="z-10"
+        >
+          {children}
+        </div>
+      </div>
+    )
+  }
+)
 
 export default Dropdown

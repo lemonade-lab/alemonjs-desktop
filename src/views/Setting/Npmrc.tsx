@@ -5,6 +5,7 @@ import { RootState } from '@src/store'
 import Code from '@src/common/CodeMirror'
 import { Button } from '@src/ui/Button'
 import { PrimaryDiv } from '@src/ui/PrimaryDiv'
+import { SecondaryDiv } from '@src/ui/SecondaryDiv'
 export default function Npmrc() {
   const app = useSelector((state: RootState) => state.app)
   const [value, setValue] = useState(``)
@@ -44,7 +45,10 @@ export default function Npmrc() {
   }, [])
   return (
     <div className="flex-1 flex flex-col h-full">
-      <div className=" flex justify-between items-center  px-2">
+      {/* <PrimaryDiv> */}
+
+      {/* </PrimaryDiv> */}
+      <SecondaryDiv className=" flex justify-between items-center  px-2">
         <div className="flex gap-2">
           <div className="px-1 py-1">.npmrc</div>
         </div>
@@ -72,7 +76,7 @@ export default function Npmrc() {
             </>
           )}
         </div>
-      </div>
+      </SecondaryDiv>
       <PrimaryDiv className=" flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto ">
         <Code
           value={value}

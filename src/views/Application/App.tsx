@@ -103,31 +103,35 @@ export default function Webviews() {
               <div className="flex-col flex justify-center items-center">
                 {viewSidebars.length === 0
                   ? '未找到相关扩展，请前往商场下载'
-                  : '可选择左侧导航栏中的选项进行查看'}
+                  : '可选择右侧导航栏中的应用进行查看'}
               </div>
             </div>
           )}
         </SecondaryDiv>
-        <SidebarDiv className="min-w-14 border-l">
-          {viewSidebars.map((viewItem, index) => (
-            <TagDiv
-              key={index}
-              onClick={() => handleSidebarClick(viewItem)}
-              className={classNames(
-                'p-2 w-full h-14 text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  ',
-                { 'bg-secondary-bg': viewItem.commond === command.name }
-              )}
-            >
-              {viewItem.icon ? (
-                <img className="size-10 rounded-md" src={createIconURL(viewItem)}></img>
-              ) : (
-                viewItem.name
-              )}
-              {view && viewItem.commond === command.name && (
-                <div className="absolute top-0 right-0 h-full border-r-2 border-slate-500"></div>
-              )}
-            </TagDiv>
-          ))}
+        <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
+          <div className="flex flex-wrap gap-1 p-1">
+            {viewSidebars
+              .sort(item => {
+                if (item.name == 'APPS') return -1
+                return /@alemonjs-/.test(item.expansions_name) ? -1 : 1
+              })
+              .map((viewItem, index) => (
+                <TagDiv
+                  key={index}
+                  onClick={() => handleSidebarClick(viewItem)}
+                  className={classNames(
+                    'p-1 size-[4.17rem] rounded-md border text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  ',
+                    { 'bg-secondary-bg': viewItem.commond === command.name }
+                  )}
+                >
+                  {viewItem.icon ? (
+                    <img className="size-10 rounded-md" src={createIconURL(viewItem)}></img>
+                  ) : (
+                    viewItem.name
+                  )}
+                </TagDiv>
+              ))}
+          </div>
         </SidebarDiv>
       </div>
     </section>

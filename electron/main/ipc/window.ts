@@ -4,6 +4,8 @@ import Logger from 'electron-log'
 import { createTerminal } from '../terminal'
 import { initTemplate } from '../../src/init'
 import { yarn } from '../../src/yarn'
+import { storage } from '../../src/storage'
+import * as updater from 'electron-updater'
 
 // 监听最小化、最大化和关闭事件
 ipcMain.on('minimize-window', event => {
@@ -77,7 +79,10 @@ ipcMain.on('open-window-main', () => {
 })
 
 ipcMain.handle('on-clicked', (event, code, data) => {
-  if (code === 2010) {
+  if (code === 2000) {
+    storage.autoUpdate = true
+    updater.autoUpdater.quitAndInstall()
+  } else if (code === 2010) {
     initTemplate()
     yarn(event.sender, data)
   }
