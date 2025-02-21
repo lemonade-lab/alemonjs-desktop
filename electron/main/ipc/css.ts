@@ -50,11 +50,11 @@ ipcMain.on('save-css-variables', (event, data) => {
   setCSSVariables(data)
 })
 
-const KEY = 'theme-mode'
+const ALEMONJS_THEM_MODE = 'theme-mode'
 
 ipcMain.on('set-theme-mode', (event, mode) => {
   // 存储起来
-  localStorage.set(KEY, mode)
+  localStorage.set(ALEMONJS_THEM_MODE, mode)
 
   // 设置的时候，发送给 webview
   webviewWindows.forEach((value, key) => {
@@ -69,5 +69,5 @@ ipcMain.on('set-theme-mode', (event, mode) => {
 })
 
 ipcMain.handle('get-theme-mode', () => {
-  return localStorage.get(KEY, 'light')
+  return localStorage.get(ALEMONJS_THEM_MODE, 'light')
 })

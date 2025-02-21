@@ -12,6 +12,7 @@ import { useNotification } from '@src/context/Notification'
 import { extractRepoInfo, isGitRepositoryFormat } from '@src/api'
 import Markdown from '@src/common/Markdown'
 import { Tooltip } from '@src/ui/Tooltip'
+import { Select } from '@src/ui/Select'
 
 export default function Expansions() {
   // const app = useSelector((state: RootState) => state.app)
@@ -112,18 +113,23 @@ export default function Expansions() {
   }, [readme])
 
   const onShow = (item: { name: string; hash: string }) => {
-    // setSelect('info')
-
     window.git.show(item.name, item.hash).then((res: any) => {
       setReadme(res)
-      // setSelect('info')
-      console.log(res)
     })
   }
+
+  const [selectValue, setSelectValue] = useState('')
 
   useEffect(() => {
     initData()
   }, [])
+
+  useEffect(() => {
+    window.git.getWordSbaces().then(value => {
+      setSelectValue(value)
+    })
+  }, [])
+
   return (
     <section className=" flex flex-row flex-1 h-full shadow-md">
       <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1">
@@ -139,7 +145,31 @@ export default function Expansions() {
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
         <div className="flex justify-between px-2 py-1">
           <div className="text-xl">仓库列表</div>
-          <div className="text-[0.7rem] flex gap-2 items-center justify-center "></div>
+          <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
+            <Select
+              className="rounded-md"
+              onChange={e => {
+                window.git.setWordSbaces(e.target.value).then(() => {
+                  initData()
+                })
+              }}
+            >
+              {['packages', 'plugins'].map((item, index) => {
+                if (item == selectValue) {
+                  return (
+                    <option key={index} value={item} selected>
+                      {item}
+                    </option>
+                  )
+                }
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                )
+              })}
+            </Select>
+          </div>
         </div>
         <div className="flex items-center">
           <Input

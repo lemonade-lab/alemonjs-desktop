@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@src/ui/PrimaryDiv'
 
 const data = [
   {
+    version: '0.2.4',
+    log: ['支持选择仓库管理目录']
+  },
+  {
     version: '0.2.3',
     log: ['优化更新弹窗', '修复路径地址错误', '调整桌面操作风格']
   },

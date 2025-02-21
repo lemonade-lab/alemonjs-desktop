@@ -2,6 +2,8 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 // 扩展
 contextBridge.exposeInMainWorld('git', {
+  getWordSbaces: () => ipcRenderer.invoke('get-workspaces'),
+  setWordSbaces: (select: string) => ipcRenderer.invoke('set-workspaces', select),
   // 获取仓库
   repos: () => ipcRenderer.invoke('git-repos'),
   // 打开仓库

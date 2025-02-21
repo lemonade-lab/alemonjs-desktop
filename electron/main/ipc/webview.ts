@@ -3,7 +3,7 @@ import { webviewWindows } from '../../src/webview'
 import { getCSSVariables } from '../../src/css'
 import { localStorage } from '../../src/storage'
 
-const KEY = 'theme-mode'
+const ALEMONJS_THEM_MODE = 'theme-mode'
 
 // window
 // webview-hide-message-create
@@ -31,7 +31,7 @@ ipcMain.on('webview-hide-message', (event, data) => {
     webviewWindows.get(_name)?.send('webview-hide-message', {
       _name,
       type: 'theme-mode',
-      data: localStorage.get(KEY)
+      data: localStorage.get(ALEMONJS_THEM_MODE)
     })
   }
 })

@@ -14,11 +14,11 @@ export default function YarnManage() {
   const noValueSelect = ['install', 'list']
 
   const selects = [
-    'upgrade',
-    'link',
-    'unlink',
     'add',
     'remove',
+    'link',
+    'unlink',
+    'upgrade',
     'global add',
     'global remove',
     'info',
@@ -73,16 +73,18 @@ export default function YarnManage() {
 
     setSubmit(true)
 
-    if (value === 'add') {
+    if (value == 'add') {
       // 没有参数的时候，自动添加 -W
       if (!inputValues.includes('-W')) {
         inputValues.push('-W')
       }
     }
 
+    const cmd = [value].concat(inputValues)
+
     window.yarn.cmds({
       type: `cmd`,
-      value: [value].concat(inputValue.split(' '))
+      value: cmd
     })
   }
 

@@ -4,7 +4,7 @@ import { BarDiv } from '@src/ui/BarDiv'
 import { NavDiv } from '@src/ui/NavDiv'
 import classNames from 'classnames'
 import { memo } from 'react'
-import { QuestionCircleFilled, SettingFilled } from '@ant-design/icons'
+import { SettingFilled } from '@ant-design/icons'
 import Dropdown from '@src/ui/Dropdown'
 type PropsList = { Icon: any; path: NavigatePath; onClick: (path: NavigatePath) => void }[]
 const MenuButton = memo(
@@ -27,6 +27,12 @@ const MenuButton = memo(
         children: '记录',
         onClick: () => {
           navigate('/log')
+        }
+      },
+      {
+        children: '仓库',
+        onClick: () => {
+          navigate('/git-expansions')
         }
       },
       {

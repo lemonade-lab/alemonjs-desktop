@@ -1,37 +1,32 @@
 import { app } from 'electron'
 import { join } from 'node:path'
-import fs from 'node:fs'
 import { createLogMainPath, getUserDataTemplatePath } from './storage'
+// log 路径
 export const logMainPath = createLogMainPath()
-/**
- * localData
- */
+// 本地资源路径
 const resourcesPath = join(app.getAppPath(), app.isPackaged ? '../' : 'resources')
+// 本地存储路径
 export const storagePath = join(resourcesPath, 'storage')
+// 本地预加载路径
 export const preloadPath = join(resourcesPath, 'preload')
-// template
+// 本地模板路径
 export const templatePath = join(resourcesPath, 'template')
-export const nodeModulesPath = join(templatePath, 'node_modules')
-export const packagePath = join(templatePath, 'package.json')
-export const warehousePath = join(templatePath, 'packages')
-/**
- * userData
- */
+// 用户资源路径
 export const userDataResourcesPath = join(app.getPath('userData'), 'resources')
-console.info('userDataResourcesPath', userDataResourcesPath)
+// 用户存储路径
 export const userDataStoragePath = join(app.getPath('userData'), 'storage')
-// export const userDataPreloadPath = join(userDataResourcesPath, 'preload')
-// export const userDataWarehousePath = join(userDataStoragePath, 'warehouse')
-// template
+// 用户模板路径
 export const userDataTemplatePath =
   getUserDataTemplatePath() ?? join(userDataResourcesPath, 'template')
+// 用户依赖路径
 export const userDataNodeModulesPath = join(userDataTemplatePath, 'node_modules')
+// 用户包配置路径
 export const userDataPackagePath = join(userDataTemplatePath, 'package.json')
-export const userDataWarehousePath = join(userDataTemplatePath, 'packages')
-// init data
-export const initUserDataPackagePath = join(userDataResourcesPath, 'template', 'package.json')
-
-// cjs
+// 是否是初始化模板路径
+export const isInitTemplatePath = getUserDataTemplatePath() ? false : true
+// cjs 路径
 export const cjsYarnPath = join(userDataTemplatePath, 'alemonjs', 'bin', 'yarn.cjs')
+// cjs 路径
 export const cjsDesktopPath = join(userDataTemplatePath, 'alemonjs', 'desktop.js')
+// cjs 路径
 export const cjsIndexPath = join(userDataTemplatePath, 'alemonjs', 'index.js')

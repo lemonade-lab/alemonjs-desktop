@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import logger from 'electron-log'
 import {
   cjsYarnPath,
-  initUserDataPackagePath,
+  isInitTemplatePath,
   userDataPackagePath,
   userDataTemplatePath
 } from './static'
@@ -33,7 +33,7 @@ export const yarn = async (
   // 不存在 package.json
   if (!existsSync(userDataPackagePath)) {
     // 非默认路径
-    if (userDataPackagePath !== initUserDataPackagePath) {
+    if (!isInitTemplatePath) {
       //
       webContent.send('on-modal', {
         open: true,

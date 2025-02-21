@@ -50,11 +50,11 @@ export default (function App() {
       path: '/bot-log',
       onClick: path => navigate(path)
     },
-    {
-      Icon: <GitIcon width="20" height="20" />,
-      path: '/git-expansions',
-      onClick: path => navigate(path)
-    },
+    // {
+    //   Icon: <GitIcon width="20" height="20" />,
+    //   path: '/git-expansions',
+    //   onClick: path => navigate(path)
+    // },
     {
       Icon: <PizzaIcon width="20" height="20" />,
       path: '/expansions',

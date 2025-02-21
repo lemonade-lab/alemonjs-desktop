@@ -25,7 +25,8 @@ const passPath: NavigatePath[] = [
   '/theme',
   '/log',
   '/npmrc',
-  '/about'
+  '/about',
+  '/git-expansions'
 ]
 
 // 需要启动扩展器的路径

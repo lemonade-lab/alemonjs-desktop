@@ -11,8 +11,8 @@ import { join } from 'node:path'
 import { existsSync } from 'node:fs'
 import { app } from 'electron'
 
-const KEY = 'ALEMONDEJS_BOT_PATH'
-const PATH = localStorage.get(KEY, '')
+const ALEMONDEJS_BOT_PATH = 'ALEMONDEJS_BOT_PATH'
+const ALEMONDEJS_WORDSPACE_PATH = 'ALEMONDEJS_WORDSPACE_PATH'
 
 /**
  *
@@ -29,7 +29,14 @@ export const setUserDataTemplatePath = (path: string) => {
   localStorage.set('ALEMONDEJS_BOT_PATH', join(path, 'template'))
 }
 
-export const getUserDataTemplatePath = () => (typeof PATH === 'string' ? PATH : undefined)
+/**
+ *
+ * @returns
+ */
+export const getUserDataTemplatePath = () => {
+  const PATH = localStorage.get(ALEMONDEJS_BOT_PATH)
+  return typeof PATH === 'string' ? PATH : undefined
+}
 
 /**
  * @returns
@@ -43,4 +50,21 @@ export const createLogMainPath = () => {
     // ~/.config/{app name}/logs/main.log
     return join(app.getPath('userData'), 'logs', 'main.log')
   }
+}
+
+/**
+ *
+ * @returns
+ */
+export const getWordSpacePath = () => {
+  const PATH = localStorage.get(ALEMONDEJS_WORDSPACE_PATH)
+  return typeof PATH === 'string' ? PATH : 'packages'
+}
+
+/**
+ *
+ * @param select
+ */
+export const setWordSpacePath = (select: string) => {
+  localStorage.set(ALEMONDEJS_WORDSPACE_PATH, select)
 }

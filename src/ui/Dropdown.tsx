@@ -58,15 +58,15 @@ const Dropdown = memo(
         {isOpen && (
           <SecondaryDiv
             className={classNames(
-              'absolute z-20 bg-opacity-90 border rounded-md shadow-md max-h-60 overflow-y-auto',
+              'absolute z-20 bg-opacity-90 border rounded-md shadow-md ',
               getPlacementClasses()
             )}
           >
-            <div className="flex flex-col gap-2 p-1">
+            <div className="flex flex-col gap-2 p-2">
               {buttons.map((button, index) => (
                 <Button
                   key={index}
-                  className="px-2 min-w-16 rounded-md whitespace-nowrap"
+                  className="px-3 py-1 min-w-16 rounded-md whitespace-nowrap"
                   onClick={e => {
                     e.stopPropagation()
                     setIsOpen(false)

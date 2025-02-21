@@ -1,6 +1,17 @@
 import type { SimpleGit } from 'simple-git'
 export type WindowGit = {
   /**
+   *
+   * @returns
+   */
+  getWordSbaces: () => Promise<string>
+  /**
+   *
+   * @param select
+   * @returns
+   */
+  setWordSbaces: (select: string) => Promise<void>
+  /**
    * 获取仓库
    * @returns
    */
