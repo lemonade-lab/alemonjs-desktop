@@ -2,7 +2,7 @@ import { ReloadOutlined } from '@ant-design/icons'
 import logoURL from '@src/assets/logo.jpg'
 import { RootState } from '@src/store'
 import { Button } from '@src/component/Button'
-import { Pause, Play } from '@src/component/Icons'
+import { Play } from '@src/component/Icons'
 import { useSelector } from 'react-redux'
 const MainView = () => {
   const modules = useSelector((state: RootState) => state.modules)
@@ -39,10 +39,10 @@ const MainView = () => {
         <div className="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2">
           {!modules.nodeModulesStatus && (
             <div className="flex flex-col gap-4">
-              <Button className="px-4 py-2 text-2xl rounded-md" onClick={onInstall}>
+              <Button className="px-4 py-2 text-md rounded-md" onClick={onInstall}>
                 <ReloadOutlined /> 加载依赖
               </Button>
-              <Button className="px-4 py-2 text-2xl rounded-md" onClick={onOpen}>
+              <Button className="px-4 py-2 text-md rounded-md" onClick={onOpen}>
                 以指定目录打开
               </Button>
             </div>
@@ -50,7 +50,7 @@ const MainView = () => {
           {modules.nodeModulesStatus && !expansions.runStatus && (
             <div className="flex flex-col gap-4">
               <Button
-                className="flex gap-2 items-center px-4 py-2 text-2xl rounded-md"
+                className="flex gap-2 items-center px-4 py-2 text-md rounded-md"
                 onClick={onRun}
               >
                 <Play width={22} height={22} />

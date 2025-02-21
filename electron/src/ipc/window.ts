@@ -1,7 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import { isAutoLaunchEnabled, setAutoLaunch } from '../core/setLoginItemSettings'
 import Logger from 'electron-log'
-import { createTerminal } from '../../src/window/terminal'
+import { createTerminal } from '../terminal'
 import { initTemplate } from '../core/init'
 import { yarn } from '../../src/script/yarn'
 import { storage } from '../../src/data/storage'
