@@ -17,7 +17,7 @@ const Common = () => {
     autoCheck: false,
     autoStart: false
   })
-  const { notification } = useNotification()
+  const notification = useNotification()
 
   // 初始化更新
   const initUpdate = async () => {

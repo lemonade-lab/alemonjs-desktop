@@ -16,7 +16,7 @@ export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
   const [packageInfo, setPackageInfo] = useState<PackageInfoType | null>(null)
   const packageInfoRef = useRef<PackageInfoType | null>(null)
-  const { notification } = useNotification()
+  const notification = useNotification()
   const [select, setSelect] = useState('')
   const expansions = useSelector((state: RootState) => state.expansions)
   const [npms, setNpms] = useState<typeof expansions.package>([])

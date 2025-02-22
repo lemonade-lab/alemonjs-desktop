@@ -28,7 +28,7 @@ const getPlatform = (packages: any[]) => {
 export const useBotController = () => {
   const bot = useSelector((state: RootState) => state.bot)
   const modules = useSelector((state: RootState) => state.modules)
-  const { notification } = useNotification()
+  const notification = useNotification()
   const expansions = useSelector((state: RootState) => state.expansions)
   const platforms = getPlatform(expansions.package)
 

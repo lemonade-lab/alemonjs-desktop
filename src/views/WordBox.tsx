@@ -26,7 +26,7 @@ export default function WordBox() {
   const [conmond, setCommond] = useState<Sidebar[]>([])
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
-  const { notification } = useNotification()
+  const notification = useNotification()
 
   // 公共样式常量
   const onClose = () => {

@@ -9,7 +9,7 @@ import { SecondaryDiv } from '@src/component/SecondaryDiv'
 export default function Npmrc() {
   const app = useSelector((state: RootState) => state.app)
   const [value, setValue] = useState(``)
-  const { notification } = useNotification()
+  const notification = useNotification()
   const [initValue, setInitValue] = useState('')
   const onClickSave = async () => {
     const dir = app.userDataTemplatePath + '/.npmrc'

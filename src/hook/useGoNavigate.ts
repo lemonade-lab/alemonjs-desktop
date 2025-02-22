@@ -50,7 +50,7 @@ export default function useGoNavigate() {
       runStatus: expansions.runStatus
     }
   }, [modules.nodeModulesStatus, expansions.runStatus])
-  const { notification } = useNotification()
+  const notification = useNotification()
   const navigateTo = (path: NavigatePath, options?: NavigateOptions) => {
     if (passPath.find(v => v === path)) {
       navigate(path, options)

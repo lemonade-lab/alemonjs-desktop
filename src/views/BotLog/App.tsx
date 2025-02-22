@@ -40,7 +40,7 @@ function Terminal() {
 
   const [terminalRef, terminalInstance] = useTerminal()
 
-  const { notification } = useNotification()
+  const notification = useNotification()
 
   useEffect(() => {
     for (let i = 0; i < log.message.length - 1; i++) {

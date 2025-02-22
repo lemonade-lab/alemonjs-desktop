@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 
 export default function YarnManage() {
   const [inputValue, setIputValue] = useState('')
-  const { notification } = useNotification()
+  const notification = useNotification()
   const [submit, setSubmit] = useState(false)
   const fromNameRef = useRef('')
 

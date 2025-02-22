@@ -14,7 +14,7 @@ module.exports = {
   directories: {
     output: 'release'
   },
-  files: ['dist-electron', 'dist'],
+  files: ['dist-electron', 'dist', 'icons'],
   mac: {
     icon: './icons/icon.icns',
     target: [

@@ -18,7 +18,7 @@ const Inquiry = ({
   title,
   children
 }: PropsWithChildren<InquiryProps>) => {
-  const { notification } = useNotification()
+  const notification = useNotification()
   // 9s  -->  6s
   const [timing, setTiming] = useState(3)
   useEffect(() => {

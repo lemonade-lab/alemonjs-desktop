@@ -13,9 +13,7 @@ type NotificationState = {
   theme: 'default' | 'error' | 'warning'
 }[]
 
-interface NotificationContextType {
-  notification: (message: string, theme?: 'default' | 'error' | 'warning') => void
-}
+type NotificationContextType = (message: string, theme?: 'default' | 'error' | 'warning') => void
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined)
 
@@ -49,7 +47,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   }
 
   return (
-    <NotificationContext.Provider value={{ notification }}>
+    <NotificationContext.Provider value={notification}>
       {children}
       <div className="fixed top-16 left-1/2 z-50 transform -translate-x-1/2 min-w-[240px]">
         <div className="flex flex-col gap-4">

@@ -30,7 +30,7 @@ export type PackageInfoType = {
 
 export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoType }) {
   const [pkgInfo, setPkgInfo] = useState<PackageInfoType>(packageInfo)
-  const { notification } = useNotification()
+  const notification = useNotification()
   const expansions = useSelector((state: RootState) => state.expansions)
   const dispatch = useDispatch()
   const [options, setOptions] = useState<string[]>([])

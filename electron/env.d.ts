@@ -7,7 +7,5 @@ declare namespace NodeJS {
     DIST: string
     /** /dist/ or /public/ */
     VITE_PUBLIC: string
-    // alemonjs bot path
-    ALEMONJS_BOT_PATH?: string
   }
 }

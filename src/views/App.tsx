@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification } from '@src/context/Notification'
@@ -19,12 +19,24 @@ import { usePop } from '@src/context/Pop'
 export default (function App() {
   const navigate = useGoNavigate()
   const dispatch = useDispatch()
-  const { notification } = useNotification()
+  const notification = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
   const { setPopValue, closePop } = usePop()
 
   const modulesRef = useRef(modules)
+
+  const [run, setRun] = useState(false)
+  const [steps, setSteps] = useState([
+    {
+      target: '.first-element',
+      content: 'This is the first step!'
+    },
+    {
+      target: '.second-element',
+      content: 'This is the second step!'
+    }
+  ])
 
   // watch
   useEffect(() => {

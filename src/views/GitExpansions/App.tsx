@@ -18,7 +18,7 @@ export default function Expansions() {
   // const app = useSelector((state: RootState) => state.app)
   const [select, setSelect] = useState('')
   const [searchValue, setSearchValue] = useState('')
-  const { notification } = useNotification()
+  const notification = useNotification()
   const [data, setData] = useState<string[]>([])
   const [sub, setSub] = useState(false)
 
