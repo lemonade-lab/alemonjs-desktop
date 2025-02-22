@@ -6,7 +6,6 @@ import { Modal } from '@src/component/Modal'
 import { PrimaryDiv } from '@src/component/PrimaryDiv'
 import { SecondaryDiv } from '@src/component/SecondaryDiv'
 import { Switch } from '@src/component/Switch'
-import { Tooltip } from '@src/component/Tooltip'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -22,21 +21,29 @@ const Common = () => {
 
   // 初始化更新
   const initUpdate = async () => {
-    const T = await window.controller.autoLaunchStutas()
-    if (T) {
+    window.app.getConfig(['AUTO_LAUNCH', 'AUTO_INSTALL', 'AUTO_RUN_EXTENSION']).then(T => {
       setDesktopChecked({
-        ...desktopCheckeds,
-        autoStart: T
+        autoLaunch: T[0],
+        autoCheck: T[1],
+        autoStart: T[2]
       })
-    }
+    })
   }
 
-  const update = _.throttle(async checked => {
-    const T = await window.controller.setAutoLaunch(checked)
+  const update = _.throttle(async (key: string, checked: boolean) => {
+    const T = (await window.app.setConfig(key, checked)) as boolean
     if (T) {
+      const map: {
+        [key: string]: string
+      } = {
+        AUTO_LAUNCH: 'autoLaunch',
+        AUTO_INSTALL: 'autoCheck',
+        AUTO_RUN_EXTENSION: 'autoStart'
+      }
+      const name = map[key]
       setDesktopChecked({
         ...desktopCheckeds,
-        autoStart: checked
+        [name]: checked
       })
     }
   }, 500)
@@ -45,8 +52,8 @@ const Common = () => {
    *
    * @param status
    */
-  const onChangeDesktop = (status: boolean) => {
-    update(status)
+  const onChangeDesktop = (key: string, status: boolean) => {
+    update(key, status)
   }
 
   const { setPopValue } = usePop()
@@ -61,7 +68,7 @@ const Common = () => {
       code: 0,
       onConfirm: () => {
         console.log('重置')
-        window.app.reIniteTemplate()
+        window.app.resetTemplate()
       }
     })
   }
@@ -81,15 +88,31 @@ const Common = () => {
             {[
               {
                 title: '开机自启',
-                children: <Switch value={desktopCheckeds.autoStart} onChange={onChangeDesktop} />
+                children: (
+                  <Switch
+                    value={desktopCheckeds.autoLaunch}
+                    onChange={checked => onChangeDesktop('AUTO_LAUNCH', checked)}
+                  />
+                )
               },
               {
                 title: '依赖自检',
-                children: <Switch value={desktopCheckeds.autoCheck} onChange={onChangeDesktop} />
+                children: (
+                  <Switch
+                    value={desktopCheckeds.autoCheck}
+                    onChange={checked => onChangeDesktop('AUTO_INSTALL', checked)}
+                  />
+                )
               },
               {
                 title: '扩展自启',
-                children: <Switch value={desktopCheckeds.autoLaunch} onChange={onChangeDesktop} />
+                description: '开启后，依赖也自检',
+                children: (
+                  <Switch
+                    value={desktopCheckeds.autoStart}
+                    onChange={checked => onChangeDesktop('AUTO_RUN_EXTENSION', checked)}
+                  />
+                )
               },
               {
                 title: '依赖锁文件',

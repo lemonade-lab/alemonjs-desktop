@@ -120,8 +120,7 @@ function Terminal() {
             <Tooltip text="新建记录台">
               <div
                 onClick={() => {
-                  window.app.openWindowTerminal()
-                  // navigate('/window/terminal')
+                  window.page.openWindowTerminal()
                 }}
               >
                 <ChevronDown width={16} height={16} />

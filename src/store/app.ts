@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface State {
-  [key: string]: string
   userDataTemplatePath: string
   userDataNodeModulesPath: string
   userDataPackagePath: string
@@ -23,7 +22,8 @@ const notificationSlice = createSlice({
   reducers: {
     setPath(state, action: PayloadAction<State>) {
       for (const key in action.payload) {
-        state[key] = action.payload[key]
+        const KEY = key as keyof State
+        state[KEY] = action.payload[KEY]
       }
     }
   }

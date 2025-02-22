@@ -1,4 +1,4 @@
-import { WindowApp } from './typing/app'
+import { WindowApp, WindowPage } from './typing/app'
 import { WindowExpansions } from './typing/expansions'
 import { WindowBot } from './typing/bot'
 import { WindowVersions } from './typing/versions'
@@ -47,6 +47,10 @@ declare global {
      *  控制窗口
      */
     controller: WindowController
+    /**
+     *
+     */
+    page: WindowPage
     /**
      * 版本信息
      */

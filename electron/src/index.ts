@@ -4,7 +4,7 @@ import { createShortcut } from './core/shortcut'
 import { createTray } from './core/tray'
 import { onBeforeRequest } from './core/session'
 import { app, BrowserWindow } from 'electron'
-import { storage } from './data/storage'
+import { temporaryStorage } from './data/storage'
 import { createWindow } from './main'
 
 // 定义全局变量类型 window
@@ -27,7 +27,7 @@ const initWindow = () => {
 
   // 禁止窗口关闭，改为隐藏
   global.mainWindow.on('close', event => {
-    if (storage.autoUpdate) {
+    if (temporaryStorage.autoUpdate) {
       app.quit()
       return
     }
@@ -80,7 +80,7 @@ app.on('second-instance', () => {
 
 // 当所有窗口都关闭后，退出应用程序
 app.on('window-all-closed', () => {
-  if (storage.autoUpdate) {
+  if (temporaryStorage.autoUpdate) {
     app.quit()
     return
   }

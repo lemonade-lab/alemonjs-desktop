@@ -4,10 +4,54 @@ import * as appsPath from '../../src/data/static'
 import { basename, join } from 'path'
 import Logger from 'electron-log'
 import { initTemplate } from '../core/init'
-import { setUserDataTemplatePath } from '../../src/data/storage'
+import { localStorage, setUserDataTemplatePath } from '../../src/data/storage'
+import { ALEMONJS_AUTO_INSTALL, ALEMONJS_AUTO_RUN_EXTENSION } from '../data/conifg'
+import { isAutoLaunchEnabled, setAutoLaunch } from '../core/setLoginItemSettings'
 
-// 得到应用目录
-ipcMain.handle('get-apps-path', () => appsPath)
+const getConfig = (k: string) => {
+  if (k == 'AUTO_INSTALL') {
+    // 返回是否自动安装
+    return localStorage.get(ALEMONJS_AUTO_INSTALL) || false
+  } else if (k == 'AUTO_RUN_EXTENSION') {
+    // 返回是否自动运行扩展
+    return localStorage.get(ALEMONJS_AUTO_RUN_EXTENSION) || false
+  } else if (k == 'AUTO_LAUNCH') {
+    // 返回是否开机自启动
+    return isAutoLaunchEnabled()
+  } else if (k == 'APP_PATH') {
+    return {
+      userDataTemplatePath: appsPath.userDataTemplatePath,
+      userDataNodeModulesPath: appsPath.userDataNodeModulesPath,
+      userDataPackagePath: appsPath.userDataPackagePath,
+      preloadPath: appsPath.preloadPath,
+      logMainPath: appsPath.logMainPath
+    }
+  }
+}
+
+// 根据key获取配置 : 非大数据的配置
+ipcMain.handle('get-config', (_event, key) => {
+  if (Array.isArray(key)) {
+    return key.map(k => {
+      return getConfig(k) || null
+    })
+  }
+  return getConfig(key) || null
+})
+
+ipcMain.handle('set-config', (_event, key, value) => {
+  if (key == 'AUTO_INSTALL') {
+    // 设置是否自动安装
+    localStorage.set(ALEMONJS_AUTO_INSTALL, value)
+  } else if (key == 'AUTO_RUN_EXTENSION') {
+    // 设置是否自动运行扩展
+    localStorage.set(ALEMONJS_AUTO_RUN_EXTENSION, value)
+  } else if (key == 'AUTO_LAUNCH') {
+    // 设置是否开机自启动
+    setAutoLaunch(value)
+  }
+  return true
+})
 
 // 删除指定目录下的所有目录及文件
 ipcMain.handle('rm-template-files', () => {

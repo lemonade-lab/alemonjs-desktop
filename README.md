@@ -36,20 +36,16 @@ yarn build
 
 ### 环境变量
 
-`ALEMONDEJS_BOT_PATH` 可配置机器人地址，若该目录无机器人则生产
+`ALEMONJS_BOT_PATH` 可配置机器人地址，若该目录无机器人则生产
 
 - mac
 
 > ~/.bashrc, ~/.bash_profile, ~/.zshrc
 
 ```
-export ALEMONDEJS_BOT_PATH=/Users/[your name]/Desktop/[your path]
+export ALEMONJS_BOT_PATH=/Users/[your name]/Desktop/[your path]
 ```
 
 ```sh
 source ~/.bashrc
 ```
-
-### Community
-
-QQ Group 806943302

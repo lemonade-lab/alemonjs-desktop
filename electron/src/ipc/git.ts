@@ -87,6 +87,25 @@ ipcMain.handle('git-clone', async (event, repoUrl: string) => {
   }
 })
 
+// 拉取
+ipcMain.handle('git-fetch', async (event, repoName: string) => {
+  try {
+    const userDataWarehousePath = getUserDataWarehousePath()
+    const repoPath = join(userDataWarehousePath, repoName)
+    const repoGit = simpleGit(repoPath)
+    // 使用 Promise.race 来处理超时
+    const result = await Promise.race([
+      repoGit.fetch(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Fetch timed out')), 6000))
+    ])
+    return result // 返回 fetch 结果
+  } catch (e) {
+    sendError(e)
+    // 丢出错误
+    throw e
+  }
+})
+
 // 当前分支
 ipcMain.handle('git-current-branch', async (event, repoName: string) => {
   try {

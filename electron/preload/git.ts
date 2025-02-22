@@ -2,7 +2,9 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 // 扩展
 contextBridge.exposeInMainWorld('git', {
+  // 获取工作区
   getWordSbaces: () => ipcRenderer.invoke('get-workspaces'),
+  // 设置工作区
   setWordSbaces: (select: string) => ipcRenderer.invoke('set-workspaces', select),
   // 获取仓库
   repos: () => ipcRenderer.invoke('git-repos'),
@@ -10,6 +12,8 @@ contextBridge.exposeInMainWorld('git', {
   openRepo: (repoName: string) => ipcRenderer.invoke('git-open-repo', repoName),
   // clone
   clone: (repoUrl: string) => ipcRenderer.invoke('git-clone', repoUrl),
+  // fetch
+  fetch: (repoName: string) => ipcRenderer.invoke('git-fetch', repoName),
   // 当前分支
   currentBranch: (repoName: string) => ipcRenderer.invoke('git-current-branch', repoName),
   // 所有分支

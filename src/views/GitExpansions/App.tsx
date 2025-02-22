@@ -82,6 +82,29 @@ export default function Expansions() {
 
   /**
    *
+   */
+  const onFetch = async (item: string) => {
+    if (sub) {
+      // 正在提交
+      notification('操作锁定中，请稍等', 'warning')
+      return
+    }
+    setSub(true)
+
+    notification('开始拉取最新数据..')
+
+    await window.git.fetch(item).then(res => {
+      console.log(res)
+      // const db = data.filter(v => v !== item)
+      // setData(db)
+      // notification('删除成功')
+    })
+
+    setSub(false)
+  }
+
+  /**
+   *
    * @param item
    * @returns
    */
@@ -186,7 +209,7 @@ export default function Expansions() {
         </div>
         <div className="flex-1 ">
           <SecondaryDiv className="flex flex-col gap-1  border-t py-2  overflow-auto  h-[calc(100vh-5.9rem)]">
-            <Info data={data} onDelete={onDelete} onShow={onShow} />
+            <Info data={data} onDelete={onDelete} onShow={onShow} onFetch={onFetch} />
           </SecondaryDiv>
         </div>
       </SidebarDiv>

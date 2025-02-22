@@ -1,15 +1,6 @@
 export type WindowApp = {
-  /***
-   *
-   */
-  getAppsPath: () => Promise<{
-    [key: string]: string
-    userDataTemplatePath: string
-    userDataNodeModulesPath: string
-    userDataPackagePath: string
-    preloadPath: string
-    logMainPath: string
-  }>
+  getConfig: (KEY: string | string[]) => Promise<any>
+  setConfig: (KEY: string, value: any) => Promise<boolean>
   /**
    *
    * @param dir
@@ -38,15 +29,8 @@ export type WindowApp = {
   /**
    *
    */
-  reIniteTemplate: () => Promise<void>
-  /**
-   *
-   */
-  openWindowTerminal: () => void
-  /**
-   *
-   */
-  openWindowMain: () => void
+  resetTemplate: () => Promise<void>
+
   /**
    *
    * @param url
@@ -65,4 +49,15 @@ export type WindowApp = {
    * @returns
    */
   reStart: (dir: string) => void
+}
+
+export type WindowPage = {
+  /**
+   *
+   */
+  openWindowTerminal: () => void
+  /**
+   *
+   */
+  openWindowMain: () => void
 }

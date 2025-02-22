@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNotification } from '@src/context/Notification'
-import useGoNavigate, { NavigatePath } from '@src/hook/useGoNavigate'
+import useGoNavigate from '@src/hook/useGoNavigate'
 import { setBotStatus } from '@src/store/bot'
 import { setCommand } from '@src/store/command'
-import { FireworksIcon, GitIcon, HomeIcon, PizzaIcon } from '@src/component/MenuIcons'
 import Header from '@src/common/Header'
 import Menu from '@src/views/Menu'
 import WordBox from './WordBox'
@@ -15,9 +14,6 @@ import { RootState } from '@src/store'
 import { setPath } from '@src/store/app'
 import { postMessage } from '@src/store/log'
 import { PrimaryDiv } from '@src/component/PrimaryDiv'
-import { AppstoreFilled, ControlFilled, ControlOutlined, RobotFilled } from '@ant-design/icons'
-import { Modal } from '@src/component/Modal'
-import { Button } from '@src/component/Button'
 import { usePop } from '@src/context/Pop'
 
 export default (function App() {
@@ -26,46 +22,7 @@ export default (function App() {
   const { notification } = useNotification()
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
-
   const { setPopValue, closePop } = usePop()
-
-  const navTop = {
-    logo: () => {
-      navigate('/')
-    }
-  }
-
-  const navList: {
-    Icon: React.ReactNode
-    path: NavigatePath
-    onClick: (path: NavigatePath) => void
-  }[] = [
-    // {
-    //   Icon: <ControlFilled width={20} height={20} />,
-    //   path: '/yarn-manage',
-    //   onClick: path => navigate(path)
-    // },
-    {
-      Icon: <RobotFilled width={20} height={20} />,
-      path: '/bot-log',
-      onClick: path => navigate(path)
-    },
-    // {
-    //   Icon: <GitIcon width="20" height="20" />,
-    //   path: '/git-expansions',
-    //   onClick: path => navigate(path)
-    // },
-    {
-      Icon: <PizzaIcon width="20" height="20" />,
-      path: '/expansions',
-      onClick: path => navigate(path)
-    },
-    {
-      Icon: <AppstoreFilled size={20} />,
-      path: '/application',
-      onClick: path => navigate(path)
-    }
-  ]
 
   const modulesRef = useRef(modules)
 
@@ -92,10 +49,15 @@ export default (function App() {
       }
     })
 
-    // 立即得到 app 路径
-    window.app.getAppsPath().then(res => {
-      console.log('app.getAppsPath', res)
-      dispatch(setPath(res))
+    window.app.getConfig(['APP_PATH', 'AUTO_INSTALL', 'AUTO_RUN_EXTENSION']).then(res => {
+      const paths = res[0]
+      dispatch(setPath(paths))
+      if (res[1] | res[2]) {
+        window.yarn.cmds({
+          type: 'install',
+          value: ['install', '--ignore-warnings']
+        })
+      }
     })
 
     // 监听依赖安装状态 0 失败 1 成功
@@ -203,6 +165,13 @@ export default (function App() {
     // 依赖安装完成后，启动扩展器
     if (modules.nodeModulesStatus) {
       notification('依赖加载完成')
+      // 得到配置，判断是否自动启动
+      window.app.getConfig('AUTO_RUN_EXTENSION').then(T => {
+        if (T) {
+          // 启动扩展器
+          window.expansions.run([])
+        }
+      })
     }
   }, [modules.nodeModulesStatus])
 
@@ -219,12 +188,7 @@ export default (function App() {
         <WordBox />
       </Header>
       <PrimaryDiv className="flex flex-1 z-40">
-        <Menu
-          onClickLogo={navTop.logo}
-          // onClickYarn={navTop.yarnManage}
-          centerList={navList}
-          // onClickSetting={navBottom.setting}
-        />
+        <Menu />
         <div className="flex flex-1">
           <Outlet />
         </div>

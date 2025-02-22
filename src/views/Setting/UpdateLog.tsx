@@ -3,7 +3,7 @@ import { PrimaryDiv } from '@src/component/PrimaryDiv'
 const data = [
   {
     version: '0.2.5',
-    log: ['个性化目录无需自带yarn管理器']
+    log: ['个性目录无需装包管理', '支持依赖自启', '支持扩展自启']
   },
   {
     version: '0.2.4',

@@ -1,4 +1,4 @@
-import { Close } from '@src/component/Icons'
+import { Close, Refresh } from '@src/component/Icons'
 import { Collapse } from '@src/component/Collapse'
 import { Tabs } from '@src/component/Tabs'
 import { PropsWithChildren, useEffect, useState } from 'react'
@@ -199,24 +199,39 @@ const GitTags = ({
 
 const Title = ({
   children,
-  onDelete
+  onDelete,
+  onFetch
 }: {
+  onFetch: (e: React.MouseEvent) => void
   onDelete: (e: React.MouseEvent) => void
 } & PropsWithChildren) => {
   return (
-    <div className="flex  justify-between items-center cursor-pointer">
+    <div className="flex justify-between items-center cursor-pointer px-2">
       <div className="flex gap-2">{children}</div>
-      <Tooltip text="删除仓库">
-        <div
-          className=""
-          onClick={e => {
-            e.stopPropagation()
-            onDelete(e)
-          }}
-        >
-          <Close></Close>
-        </div>
-      </Tooltip>
+      <div className="flex gap-4">
+        <Tooltip text="拉取最新">
+          <div
+            className=""
+            onClick={e => {
+              e.stopPropagation()
+              onFetch && onFetch(e)
+            }}
+          >
+            <Refresh width={16} height={16} />
+          </div>
+        </Tooltip>
+        <Tooltip text="删除仓库">
+          <div
+            className=""
+            onClick={e => {
+              e.stopPropagation()
+              onDelete && onDelete(e)
+            }}
+          >
+            <Close></Close>
+          </div>
+        </Tooltip>
+      </div>
     </div>
   )
 }
@@ -224,22 +239,21 @@ const Title = ({
 export default function GitInfo({
   data,
   onDelete,
+  onFetch,
   onShow
 }: {
   data: string[]
   onDelete: (item: string) => void
+  onFetch: (item: string) => void
   onShow: (item: { name: string; hash: string }) => void
 }) {
-  const onClickDelete = (item: string) => {
-    onDelete(item)
-  }
   return (
     <Collapse
       items={data.map((item, index) => ({
         key: index,
         label: (
           <PrimaryDiv hover={true} className="px-1 rounded-sm">
-            <Title key={index} onDelete={e => onClickDelete(item)}>
+            <Title key={index} onDelete={e => onDelete(item)} onFetch={e => onFetch(item)}>
               <ApartmentOutlined />
               {item}
             </Title>

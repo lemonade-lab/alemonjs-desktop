@@ -29,6 +29,13 @@ export type WindowGit = {
    */
   clone: (repoUrl: string) => Promise<void>
   /**
+   *
+   * @param repoName
+   * @param branch
+   * @returns
+   */
+  fetch: (repoName: string) => Promise<any>
+  /**
    * 当前分支
    * @param repoName
    * @returns

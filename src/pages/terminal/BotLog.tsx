@@ -88,9 +88,7 @@ function Terminal() {
             <div
               className="cursor-pointer"
               onClick={() => {
-                // window.app.openWindowTerminal()
-                window.app.openWindowMain()
-                // navigate('/window/terminal')
+                window.page.openWindowMain()
               }}
             >
               <ChevronDown width={16} height={16} />

@@ -1,42 +1,48 @@
-export const storage = {
-  autoUpdate: false
-}
-
 import Store from 'electron-store'
+import { join } from 'node:path'
+import { existsSync } from 'node:fs'
+import { app } from 'electron'
+import {
+  ALEMONJS_AUTO_INSTALL,
+  ALEMONJS_AUTO_RUN_EXTENSION,
+  ALEMONJS_BOT_PATH,
+  ALEMONJS_WORDSPACE_PATH
+} from './conifg'
 
 // 创建一个 Store 实例用于存储跳过的版本
 export const localStorage = new Store()
 
-import { join } from 'node:path'
-import { existsSync } from 'node:fs'
-import { app } from 'electron'
-import { ALEMONDEJS_BOT_PATH, ALEMONDEJS_WORDSPACE_PATH } from './conifg'
+// 临时变量
+export const temporaryStorage = {
+  autoUpdate: false
+}
 
 /**
- *
+ * 设置用户数据模板路径
  * @param path
  * @returns
  */
 export const setUserDataTemplatePath = (path: string) => {
   // 该目录存在 pkg.json 文件
   if (existsSync(join(path, 'package.json'))) {
-    localStorage.set('ALEMONDEJS_BOT_PATH', path)
+    localStorage.set(ALEMONJS_BOT_PATH, path)
     return
   }
   // 不存在时，新建 template 目录
-  localStorage.set('ALEMONDEJS_BOT_PATH', join(path, 'template'))
+  localStorage.set(ALEMONJS_BOT_PATH, join(path, 'template'))
 }
 
 /**
- *
+ * 获取用户数据模板路径
  * @returns
  */
 export const getUserDataTemplatePath = () => {
-  const PATH = localStorage.get(ALEMONDEJS_BOT_PATH)
+  const PATH = localStorage.get(ALEMONJS_BOT_PATH)
   return typeof PATH === 'string' ? PATH : undefined
 }
 
 /**
+ * 创建日志主路径
  * @returns
  */
 export const createLogMainPath = () => {
@@ -51,18 +57,50 @@ export const createLogMainPath = () => {
 }
 
 /**
- *
+ * 获取工作区路径
  * @returns
  */
 export const getWordSpacePath = () => {
-  const PATH = localStorage.get(ALEMONDEJS_WORDSPACE_PATH)
+  const PATH = localStorage.get(ALEMONJS_WORDSPACE_PATH)
   return typeof PATH === 'string' ? PATH : 'packages'
 }
 
 /**
- *
+ * 设置工作区路径
  * @param select
  */
 export const setWordSpacePath = (select: string) => {
-  localStorage.set(ALEMONDEJS_WORDSPACE_PATH, select)
+  localStorage.set(ALEMONJS_WORDSPACE_PATH, select)
+}
+
+/**
+ * 设置自动安装状态
+ * @param enable
+ */
+export const setAutoInstall = (enable: boolean) => {
+  localStorage.set(ALEMONJS_AUTO_INSTALL, enable)
+}
+
+/**
+ * 获取自动安装状态
+ * @returns
+ */
+export const getAutoInstall = () => {
+  return localStorage.get(ALEMONJS_AUTO_INSTALL) || false
+}
+
+/**
+ * 设置自动运行扩展
+ * @param enable
+ */
+export const setAutoRunExtension = (enable: boolean) => {
+  localStorage.set(ALEMONJS_AUTO_RUN_EXTENSION, enable)
+}
+
+/**
+ * 获取自动运行扩展
+ * @returns
+ */
+export const getAutoRunExtension = () => {
+  return localStorage.get(ALEMONJS_AUTO_RUN_EXTENSION) || false
 }
