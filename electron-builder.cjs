@@ -92,6 +92,11 @@ module.exports = {
   },
   extraResources: [
     {
+      from: 'resources/bin',
+      to: 'bin',
+      filter: ['**/*']
+    },
+    {
       from: 'resources/preload',
       to: 'preload',
       filter: ['**/*']
