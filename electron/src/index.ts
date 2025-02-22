@@ -1,4 +1,4 @@
-import './core/env'
+import './env'
 import './ipc'
 import { createShortcut } from './core/shortcut'
 import { createTray } from './core/tray'
