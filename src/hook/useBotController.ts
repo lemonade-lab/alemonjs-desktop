@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '@src/store/index'
+import { RootState } from '@/store/index'
 import _ from 'lodash'
 import { useState } from 'react'
-import { useNotification } from '@src/context/Notification'
+import { useNotification } from '@/context/Notification'
 
 const getPlatform = (packages: any[]) => {
   const data: {

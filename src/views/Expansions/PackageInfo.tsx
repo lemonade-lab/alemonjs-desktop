@@ -1,13 +1,13 @@
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 import Markdown from '../../common/Markdown'
-import logoURL from '@src/assets/logo.jpg'
+import logoURL from '@/assets/logo.jpg'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@src/store'
-import { useNotification } from '@src/context/Notification'
+import { RootState } from '@/store'
+import { useNotification } from '@/context/Notification'
 import { fetchPackageInfo } from '../../api'
-import { addPackage, putPackage } from '@src/store/expansions'
-import { Select } from '@src/component/Select'
-import { Download, Refresh, Upload } from '@src/component/Icons'
+import { addPackage, putPackage } from '@/store/expansions'
+import { Select } from '@alemonjs/react-ui'
+import { DownloadOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons'
 
 export type PackageInfoType = {
   [key: string]: any
@@ -329,7 +329,7 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
                 <>
                   {!pkgInfo['isLink'] && (
                     <div className="flex items-center gap-1 cursor-pointer" onClick={onClickUpdate}>
-                      <Refresh width={16} height={16} /> 更新
+                      <SyncOutlined /> 更新
                     </div>
                   )}
                   {pkgInfo.name != '@alemonjs/process' && (
@@ -337,7 +337,7 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
                       className="flex items-center gap-1 cursor-pointer"
                       onClick={() => headleDelete(pkgInfo)}
                     >
-                      <Upload width={16} height={16} /> 卸载
+                      <UploadOutlined /> 卸载
                     </div>
                   )}
                 </>
@@ -346,7 +346,7 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
                   className="flex items-center gap-1 cursor-pointer"
                   onClick={() => headleInstall(pkgInfo.name)}
                 >
-                  <Download width={16} height={16} /> 下载
+                  <DownloadOutlined /> 下载
                 </div>
               )}
             </div>

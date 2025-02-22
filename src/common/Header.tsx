@@ -1,7 +1,8 @@
 import { memo, PropsWithChildren, ReactNode } from 'react'
 import classNames from 'classnames'
-import { HeaderDiv } from '@src/component/HeaderDiv'
-import { Close, Maximize, Minimize } from '@src/component/Icons'
+import { HeaderDiv } from '@alemonjs/react-ui'
+import { Maximize, Minimize } from '@/common/Icons'
+import { CloseCircleOutlined } from '@ant-design/icons'
 
 type HeaderProps = PropsWithChildren<{
   LeftSlot?: ReactNode
@@ -46,7 +47,7 @@ export default memo(function Header({ children }: HeaderProps) {
               )}
               onClick={() => window.controller.close()}
             >
-              <Close />
+              <CloseCircleOutlined />
             </span>
           </div>
         </div>

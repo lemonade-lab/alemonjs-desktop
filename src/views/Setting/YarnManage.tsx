@@ -1,8 +1,8 @@
-import { useNotification } from '@src/context/Notification'
-import { Button } from '@src/component/Button'
-import { Input } from '@src/component/Input'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
-import { Select } from '@src/component/Select'
+import { useNotification } from '@/context/Notification'
+import { Button } from '@alemonjs/react-ui'
+import { Input } from '@alemonjs/react-ui'
+import { PrimaryDiv } from '@alemonjs/react-ui'
+import { Select } from '@alemonjs/react-ui'
 import { useEffect, useRef, useState } from 'react'
 
 export default function YarnManage() {

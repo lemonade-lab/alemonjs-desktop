@@ -1,7 +1,7 @@
 import { ReloadOutlined } from '@ant-design/icons'
-import logoURL from '@src/assets/logo.jpg'
-import { RootState } from '@src/store'
-import { Button } from '@src/component/Button'
+import logoURL from '@/assets/logo.jpg'
+import { RootState } from '@/store'
+import { Button } from '@alemonjs/react-ui'
 import { useSelector } from 'react-redux'
 const MainView = () => {
   const modules = useSelector((state: RootState) => state.modules)

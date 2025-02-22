@@ -1,10 +1,15 @@
-import { HomeIcon, PizzaIcon } from '@src/component/MenuIcons'
-import useGoNavigate, { NavigatePath } from '@src/hook/useGoNavigate'
-import { BarDiv } from '@src/component/BarDiv'
-import { NavDiv } from '@src/component/NavDiv'
+import useGoNavigate, { NavigatePath } from '@/hook/useGoNavigate'
+import { BarDiv } from '@alemonjs/react-ui'
+import { NavDiv } from '@alemonjs/react-ui'
 import classNames from 'classnames'
-import { AppstoreFilled, RobotFilled, SettingFilled } from '@ant-design/icons'
-import Dropdown from '@src/component/Dropdown'
+import {
+  AppstoreFilled,
+  HomeFilled,
+  RobotFilled,
+  SettingFilled,
+  ShoppingFilled
+} from '@ant-design/icons'
+import { Dropdown } from '@alemonjs/react-ui'
 const MenuButton = () => {
   const navigate = useGoNavigate()
 
@@ -16,13 +21,13 @@ const MenuButton = () => {
     onClick: (path: NavigatePath) => void
   }[] = [
     {
-      Icon: <RobotFilled width={20} height={20} />,
+      Icon: <RobotFilled size={20} />,
       path: '/bot-log',
       className: 'steps-5',
       onClick: path => navigate(path)
     },
     {
-      Icon: <PizzaIcon width="20" height="20" />,
+      Icon: <ShoppingFilled size={20} />,
       path: '/expansions',
       className: 'steps-6',
       onClick: path => navigate(path)
@@ -89,7 +94,7 @@ const MenuButton = () => {
           )}
           onClick={() => navigate('/')}
         >
-          <HomeIcon width="20" height="20" />
+          <HomeFilled size={20} />
         </BarDiv>
       </NavDiv>
       <NavDiv className="px-1 py-8 flex-col  rounded-full flex gap-4">
@@ -102,7 +107,7 @@ const MenuButton = () => {
             )}
             onClick={() => item.onClick(item.path)}
           >
-            {item.Icon}
+            <div>{item.Icon}</div>
           </BarDiv>
         ))}
       </NavDiv>

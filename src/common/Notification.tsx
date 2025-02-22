@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { NotificationDiv, NotificationDivProps } from '@src/component/NotificationDiv'
-import { Close } from '@src/component/Icons'
+import { NotificationDiv, NotificationDivProps } from '@alemonjs/react-ui'
+import { CloseCircleOutlined } from '@ant-design/icons'
 
 type NotificationProps = {
   message: string
@@ -37,7 +37,7 @@ const Notification = memo(({ message, type = 'default', onClose }: NotificationP
       <div className="flex items-center gap-3">
         <span className="text-sm flex-1 break-words max-w-[420px]">{message}</span>
         <span onClick={onClose} className=" duration-700 transition-all  cursor-pointer">
-          <Close />
+          <CloseCircleOutlined />
         </span>
       </div>
       <div className="relative mt-2 h-2 bg-gray-300 rounded">

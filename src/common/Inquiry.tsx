@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { useNotification } from '@src/context/Notification'
-import { Button } from '@src/component/Button'
+import { useNotification } from '@/context/Notification'
+import { Button } from '@alemonjs/react-ui'
 
 type InquiryProps = {
   onClickCancel: () => void

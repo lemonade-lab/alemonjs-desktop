@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import classNames from 'classnames'
-import { RootState } from '@src/store'
+import { RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCommand } from '@src/store/command'
+import { setCommand } from '@/store/command'
 import { useLocation } from 'react-router-dom'
-import { SecondaryDiv } from '@src/component/SecondaryDiv'
-import { SidebarDiv } from '@src/component/SidebarDiv'
-import { TagDiv } from '@src/component/TagDiv'
+import { SecondaryDiv } from '@alemonjs/react-ui'
+import { SidebarDiv } from '@alemonjs/react-ui'
+import { TagDiv } from '@alemonjs/react-ui'
 
 interface Sidebar {
   expansions_name: string

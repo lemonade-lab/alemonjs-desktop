@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import botReducer from '@src/store/bot'
-import logReducer from '@src/store/log'
-import expansionsReducer from '@src/store/expansions'
-import commandReducer from '@src/store/command'
-import modulesReducer from '@src/store/modules'
-import appReducer from '@src/store/app'
+import botReducer from '@/store/bot'
+import logReducer from '@/store/log'
+import expansionsReducer from '@/store/expansions'
+import commandReducer from '@/store/command'
+import modulesReducer from '@/store/modules'
+import appReducer from '@/store/app'
 const store = configureStore({
   reducer: {
     bot: botReducer,

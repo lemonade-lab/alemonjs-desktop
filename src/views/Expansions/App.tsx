@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 import { useSelector } from 'react-redux'
-import { RootState } from '@src/store'
-import { useNotification } from '@src/context/Notification'
-import { SecondaryDiv } from '@src/component/SecondaryDiv'
-import { SidebarDiv } from '@src/component/SidebarDiv'
-import { Input } from '@src/component/Input'
-import { Refresh } from '@src/component/Icons'
-import { fetchPackageInfo, getPackages } from '@src/api'
+import { RootState } from '@/store'
+import { useNotification } from '@/context/Notification'
+import { SecondaryDiv } from '@alemonjs/react-ui'
+import { SidebarDiv } from '@alemonjs/react-ui'
+import { Input } from '@alemonjs/react-ui'
+import { fetchPackageInfo, getPackages } from '@/api'
 import PackageInfo, { PackageInfoType } from './PackageInfo'
 import ExpansionsCard from './ExpansionsCard'
 import { Init } from './Component'
+import { SyncOutlined } from '@ant-design/icons'
 
 export default function Expansions() {
   const app = useSelector((state: RootState) => state.app)
@@ -116,7 +116,7 @@ export default function Expansions() {
           <div className="text-xl">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <div onClick={onClickRefresh} className=" cursor-pointer">
-              <Refresh width={18} height={18} />
+              <SyncOutlined />
             </div>
           </div>
         </div>

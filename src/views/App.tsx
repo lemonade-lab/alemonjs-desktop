@@ -1,21 +1,27 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNotification } from '@src/context/Notification'
-import useGoNavigate from '@src/hook/useGoNavigate'
-import { setBotStatus } from '@src/store/bot'
-import { setCommand } from '@src/store/command'
-import Header from '@src/common/Header'
-import Menu from '@src/views/Menu'
-import WordBox from './WordBox'
-import { setModulesStatus } from '@src/store/modules'
-import { initPackage, setExpansionsStatus } from '@src/store/expansions'
-import { RootState } from '@src/store'
-import { setPath } from '@src/store/app'
-import { postMessage } from '@src/store/log'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
-import { usePop } from '@src/context/Pop'
-import GuideMain from '@src/views/Guide/Main'
+//
+import useGoNavigate from '@/hook/useGoNavigate'
+//
+import { setBotStatus } from '@/store/bot'
+import { setCommand } from '@/store/command'
+import { setModulesStatus } from '@/store/modules'
+import { initPackage, setExpansionsStatus } from '@/store/expansions'
+import { RootState } from '@/store'
+import { setPath } from '@/store/app'
+import { postMessage } from '@/store/log'
+//
+import { usePop } from '@/context/Pop'
+import { useNotification } from '@/context/Notification'
+//
+import { PrimaryDiv } from '@alemonjs/react-ui'
+//
+import Menu from '@/views/Menu'
+import WordBox from '@/views/WordBox'
+import GuideMain from '@/views/Guide/Main'
+//
+import Header from '@/common/Header'
 
 export default (function App() {
   const navigate = useGoNavigate()

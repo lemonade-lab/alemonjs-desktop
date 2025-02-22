@@ -1,5 +1,5 @@
-import Header from '@src/common/Header'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import Header from '@/common/Header'
+import { PrimaryDiv } from '@alemonjs/react-ui'
 /**
  * 过度页
  * 在蓝加载中，切换时的国度页

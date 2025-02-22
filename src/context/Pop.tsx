@@ -1,5 +1,5 @@
-import { Button } from '@src/component/Button'
-import { Modal } from '@src/component/Modal'
+import { Button } from '@alemonjs/react-ui'
+import { Modal } from '@alemonjs/react-ui'
 import { createContext, useState, ReactNode, useContext } from 'react'
 
 type DataType = {

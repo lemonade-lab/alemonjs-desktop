@@ -1,28 +1,13 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-import { RootState } from '@src/store'
+import { RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { useTerminal } from '@src/hook/useTerminal'
-import { delMessate } from '@src/store/log'
-import { useNotification } from '@src/context/Notification'
-import { NavDiv } from '@src/component/NavDiv'
-import { ChevronDown } from '@src/component/Icons'
-import { SecondaryDiv } from '@src/component/SecondaryDiv'
-
-const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
-  const [windowSize, setWindowSize] = useState(Date.now())
-  useEffect(() => {
-    const handleResize = _.debounce(() => {
-      setWindowSize(Date.now())
-    }, 300) // 300ms 防抖
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  return <div {...props} key={`render-${windowSize}`} />
-}
+import { useTerminal } from '@/hook/useTerminal'
+import { delMessate } from '@/store/log'
+import { useNotification } from '@/context/Notification'
+import { NavDiv } from '@alemonjs/react-ui'
+import { SecondaryDiv } from '@alemonjs/react-ui'
+import { FullscreenOutlined } from '@ant-design/icons'
 
 function Terminal() {
   const log = useSelector((state: RootState) => state.log)
@@ -92,7 +77,7 @@ function Terminal() {
                 window.page.openWindowMain()
               }}
             >
-              <ChevronDown width={16} height={16} />
+              <FullscreenOutlined />
             </div>
           </div>
         </div>

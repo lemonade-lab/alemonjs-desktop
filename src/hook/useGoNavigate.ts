@@ -1,5 +1,5 @@
-import { useNotification } from '@src/context/Notification'
-import { RootState } from '@src/store'
+import { useNotification } from '@/context/Notification'
+import { RootState } from '@/store'
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavigateOptions, useNavigate } from 'react-router-dom'

@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { Init } from './Component'
-import { SecondaryDiv } from '@src/component/SecondaryDiv'
-import { SidebarDiv } from '@src/component/SidebarDiv'
-import { Input } from '@src/component/Input'
-// import { Refresh } from '@src/component/Icons'
+import { SecondaryDiv } from '@alemonjs/react-ui'
+import { SidebarDiv } from '@alemonjs/react-ui'
+import { Input } from '@alemonjs/react-ui'
 import { FolderAddOutlined } from '@ant-design/icons'
 import Info from './GitInfo'
-// import { RootState } from '@src/store'
+// import { RootState } from '@/store'
 // import { useSelector } from 'react-redux'
-import { useNotification } from '@src/context/Notification'
-import { extractRepoInfo, isGitRepositoryFormat } from '@src/api'
-import Markdown from '@src/common/Markdown'
-import { Tooltip } from '@src/component/Tooltip'
-import { Select } from '@src/component/Select'
+import { useNotification } from '@/context/Notification'
+import { extractRepoInfo, isGitRepositoryFormat } from '@/api'
+import Markdown from '@/common/Markdown'
+import { Tooltip } from '@alemonjs/react-ui'
+import { Select } from '@alemonjs/react-ui'
 
 export default function Expansions() {
   // const app = useSelector((state: RootState) => state.app)
@@ -171,8 +170,9 @@ export default function Expansions() {
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <Select
               className="rounded-md"
-              onChange={e => {
-                window.git.setWordSbaces(e.target.value).then(() => {
+              onChange={(e: any) => {
+                const value = e.target.value
+                window.git.setWordSbaces(value).then(() => {
                   initData()
                 })
               }}

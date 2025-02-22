@@ -4,7 +4,7 @@ import 'codemirror/mode/properties/properties.js'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/solarized.css'
 import 'codemirror/theme/xq-light.css'
-import '@src/assets/css/CodeMirror.css'
+import '@/assets/css/CodeMirror.css'
 import { useEffect, useState } from 'react'
 
 type CodeMirrorProps = {

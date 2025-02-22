@@ -1,17 +1,17 @@
 import _ from 'lodash'
-import { useEffect, useState } from 'react'
-import { useBotController } from '@src/hook/useBotController'
-import { RootState } from '@src/store'
+import { useEffect } from 'react'
+import { useBotController } from '@/hook/useBotController'
+import { RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { useTerminal } from '@src/hook/useTerminal'
-import { delMessate } from '@src/store/log'
-import { useNotification } from '@src/context/Notification'
-import { Button } from '@src/component/Button'
-import { NavDiv } from '@src/component/NavDiv'
-import { Select } from '@src/component/Select'
-import { ChevronDown } from '@src/component/Icons'
-import { Tooltip } from '@src/component/Tooltip'
-import { SecondaryDiv } from '@src/component/SecondaryDiv'
+import { useTerminal } from '@/hook/useTerminal'
+import { delMessate } from '@/store/log'
+import { useNotification } from '@/context/Notification'
+import { Button } from '@alemonjs/react-ui'
+import { NavDiv } from '@alemonjs/react-ui'
+import { Select } from '@alemonjs/react-ui'
+import { Tooltip } from '@alemonjs/react-ui'
+import { SecondaryDiv } from '@alemonjs/react-ui'
+import { FullscreenOutlined } from '@ant-design/icons'
 
 function Terminal() {
   // const navigate = useNavigate()
@@ -67,9 +67,10 @@ function Terminal() {
               <Select
                 defaultValue={platform.name}
                 className="rounded-md"
-                onChange={e => {
+                onChange={(e: any) => {
+                  const value = e.target.value
                   setPlatform({
-                    name: e.target.value,
+                    name: value,
                     value: platforms.find(item => item.name === e.target.value)?.value || ''
                   })
                 }}
@@ -105,7 +106,7 @@ function Terminal() {
                   window.page.openWindowTerminal()
                 }}
               >
-                <ChevronDown width={16} height={16} />
+                <FullscreenOutlined />
               </div>
             </Tooltip>
             {modules.nodeModulesStatus &&

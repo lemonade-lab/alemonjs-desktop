@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom'
-import Header from '@src/common/Header'
+import Header from '@/common/Header'
 import { useEffect } from 'react'
-import { postMessage } from '@src/store/log'
+import { postMessage } from '@/store/log'
 import { useDispatch } from 'react-redux'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import { PrimaryDiv } from '@alemonjs/react-ui'
 export default (function App() {
   const dispatch = useDispatch()
   useEffect(() => {

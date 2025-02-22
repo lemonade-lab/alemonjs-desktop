@@ -1,18 +1,19 @@
-import { Close, Refresh } from '@src/component/Icons'
-import { Collapse } from '@src/component/Collapse'
-import { Tabs } from '@src/component/Tabs'
+import { Collapse } from '@alemonjs/react-ui'
+import { Tabs } from '@alemonjs/react-ui'
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import { PrimaryDiv } from '@alemonjs/react-ui'
 import dayjs from 'dayjs'
 import {
   ApartmentOutlined,
   BookOutlined,
   BranchesOutlined,
   CalendarOutlined,
+  CloseCircleOutlined,
+  SyncOutlined,
   TagOutlined,
   TagsOutlined
 } from '@ant-design/icons'
-import { Tooltip } from '@src/component/Tooltip'
+import { Tooltip } from '@alemonjs/react-ui'
 
 type GitBranchesLogsData = {
   key: string
@@ -217,7 +218,7 @@ const Title = ({
               onFetch && onFetch(e)
             }}
           >
-            <Refresh width={16} height={16} />
+            <SyncOutlined />
           </div>
         </Tooltip>
         <Tooltip text="删除仓库">
@@ -228,7 +229,7 @@ const Title = ({
               onDelete && onDelete(e)
             }}
           >
-            <Close></Close>
+            <CloseCircleOutlined />
           </div>
         </Tooltip>
       </div>

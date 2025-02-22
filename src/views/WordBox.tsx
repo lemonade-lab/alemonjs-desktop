@@ -1,15 +1,16 @@
-import { useNotification } from '@src/context/Notification'
-import useNetworkSpeed from '@src/hook/useNetworkSpeed'
-import { RootState } from '@src/store'
-import { BarDiv } from '@src/component/BarDiv'
-import { AlignTextCenter, Close, Pause, Play } from '@src/component/Icons'
-import { Input } from '@src/component/Input'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
-import { SecondaryDiv } from '@src/component/SecondaryDiv'
-import { Tooltip } from '@src/component/Tooltip'
+import { useNotification } from '@/context/Notification'
+import useNetworkSpeed from '@/hook/useNetworkSpeed'
+import { RootState } from '@/store'
+import { BarDiv } from '@alemonjs/react-ui'
+import { Pause, Play } from '@/common/Icons'
+import { Input } from '@alemonjs/react-ui'
+import { PrimaryDiv } from '@alemonjs/react-ui'
+import { SecondaryDiv } from '@alemonjs/react-ui'
+import { Tooltip } from '@alemonjs/react-ui'
 import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { AppstoreOutlined, CloseCircleOutlined } from '@ant-design/icons'
 interface Sidebar {
   expansions_name: string
   name: string
@@ -108,7 +109,7 @@ export default function WordBox() {
                       {item.icon ? (
                         <img className="size-4 rounded-md" src={createIconURL(item)}></img>
                       ) : (
-                        <AlignTextCenter width={16} height={16} />
+                        <AppstoreOutlined />
                       )}
                     </div>
                     <div className="flex items-center justify-center ">{item.name}</div>
@@ -122,7 +123,7 @@ export default function WordBox() {
                 onClick={onClose}
                 className=" duration-700 rounded-full p-1 transition-all  cursor-pointer"
               >
-                <Close />
+                <CloseCircleOutlined />
               </BarDiv>
             </div>
           </PrimaryDiv>

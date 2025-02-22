@@ -1,5 +1,5 @@
 import { FileTextOutlined } from '@ant-design/icons'
-import { PrimaryDiv } from '@src/component/PrimaryDiv'
+import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const ExpansionsCard = ({
   item,
