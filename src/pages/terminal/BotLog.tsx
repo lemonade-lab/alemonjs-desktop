@@ -7,6 +7,7 @@ import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
 import { NavDiv } from '@src/component/NavDiv'
 import { ChevronDown } from '@src/component/Icons'
+import { SecondaryDiv } from '@src/component/SecondaryDiv'
 
 const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const [windowSize, setWindowSize] = useState(Date.now())
@@ -96,12 +97,12 @@ function Terminal() {
           </div>
         </div>
       </NavDiv>
-      <div className=" duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
+      <SecondaryDiv className="flex-1 flex p-2    overflow-x-auto overflow-y-hidden">
         <div
           ref={terminalRef}
-          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.1rem)]"
+          className="flex-1  bg-dark-secondary-bg h-[calc(100vh-5rem)] w-[calc(100vw-1.1rem)]"
         />
-      </div>
+      </SecondaryDiv>
     </div>
   )
 }
@@ -110,9 +111,5 @@ function Terminal() {
  * @description 机器人控制器
  */
 export default function BotLog() {
-  return (
-    <RenderResize className="flex-1">
-      <Terminal />
-    </RenderResize>
-  )
+  return <Terminal />
 }

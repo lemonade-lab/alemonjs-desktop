@@ -12,21 +12,25 @@ const MenuButton = () => {
   const navList: {
     Icon: React.ReactNode
     path: NavigatePath
+    className: string
     onClick: (path: NavigatePath) => void
   }[] = [
     {
       Icon: <RobotFilled width={20} height={20} />,
       path: '/bot-log',
+      className: 'steps-5',
       onClick: path => navigate(path)
     },
     {
       Icon: <PizzaIcon width="20" height="20" />,
       path: '/expansions',
+      className: 'steps-6',
       onClick: path => navigate(path)
     },
     {
       Icon: <AppstoreFilled size={20} />,
       path: '/application',
+      className: 'steps-7',
       onClick: path => navigate(path)
     }
   ]
@@ -77,11 +81,11 @@ const MenuButton = () => {
     }
   ]
   return (
-    <aside className={classNames('flex flex-col justify-between items-center p-1')}>
+    <aside className={classNames('flex flex-col justify-between items-center px-1 py-4')}>
       <NavDiv className="p-1 flex-col rounded-full flex gap-4">
         <BarDiv
           className={classNames(
-            'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700'
+            'steps-4 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700'
           )}
           onClick={() => navigate('/')}
         >
@@ -93,7 +97,8 @@ const MenuButton = () => {
           <BarDiv
             key={item.path}
             className={classNames(
-              'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700'
+              'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700',
+              item.className
             )}
             onClick={() => item.onClick(item.path)}
           >
@@ -105,7 +110,7 @@ const MenuButton = () => {
         <Dropdown placement="topRight" buttons={buttons}>
           <BarDiv
             className={classNames(
-              'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700'
+              'steps-8 w-10 h-10 rounded-full  flex items-center justify-center cursor-pointer transition-all duration-700'
             )}
           >
             <SettingFilled width={20} height={20} />

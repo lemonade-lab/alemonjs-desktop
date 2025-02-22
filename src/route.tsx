@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom'
 import App from '@src/views/App'
-import Main from '@src/views/MainView'
+import Main from '@src/views/Home/App'
 import Application from '@src/views/Application/App'
 import BotLog from '@src/views/BotLog/App'
 import Expansions from '@src/views/Expansions/App'
@@ -12,14 +12,14 @@ import UpdateLog from '@src/views/Setting/UpdateLog'
 import Npmrc from '@src/views/Setting/Npmrc'
 import About from '@src/views/Setting/About'
 
-import BotLog2 from '@src/pages/terminal/BotLog'
-import App2 from '@src/pages/terminal/App'
+import WindowBotLog from '@src/pages/terminal/BotLog'
+import WindowApp from '@src/pages/terminal/App'
 
 const router = createHashRouter([
   {
     path: '/window',
-    element: <App2 />,
-    children: [{ path: 'terminal', element: <BotLog2 /> }]
+    element: <WindowApp />,
+    children: [{ path: 'terminal', element: <WindowBotLog /> }]
   },
   {
     path: '/',

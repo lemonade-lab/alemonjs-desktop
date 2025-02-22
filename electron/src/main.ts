@@ -24,8 +24,8 @@ export const createWindow = () => {
   const main = new BrowserWindow({
     width: parseInt((screenSize.width * 0.75).toFixed(0)),
     height: parseInt((screenSize.height * 0.75).toFixed(0)),
-    minWidth: parseInt((screenSize.width * 0.75).toFixed(0)),
-    minHeight: parseInt((screenSize.height * 0.75).toFixed(0)),
+    minWidth: 1032, // 1024
+    minHeight: 656, // 600
     // 默认窗口标题。默认为"Electron"。
     // 如果 HTML 标签<title>是 在加载的 HTML 文件中定义loadURL()，该属性将被忽略。
     title: 'AlemonJS',
@@ -72,9 +72,10 @@ export const createWindow = () => {
   main.setMenuBarVisibility(false)
 
   // 让所有链接都通过浏览器打开，而不是通过应用程序打开
-  main.webContents.setWindowOpenHandler(({ url }) => {
-    if (/http(s)?:\/\//.test(url)) {
-      shell.openExternal(url)
+  main.webContents.setWindowOpenHandler(data => {
+    const reg = /http(s?):\/\//
+    if (reg.test(data.url)) {
+      shell.openExternal(data.url)
     }
     return { action: 'deny' }
   })

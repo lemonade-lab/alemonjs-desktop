@@ -8,8 +8,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  */
 export const createLogoImageFromPath = () => {
   if (process.platform === 'win32') {
-    return nativeImage.createFromPath(join(__dirname, '../../../icons/icon.ico'))
+    return nativeImage.createFromPath(join(__dirname, '../../icons/icon.ico'))
   } else {
-    return nativeImage.createFromPath(join(__dirname, '../../../icons/16x16.png'))
+    return nativeImage.createFromPath(join(__dirname, '../../icons/16x16.png'))
   }
 }

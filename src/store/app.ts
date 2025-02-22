@@ -17,7 +17,7 @@ const initialState: State = {
 }
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: 'app',
   initialState,
   reducers: {
     setPath(state, action: PayloadAction<State>) {

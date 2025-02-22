@@ -11,7 +11,7 @@ const initialState: State = {
 }
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: 'bot',
   initialState,
   reducers: {
     setBotStatus(

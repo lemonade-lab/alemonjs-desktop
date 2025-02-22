@@ -9,7 +9,7 @@ const initialState: State = {
 }
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: 'command',
   initialState,
   reducers: {
     setCommand(state, action: PayloadAction<string>) {

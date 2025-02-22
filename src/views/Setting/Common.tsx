@@ -9,6 +9,7 @@ import { Switch } from '@src/component/Switch'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import GuideCommon from '../Guide/Common'
 
 const Common = () => {
   const app = useSelector((state: RootState) => state.app)
@@ -106,12 +107,14 @@ const Common = () => {
               },
               {
                 title: '扩展自启',
-                description: '开启后，依赖也自检',
+                description: '带依赖自检',
                 children: (
-                  <Switch
-                    value={desktopCheckeds.autoStart}
-                    onChange={checked => onChangeDesktop('AUTO_RUN_EXTENSION', checked)}
-                  />
+                  <div className="steps-common-1">
+                    <Switch
+                      value={desktopCheckeds.autoStart}
+                      onChange={checked => onChangeDesktop('AUTO_RUN_EXTENSION', checked)}
+                    />
+                  </div>
                 )
               },
               {
@@ -168,19 +171,34 @@ const Common = () => {
                 title: '以指定目录打开应用',
                 description: '目录不存在pkg时，将新建机器人',
                 children: (
-                  <Button
-                    className="px-2 rounded-md border"
-                    onClick={() => {
-                      window.app.selectDirectory().then(dir => {
-                        const path = dir[0]
-                        if (typeof path === 'string') {
-                          window.app.reStart(path)
-                        }
-                      })
-                    }}
-                  >
-                    选择
-                  </Button>
+                  <>
+                    {/* <Button
+                      className="px-2 rounded-md border"
+                      onClick={() => {
+                        // window.app.selectDirectory().then(dir => {
+                        //   const path = dir[0]
+                        //   if (typeof path === 'string') {
+                        //     window.app.reStart(path)
+                        //   }
+                        // })
+                      }}
+                    >
+                      恢复默认
+                    </Button> */}
+                    <Button
+                      className="px-2 rounded-md border  steps-common-2"
+                      onClick={() => {
+                        window.app.selectDirectory().then(dir => {
+                          const path = dir[0]
+                          if (typeof path === 'string') {
+                            window.app.reStart(path)
+                          }
+                        })
+                      }}
+                    >
+                      选择
+                    </Button>
+                  </>
                 )
               }
             ].map((item, index) => (
@@ -191,7 +209,7 @@ const Common = () => {
                     <div className="text-sm text-secondary-text">{item.description}</div>
                   )}
                 </div>
-                {item.children}
+                <div className="flex gap-2">{item.children}</div>
               </div>
             ))}
             <SecondaryDiv className="flex flex-col gap-2  shadow-inner rounded-md p-2">
@@ -236,6 +254,7 @@ const Common = () => {
             </SecondaryDiv>
           </div>
         </PrimaryDiv>
+        <GuideCommon />
       </div>
     </div>
   )

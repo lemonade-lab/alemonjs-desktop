@@ -7,9 +7,12 @@ type DataType = {
   title: string
   description: string
   buttonText: string
+  buttonCancelText?: string
   data: any
   code?: number
-  onConfirm?: () => void
+  // 取消
+  onCancel?: (() => void) | null
+  onConfirm?: (() => void) | null
 }
 
 // 创建上下文类型
@@ -26,25 +29,36 @@ export default function PopProvider({ children }: { children: ReactNode }) {
     title: '',
     description: '',
     buttonText: '',
+    buttonCancelText: '',
     data: {},
     code: 0,
-    onConfirm: () => {}
+    onCancel: null,
+    onConfirm: null
   })
+
   // 关闭 modal
-  const closePop = () =>
+  const closePop = async () => {
+    if (modalData.onCancel) {
+      await modalData.onCancel()
+    }
     setModalData({
       open: false,
       title: '',
       description: '',
       buttonText: '',
+      buttonCancelText: '',
       data: {},
       code: 0,
       onConfirm: () => {}
     })
+  }
+
   // 设置modal
   const setPopValue = (val: DataType) => {
     setModalData(val)
   }
+
+  //
   const onModal = async () => {
     if (!modalData.code) {
       if (modalData?.onConfirm) {
@@ -61,13 +75,17 @@ export default function PopProvider({ children }: { children: ReactNode }) {
       closePop()
     }
   }
+
   return (
     <PopContext.Provider value={{ setPopValue: setPopValue, closePop }}>
       {children}
       <Modal isOpen={modalData.open} onClose={closePop}>
         <h2 className="text-xl mb-4">{modalData.title}</h2>
         <p>{modalData.description}</p>
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-2">
+          <Button onClick={closePop} className="mt-4 px-4 py-2   rounded ">
+            {modalData.buttonCancelText || '取消'}
+          </Button>
           <Button onClick={onModal} className="mt-4 px-4 py-2   rounded ">
             {modalData.buttonText}
           </Button>

@@ -9,7 +9,7 @@ const initialState: State = {
 }
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: 'modules',
   initialState,
   reducers: {
     setModulesStatus(

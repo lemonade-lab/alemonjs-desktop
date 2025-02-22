@@ -19,7 +19,7 @@ const initialState: State = {
 }
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: 'modal',
   initialState,
   reducers: {
     setModalData(state, action: PayloadAction<State>) {

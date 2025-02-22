@@ -1,5 +1,5 @@
 import { Menu, Tray, app, shell } from 'electron'
-import { createLogoImageFromPath } from './icons'
+import { createLogoImageFromPath } from '../icons'
 import { ALEMONJS_BASE_URL } from '../data/conifg'
 
 /**

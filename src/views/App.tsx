@@ -15,6 +15,7 @@ import { setPath } from '@src/store/app'
 import { postMessage } from '@src/store/log'
 import { PrimaryDiv } from '@src/component/PrimaryDiv'
 import { usePop } from '@src/context/Pop'
+import GuideMain from '@src/views/Guide/Main'
 
 export default (function App() {
   const navigate = useGoNavigate()
@@ -23,20 +24,7 @@ export default (function App() {
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
   const { setPopValue, closePop } = usePop()
-
   const modulesRef = useRef(modules)
-
-  const [run, setRun] = useState(false)
-  const [steps, setSteps] = useState([
-    {
-      target: '.first-element',
-      content: 'This is the first step!'
-    },
-    {
-      target: '.second-element',
-      content: 'This is the second step!'
-    }
-  ])
 
   // watch
   useEffect(() => {
@@ -61,6 +49,7 @@ export default (function App() {
       }
     })
 
+    // 获取配置
     window.app.getConfig(['APP_PATH', 'AUTO_INSTALL', 'AUTO_RUN_EXTENSION']).then(res => {
       const paths = res[0]
       dispatch(setPath(paths))
@@ -195,16 +184,19 @@ export default (function App() {
   }, [expansions.runStatus])
 
   return (
-    <div className="flex flex-col flex-1 h-screen relative ">
-      <Header>
-        <WordBox />
-      </Header>
-      <PrimaryDiv className="flex flex-1 z-40">
-        <Menu />
-        <div className="flex flex-1">
-          <Outlet />
-        </div>
-      </PrimaryDiv>
-    </div>
+    <>
+      <div className=" flex flex-col flex-1 h-screen relative ">
+        <Header>
+          <WordBox />
+        </Header>
+        <PrimaryDiv className="steps-0 flex flex-1 z-40">
+          <Menu />
+          <div className="flex flex-1">
+            <Outlet />
+          </div>
+        </PrimaryDiv>
+      </div>
+      <GuideMain />
+    </>
   )
 })

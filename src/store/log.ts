@@ -11,7 +11,7 @@ const initialState: State = {
 }
 
 const notificationSlice = createSlice({
-  name: 'notification',
+  name: 'log',
   initialState,
   reducers: {
     postMessage(state, action: PayloadAction<string>) {

@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@src/component/PrimaryDiv'
 
 const data = [
   {
+    version: '0.2.6',
+    log: ['新增“新人引导”机制', '修复控制台闪烁']
+  },
+  {
     version: '0.2.5',
     log: ['个性目录无需装包管理', '支持依赖自启', '支持扩展自启']
   },

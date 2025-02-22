@@ -145,7 +145,7 @@ export default function WordBox() {
           <div className=" flex-1 flex items-center justify-center">
             <div
               ref={dropdownRef}
-              className="w-full relative  "
+              className="w-full relative steps-3 "
               onClick={() => {
                 // 检查是否加载完毕
                 if (!modules.nodeModulesStatus) {
@@ -171,28 +171,32 @@ export default function WordBox() {
             {
               // 当依赖加载完毕后再显示操作按钮
             }
-            <div className={classNames('flex flex-1')}>
-              {modules.nodeModulesStatus && (
-                <Tooltip text="运行扩展器">
-                  {expansions.runStatus ? (
-                    <div
-                      onClick={() => {
-                        window.expansions.close()
-                      }}
-                    >
-                      <Pause width={20} height={20} />
-                    </div>
-                  ) : (
-                    <div
-                      onClick={() => {
-                        window.expansions.run([])
-                      }}
-                    >
-                      <Play width={20} height={20} />
-                    </div>
-                  )}
-                </Tooltip>
-              )}
+            <div className="flex flex-1">
+              <Tooltip text="运行扩展器">
+                {expansions.runStatus ? (
+                  <div
+                    className=" "
+                    onClick={() => {
+                      window.expansions.close()
+                    }}
+                  >
+                    <Pause width={20} height={20} />
+                  </div>
+                ) : (
+                  <div
+                    className="steps-2 "
+                    onClick={() => {
+                      if (!modules.nodeModulesStatus) {
+                        notification('依赖未加载', 'warning')
+                        return
+                      }
+                      window.expansions.run([])
+                    }}
+                  >
+                    <Play width={20} height={20} />
+                  </div>
+                )}
+              </Tooltip>
               <div className="drag-area flex-1 "></div>
             </div>
           </div>

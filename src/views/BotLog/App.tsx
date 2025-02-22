@@ -6,40 +6,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTerminal } from '@src/hook/useTerminal'
 import { delMessate } from '@src/store/log'
 import { useNotification } from '@src/context/Notification'
-import { useNavigate } from 'react-router-dom'
 import { Button } from '@src/component/Button'
 import { NavDiv } from '@src/component/NavDiv'
 import { Select } from '@src/component/Select'
 import { ChevronDown } from '@src/component/Icons'
 import { Tooltip } from '@src/component/Tooltip'
-
-const RenderResize = (props: React.HTMLAttributes<HTMLDivElement>) => {
-  const [windowSize, setWindowSize] = useState(Date.now())
-
-  useEffect(() => {
-    const handleResize = _.debounce(() => {
-      setWindowSize(Date.now())
-    }, 300) // 300ms 防抖
-
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  return <div {...props} key={`render-${windowSize}`} />
-}
+import { SecondaryDiv } from '@src/component/SecondaryDiv'
 
 function Terminal() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const { onClickStart, onClickClose, bot, state, platforms } = useBotController()
   const log = useSelector((state: RootState) => state.log)
   const modules = useSelector((state: RootState) => state.modules)
   const dispatch = useDispatch()
   const [platform, setPlatform] = state
-
   const [terminalRef, terminalInstance] = useTerminal()
-
   const notification = useNotification()
 
   useEffect(() => {
@@ -66,6 +47,7 @@ function Terminal() {
     }
   }
 
+  // 删除日志
   const onClickDeleteLog = (size = 10) => {
     if (log.message.length > 0) {
       const count = log.message.length > size || size == 99 ? size : log.message.length
@@ -77,9 +59,9 @@ function Terminal() {
   }
 
   return (
-    <div className="flex flex-col shadow-md">
-      <NavDiv className="z-50 animate__animated animate__fadeIn flex flex-col border-b ">
-        <div className="flex gap-4  justify-between items-center px-2">
+    <div className="flex-1 flex flex-col shadow-md">
+      <NavDiv className="z-50  flex flex-col border-b ">
+        <div className="flex gap-4  justify-between items-center px-2 py-1">
           <div className=" flex gap-2 items-center ">
             <div>
               <Select
@@ -147,12 +129,9 @@ function Terminal() {
           </div>
         </div>
       </NavDiv>
-      <div className="z-0 duration-3000 animate__animated animate__fadeIn flex-1 flex flex-col overflow-x-auto overflow-y-hidden max-w-screen">
-        <div
-          ref={terminalRef}
-          className="flex p-4 flex-col bg-dark-secondary-bg h-[calc(100vh-3.3rem)]"
-        />
-      </div>
+      <SecondaryDiv className="flex-1 flex p-2  overflow-x-auto overflow-y-hidden">
+        <div ref={terminalRef} className="flex-1  h-[calc(100vh-5rem)] w-[calc(100vw-5rem)]" />
+      </SecondaryDiv>
     </div>
   )
 }
@@ -160,10 +139,4 @@ function Terminal() {
 /**
  * @description 机器人控制器
  */
-export default function BotLog() {
-  return (
-    <RenderResize className="flex-1">
-      <Terminal />
-    </RenderResize>
-  )
-}
+export default Terminal
