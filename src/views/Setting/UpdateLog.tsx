@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const data = [
   {
+    version: '0.2.7',
+    log: ['优化通知栏，避免频繁的和重复的通知', '优化图标']
+  },
+  {
     version: '0.2.6',
     log: ['新增“新人引导”机制', '修复控制台闪烁']
   },

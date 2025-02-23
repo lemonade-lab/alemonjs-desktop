@@ -1,5 +1,5 @@
 import { useNotification } from '@/context/Notification'
-import { Button } from '@alemonjs/react-ui'
+import { Button, SecondaryDiv } from '@alemonjs/react-ui'
 import { Input } from '@alemonjs/react-ui'
 import { PrimaryDiv } from '@alemonjs/react-ui'
 import { Select } from '@alemonjs/react-ui'
@@ -115,7 +115,7 @@ export default function YarnManage() {
 
   return (
     <div className="flex flex-1 items-center justify-center ">
-      <PrimaryDiv className="p-8 rounded-lg  shadow-inner w-full max-w-md">
+      <SecondaryDiv className="p-8 rounded-lg  shadow-inner w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">包管理器</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -149,7 +149,7 @@ export default function YarnManage() {
             执行
           </Button>
         </form>
-      </PrimaryDiv>
+      </SecondaryDiv>
     </div>
   )
 }

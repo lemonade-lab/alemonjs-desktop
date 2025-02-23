@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useRef, useEffect } from 'react'
 import Notification from '@/common/Notification'
+import _ from 'lodash'
 
 interface Notification {
   id: number
@@ -30,17 +31,29 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     stateRef.current = state
   }, [state])
 
-  const notification = (message: string, theme: 'default' | 'error' | 'warning' = 'default') => {
-    // 和最近的一次相同的通知不再显示
-    if (stateRef.current?.[stateRef.current.length - 1]?.message === message) {
-      return
-    }
-    const id = Date.now()
-    setState([...(stateRef.current ?? []), { id, message, theme }])
-    setTimeout(() => {
-      hideNotification(id)
-    }, 5000) // 5秒后自动关闭通知
-  }
+  const MAX_SIZE = 5 * 1000
+  const SIZE = 300
+
+  // 延迟通知，去掉300ms内的，避免频繁通知
+  const notification = _.debounce(
+    (message: string, theme: 'default' | 'error' | 'warning' = 'default') => {
+      const data = stateRef.current?.[stateRef.current.length - 1]
+      // 如果当前通知和上一条通知一样，不新增。
+      if (data?.message === message) {
+        return
+      }
+      const id = Date.now()
+      if (!stateRef.current) {
+        setState([{ id, message, theme }])
+      } else {
+        setState([...stateRef.current, { id, message, theme }])
+      }
+      setTimeout(() => {
+        hideNotification(id)
+      }, MAX_SIZE - SIZE) // 5秒后自动关闭通知
+    },
+    SIZE
+  )
 
   const hideNotification = (id: number) => {
     setState(stateRef.current?.filter(notification => notification.id !== id))
