@@ -68,9 +68,10 @@ export const createTerminal = () => {
   terminal.webContents.on('did-finish-load', didFinishLoadHandler)
 
   // 让所有链接都通过浏览器打开，而不是通过应用程序打开
-  terminal.webContents.setWindowOpenHandler(({ url }) => {
-    if (/http(s)?:\/\//.test(url)) {
-      shell.openExternal(url)
+  terminal.webContents.setWindowOpenHandler(data => {
+    const reg = /http(s?):\/\//
+    if (reg.test(data.url)) {
+      shell.openExternal(data.url)
     }
     return { action: 'deny' }
   })

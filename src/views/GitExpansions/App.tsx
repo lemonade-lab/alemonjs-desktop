@@ -166,7 +166,7 @@ export default function Expansions() {
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
         <div className="flex justify-between px-2 py-1">
-          <div className="text-xl">仓库列表</div>
+          <div className="">仓库列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <Select
               className="rounded-md"

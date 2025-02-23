@@ -31,8 +31,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     stateRef.current = state
   }, [state])
 
-  const MAX_SIZE = 5 * 1000
-  const SIZE = 300
+  const MAX_SIZE = 1000 * 5
+  const SIZE = 1000 * 1
 
   // 延迟通知，去掉300ms内的，避免频繁通知
   const notification = _.debounce(
@@ -50,7 +50,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
       }
       setTimeout(() => {
         hideNotification(id)
-      }, MAX_SIZE - SIZE) // 5秒后自动关闭通知
+      }, MAX_SIZE) // 5秒后自动关闭通知
     },
     SIZE
   )

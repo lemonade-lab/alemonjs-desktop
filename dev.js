@@ -1,6 +1,6 @@
 const { spawn } = require('child_process')
 const isWindows = process.platform === 'win32'
-const command = isWindows ? 'chcp 65001 vite' : 'vite'
+const command = isWindows ? 'chcp 65001 &&  vite' : 'vite'
 const child = spawn(command, {
   shell: isWindows,
   stdio: 'inherit'

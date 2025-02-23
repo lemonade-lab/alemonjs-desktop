@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 //
@@ -32,6 +32,8 @@ export default (function App() {
   const { setPopValue, closePop } = usePop()
   const modulesRef = useRef(modules)
 
+  const [step, setStep] = useState(-1)
+
   // watch
   useEffect(() => {
     // 加载css变量
@@ -46,6 +48,7 @@ export default (function App() {
         console.error(e)
       }
     })
+
     // 加载主题
     window.theme.mode().then(res => {
       if (res === 'dark') {
@@ -60,10 +63,14 @@ export default (function App() {
       const paths = res[0]
       dispatch(setPath(paths))
       if (res[1] | res[2]) {
+        setStep(2)
+        // 自定加载依赖
         window.yarn.cmds({
           type: 'install',
           value: ['install', '--ignore-warnings']
         })
+      } else {
+        setStep(1)
       }
     })
 
@@ -96,7 +103,7 @@ export default (function App() {
       notification(value)
     })
 
-    // 监听expansions消息
+    // 监听 expansions消息
     window.expansions.onMessage(data => {
       try {
         if (/^action:/.test(data.type)) {
@@ -130,7 +137,7 @@ export default (function App() {
       }
     })
 
-    // 监听expansions状态
+    // 监听 expansions状态
     window.expansions.onStatus((value: number) => {
       if (value == 0) {
         notification('扩展器已停止', 'warning')
@@ -144,12 +151,12 @@ export default (function App() {
       )
     })
 
-    // 监听log
+    // 监听 log
     window.terminal.on((message: string) => {
       dispatch(postMessage(message))
     })
 
-    // 坚挺modal
+    // 监听  modal
     window.controller.onModal((data: any) => {
       if (data.open) {
         setPopValue({
@@ -169,15 +176,23 @@ export default (function App() {
 
   useEffect(() => {
     modulesRef.current = modules
+
     // 依赖安装完成后，启动扩展器
     if (modules.nodeModulesStatus) {
       notification('依赖加载完成')
+
+      // 已经启动了
+      if (expansions.runStatus) {
+        return
+      }
+
       // 得到配置，判断是否自动启动
       window.app.getConfig('AUTO_RUN_EXTENSION').then(T => {
-        if (T) {
-          // 启动扩展器
-          window.expansions.run([])
+        if (!T) {
+          return
         }
+        // 启动扩展器
+        window.expansions.run([])
       })
     }
   }, [modules.nodeModulesStatus])
@@ -188,6 +203,14 @@ export default (function App() {
       window.expansions.postMessage({ type: 'get-expansions' })
     }
   }, [expansions.runStatus])
+
+  // 监听 command
+  const command = useSelector((state: RootState) => state.command)
+  useEffect(() => {
+    if (command.name) {
+      window.expansions.postMessage({ type: 'command', data: command.name })
+    }
+  }, [command.name])
 
   return (
     <>
@@ -202,7 +225,7 @@ export default (function App() {
           </div>
         </PrimaryDiv>
       </div>
-      <GuideMain />
+      <GuideMain stepIndex={step} />
     </>
   )
 })

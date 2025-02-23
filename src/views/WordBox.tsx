@@ -9,8 +9,10 @@ import { SecondaryDiv } from '@alemonjs/react-ui'
 import { Tooltip } from '@alemonjs/react-ui'
 import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppstoreOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import { AntdIcon } from '@/common/AntdIcon'
+import { setCommand } from '@/store/command'
 interface Sidebar {
   expansions_name: string
   name: string
@@ -19,15 +21,18 @@ interface Sidebar {
 }
 
 export default function WordBox() {
-  const app = useSelector((state: RootState) => state.app)
+  const notification = useNotification()
+  const dispatch = useDispatch()
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [inputValue, setInputValue] = useState('')
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
-  const [conmond, setCommond] = useState<Sidebar[]>([])
   const modules = useSelector((state: RootState) => state.modules)
   const expansions = useSelector((state: RootState) => state.expansions)
-  const notification = useNotification()
+  const app = useSelector((state: RootState) => state.app)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const [conmond, setCommond] = useState<Sidebar[]>([])
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
+
+  const [view, setView] = useState('')
 
   // 公共样式常量
   const onClose = () => {
@@ -63,10 +68,25 @@ export default function WordBox() {
     setCommond(commondItem)
   }, [expansions.package])
 
-  const { networkSpeed, connectionType } = useNetworkSpeed()
+  const { networkSpeed } = useNetworkSpeed()
 
   const createIconURL = (viewItem: Sidebar) => {
     return `resource://-/${app.userDataTemplatePath}/node_modules/${viewItem.expansions_name}/${viewItem.icon}`
+  }
+
+  const createIcon = (viewItem: Sidebar) => {
+    if (!viewItem.icon) return <AppstoreOutlined />
+    if (viewItem.icon.startsWith('antd.')) {
+      // 是antd的图标
+      const icon = viewItem.icon.split('.')[1]
+      return <AntdIcon className="text-xl" defaultIcon={<AppstoreOutlined />} icon={icon} />
+    }
+    return (
+      <img
+        className="size-4 rounded-md flex justify-center items-center"
+        src={createIconURL(viewItem)}
+      ></img>
+    )
   }
 
   return (
@@ -81,6 +101,19 @@ export default function WordBox() {
               type="text"
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
+              // 回车
+              onKeyUp={(e: any) => {
+                // const commands = ['open.devtools']
+                if (e.key === 'Enter') {
+                  const value = e.target.value
+
+                  // 记录当前的命令
+                  dispatch(setCommand(value))
+
+                  // 关闭下拉菜单
+                  setIsDropdownOpen(false)
+                }
+              }}
               placeholder="input command"
               className="border rounded-md min-w-72 px-2 py-1"
               aria-label="Command Input"
@@ -92,11 +125,10 @@ export default function WordBox() {
                   key={index}
                   onClick={() => {
                     if (!modules.nodeModulesStatus) return
-                    // 只负责发送消息
-                    window.expansions.postMessage({
-                      type: 'command',
-                      data: item.commond
-                    })
+
+                    // 记录当前的命令
+                    dispatch(setCommand(item.commond))
+
                     // 关闭下拉菜单
                     setIsDropdownOpen(false)
                   }}
@@ -105,13 +137,7 @@ export default function WordBox() {
                   )}
                 >
                   <div className="flex gap-2">
-                    <div className="flex items-center justify-center ">
-                      {item.icon ? (
-                        <img className="size-4 rounded-md" src={createIconURL(item)}></img>
-                      ) : (
-                        <AppstoreOutlined />
-                      )}
-                    </div>
+                    <div className="flex items-center justify-center ">{createIcon(item)}</div>
                     <div className="flex items-center justify-center ">{item.name}</div>
                   </div>
                   <div className="text-secondary-text">{item.commond}</div>
@@ -173,31 +199,33 @@ export default function WordBox() {
               // 当依赖加载完毕后再显示操作按钮
             }
             <div className="flex flex-1">
-              <Tooltip text="运行扩展器">
-                {expansions.runStatus ? (
-                  <div
-                    className=" "
-                    onClick={() => {
-                      window.expansions.close()
-                    }}
-                  >
-                    <Pause width={20} height={20} />
-                  </div>
-                ) : (
-                  <div
-                    className="steps-2 "
-                    onClick={() => {
-                      if (!modules.nodeModulesStatus) {
-                        notification('依赖未加载', 'warning')
-                        return
-                      }
-                      window.expansions.run([])
-                    }}
-                  >
-                    <Play width={20} height={20} />
-                  </div>
-                )}
-              </Tooltip>
+              <div className="steps-2 flex justify-center items-center">
+                <Tooltip text="运行扩展器">
+                  {expansions.runStatus ? (
+                    <div
+                      className=" "
+                      onClick={() => {
+                        window.expansions.close()
+                      }}
+                    >
+                      <Pause width={20} height={20} />
+                    </div>
+                  ) : (
+                    <div
+                      className=" "
+                      onClick={() => {
+                        if (!modules.nodeModulesStatus) {
+                          notification('依赖未加载', 'warning')
+                          return
+                        }
+                        window.expansions.run([])
+                      }}
+                    >
+                      <Play width={20} height={20} />
+                    </div>
+                  )}
+                </Tooltip>
+              </div>
               <div className="drag-area flex-1 "></div>
             </div>
           </div>

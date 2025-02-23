@@ -12,8 +12,7 @@ interface ShortcutMap {
 
 // 自定义快捷键
 const ShortcutMap: ShortcutMap = {
-  // 快捷键 ： 事件名称
-  F12: () => {
+  [process.platform == 'darwin' ? 'COMMAND+F12' : 'CTRL+F12']: () => {
     const allWebContents = webContents.getAllWebContents()
     // 向所有的 webContents 发送消息
     allWebContents.forEach(contents => {

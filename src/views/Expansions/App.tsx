@@ -32,9 +32,14 @@ export default function Expansions() {
     }
     const dir = app.userDataNodeModulesPath + '/' + packageName + '/README.md'
     let __logo = null
+    let __icon = null
     if (info?.alemonjs?.desktop?.logo) {
-      const __dir = info.alemonjs.desktop.logo.replace(/^\./, '').replace(/^\//, '')
-      __logo = app.userDataNodeModulesPath + '/' + packageName + '/' + __dir
+      if (info.alemonjs.desktop.logo.startsWith('antd.')) {
+        __icon = info.alemonjs.desktop.logo
+      } else {
+        const __dir = info.alemonjs.desktop.logo.replace(/^\./, '').replace(/^\//, '')
+        __logo = app.userDataNodeModulesPath + '/' + packageName + '/' + __dir
+      }
     }
     const data = {
       'name': info?.name || '',
@@ -45,7 +50,8 @@ export default function Expansions() {
       'readme': '',
       'isLink': info?.isLink || false,
       'isGit': info?.isGit || false,
-      '__logo': __logo
+      '__logo': __logo,
+      '__icon': __icon
     }
     try {
       const readme = await window.app.readFiles(dir)
@@ -67,7 +73,8 @@ export default function Expansions() {
         'dist-tags': info['dist-tags'],
         'version': info['dist-tags'].latest,
         'readme': info.readme || '',
-        '__logo_url': info?.__logo_url || null
+        '__logo_url': info?.__logo_url || null,
+        '__icon': info?.__icon || null
       }
       setPackageInfo(data)
     } catch (err) {
@@ -113,7 +120,7 @@ export default function Expansions() {
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
         <div className="flex justify-between px-2 py-1">
-          <div className="text-xl">扩展列表</div>
+          <div className="">扩展列表</div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <div onClick={onClickRefresh} className=" cursor-pointer">
               <SyncOutlined />

@@ -3,7 +3,12 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 const data = [
   {
     version: '0.2.7',
-    log: ['优化通知栏，避免频繁的和重复的通知', '优化图标']
+    log: [
+      '优化通知栏，避免频繁的和重复的通知',
+      '统一所有图标风格',
+      '支持扩展配置图标',
+      '修复侧边栏未同步command'
+    ]
   },
   {
     version: '0.2.6',

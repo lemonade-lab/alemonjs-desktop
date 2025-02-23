@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useRef, useState, useCallback, useMemo, createElement } from 'react'
 import classNames from 'classnames'
 import { RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom'
 import { SecondaryDiv } from '@alemonjs/react-ui'
 import { SidebarDiv } from '@alemonjs/react-ui'
 import { TagDiv } from '@alemonjs/react-ui'
+import { AntdIcon } from '@/common/AntdIcon'
 
 interface Sidebar {
   expansions_name: string
@@ -20,30 +21,22 @@ const createTextHtmlURL = (html: string) =>
 
 export default function Webviews() {
   const location = useLocation()
-
+  const dispatch = useDispatch()
+  const expansions = useSelector((state: RootState) => state.expansions)
   const command = useSelector((state: RootState) => state.command)
   const app = useSelector((state: RootState) => state.app)
-  const dispatch = useDispatch()
-  const [view, setView] = useState('')
-  const expansions = useSelector((state: RootState) => state.expansions)
-  const viewRef = useRef<HTMLWebViewElement>(null)
   const [viewSidebars, setViewSidebars] = useState<Sidebar[]>([])
+  const viewRef = useRef<HTMLWebViewElement>(null)
+  const [view, setView] = useState('')
 
-  const handleSidebarClick = useCallback(
-    (viewItem: Sidebar) => {
-      // 记录当前的命令
-      dispatch(setCommand(viewItem.commond))
-
-      // 应该是 viewItem
-      window.expansions.postMessage({
-        type: 'command',
-        data: viewItem.commond
-      })
-
-      //
-    },
-    [dispatch]
-  )
+  // 点击侧边栏
+  const handleSidebarClick = (viewItem: Sidebar) => {
+    if (viewItem.commond === command.name) {
+      return
+    }
+    // 记录当前的命令
+    dispatch(setCommand(viewItem.commond))
+  }
 
   useEffect(() => {
     if (location.state?.view) {
@@ -83,22 +76,49 @@ export default function Webviews() {
     }
   }, [view])
 
+  // 创建图标地址
   const createIconURL = (viewItem: Sidebar) => {
     return `resource://-/${app.userDataTemplatePath}/node_modules/${viewItem.expansions_name}/${viewItem.icon}`
+  }
+
+  const createIcon = (viewItem: Sidebar) => {
+    if (!viewItem.icon) return viewItem.name
+    if (viewItem.icon.startsWith('antd.')) {
+      // 是antd的图标
+      const icon = viewItem.icon.split('.')[1]
+      return <AntdIcon className="text-4xl" defaultIcon={viewItem.name} icon={icon} />
+    }
+    return (
+      <img
+        className="size-12 flex justify-center items-center rounded-md"
+        src={createIconURL(viewItem)}
+      ></img>
+    )
   }
 
   return (
     <section className=" flex flex-col flex-1 shadow-md">
       <div className="flex flex-1">
         <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1 ">
-          {view ? (
+          {/* { (
+            <div className="flex-1 flex justify-center items-center">
+              <div className="flex-col flex justify-center items-center">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-bg">
+                  <LoadingOutlined />
+                </div>
+                <div className="mt-2">加载中...</div>
+              </div>
+            </div>
+          )} */}
+          {view && (
             <webview
               ref={viewRef}
               preload={`file://${app.preloadPath}/webview.js`}
               src={createTextHtmlURL(view)}
               className="w-full h-full"
             />
-          ) : (
+          )}
+          {!view && (
             <div className="flex-1 flex justify-center items-center">
               <div className="flex-col flex justify-center items-center">
                 {viewSidebars.length === 0
@@ -124,11 +144,7 @@ export default function Webviews() {
                     { 'bg-secondary-bg': viewItem.commond === command.name }
                   )}
                 >
-                  {viewItem.icon ? (
-                    <img className="size-10 rounded-md" src={createIconURL(viewItem)}></img>
-                  ) : (
-                    viewItem.name
-                  )}
+                  {createIcon(viewItem)}
                 </TagDiv>
               ))}
           </div>

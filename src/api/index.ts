@@ -46,12 +46,17 @@ export const fetchPackageInfo = async (packageName: string) => {
   })
   const pkg = await axios.get(pkgURL).then(res => res.data)
   let __logo_url = null
+  let __icon = null
   if (pkg?.alemonjs?.desktop?.logo) {
-    __logo_url = createNPMJSURL({
-      name: packageName,
-      version: version,
-      path: pkg.alemonjs.desktop.logo
-    })
+    if (pkg.alemonjs.desktop.logo.startsWith('antd.')) {
+      __icon = pkg.alemonjs.desktop.logo
+    } else {
+      __logo_url = createNPMJSURL({
+        name: packageName,
+        version: version,
+        path: pkg.alemonjs.desktop.logo
+      })
+    }
   }
   const versions = Object.keys(response.versions)
   const data = {
@@ -62,6 +67,7 @@ export const fetchPackageInfo = async (packageName: string) => {
     'version': response['dist-tags'].latest,
     'readme': response.readme || '',
     '__logo_url': __logo_url,
+    '__icon': __icon,
     versions
   }
   console.log('response', response)

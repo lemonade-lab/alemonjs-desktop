@@ -1,7 +1,6 @@
 import { useNotification } from '@/context/Notification'
-import { Button, SecondaryDiv } from '@alemonjs/react-ui'
+import { Button } from '@alemonjs/react-ui'
 import { Input } from '@alemonjs/react-ui'
-import { PrimaryDiv } from '@alemonjs/react-ui'
 import { Select } from '@alemonjs/react-ui'
 import { useEffect, useRef, useState } from 'react'
 
@@ -13,17 +12,7 @@ export default function YarnManage() {
 
   const noValueSelect = ['install', 'list']
 
-  const selects = [
-    'add',
-    'remove',
-    'link',
-    'unlink',
-    // 'upgrade',
-    // 'global add',
-    // 'global remove',
-    // 'info',
-    ...noValueSelect
-  ]
+  const selects = ['add', 'remove', 'link', 'unlink', ...noValueSelect]
 
   const [value, setValue] = useState(selects[0])
 
@@ -54,7 +43,10 @@ export default function YarnManage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     //
-    if (submit) return
+    if (submit) {
+      notification('正在执行中，请稍后', 'warning')
+      return
+    }
 
     if (!value) return
 
@@ -93,29 +85,38 @@ export default function YarnManage() {
   }, [value, inputValue])
 
   useEffect(() => {
+    // 监听 yarn 命令
     window.yarn.on(data => {
       if (!data || !data.type || data.type != 'cmd') return
+
       //  结束加载状态
       setSubmit(false)
+
       const value = data.value
       if (value == 0) {
         notification(`yarn ${fromNameRef.current} 失败`, 'warning')
-      } else {
-        notification(`yarn ${fromNameRef.current} 完成`)
-        // 匹配到有关更改包的都重新获取扩展列表。
-        if (fromNameRef.current.match(/(add|remove|link|unlink)/)) {
-          window.expansions.postMessage({
-            type: 'get-expansions',
-            data: {}
-          })
-        }
+        return
       }
+
+      // 成功
+      notification(`yarn ${fromNameRef.current} 完成`)
+
+      // 匹配到有关更改包的都重新获取扩展列表。
+      if (!fromNameRef.current.match(/(add|remove|link|unlink)/)) {
+        return
+      }
+
+      // 重新获取扩展列表
+      window.expansions.postMessage({
+        type: 'get-expansions',
+        data: {}
+      })
     })
   }, [])
 
   return (
     <div className="flex flex-1 items-center justify-center ">
-      <SecondaryDiv className="p-8 rounded-lg  shadow-inner w-full max-w-md">
+      <div className="p-8 rounded-lg  w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">包管理器</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -149,7 +150,7 @@ export default function YarnManage() {
             执行
           </Button>
         </form>
-      </SecondaryDiv>
+      </div>
     </div>
   )
 }

@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
+
 // 引导
 const KEY = 'FIRST_GUIDE'
+// 条件
+const KEY_DATA = '2'
+
 // 定义引导步骤
 const steps = [
   {
@@ -13,7 +17,7 @@ const steps = [
   {
     target: '.steps-2',
     content:
-      '这是“运行扩展器”按钮。仅有在依赖完成后可运行的按钮，运行后，可使用“扩展市场”和“应用列表”。'
+      '这是“扩展器运行和暂停”按钮。仅有在依赖完成后可运行的按钮，运行后，可使用“扩展市场”和“应用列表”。'
   },
   {
     target: '.steps-3',
@@ -42,30 +46,37 @@ const steps = [
   }
 ]
 
-export default function GuideMain() {
-  const [run, setRun] = useState(false)
+export default function GuideMain({ stepIndex }: { stepIndex: number }) {
+  const [step, setSetp] = useState(-1)
+
   // 引导回调函数
   const handleJoyrideCallback = (data: { action: string; index: number; type: string }) => {
     console.log('Joyride:', data)
     if (data.action == 'skip' && data.type == 'tour:end') {
       console.log('跳过')
-      localStorage.setItem(KEY, '1')
+      localStorage.setItem(KEY, KEY_DATA)
     }
   }
   useEffect(() => {
-    const guide = localStorage.getItem(KEY)
-    if (!guide || (guide && guide != '1')) {
-      setRun(true)
+    if (stepIndex == -1) {
+      return
     }
-  }, [])
+    const guide = localStorage.getItem(KEY)
+    if (!guide || (guide && guide != KEY_DATA)) {
+      setSetp(stepIndex)
+    }
+  }, [stepIndex])
   return (
     <Joyride
-      steps={steps} // 引导步骤
-      run={run} // 是否运行引导
+      steps={step == -1 ? [] : steps.slice(step - 1, steps.length)} // 引导步骤
+      run={step == -1 ? false : true} // 是否运行引导
       callback={handleJoyrideCallback} // 回调函数
       continuous={true} // 是否连续显示步骤（显示“Next”按钮）
-      showProgress={true} // 显示进度条
+      showProgress={false} // 显示进度条
       showSkipButton={true} // 显示跳过按钮
+      locale={{
+        skip: '不再显示'
+      }}
       styles={{
         options: {
           zIndex: 1000 // 设置 z-index

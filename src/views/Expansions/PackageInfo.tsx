@@ -8,6 +8,7 @@ import { fetchPackageInfo } from '../../api'
 import { addPackage, putPackage } from '@/store/expansions'
 import { Select } from '@alemonjs/react-ui'
 import { DownloadOutlined, SyncOutlined, UploadOutlined } from '@ant-design/icons'
+import { AntdIcon } from '@/common/AntdIcon'
 
 export type PackageInfoType = {
   [key: string]: any
@@ -26,6 +27,7 @@ export type PackageInfoType = {
   'readme': string
   '__logo'?: string | null
   '__logo_url'?: string | null
+  '__icon'?: string | null
 }
 
 export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoType }) {
@@ -225,16 +227,6 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
     })
   }, [])
 
-  /**
-   *
-   * @param item
-   * @returns
-   */
-  const getURL = (item: any) => {
-    if (item['__logo_url']) return item['__logo_url']
-    return item['__logo'] ? `resource://-/${item['__logo']}` : logoURL
-  }
-
   const loadVersion: MouseEventHandler<HTMLSelectElement> = async e => {
     e.stopPropagation()
     if (options.length > 1) return
@@ -275,6 +267,34 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
     })
   }
 
+  /**
+   *
+   * @param pkgInfo
+   * @returns
+   */
+  const createIcon = (pkgInfo: PackageInfoType) => {
+    let url = null
+    if (pkgInfo['__logo_url']) {
+      url = pkgInfo['__logo_url']
+    } else if (pkgInfo['__logo']) {
+      url = `resource://-/${pkgInfo['__logo']}`
+    } else {
+      url = logoURL
+    }
+    const defaultIcon = (
+      <img src={url} alt={`${pkgInfo.name} logo`} className="size-20  rounded-md" />
+    )
+    if (!pkgInfo['__icon']) return defaultIcon
+    const icon = pkgInfo['__icon'].split('.')[1]
+    return (
+      <AntdIcon
+        className="size-20 flex justify-center items-center text-8xl"
+        defaultIcon={defaultIcon}
+        icon={icon}
+      />
+    )
+  }
+
   return (
     <div className=" select-text">
       <div
@@ -282,9 +302,7 @@ export default function PackageInfo({ packageInfo }: { packageInfo: PackageInfoT
            border-secondary-border
            dark:border-dark-secondary-border"
       >
-        <div className="flex items-center justify-center">
-          <img src={getURL(pkgInfo)} alt={`${pkgInfo.name} logo`} className="size-20 rounded-md" />
-        </div>
+        <div className="flex items-center justify-center">{createIcon(pkgInfo)}</div>
         <div className="flex-1 flex flex-col gap-1">
           <div className="flex justify-between">
             <div className="text-xl flex gap-2 text-secondary-text">
