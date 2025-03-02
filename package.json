@@ -1,6 +1,6 @@
 {
   "name": "alemonjs-desktop",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "main": "dist-electron/main/index.js",
   "description": "AlemonJS Framework Desktop.",
   "license": "MIT",
@@ -10,12 +10,12 @@
     "url": "https://github.com/ningmengchongshui"
   },
   "scripts": {
-    "dev": "node dev.js",
-    "bundle": "node bundle.js",
-    "build:vite": "vite build",
-    "build": "tsc && vite build && electron-builder --config electron-builder.cjs",
-    "pree2e": "vite build --mode=test",
-    "e2e": "playwright test",
+    "dev": "yarn build-icon && node dev.js",
+    "build-icon": "electron-icon-builder --input=./src/assets/logo_white.png --output=./ --flatten",
+    "build-template": "yarn --cwd resources/template install",
+    "build-app": "electron-builder --config electron-builder.cjs",
+    "build-web": "tsc && vite build",
+    "build": "yarn build-icon && yarn build-template && yarn build-web && yarn build-app",
     "format": "prettier --write .",
     "check-format": "git diff --exit-code",
     "prepare": "husky"
@@ -85,9 +85,5 @@
     "xterm-addon-serialize": "^0.11.0",
     "xterm-addon-unicode11": "^0.6.0",
     "xterm-addon-web-links": "^0.9.0"
-  },
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }

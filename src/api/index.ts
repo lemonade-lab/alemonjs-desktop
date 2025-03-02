@@ -9,7 +9,6 @@ export function isGitRepositoryFormat(url: string) {
   return true
 }
 
-//
 export const createNPMJSURL = ({
   name,
   version,
@@ -25,18 +24,13 @@ export const createNPMJSURL = ({
 }
 
 /**
- *
+ * 获取包信息
  * @param packageName
  * @returns
  */
 export const fetchPackageInfo = async (packageName: string) => {
   const response = await axios
-    .get(`https://registry.npmjs.org/${packageName}`, {
-      headers: {
-        // 'Cache-Control': 'max-age=3600'
-        // 'If-None-Match': ''
-      }
-    })
+    .get(`https://registry.npmmirror.com/${packageName}`)
     .then(res => res.data)
   const version = response['dist-tags'].latest
   const pkgURL = createNPMJSURL({
@@ -74,6 +68,7 @@ export const fetchPackageInfo = async (packageName: string) => {
   return data
 }
 
+// 获取包的版本信息
 export const extractRepoInfo = (url: string) => {
   // 匹配 HTTPS 或 HTTP 格式的 URL
   const httpsRegex = /(?:https?:\/\/)?(?:www\.)?([^\/]+)\/([^\/]+)\/([^\/]+)(?:\.git)?$/
@@ -90,6 +85,7 @@ export const extractRepoInfo = (url: string) => {
   throw new Error('Invalid repository URL')
 }
 
+// 获取仓库的分支信息
 export const fetchGitHubBranches = async (username: string, repository: string) => {
   try {
     const response = await axios.get(
@@ -113,12 +109,13 @@ export const fetchGitHubBranches = async (username: string, repository: string) 
   }
 }
 
+// 获取仓库的标签信息
 export const getPackages = async () => {
   return await axios
-    .get('https://registry.npmjs.org/-/v1/search', {
+    .get('https://registry.npmmirror.com/-/v1/search', {
       params: {
-        text: 'alemonjs',
-        size: 50 // 设置要返回的包数量
+        text: 'alemonjs'
+        // size: 50
       }
     })
     .then(res => res.data)

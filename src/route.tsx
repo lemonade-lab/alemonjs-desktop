@@ -5,15 +5,13 @@ import Application from '@/views/Application/App'
 import BotLog from '@/views/BotLog/App'
 import Expansions from '@/views/Expansions/App'
 import GitExpansions from '@/views/GitExpansions/App'
-import YarnManage from '@/views/Setting/YarnManage'
 import Common from '@/views/Setting/Common'
 import Theme from '@/views/Setting/Theme'
 import UpdateLog from '@/views/Setting/UpdateLog'
-import Npmrc from '@/views/Setting/Npmrc'
 import About from '@/views/Setting/About'
-
 import WindowBotLog from '@/pages/terminal/BotLog'
 import WindowApp from '@/pages/terminal/App'
+import Template from './views/Template/App'
 
 const router = createHashRouter([
   {
@@ -58,12 +56,8 @@ const router = createHashRouter([
         element: <UpdateLog />
       },
       {
-        path: 'npmrc',
-        element: <Npmrc />
-      },
-      {
-        path: 'yarn-manage',
-        element: <YarnManage />
+        path: 'template',
+        element: <Template />
       },
       {
         path: 'about',

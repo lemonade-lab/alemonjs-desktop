@@ -17,8 +17,6 @@ nvm use 22
 npm install yarn@1.19.1 -g
 # 安装所有依赖
 yarn install
-# 生产捆绑资源
-yarn bundle
 ```
 
 - 开发

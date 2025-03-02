@@ -77,6 +77,11 @@ const Common = () => {
     initUpdate()
   }, [])
 
+  // 按键
+  const getKeys = () => {
+    return window.versions.platform == 'darwin' ? 'command' : 'ctrl'
+  }
+
   return (
     <div className="animate__animated animate__fadeIn flex-1 flex-col flex">
       <div className="flex-col gap-2 flex-1 flex p-6 ">
@@ -218,7 +223,7 @@ const Common = () => {
                   title: '放大窗口',
                   children: (
                     <div className="flex gap-1">
-                      <div className="border px-2 rounded-md">ctrl/command</div>
+                      <div className="border px-2 rounded-md">{getKeys()}</div>
                       <div className="border px-2 rounded-md">++</div>
                     </div>
                   )
@@ -227,7 +232,7 @@ const Common = () => {
                   title: '缩小窗口',
                   children: (
                     <div className="flex gap-1">
-                      <div className="border px-2 rounded-md">ctrl/command</div>
+                      <div className="border px-2 rounded-md">{getKeys()}</div>
                       <div className="border px-2 rounded-md">--</div>
                     </div>
                   )
@@ -236,6 +241,7 @@ const Common = () => {
                   title: '开发者工具',
                   children: (
                     <div className="flex gap-1">
+                      <div className="border px-2 rounded-md">{getKeys()}</div>
                       <div className="border px-2 rounded-md">F12</div>
                     </div>
                   )

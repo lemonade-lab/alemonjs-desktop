@@ -6,16 +6,27 @@ import Code from '@/common/CodeMirror'
 import { Button } from '@alemonjs/react-ui'
 import { PrimaryDiv } from '@alemonjs/react-ui'
 import { SecondaryDiv } from '@alemonjs/react-ui'
-export default function Npmrc() {
+import { UnControlled as CodeMirror } from 'react-codemirror2'
+type EditFileProps = {
+  title: string
+  dir: string
+  mode?: CodeMirror['props']['options']['mode']
+}
+
+/**
+ *
+ * @returns
+ */
+export default function EditFile({ title, dir, mode }: EditFileProps) {
   const app = useSelector((state: RootState) => state.app)
   const [value, setValue] = useState(``)
   const notification = useNotification()
   const [initValue, setInitValue] = useState('')
+  // 保存
   const onClickSave = async () => {
-    const dir = app.userDataTemplatePath + '/.npmrc'
     const isDir = await window.app.exists(dir)
     if (!isDir) {
-      notification('.npmrc不存在')
+      notification(title + '不存在')
       return
     }
     // 保存数据。
@@ -26,11 +37,11 @@ export default function Npmrc() {
       notification('保存失败', 'error')
     }
   }
+  // 初始化数据
   const initData = async () => {
-    const dir = app.userDataTemplatePath + '/.npmrc'
     const isDir = await window.app.exists(dir)
     if (!isDir) {
-      notification('.npmrc不存在')
+      notification(title + '不存在')
       return
     }
     const data = await window.app.readFiles(dir)
@@ -40,17 +51,22 @@ export default function Npmrc() {
       setInitValue(data)
     }
   }
+  // 放弃
+  const onGiveUp = () => {
+    setValue(initValue)
+  }
+  // 修改
+  const onChange = (value: string) => {
+    setValue(value)
+  }
   useEffect(() => {
     initData()
   }, [])
   return (
     <div className="flex-1 flex flex-col h-full">
-      {/* <PrimaryDiv> */}
-
-      {/* </PrimaryDiv> */}
       <SecondaryDiv className=" flex justify-between items-center  px-2">
         <div className="flex gap-2">
-          <div className="px-1 py-1">.npmrc</div>
+          <div className="px-1 py-1">{title}</div>
         </div>
         <div className="flex  gap-4 items-center">
           {value != initValue && (
@@ -59,13 +75,7 @@ export default function Npmrc() {
                 type="button"
                 className="border px-2 rounded-md  duration-700 transition-all  "
               >
-                <span
-                  onClick={() => {
-                    setValue(initValue)
-                  }}
-                >
-                  放弃
-                </span>
+                <span onClick={onGiveUp}>放弃</span>
               </Button>
               <Button
                 type="button"
@@ -77,14 +87,8 @@ export default function Npmrc() {
           )}
         </div>
       </SecondaryDiv>
-      <PrimaryDiv className=" flex flex-col h-[calc(100vh-3.6rem)] overflow-y-auto ">
-        <Code
-          value={value}
-          theme="solarized"
-          onChange={(editor, data, value) => {
-            setValue(value)
-          }}
-        />
+      <PrimaryDiv className=" flex flex-col h-[calc(100vh-3.6rem)] w-[calc(100vw-21.7rem)] overflow-auto  ">
+        <Code mode={mode} value={value} onChange={(editor, data, value) => onChange(value)} />
       </PrimaryDiv>
     </div>
   )

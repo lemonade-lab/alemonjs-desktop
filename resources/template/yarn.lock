@@ -2,25 +2,25 @@
 # yarn lockfile v1
 
 
-"@alemonjs/db@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmmirror.com/@alemonjs/db/-/db-0.0.3.tgz#be3890b1834a72fc717699c6a937153dd8274288"
-  integrity sha512-HexjJBcN1uDAMYtpOlxkQiW5hU75Nyz/WtCb33kmP88AwqvYSQLNJwrNbPk1MgU+w3SQLD4j3ojlKuxZmAA4Eg==
+"@alemonjs/db@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmmirror.com/@alemonjs/db/-/db-0.0.5.tgz#bf7b09bf62eed9e9d347811b603f0b3cecaca359"
+  integrity sha512-305a9uwNs7GukqPEEuMeIf3JWWRYvbDI/P54RdQECaIKbbwsmjwOb2iE8f6IkcgtVs9EW+VvuDx9022lKcENtA==
   dependencies:
     dayjs "^1.11.13"
     ioredis "^5.4.1"
     mysql2 "^3.6.2"
     sequelize "^6.33.0"
 
-"@alemonjs/discord@0.2.6":
-  version "0.2.6"
-  resolved "https://registry.npmmirror.com/@alemonjs/discord/-/discord-0.2.6.tgz#0655974cac072904a22a2ce8a78c44a2d6404c84"
-  integrity sha512-fL63oKMYpxVBunlm1YMpNOelFcOym7YVhCFg3R0HoqVmqcjeKMgGiNWMpHOQlfO1UWSRrBSf2/MX0ijHqOlEYw==
+"@alemonjs/discord@0.2.7":
+  version "0.2.7"
+  resolved "https://registry.npmmirror.com/@alemonjs/discord/-/discord-0.2.7.tgz#f7f40307296772a03302405819a4601a55796a66"
+  integrity sha512-KJ39gJ9qtwJB4UQsxtUYYu47iVHt1HcnuhWuy8ywRh6+/ncBQrqwyOZV8GveVNOyWQCWt/1f3iWZbyJCWqOzgA==
 
-"@alemonjs/gui@0.3.5":
-  version "0.3.5"
-  resolved "https://registry.npmmirror.com/@alemonjs/gui/-/gui-0.3.5.tgz#a4c22f470051484e194c4b2e499de429813e4090"
-  integrity sha512-OR8+FNWIhpEuCt8bioDKy4ykwC8SVbl89f2HuzB8vFZovt60QdPZ+Aahc8mcu4hvRCrP+wspL6VbVJSIWyBUPQ==
+"@alemonjs/gui@0.3.7":
+  version "0.3.7"
+  resolved "https://registry.npmmirror.com/@alemonjs/gui/-/gui-0.3.7.tgz#79ab032db03bdd34962f130aaddd20ed347994a1"
+  integrity sha512-ljYNXR8NutyzQH6L7zCGl2Z+s9JbJcjMYyzgfO4qj6ZiW+XeDHmpRBy+k85Jnh9elr5rP4TwU47D6jNP+MWd7g==
   dependencies:
     dayjs "^1.11.13"
     koa "^2.15.3"
@@ -30,22 +30,22 @@
     koa-static "^5.0.0"
     ws "^8.18.0"
 
-"@alemonjs/kook@0.2.6":
-  version "0.2.6"
-  resolved "https://registry.npmmirror.com/@alemonjs/kook/-/kook-0.2.6.tgz#d594636d25c9a4dca13e3462bdd8161696942b8e"
-  integrity sha512-+YBsDDi1PBa7LqGz3DnTlLG0vnoBmR1xLd5aJ0d7RmthLLxv1YajhKaLu9NvQWrk45t9W3HCZ2fgE1k/KexExA==
+"@alemonjs/kook@0.2.7":
+  version "0.2.7"
+  resolved "https://registry.npmmirror.com/@alemonjs/kook/-/kook-0.2.7.tgz#77985052c1cd2c7830a47fe34a0952b44d84415d"
+  integrity sha512-2/Sc7dGNvqcgIdiT2N2p6WwXUwolotHq0nTPHEXvXL8EzOU0iEtx4V+3dZP2EK/pPCf2R2Po+WwCqHqdTy1sFw==
 
-"@alemonjs/process@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.npmmirror.com/@alemonjs/process/-/process-0.0.5.tgz#c45abee7da234f5d81277360049b2efc5e3e7d34"
-  integrity sha512-YJ9gJr7WJlqtcTztWvDgTYtGiASOqwDRmlQS4Pdbvtg5x8goA1Pf1wOL+fpIfVm4bb4pat3PKsFUTPAZOQMolA==
+"@alemonjs/process@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npmmirror.com/@alemonjs/process/-/process-0.0.7.tgz#e0d0834f31f236a323a4be28eab66a088471552e"
+  integrity sha512-zuhq7olISaUXzPhlmZw6pynf6NcVkvaGcgAYPFGK/bOYtMdsNtieH3AXNhafKnak2Sy3nYKfg/NO1Badna67Xg==
   dependencies:
     simple-git "3.27.0"
 
-"@alemonjs/qq-bot@0.0.13":
-  version "0.0.13"
-  resolved "https://registry.npmmirror.com/@alemonjs/qq-bot/-/qq-bot-0.0.13.tgz#605bb0ba7c6d414f58a7a9f7115f3fac339e2422"
-  integrity sha512-T2/yC/0CV7eYkwf7OwiPpg4LZUH/l0AgdkesxuNA3kaTlizx51vnK0pk/MbX3FEcTo1pX/TG1ImgWRphUpI0SA==
+"@alemonjs/qq-bot@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.npmmirror.com/@alemonjs/qq-bot/-/qq-bot-0.0.16.tgz#866b326f989c8e288fb352897c9fbb6ef72c4c64"
+  integrity sha512-2tTmWOi2eBWh5v8aBqL/DdmPjycfRBm3RfjqbUt2T8RJnAFOJ/OOAtN3kHoloPLRheYPJIr4mK1rBvdWdGGY8w==
   dependencies:
     "@noble/curves" "^1.7.0"
     axios "^1.4.0"
@@ -670,10 +670,10 @@ aggregate-error@^4.0.1:
     clean-stack "^4.0.0"
     indent-string "^5.0.0"
 
-alemonjs@2.0.0-rc.93:
-  version "2.0.0-rc.93"
-  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.93.tgz#51472791c964230b7b289e147b6a3b39b3b22294"
-  integrity sha512-74GzOETaTz0Kr9OQ++gWPaZUsElOomxBvmmUd4pppcXnLFlazvWVG3xEaDxaU8qvDWBPZVslijGfj2FEwXovJA==
+alemonjs@2.0.0-rc.94:
+  version "2.0.0-rc.94"
+  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.94.tgz#e04dc955bd0cf97a2e1475e46bf95d92c97c0ef1"
+  integrity sha512-X0Zv4flFmSRECNFO2IKaFr+H6EqzUmyJcILQYL9XGbXSLYhUodaXvJHfa4Mg97zSLGhBLa3LT8iniLH/UOa9iA==
   dependencies:
     chalk "^5.3.0"
     log4js "^6.9.1"

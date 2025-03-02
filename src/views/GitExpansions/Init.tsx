@@ -1,4 +1,4 @@
-export const Init = () => {
+const Init = () => {
   return (
     <div className="flex flex-col flex-1 justify-center items-center p-4">
       <div className="flex flex-col flex-1 justify-center items-center">
@@ -10,3 +10,4 @@ export const Init = () => {
     </div>
   )
 }
+export default Init

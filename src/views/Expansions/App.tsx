@@ -9,7 +9,7 @@ import { Input } from '@alemonjs/react-ui'
 import { fetchPackageInfo, getPackages } from '@/api'
 import PackageInfo, { PackageInfoType } from './PackageInfo'
 import ExpansionsCard from './ExpansionsCard'
-import { Init } from './Component'
+import Init from './Init'
 import { SyncOutlined } from '@ant-design/icons'
 
 export default function Expansions() {
@@ -120,7 +120,9 @@ export default function Expansions() {
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
         <div className="flex justify-between px-2 py-1">
-          <div className="">扩展列表</div>
+          <div className=" cursor-pointer" onClick={() => setSelect('')}>
+            扩展列表
+          </div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <div onClick={onClickRefresh} className=" cursor-pointer">
               <SyncOutlined />

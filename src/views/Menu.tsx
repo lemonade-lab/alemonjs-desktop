@@ -67,19 +67,13 @@ const MenuButton = () => {
       }
     },
     {
-      children: 'yarn',
+      children: '模板',
       onClick: () => {
-        navigate('/yarn-manage')
+        navigate('/template')
       }
     },
     {
-      children: 'npmrc',
-      onClick: () => {
-        navigate('/npmrc')
-      }
-    },
-    {
-      children: 'about',
+      children: '关于',
       onClick: () => {
         navigate('/about')
       }

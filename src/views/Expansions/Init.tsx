@@ -10,3 +10,5 @@ export const Init = () => {
     </div>
   )
 }
+
+export default Init

@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const data = [
   {
+    version: '0.2.8',
+    log: ['资源镜像更改为npmmirror', '优化快捷键提示', '升级内置机器人版本', '支持编辑模板文件']
+  },
+  {
     version: '0.2.7',
     log: [
       '优化通知栏，避免频繁的和重复的通知',
@@ -186,7 +190,7 @@ const UpdateLog = () => {
           >
             <div>更新记录</div>
           </div>
-          <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-y-auto scrollba">
+          <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-auto scrollba">
             <div className="flex  flex-col flex-1 overflow-auto h-[calc(100vh-2.4rem)] scrollbar gap-6 py-4 rounded-lg  ">
               {data.map((item, index) => (
                 <div key={index}>

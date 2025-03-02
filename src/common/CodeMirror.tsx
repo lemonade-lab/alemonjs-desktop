@@ -1,16 +1,24 @@
 import { UnControlled as CodeMirror } from 'react-codemirror2'
+// 脚本
 import 'codemirror/lib/codemirror.js'
-import 'codemirror/mode/properties/properties.js'
+// 样式
 import 'codemirror/lib/codemirror.css'
+// 模型
+import 'codemirror/mode/properties/properties.js'
+// josn
+import 'codemirror/mode/javascript/javascript.js'
+// 主题
 import 'codemirror/theme/solarized.css'
 import 'codemirror/theme/xq-light.css'
+// 样式修改
 import '@/assets/css/CodeMirror.css'
 import { useEffect, useState } from 'react'
 
 type CodeMirrorProps = {
-  value: string
-  onChange: (editor: any, data: string, value: string) => void
-  theme?: string
+  value: CodeMirror['props']['value']
+  onChange?: CodeMirror['props']['onChange']
+  mode?: CodeMirror['props']['options']['mode']
+  onBeforeChange?: CodeMirror['props']['onBeforeChange']
 }
 
 /**
@@ -19,8 +27,10 @@ type CodeMirrorProps = {
  * @returns
  */
 export default function Code(props: CodeMirrorProps) {
-  const [theme, setTheme] = useState('xq-light')
+  const { value, mode, onChange, onBeforeChange } = props
+  const [themex, setTheme] = useState('xq-light')
   useEffect(() => {
+    // 监听主题变化
     window.theme.mode().then(res => {
       if (res === 'dark') {
         setTheme('solarized')
@@ -28,6 +38,7 @@ export default function Code(props: CodeMirrorProps) {
         setTheme('xq-light')
       }
     })
+    // 监听 html class 变化
     const observer = new MutationObserver(mutationsList => {
       for (const mutation of mutationsList) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
@@ -40,11 +51,13 @@ export default function Code(props: CodeMirrorProps) {
         }
       }
     })
+    // 开始监听
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']
     })
     return () => {
+      // 停止监听
       observer.disconnect()
     }
   }, [])
@@ -52,11 +65,19 @@ export default function Code(props: CodeMirrorProps) {
     <CodeMirror
       className="flex-1 size-full"
       options={{
-        mode: 'text/x-properties',
-        theme: theme,
-        lineNumbers: true
+        mode: mode ?? 'text/x-properties',
+        theme: themex,
+        lineNumbers: true // 显示行号
+        // indentUnit: 2, // 缩进单位
+        // smartIndent: true, // 智能缩进
+        // foldGutter: true, // 启用代码折叠
+        // autoCloseBrackets: true, // 自动闭合括号
+        // gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'], // 行号和折叠槽
+        // matchBrackets: true // 高亮匹配的括号
       }}
-      {...props}
+      value={value}
+      onChange={onChange}
+      onBeforeChange={onBeforeChange}
     />
   )
 }

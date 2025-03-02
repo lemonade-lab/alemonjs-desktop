@@ -16,6 +16,8 @@ export type NavigatePath =
   | '/npmrc'
   | '/yarn-manage'
   | '/about'
+  | '/pkg'
+  | '/template'
 
 // 能放行的路径
 const passPath: NavigatePath[] = [
@@ -26,7 +28,9 @@ const passPath: NavigatePath[] = [
   '/log',
   '/npmrc',
   '/about',
-  '/git-expansions'
+  '/git-expansions',
+  '/pkg',
+  '/template'
 ]
 
 // 需要启动扩展器的路径

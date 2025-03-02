@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Init } from './Component'
+import Init from './Init'
 import { SecondaryDiv } from '@alemonjs/react-ui'
 import { SidebarDiv } from '@alemonjs/react-ui'
 import { Input } from '@alemonjs/react-ui'
@@ -166,7 +166,9 @@ export default function Expansions() {
       </SecondaryDiv>
       <SidebarDiv className="animate__animated animate__fadeInRight duration-500 flex flex-col  w-72 xl:w-80 border-l h-full">
         <div className="flex justify-between px-2 py-1">
-          <div className="">仓库列表</div>
+          <div className=" cursor-pointer" onClick={() => setSelect('')}>
+            仓库列表
+          </div>
           <div className="text-[0.7rem] flex gap-2 items-center justify-center ">
             <Select
               className="rounded-md"

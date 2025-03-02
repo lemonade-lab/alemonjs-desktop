@@ -72,7 +72,7 @@ function BotTerminal({
           <div className="flex items-center gap-2">{headerRight}</div>
         </div>
       </NavDiv>
-      <SecondaryDiv className="flex-1 flex p-2  overflow-x-auto overflow-y-hidden">
+      <SecondaryDiv className="flex-1 flex p-2  overflow-auto overflow-y-hidden">
         <div ref={terminalRef} className="flex-1  h-[calc(100vh-5rem)] w-[calc(100vw-5rem)]" />
       </SecondaryDiv>
     </div>

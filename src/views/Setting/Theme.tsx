@@ -112,7 +112,7 @@ const Theme = () => {
               <Switch value={isDark} onChange={onChangeDesktop} />
             </div>
           </div>
-          <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-y-auto scrollba">
+          <div className="flex flex-col gap-4 h-[calc(100vh-11rem)] overflow-auto scrollba">
             {isDark
               ? data
                   .filter(item => /dark/.test(item.name))
