@@ -1,5 +1,18 @@
 import axios from 'axios'
 
+const KEY = 'alemonjs'
+
+// https://registry.npmmirror.com
+// https://registry.npmjs.org
+const BASE_URL = 'https://registry.npmmirror.com'
+const BASE_URL2 = 'https://registry.npmjs.org'
+
+// `https://cdn.npmmirror.com/packages/${name}/${version}/${pathName}`
+//`https://unpkg.com/${name}@${version}/${pathName}`
+const FILE_URL = 'https://cdn.npmmirror.com/packages'
+
+const HUB_URL = 'https://api.github.com/repos'
+
 // 判断一个 URL 是否是 Git 仓库 格式
 export function isGitRepositoryFormat(url: string) {
   if (!/^(https:\/\/|git@).*\.git$/.test(url)) {
@@ -9,6 +22,7 @@ export function isGitRepositoryFormat(url: string) {
   return true
 }
 
+// 创建 npmjs的链接
 export const createNPMJSURL = ({
   name,
   version,
@@ -20,7 +34,7 @@ export const createNPMJSURL = ({
 }) => {
   // 可能是  ./xx  /xx
   const pathName = path.replace(/^\./, '').replace(/^\//, '')
-  return `https://unpkg.com/${name}@${version}/${pathName}`
+  return `${FILE_URL}/${name}/${version}/${pathName}`
 }
 
 /**
@@ -29,9 +43,7 @@ export const createNPMJSURL = ({
  * @returns
  */
 export const fetchPackageInfo = async (packageName: string) => {
-  const response = await axios
-    .get(`https://registry.npmmirror.com/${packageName}`)
-    .then(res => res.data)
+  const response = await axios.get(`${BASE_URL}/${packageName}`).then(res => res.data)
   const version = response['dist-tags'].latest
   const pkgURL = createNPMJSURL({
     name: packageName,
@@ -88,14 +100,11 @@ export const extractRepoInfo = (url: string) => {
 // 获取仓库的分支信息
 export const fetchGitHubBranches = async (username: string, repository: string) => {
   try {
-    const response = await axios.get(
-      `https://api.github.com/repos/${username}/${repository}/branches`,
-      {
-        headers: {
-          Accept: 'application/vnd.github.v3+json'
-        }
+    const response = await axios.get(`${HUB_URL}/${username}/${repository}/branches`, {
+      headers: {
+        Accept: 'application/vnd.github.v3+json'
       }
-    )
+    })
     return response.data as {
       name: string
       commit: {
@@ -112,9 +121,9 @@ export const fetchGitHubBranches = async (username: string, repository: string) 
 // 获取仓库的标签信息
 export const getPackages = async () => {
   return await axios
-    .get('https://registry.npmmirror.com/-/v1/search', {
+    .get(`${BASE_URL2}/-/v1/search`, {
       params: {
-        text: 'alemonjs'
+        text: KEY
         // size: 50
       }
     })
