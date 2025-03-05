@@ -115,10 +115,6 @@ export default (function App() {
                 view: db
               }
             })
-          } else if (actions[1] === 'expansions') {
-            navigate('/expansions')
-          } else if (actions[1] === 'bot-log') {
-            navigate('/bot-log')
           }
         } else if (data.type === 'notification') {
           const db = data.data
@@ -208,7 +204,13 @@ export default (function App() {
   const command = useSelector((state: RootState) => state.command)
   useEffect(() => {
     if (command.name) {
-      window.expansions.postMessage({ type: 'command', data: command.name })
+      // view
+      if (/^view./.test(command.name)) {
+        // 前往页面
+        navigate(command.name.replace('view.', ''))
+      } else {
+        window.expansions.postMessage({ type: 'command', data: command.name })
+      }
     }
   }, [command.name])
 

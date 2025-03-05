@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const data = [
   {
+    version: '0.2.9',
+    log: ['修复command机制']
+  },
+  {
     version: '0.2.8',
     log: ['资源镜像更改为npmmirror', '优化快捷键提示', '升级内置机器人版本', '支持编辑模板文件']
   },
