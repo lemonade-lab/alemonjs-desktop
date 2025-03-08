@@ -5,6 +5,7 @@ import { SidebarDiv } from '@alemonjs/react-ui'
 import { Input } from '@alemonjs/react-ui'
 import { FolderAddOutlined } from '@ant-design/icons'
 import Info from './GitInfo'
+import CodeDiff from './CodeDiff'
 // import { RootState } from '@/store'
 // import { useSelector } from 'react-redux'
 import { useNotification } from '@/context/Notification'
@@ -21,7 +22,9 @@ export default function Expansions() {
   const [data, setData] = useState<string[]>([])
   const [sub, setSub] = useState(false)
 
+  const [viewName, setViewName] = useState('')
   const [readme, setReadme] = useState('')
+  const [diffedCode, setdiffedCode] = useState('')
 
   // const listRef = useRef<string[]>([])
 
@@ -127,16 +130,22 @@ export default function Expansions() {
   }
 
   useEffect(() => {
-    if (readme == '') {
+    if (readme == '' && diffedCode == '') {
       setSelect('')
-    } else {
-      setSelect('info')
     }
   }, [readme])
 
-  const onShow = (item: { name: string; hash: string }) => {
+  const onShowReadme = (item: { name: string; hash: string }) => {
     window.git.show(item.name, item.hash).then((res: any) => {
       setReadme(res)
+      setSelect('readme')
+    })
+  }
+
+  const onShowCodeDiff = (item: { name: string; hash: string }) => {
+    window.git.diff(item.name, item.hash).then((res: any) => {
+      setdiffedCode(res)
+      setSelect('diffcode')
     })
   }
 
@@ -156,11 +165,16 @@ export default function Expansions() {
     <section className=" flex flex-row flex-1 h-full shadow-md">
       <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1">
         {select == '' && <Init />}
-        {select === 'info' && (
+        {select === 'readme' && (
           <div className="select-text">
             <div className="overflow-auto scrollbar h-[calc(100vh-3rem)] max-w-[calc(100vw-21.5rem)]">
               <Markdown source={readme} />
             </div>
+          </div>
+        )}
+        {select === 'diffcode' && (
+          <div className="select-text">
+            <CodeDiff content={diffedCode} />
           </div>
         )}
       </SecondaryDiv>
@@ -211,7 +225,13 @@ export default function Expansions() {
         </div>
         <div className="flex-1 ">
           <SecondaryDiv className="flex flex-col gap-1  border-t py-2  overflow-auto  h-[calc(100vh-5.9rem)]">
-            <Info data={data} onDelete={onDelete} onShow={onShow} onFetch={onFetch} />
+            <Info
+              data={data}
+              onDelete={onDelete}
+              onShowCodeDiff={onShowCodeDiff}
+              onShowReadme={onShowReadme}
+              onFetch={onFetch}
+            />
           </SecondaryDiv>
         </div>
       </SidebarDiv>

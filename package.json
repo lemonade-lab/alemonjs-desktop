@@ -47,6 +47,7 @@
     "classnames": "^2.5.1",
     "codemirror": "^5",
     "dayjs": "^1.11.13",
+    "diff2html": "^3.4.51",
     "echarts": "^5.5.0",
     "electron": "^34.0.0",
     "electron-builder": "^25.1.8",

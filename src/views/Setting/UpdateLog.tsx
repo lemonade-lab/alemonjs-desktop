@@ -3,7 +3,7 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 const data = [
   {
     version: '0.2.9',
-    log: ['修复command机制']
+    log: ['修复command机制', '增加code-diff页面']
   },
   {
     version: '0.2.8',

@@ -214,6 +214,21 @@ ipcMain.handle('git-show', async (event, repoName: string, hash: string) => {
   }
 })
 
+// 指定 hash 的 diff-code
+ipcMain.handle('git-show-diff', async (event, repoName: string, hash: string) => {
+  try {
+    const userDataWarehousePath = getUserDataWarehousePath()
+    const repoPath = join(userDataWarehousePath, repoName)
+    const repoGit = simpleGit(repoPath)
+    const data = await repoGit.show([`${hash}`])
+    return data
+  } catch (e) {
+    sendError(e)
+    // 丢出错误
+    throw e
+  }
+})
+
 // 指定 tags 的
 ipcMain.handle('git-show-tags', async (event, repoName: string, tag: string) => {
   try {

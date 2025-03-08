@@ -80,4 +80,11 @@ export type WindowGit = {
    * @returns
    */
   show: (repoName: string, hash: string) => Promise<any>
+  /**
+   *
+   * @param repoName
+   * @param hash
+   * @returns
+   */
+  diff: (repoName: string, hash: string) => Promise<any>
 }

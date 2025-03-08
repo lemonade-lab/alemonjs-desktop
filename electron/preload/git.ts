@@ -28,5 +28,7 @@ contextBridge.exposeInMainWorld('git', {
   // delete
   delete: (repoName: string) => ipcRenderer.invoke('git-delete', repoName),
   // 指定 hash 的提交
-  show: (repoName: string, hash: string) => ipcRenderer.invoke('git-show', repoName, hash)
+  show: (repoName: string, hash: string) => ipcRenderer.invoke('git-show', repoName, hash),
+  // 代码差异
+  diff: (repoName: string, hash: string) => ipcRenderer.invoke('git-show-diff', repoName, hash)
 })
