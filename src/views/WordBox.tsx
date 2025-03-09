@@ -92,10 +92,7 @@ export default function WordBox() {
   return (
     <div className="flex-[6] flex gap-2 justify-between items-center">
       {isDropdownOpen ? (
-        <div
-          ref={dropdownRef}
-          className="absolute top-0 p-1 left-1/2 transform -translate-x-1/2  z-10"
-        >
+        <div ref={dropdownRef} className="absolute top-0 left-1/2 transform -translate-x-1/2  z-10">
           <PrimaryDiv className={classNames('rounded-md  shadow-md p-1')}>
             <Input
               type="text"
@@ -147,7 +144,7 @@ export default function WordBox() {
             <div className="flex justify-end">
               <BarDiv
                 onClick={onClose}
-                className=" duration-700 rounded-full p-1 transition-all  cursor-pointer"
+                className=" duration-700 rounded-full px-1 transition-all  cursor-pointer"
               >
                 <CloseCircleOutlined />
               </BarDiv>

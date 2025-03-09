@@ -258,8 +258,8 @@ const Common = () => {
               })}
             </SecondaryDiv>
           </div>
+          <GuideCommon />
         </PrimaryDiv>
-        <GuideCommon />
       </div>
     </div>
   )

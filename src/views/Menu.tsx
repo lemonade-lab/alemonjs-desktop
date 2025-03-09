@@ -106,19 +106,19 @@ const MenuButton = () => {
       <NavDiv className="p-1 flex-col rounded-full flex gap-4">
         <BarDiv
           className={classNames(
-            'steps-4 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700'
+            'steps-4 size-8 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700'
           )}
           onClick={goHome}
         >
           <HomeFilled size={20} />
         </BarDiv>
       </NavDiv>
-      <NavDiv className="px-1 py-8 flex-col  rounded-full flex gap-4">
+      <NavDiv className="px-1 py-4 flex-col  rounded-full flex gap-4">
         {navList.map((item, index) => (
           <BarDiv
             key={item.path}
             className={classNames(
-              'w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700',
+              'size-8 rounded-full flex items-center justify-center cursor-pointer transition-all duration-700',
               item.className
             )}
             onClick={() => item.onClick(item.path)}
@@ -131,7 +131,7 @@ const MenuButton = () => {
         <Dropdown placement="topRight" buttons={buttons}>
           <BarDiv
             className={classNames(
-              'steps-8 w-10 h-10 rounded-full  flex items-center justify-center cursor-pointer transition-all duration-700'
+              'steps-4 size-8 rounded-full  flex items-center justify-center cursor-pointer transition-all duration-700'
             )}
           >
             <SettingFilled width={20} height={20} />

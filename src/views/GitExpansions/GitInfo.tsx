@@ -13,7 +13,10 @@ import {
   SyncOutlined,
   TagOutlined,
   TagsOutlined,
-  PullRequestOutlined
+  PullRequestOutlined,
+  CloudDownloadOutlined,
+  SmallDashOutlined,
+  AlignCenterOutlined
 } from '@ant-design/icons'
 
 type GitBranchesLogsData = {
@@ -39,12 +42,8 @@ const GitBranchesLogs = ({
 }) => {
   const [data, setData] = useState<GitBranchesLogsData[]>([])
   useEffect(() => {
-    // 获取 branches
-
-    console.log('GitBranchesLogs mounted', branch)
-
     window.git.log(name, branch).then((data: any) => {
-      console.log('纪录', data)
+      console.log('log', data)
       setData(
         data.all.map((item: any) => {
           return {
@@ -68,13 +67,14 @@ const GitBranchesLogs = ({
         <PrimaryDiv
           key={item.key}
           hover={true}
-          onClick={() =>
+          onClick={e => {
+            e.stopPropagation()
             onShow &&
-            onShow({
-              name,
-              hash: item.hash
-            })
-          }
+              onShow({
+                name,
+                hash: item.hash
+              })
+          }}
           className="text-sm flex flex-col justify-between cursor-pointer"
         >
           <div className="px-4 flex gap-2">
@@ -91,6 +91,9 @@ const GitBranchesLogs = ({
 type GitBranchesData = {
   key: string
   branch: string
+  current: boolean
+  commit: string
+  label: string
 }
 
 type BranchData = {
@@ -116,77 +119,115 @@ const GitBranches = ({
   onShowReadme: (item: { name: string; hash: string }) => void
 }) => {
   const [data, setData] = useState<GitBranchesData[]>([])
-  const [curBranch, setCurBranch] = useState('')
   const notification = useNotification()
-  useEffect(() => {
-    window.git.branch(name).then((data: any) => {
+
+  const update = () => {
+    window.git.branch(name).then(data => {
+      console.log('branches1', data)
+      const db = Object.values(data.branches)
+      console.log('branches2', db)
       setData(
-        data.all.map((item: any) => {
+        db.map((item: any) => {
           return {
-            key: item,
-            branch: item
+            key: item.name,
+            branch: item.name,
+            current: item.current,
+            commit: item.commit,
+            label: item.label
           }
         })
       )
     })
-  }, [name])
+  }
+
   useEffect(() => {
-    window.git.currentBranch(name).then((data: any) => {
-      setCurBranch(data.current)
-      // Object.keys(data.branches as Record<string,BranchData>).forEach((key:string)=>{
-      //   if(data.branches[key].current == true) {
-      //     setCurBranch(data.branches[key].name)
-      //   }
-      // })
-    })
+    update()
   }, [name])
 
-  const handleCheckout = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, branch: string) => {
-    event.preventDefault()
+  const handleCheckout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, branch: string) => {
     window.git
       .checkout(name, branch)
-      .then((data: any) => {
-        window.git.currentBranch(name).then((data: any) => {
-          setCurBranch(data.current)
-          notification('切换成功！')
-        })
+      .then(data => {
+        update()
       })
       .catch(err => {
         notification('切换失败！', 'error')
       })
   }
 
+  const handlePull = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    origin: string,
+    branch: string
+  ) => {
+    window.git
+      .pull(name, origin, branch)
+      .then(res => {
+        console.log('pull', res)
+      })
+      .catch(err => {
+        notification('拉取失败！', 'error')
+      })
+  }
+
   return (
     <div className="py-2">
-      {/* {data.length === 0 && (
-        <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
-      )} */}
-      <PrimaryDiv
-        hover={true}
-        className="cursor-pointer px-1"
-        onClick={() => onShowReadme({ name, hash: 'HEAD' })}
-      >
-        <BranchesOutlined /> {curBranch + ' (当前分支)'}
-      </PrimaryDiv>
+      {data.map(item => {
+        return (
+          <PrimaryDiv className="px-1 flex  justify-between">
+            <div className="flex gap-1">
+              <BranchesOutlined />
+              <div>{item.branch}</div>
+            </div>
+            <div className="flex gap-1">
+              <div>{item.current && '(current)'}</div>
+              <div
+                onClick={e => {
+                  e.stopPropagation()
+                  console.log('pull', item.branch)
+                  // 切割
+                  // const names = item.branch.split('/')
+                  // const [remotes, origin, branch] = names
+                  handlePull(e, '', item.branch)
+                }}
+              >
+                <Tooltip text="拉取最新">
+                  <CloudDownloadOutlined />
+                </Tooltip>
+              </div>
+              <div
+                onClick={e => {
+                  e.stopPropagation()
+                  handleCheckout(e, item.branch)
+                }}
+              >
+                <Tooltip text="切换到此分支">
+                  <PullRequestOutlined />
+                </Tooltip>
+              </div>
+            </div>
+          </PrimaryDiv>
+        )
+      })}
+
       <Collapse
-        items={data.map(item => {
+        items={[
+          {
+            key: '0',
+            branch: 'master'
+          }
+        ].map(item => {
           return {
             key: item.key,
             label: (
-              <PrimaryDiv hover={true} className="cursor-pointer px-1 flex">
-                <BranchesOutlined />
-                {item.branch}
-                <div
-                  style={{ marginLeft: 'auto', marginRight: '10px' }}
-                  onClick={e => handleCheckout(e, item.branch)}
-                >
-                  <Tooltip text="切换到此分支">
-                    <PullRequestOutlined />
-                  </Tooltip>
-                </div>
+              <PrimaryDiv
+                hover={true}
+                className="cursor-pointer px-1 text-opacity-60  gap-2 items-center  justify-center flex  "
+              >
+                <AlignCenterOutlined /> log-list
               </PrimaryDiv>
             ),
-            children: <GitBranchesLogs onShow={onShowCodeDiff} name={name} branch={item.branch} />
+            children: <GitBranchesLogs onShow={onShowReadme} name={name} branch={item.branch} />
           }
         })}
       />
@@ -265,7 +306,7 @@ const Title = ({
     <div className="flex justify-between items-center cursor-pointer px-2">
       <div className="flex gap-2">{children}</div>
       <div className="flex gap-4">
-        <Tooltip text="拉取最新">
+        <Tooltip text="同步远程仓库">
           <div
             className=""
             onClick={e => {
@@ -311,7 +352,7 @@ export default function GitInfo({
         key: index,
         label: (
           <PrimaryDiv hover={true} className="px-1 rounded-sm">
-            <Title key={index} onDelete={e => onDelete(item)} onFetch={e => onFetch(item)}>
+            <Title key={index} onDelete={() => onDelete(item)} onFetch={() => onFetch(item)}>
               <ApartmentOutlined />
               {item}
             </Title>

@@ -93,7 +93,7 @@ export default function Expansions() {
     }
     setSub(true)
 
-    notification('开始拉取最新数据..')
+    notification('开始同步所有分支..')
 
     await window.git.fetch(item).then(res => {
       console.log(res)

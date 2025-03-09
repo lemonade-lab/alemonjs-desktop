@@ -2,8 +2,8 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const data = [
   {
-    version: '0.2.11',
-    log: ['增加code-diff页面']
+    version: '0.3.0',
+    log: ['初步完成Git仓库管理']
   },
   {
     version: '0.2.10',

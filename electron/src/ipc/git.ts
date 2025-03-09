@@ -88,6 +88,21 @@ ipcMain.handle('git-clone', async (event, repoUrl: string) => {
 })
 
 // 拉取
+ipcMain.handle('git-pull', async (event, repoName: string, remote: string, branch: string) => {
+  try {
+    const userDataWarehousePath = getUserDataWarehousePath()
+    const repoPath = join(userDataWarehousePath, repoName)
+    const repoGit = simpleGit(repoPath)
+    const data = await repoGit.pull(remote, branch)
+    return data
+  } catch (e) {
+    sendError(e)
+    // 丢出错误
+    throw e
+  }
+})
+
+// 拉取
 ipcMain.handle('git-fetch', async (event, repoName: string) => {
   try {
     const userDataWarehousePath = getUserDataWarehousePath()
@@ -98,6 +113,7 @@ ipcMain.handle('git-fetch', async (event, repoName: string) => {
       repoGit.fetch(),
       new Promise((_, reject) => setTimeout(() => reject(new Error('Fetch timed out')), 6000))
     ])
+    await repoGit.pull()
     return result // 返回 fetch 结果
   } catch (e) {
     sendError(e)
@@ -127,7 +143,7 @@ ipcMain.handle('git-branch', async (event, repoName: string) => {
     const userDataWarehousePath = getUserDataWarehousePath()
     const repoPath = join(userDataWarehousePath, repoName)
     const repoGit = simpleGit(repoPath)
-    const data = await repoGit.branch(['-r'])
+    const data = await repoGit.branch()
     return data
   } catch (e) {
     sendError(e)
@@ -173,11 +189,11 @@ ipcMain.handle('git-log', async (event, repoName: string, branch: string) => {
     const repoPath = join(userDataWarehousePath, repoName)
     console.log(repoPath)
     const repoGit = simpleGit(repoPath)
-    if (branch === 'origin/main') {
-      const data = await repoGit.log({ maxCount: 99 })
-      return data
-    }
-    const data = await repoGit.log({ from: branch, maxCount: 99 })
+    // if (branch === 'origin/main') {
+    //   const data = await repoGit.log({ maxCount: 99 })
+    //   return data
+    // }
+    const data = await repoGit.log({ maxCount: 99 })
     return data
   } catch (e) {
     sendError(e)

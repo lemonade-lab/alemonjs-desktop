@@ -140,7 +140,7 @@ export default function Webviews() {
                   key={index}
                   onClick={() => handleSidebarClick(viewItem)}
                   className={classNames(
-                    'p-1 size-[4.17rem] rounded-md border text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  ',
+                    'p-1 size-[3.28rem] rounded-md border text-sm relative flex cursor-pointer justify-center items-center duration-700 transition-all  ',
                     { 'bg-secondary-bg': viewItem.commond === command.name }
                   )}
                 >

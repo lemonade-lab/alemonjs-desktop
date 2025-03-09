@@ -36,6 +36,14 @@ export type WindowGit = {
    */
   fetch: (repoName: string) => Promise<any>
   /**
+   * 拉取
+   * @param repoName
+   * @param remote
+   * @param branch
+   * @returns
+   */
+  pull: (repoName: string, remote: string, branch: string) => Promise<any>
+  /**
    * 当前分支
    * @param repoName
    * @returns

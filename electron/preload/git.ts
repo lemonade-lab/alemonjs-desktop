@@ -14,6 +14,8 @@ contextBridge.exposeInMainWorld('git', {
   clone: (repoUrl: string) => ipcRenderer.invoke('git-clone', repoUrl),
   // fetch
   fetch: (repoName: string) => ipcRenderer.invoke('git-fetch', repoName),
+  pull: (repoName: string, remote: string, branch: string) =>
+    ipcRenderer.invoke('git-pull', repoName, remote, branch),
   // 当前分支
   currentBranch: (repoName: string) => ipcRenderer.invoke('git-current-branch', repoName),
   // 所有分支
