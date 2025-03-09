@@ -7,11 +7,7 @@ import rehypeRaw from 'rehype-raw'
 import rehypeAttr from 'rehype-attr'
 import { useEffect } from 'react'
 
-/**
- * @param param0
- * @returns
- */
-const Markdown = ({ source }: { source: string }) => {
+const useTheme = () => {
   // theme
   useEffect(() => {
     // 读取本地存储的主题
@@ -41,6 +37,14 @@ const Markdown = ({ source }: { source: string }) => {
       observer.disconnect()
     }
   }, [])
+}
+
+/**
+ * @param param0
+ * @returns
+ */
+const Markdown = ({ source }: { source: string }) => {
+  useTheme()
   return (
     <MarkdownPreview
       className="animate__animated animate__fadeIn select-text"

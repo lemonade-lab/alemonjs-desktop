@@ -670,10 +670,10 @@ aggregate-error@^4.0.1:
     clean-stack "^4.0.0"
     indent-string "^5.0.0"
 
-alemonjs@2.0.0-rc.94:
-  version "2.0.0-rc.94"
-  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.94.tgz#e04dc955bd0cf97a2e1475e46bf95d92c97c0ef1"
-  integrity sha512-X0Zv4flFmSRECNFO2IKaFr+H6EqzUmyJcILQYL9XGbXSLYhUodaXvJHfa4Mg97zSLGhBLa3LT8iniLH/UOa9iA==
+alemonjs@2.0.0-rc.95:
+  version "2.0.0-rc.95"
+  resolved "https://registry.npmmirror.com/alemonjs/-/alemonjs-2.0.0-rc.95.tgz#e6ad5f41ad03be5f57d5b3be196522d644c92ed1"
+  integrity sha512-dzOUiYvcGpwjkUhtTrsj6H/l0+P1LJH32kfne6KbPwWS+p6TqhaNjC+6PW34zycFSMhSJ0SyfsjXbkh50aqqrA==
   dependencies:
     chalk "^5.3.0"
     log4js "^6.9.1"

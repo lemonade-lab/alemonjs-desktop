@@ -7,6 +7,8 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/properties/properties.js'
 // josn
 import 'codemirror/mode/javascript/javascript.js'
+// yaml
+import 'codemirror/mode/yaml/yaml.js'
 // 主题
 import 'codemirror/theme/solarized.css'
 import 'codemirror/theme/xq-light.css'
@@ -21,13 +23,7 @@ type CodeMirrorProps = {
   onBeforeChange?: CodeMirror['props']['onBeforeChange']
 }
 
-/**
- *
- * @param props
- * @returns
- */
-export default function Code(props: CodeMirrorProps) {
-  const { value, mode, onChange, onBeforeChange } = props
+const useTheme = () => {
   const [themex, setTheme] = useState('xq-light')
   useEffect(() => {
     // 监听主题变化
@@ -61,9 +57,21 @@ export default function Code(props: CodeMirrorProps) {
       observer.disconnect()
     }
   }, [])
+  return [themex]
+}
+
+/**
+ *
+ * @param props
+ * @returns
+ */
+export default function Code(props: CodeMirrorProps) {
+  const { value, mode, onBeforeChange, onChange } = props
+  const [themex] = useTheme()
   return (
     <CodeMirror
-      className="flex-1 size-full"
+      autoCursor={false}
+      className="size-full"
       options={{
         mode: mode ?? 'text/x-properties',
         theme: themex,

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNotification } from '@/context/Notification'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
 import Code from '@/common/CodeMirror'
 import { Button } from '@alemonjs/react-ui'
 import { PrimaryDiv } from '@alemonjs/react-ui'
@@ -12,15 +10,14 @@ type EditFileProps = {
   dir: string
   mode?: CodeMirror['props']['options']['mode']
 }
-
 /**
  *
  * @returns
  */
 export default function EditFile({ title, dir, mode }: EditFileProps) {
-  const app = useSelector((state: RootState) => state.app)
-  const [value, setValue] = useState(``)
   const notification = useNotification()
+
+  const [value, setValue] = useState(``)
   const [initValue, setInitValue] = useState('')
   // 保存
   const onClickSave = async () => {
@@ -45,7 +42,6 @@ export default function EditFile({ title, dir, mode }: EditFileProps) {
       return
     }
     const data = await window.app.readFiles(dir)
-    console.log('data', data)
     if (data && data != '') {
       setValue(data)
       setInitValue(data)
@@ -55,16 +51,13 @@ export default function EditFile({ title, dir, mode }: EditFileProps) {
   const onGiveUp = () => {
     setValue(initValue)
   }
-  // 修改
-  const onChange = (value: string) => {
-    setValue(value)
-  }
+  // 初始化
   useEffect(() => {
     initData()
   }, [])
   return (
-    <div className="flex-1 flex flex-col h-full">
-      <SecondaryDiv className=" flex justify-between items-center  px-2">
+    <div className="flex-1 flex flex-col  ">
+      <SecondaryDiv className="flex justify-between items-center  px-2">
         <div className="flex gap-2">
           <div className="px-1 py-1">{title}</div>
         </div>
@@ -87,8 +80,14 @@ export default function EditFile({ title, dir, mode }: EditFileProps) {
           )}
         </div>
       </SecondaryDiv>
-      <PrimaryDiv className=" flex flex-col h-[calc(100vh-3.6rem)] w-[calc(100vw-21.7rem)] overflow-auto  ">
-        <Code mode={mode} value={value} onChange={(editor, data, value) => onChange(value)} />
+      <PrimaryDiv className="h-[calc(100vh-3.6rem)] w-[calc(100vw-21.7rem)] overflow-x-auto ">
+        <Code
+          mode={mode}
+          value={value}
+          onChange={(editor, data, value) => {
+            setValue(value)
+          }}
+        />
       </PrimaryDiv>
     </div>
   )

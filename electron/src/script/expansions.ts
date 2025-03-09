@@ -1,5 +1,4 @@
 import { cjsDesktopPath, userDataTemplatePath } from '../data/static'
-import { join } from 'path'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
 import { webContents } from 'electron'

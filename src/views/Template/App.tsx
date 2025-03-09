@@ -118,7 +118,7 @@ export default function Template() {
   }, [])
 
   return (
-    <section className=" flex flex-row flex-1 h-full shadow-md">
+    <section className="flex flex-row flex-1 h-full shadow-md">
       <SecondaryDiv className="animate__animated animate__fadeIn flex flex-col flex-1">
         {select == '' && <Init />}
         {[

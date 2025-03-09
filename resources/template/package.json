@@ -8,7 +8,7 @@
     "@alemonjs/kook": "0.2.7",
     "@alemonjs/process": "^0.0.7",
     "@alemonjs/qq-bot": "0.0.16",
-    "alemonjs": "2.0.0-rc.94",
+    "alemonjs": "2.0.0-rc.95",
     "jsxp": "^1.1.2"
   },
   "devDependencies": {

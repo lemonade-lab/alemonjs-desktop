@@ -1,5 +1,4 @@
-import { userDataTemplatePath } from '../data/static'
-import { join } from 'path'
+import { cjsIndexPath, userDataTemplatePath } from '../data/static'
 import { ChildProcess, fork } from 'child_process'
 import logger from 'electron-log'
 import { webContents } from 'electron'
@@ -38,7 +37,7 @@ export const botRun = async (webContent: Electron.WebContents, args: string[]) =
 
   if (webContent.isDestroyed()) return
 
-  const MyJS = join(userDataTemplatePath, 'alemonjs', 'index.js')
+  const MyJS = cjsIndexPath
 
   // 判断是否存在 index.js
   if (!existsSync(MyJS)) {
