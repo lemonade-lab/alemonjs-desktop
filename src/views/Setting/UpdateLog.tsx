@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const data = [
   {
+    version: '0.2.11',
+    log: ['增加code-diff页面']
+  },
+  {
     version: '0.2.10',
     log: ['修复CodeEdit编辑异常', '支持以任意子扩展目录打开', '修复未内置依赖环境']
   },

@@ -1,7 +1,8 @@
 import { Collapse } from '@alemonjs/react-ui'
 import { Tabs } from '@alemonjs/react-ui'
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { PrimaryDiv } from '@alemonjs/react-ui'
+import { PrimaryDiv, Tooltip } from '@alemonjs/react-ui'
+import { useNotification } from '@/context/Notification'
 import dayjs from 'dayjs'
 import {
   ApartmentOutlined,
@@ -11,9 +12,9 @@ import {
   CloseCircleOutlined,
   SyncOutlined,
   TagOutlined,
-  TagsOutlined
+  TagsOutlined,
+  PullRequestOutlined
 } from '@ant-design/icons'
-import { Tooltip } from '@alemonjs/react-ui'
 
 type GitBranchesLogsData = {
   key: string
@@ -92,6 +93,14 @@ type GitBranchesData = {
   branch: string
 }
 
+type BranchData = {
+  commit: string
+  current: boolean
+  label: string
+  linkedWorkTree: boolean
+  name: string
+}
+
 /**
  *
  * @param param0
@@ -99,12 +108,16 @@ type GitBranchesData = {
  */
 const GitBranches = ({
   name,
-  onShow
+  onShowCodeDiff,
+  onShowReadme
 }: {
   name: string
-  onShow: (item: { name: string; hash: string }) => void
+  onShowCodeDiff: (item: { name: string; hash: string }) => void
+  onShowReadme: (item: { name: string; hash: string }) => void
 }) => {
   const [data, setData] = useState<GitBranchesData[]>([])
+  const [curBranch, setCurBranch] = useState('')
+  const notification = useNotification()
   useEffect(() => {
     window.git.branch(name).then((data: any) => {
       setData(
@@ -117,21 +130,63 @@ const GitBranches = ({
       )
     })
   }, [name])
+  useEffect(() => {
+    window.git.currentBranch(name).then((data: any) => {
+      setCurBranch(data.current)
+      // Object.keys(data.branches as Record<string,BranchData>).forEach((key:string)=>{
+      //   if(data.branches[key].current == true) {
+      //     setCurBranch(data.branches[key].name)
+      //   }
+      // })
+    })
+  }, [name])
+
+  const handleCheckout = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, branch: string) => {
+    event.preventDefault()
+    window.git
+      .checkout(name, branch)
+      .then((data: any) => {
+        window.git.currentBranch(name).then((data: any) => {
+          setCurBranch(data.current)
+          notification('切换成功！')
+        })
+      })
+      .catch(err => {
+        notification('切换失败！', 'error')
+      })
+  }
+
   return (
     <div className="py-2">
       {/* {data.length === 0 && (
         <div className="flex justify-center text-sm text-gray-500">暂无数据</div>
       )} */}
+      <PrimaryDiv
+        hover={true}
+        className="cursor-pointer px-1"
+        onClick={() => onShowReadme({ name, hash: 'HEAD' })}
+      >
+        <BranchesOutlined /> {curBranch + ' (当前分支)'}
+      </PrimaryDiv>
       <Collapse
         items={data.map(item => {
           return {
             key: item.key,
             label: (
-              <PrimaryDiv hover={true} className="cursor-pointer px-1">
-                <BranchesOutlined /> {item.branch}
+              <PrimaryDiv hover={true} className="cursor-pointer px-1 flex">
+                <BranchesOutlined />
+                {item.branch}
+                <div
+                  style={{ marginLeft: 'auto', marginRight: '10px' }}
+                  onClick={e => handleCheckout(e, item.branch)}
+                >
+                  <Tooltip text="切换到此分支">
+                    <PullRequestOutlined />
+                  </Tooltip>
+                </div>
               </PrimaryDiv>
             ),
-            children: <GitBranchesLogs onShow={onShow} name={name} branch={item.branch} />
+            children: <GitBranchesLogs onShow={onShowCodeDiff} name={name} branch={item.branch} />
           }
         })}
       />
@@ -241,12 +296,14 @@ export default function GitInfo({
   data,
   onDelete,
   onFetch,
-  onShow
+  onShowReadme,
+  onShowCodeDiff
 }: {
   data: string[]
   onDelete: (item: string) => void
   onFetch: (item: string) => void
-  onShow: (item: { name: string; hash: string }) => void
+  onShowReadme: (item: { name: string; hash: string }) => void
+  onShowCodeDiff: (item: { name: string; hash: string }) => void
 }) {
   return (
     <Collapse
@@ -271,7 +328,13 @@ export default function GitInfo({
                     <TagsOutlined /> <div>Branches</div>
                   </div>
                 ),
-                children: <GitBranches name={item} onShow={onShow} />
+                children: (
+                  <GitBranches
+                    name={item}
+                    onShowCodeDiff={onShowCodeDiff}
+                    onShowReadme={onShowReadme}
+                  />
+                )
               },
               {
                 key: '2',
@@ -280,7 +343,7 @@ export default function GitInfo({
                     <TagOutlined /> <div>tags</div>
                   </div>
                 ),
-                children: <GitTags name={item} onShow={onShow} />
+                children: <GitTags name={item} onShow={onShowReadme} />
               }
             ]}
           />
