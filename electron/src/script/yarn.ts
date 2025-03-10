@@ -8,7 +8,7 @@ import {
 } from '../data/static'
 import { webContents } from 'electron'
 import { existsSync } from 'node:fs'
-import { initTemplate } from '../core/init'
+import { initNodeModules, initTemplate } from '../core/init'
 
 let isLoading = false
 
@@ -47,6 +47,9 @@ export const yarn = async (
     // 初始化模板
     initTemplate()
   }
+
+  // 初始化 node_modules
+  initNodeModules()
 
   const MyJS = cjsYarnPath
 

@@ -2,6 +2,10 @@ import { PrimaryDiv } from '@alemonjs/react-ui'
 
 const data = [
   {
+    version: '0.3.1',
+    log: ['增加pkg检查', '内置机器人默认最新版']
+  },
+  {
     version: '0.3.0',
     log: ['初步完成Git仓库管理']
   },
