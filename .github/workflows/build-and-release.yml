@@ -33,6 +33,7 @@ jobs:
       - name: 安装依赖
         run: |
           corepack enable
+          rm -rf .npmrc
           yarn install --ignore-engines
 
       - name: 构建 macOS 应用
@@ -68,6 +69,7 @@ jobs:
       - name: 安装依赖
         run: |
           corepack enable
+          rm -rf .npmrc
           yarn install --ignore-engines
 
       - name: 构建 Linux 应用
@@ -103,6 +105,7 @@ jobs:
       - name: 安装依赖
         run: |
           corepack enable
+          rm -rf .npmrc
           yarn install --ignore-engines
 
       - name: 构建 Windows 应用
