@@ -7,41 +7,107 @@ permissions:
   contents: write
 
 jobs:
-  build-and-publish:
+  macos-build:
     runs-on: macos-latest
-
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
 
-      - name: 缓存 Node.js 依赖
+      - name: 缓存依赖和 Electron Builder 缓存
         uses: actions/cache@v3
         with:
           path: |
             ~/.npm
-            ~/.yarn
+            ~/.cache/electron-builder
             node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-
 
-      - name: 设置 Node.js 环境
+      - name: 设置 Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
-          cache: 'yarn'
+          cache: yarn
 
       - name: 安装依赖
         run: |
           corepack enable
           yarn install --ignore-engines
 
-      - name: 构建应用资源
+      - name: 构建 macOS 应用
         run: |
           yarn build-resources
-
-      - name: 发布
+          npx electron-builder -c electron-builder.cjs --mac --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  linux-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 缓存依赖和 Electron Builder 缓存
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ~/.cache/electron-builder
+            node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: yarn
+
+      - name: 安装依赖
         run: |
-          npx electron-builder -c electron-builder.cjs --publish always --win --linux --mac
+          corepack enable
+          yarn install --ignore-engines
+
+      - name: 构建 Linux 应用
+        run: |
+          yarn build-resources
+          npx electron-builder -c electron-builder.cjs --linux --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 缓存依赖和 Electron Builder 缓存
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ~/.cache/electron-builder
+            node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: yarn
+
+      - name: 安装依赖
+        run: |
+          corepack enable
+          yarn install --ignore-engines
+
+      - name: 构建 Windows 应用
+        run: |
+          yarn build-resources
+          npx electron-builder -c electron-builder.cjs --win --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
