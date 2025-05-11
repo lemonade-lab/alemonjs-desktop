@@ -38,7 +38,7 @@ jobs:
 
       - name: 构建应用资源
         run: |
-          build-resources
+          yarn build-resources
 
       - name: 发布
         env:
