@@ -1,0 +1,47 @@
+name: 发布版本
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 缓存 Node.js 依赖
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ~/.yarn
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 设置 Node.js 环境
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'yarn'
+
+      - name: 安装依赖
+        run: |
+          corepack enable
+          yarn install --ignore-engines
+
+      - name: 构建应用资源
+        run: |
+          build-resources
+
+      - name: 发布
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 自动生成的 Token
+        run: |
+          npx electron-builder -c electron-builder.cjs --publish always

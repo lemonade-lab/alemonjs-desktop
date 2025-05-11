@@ -87,8 +87,9 @@ module.exports = {
     // include: './alemon.nsh'
   },
   publish: {
-    provider: 'generic',
-    url: 'https://alemonjs.com/desktop/release'
+    provider: 'github',
+    owner: 'lemonade-lab',
+    repo: 'alemonjs-desktop'
   },
   extraResources: [
     {

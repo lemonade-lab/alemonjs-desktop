@@ -13,9 +13,11 @@
     "dev": "yarn build-icon && node dev.js",
     "build-icon": "electron-icon-builder --input=./src/assets/logo_white.png --output=./ --flatten",
     "build-template": "yarn --cwd resources/template install",
-    "build-app": "electron-builder --config electron-builder.cjs",
     "build-web": "tsc && vite build",
-    "build": "yarn build-icon && yarn build-template && yarn build-web && yarn build-app",
+    "build-resources": "yarn build-icon && yarn build-template && yarn build-web",
+    "build-app": "electron-builder --config electron-builder.cjs",
+    "build": "build-resources && yarn build-app",
+    "build-publish": "electron-builder -c electron-builder.cjs --publish always",
     "format": "prettier --write .",
     "check-format": "git diff --exit-code",
     "prepare": "husky"
