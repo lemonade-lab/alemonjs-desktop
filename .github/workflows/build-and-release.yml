@@ -105,7 +105,7 @@ jobs:
       - name: 安装依赖
         run: |
           corepack enable
-          rm -rf .npmrc
+          Remove-Item -Path .npmrc -Force -Recurse
           yarn install --ignore-engines
 
       - name: 构建 Windows 应用
