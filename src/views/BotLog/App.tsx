@@ -28,7 +28,7 @@ function Terminal() {
                 })
               }}
             >
-              {platforms.length === 0 && <option>gui</option>}
+              <option>dev</option>
               {platforms.map((item, index) => (
                 <option key={index}>{item.name}</option>
               ))}

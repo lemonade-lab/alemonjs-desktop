@@ -33,24 +33,36 @@ export const useBotController = () => {
   const platforms = getPlatform(expansions.package)
 
   //
-  const state = useState({
-    name: 'gui',
-    value: '@alemonjs/gui'
+  const state = useState<{
+    name: string
+    value: string
+  }>({
+    name: 'dev',
+    value: 'dev'
   })
 
-  //
   /**
    * @returns
    */
   const onClickStart = _.throttle(() => {
+    // 依赖状态
     if (!modules.nodeModulesStatus) return
+    // 不在运行
     if (!bot.runStatus) {
       notification('开始运行机器人...')
-      if (/@alemonjs\//.test(state[0].value)) {
-        const login = state[0].value.replace('@alemonjs/', '')
+
+      const [platform] = state
+      if (!platform?.value) {
+        window.bot.run([])
+        return
+      }
+
+      // 如果是 @alemonjs/ 开头的，就当做登录名处理
+      if (/@alemonjs\//.test(platform.value)) {
+        const login = platform.value.replace('@alemonjs/', '')
         window.bot.run(['--login', login])
       } else {
-        window.bot.run(['--platform', state[0].value])
+        window.bot.run(['--platform', platform.value])
       }
       return
     } else {

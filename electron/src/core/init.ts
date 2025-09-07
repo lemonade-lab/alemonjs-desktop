@@ -31,11 +31,6 @@ export const initNodeModules = () => {
     pkgData.dependencies['alemonjs'] = 'latest'
     T = true
   }
-  // 检查时否存在 gui
-  if (!pkgData.dependencies['@alemonjs/gui'] && !pkgData.devDependencies['@alemonjs/gui']) {
-    pkgData.dependencies['@alemonjs/gui'] = 'latest'
-    T = true
-  }
   // 检查是否存在 private
   if (!pkgData.private) {
     pkgData.private = true
