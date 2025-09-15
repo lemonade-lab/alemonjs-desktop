@@ -52,7 +52,7 @@ export const useBotController = () => {
       notification('开始运行机器人...')
 
       const [platform] = state
-      if (!platform?.value) {
+      if (!platform?.value || platform?.value === 'dev') {
         window.bot.run([])
         return
       }
